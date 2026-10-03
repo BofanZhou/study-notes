@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 8 课 · 传输层与 TCP</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 8 课 / 为计算机三级打基础</p>
+  <h1>传输层与 TCP <span class="term-en">Transport Layer</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用端口讲清传输层的复用分用,记住常用熟知端口;
+       <strong>②</strong> 对比 UDP 与 TCP;
+       <strong>③</strong> 默写三次握手/四次挥手(综合题常客),说出可靠与拥塞控制机制。</p>
+  </div>
+
+  <h2>一、端口:一台主机上的"房间号"</h2>
+  <p>IP 地址找到主机,靠哪台进程收数据?靠<strong>端口</strong>(<span class="term-en">port</span>,16 位 0~65535)。
+     传输层按端口把数据分给进程 = <strong>分用</strong>;多个进程共用一条网络连接 = <strong>复用</strong>。
+     常用熟知端口(必背):FTP 20(数据)/21(控制)、<strong>TELNET 23、SMTP 25、DNS 53、
+     HTTP 80、POP3 110、HTTPS 443</strong>;客户端用临时端口(>1024)。</p>
+
+  <h2>二、UDP vs TCP</h2>
+  <table class="ref">
+    <tr><th>对比</th><th>UDP <span class="term-en">User Datagram Protocol</span></th><th>TCP <span class="term-en">Transmission Control Protocol</span></th></tr>
+    <tr><td>连接</td><td>无连接(想发就发)</td><td>面向连接(三次握手建立)</td></tr>
+    <tr><td>可靠性</td><td>尽力而为,可能丢、乱序</td><td>可靠:不丢、不乱、不重、不漏</td></tr>
+    <tr><td>首部</td><td>8 字节(小)</td><td>20~60 字节</td></tr>
+    <tr><td>通信方式</td><td>一对一、一对多、多对一、多对多</td><td>仅一对一</td></tr>
+    <tr><td>典型应用</td><td>DNS、DHCP、视频直播、游戏</td><td>网页 HTTP、邮件、文件传输</td></tr>
+  </table>
+
+  <h2>三、TCP 三次握手与四次挥手(必背)</h2>
+  <p><strong>建立连接(三次握手)</strong>:① 客户端发 <strong>SYN=1, seq=x</strong>;
+     ② 服务端回 <strong>SYN=1, ACK=1, seq=y, ack=x+1</strong>;
+     ③ 客户端回 <strong>ACK=1, ack=y+1</strong>(可携带数据)。</p>
+  <blockquote>
+    为什么是三次不是两次?<strong>防止已失效的连接请求突然又到达</strong>——若两次即可建立,
+    一个滞留的旧 SYN 会让服务端单方面白白建立连接等待资源。三次让双方都确认"双方收发能力都正常"。
+  </blockquote>
+  <p><strong>释放连接(四次挥手)</strong>:① 主动方发 <strong>FIN</strong>;② 对方 <strong>ACK</strong>(对方还可继续发);
+     ③ 对方数据发完再发 <strong>FIN</strong>;④ 主动方 <strong>ACK</strong>,等 <strong>2MSL</strong> 后关闭
+     (保证最后的 ACK 能重发、旧报文消亡)。"为什么四次":TCP 全双工,两个方向要<strong>分别关闭</strong>。</p>
+
+  <h2>四、可靠传输与流量/拥塞控制</h2>
+  <table class="ref">
+    <tr><th>机制</th><th>一句话</th></tr>
+    <tr><td>序号 + 确认(ACK)</td><td>每个字节有编号,ack=n 表示"n−1 前全收到,期待第 n 个"</td></tr>
+    <tr><td>超时重传</td><td>计时器到期未收到确认就重发</td></tr>
+    <tr><td>流量控制 <span class="term-en">flow control</span></td><td>滑动窗口:接收方用<strong>rwnd 窗口字段</strong>通知"我还能收多少"(点对点,别撑死接收方)</td></tr>
+    <tr><td>拥塞控制 <span class="term-en">congestion control</span></td><td>慢启动(指数增)→ 拥塞避免(线性加 1)→ 超时回到慢启动/快重传+快恢复;针对<strong>网络整体</strong>(别挤死路由器)</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"三次握手中前两次不能携带数据,第三次也不能"</strong>——错,第三次握手<strong>可以</strong>携带数据。<br>
+       <strong>"TIME_WAIT 等一个 MSL 就够"</strong>——是 <strong>2MSL</strong>(ACK 传过去一个 MSL + 对方重发 FIN 再来一个 MSL)。<br>
+       <strong>"UDP 首部 20 字节"</strong>——UDP 首部仅 <strong>8 字节</strong>(源端口/目的端口/长度/校验和 各 2 字节)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>视频会议用 UDP(丢一帧没关系,延迟要小)、网银用 TCP(一个字节都不能错)——工程选型的本质就是
+       本课的对比表。综合题给一段 TCP 报文序列问"这是第几次握手/哪个字段错了",
+       按本课的 seq/ack 规则逐项核对即可。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"TCP 建立连接需要三次握手,第三次握手报文的正确标志是?",
+     "opts":["ACK=1","SYN=1, ACK=0","FIN=1, ACK=1"],
+     "answer":0,
+     "why":"第三次是客户端最后的确认 ACK=1(可携带数据);SYN=1 只出现在前两次。"},
+    {"q":"为什么 TCP 主动关闭方要等 2MSL?",
+     "opts":["保证最后 ACK 可达且旧报文消亡","节省服务器资源","等待新的连接请求"],
+     "answer":0,
+     "why":"若最后的 ACK 丢失,对方重发 FIN 时本方还在 TIME_WAIT 能重发 ACK;2MSL 也让本连接旧报文全部失效。"},
+    {"q":"下列应用中,最适合使用 UDP 的是?",
+     "opts":["视频直播","网上银行转账","下载系统安装包"],
+     "answer":0,
+     "why":"直播重实时轻可靠,丢帧可接受;转账与下载要求数据完整,必须 TCP。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>端口</td><td>16 位;熟知端口 HTTP80/HTTPS443/FTP21/SMTP25/DNS53/POP3 110</td></tr>
+    <tr><td>UDP</td><td>无连接、8 字节首部、快而不可靠、支持一对多</td></tr>
+    <tr><td>TCP 握手</td><td>SYN → SYN+ACK → ACK;防失效连接请求</td></tr>
+    <tr><td>TCP 挥手</td><td>FIN/ACK/FIN/ACK,TIME_WAIT 等 2MSL;全双工分向关闭</td></tr>
+    <tr><td>两大控制</td><td>流量控制护接收方(rwnd);拥塞控制护网络(cwnd 四算法)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 5 章;官方教材 TCP 章节与报文分析例题。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0007-network-advanced.html">← 第 7 课</a>
+    <a href="../lessons/0009-application.html">第 9 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC8%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。三次握手记不住?画两个小人发纸条试试。</div>
+</main>
+</body>
+</html>

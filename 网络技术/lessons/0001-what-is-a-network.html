@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 1 课 · 什么是计算机网络？</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/topology-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 1 课 / 为计算机三级打基础</p>
+  <h1>什么是计算机网络？<span class="term-en">What is a computer network?</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课（约 12 分钟），你将能够：</p>
+    <p><strong>①</strong> 说出计算机网络的定义与三要素；
+       <strong>②</strong> 按覆盖范围区分 LAN / MAN / WAN（选择题高频）；
+       <strong>③</strong> 认全五种拓扑结构并说出各自的优缺点（选择题高频）。</p>
+  </div>
+
+  <h2>为什么从这个问题开始？</h2>
+  <p>你每天连的 WiFi、进过的路由器管理页，其实早就把你带进计算机网络的世界了——
+     只是一直没人为你把它说破。三级考试的第一步，就是把这份日常经验
+     变成<strong>标准化的概念</strong>：定义是什么、分几类、有哪些结构。
+     这三类题在选择题里几乎年年出现，送分，但前提是概念精确。</p>
+
+  <h2>一、网络的定义：把独立的机器连起来</h2>
+  <p>把考试会考的<strong>标准定义</strong>拆开看：</p>
+  <blockquote>
+    <strong>计算机网络</strong>（<span class="term-en">computer network</span>）：
+    把<strong>地理位置不同</strong>、具有<strong>独立功能（自治）</strong>的多台计算机及外部设备，
+    通过通信线路和通信设备连接起来，在网络操作系统和<strong>网络协议</strong>的协调下，
+    实现<strong>资源共享</strong>和<strong>信息传递</strong>的系统。
+  </blockquote>
+  <p>别背字面，记住拆出来的<strong>三要素</strong>：</p>
+  <table class="ref">
+    <tr><th>要素</th><th>说的是什么</th><th>你家对应什么</th></tr>
+    <tr><td>自治的计算机（≥2 台）</td><td>互相之间没有主从关系，拔掉网线各自仍能独立工作（<span class="term-en">autonomous</span>）</td><td>手机、笔记本、平板</td></tr>
+    <tr><td>通信线路 + 通信设备</td><td>把机器连起来的"路"和"路口"（网线、光纤、路由器、交换机）</td><td>无线路由器、网线</td></tr>
+    <tr><td>网络软件（协议为核心）</td><td>让大家说"同一种语言"的规则（<span class="term-en">protocol</span>），如 TCP/IP</td><td>路由器里固化的通信规则</td></tr>
+  </table>
+  <p>网络最核心的两大功能：<strong>资源共享</strong>（<span class="term-en">resource sharing</span>——
+     共享文件、打印机、算力）与<strong>数据通信</strong>（<span class="term-en">data communication</span>）。
+     考试问"建立计算机网络的主要目的"，答的就是它们。</p>
+
+  <h2>二、按覆盖范围分类：LAN / MAN / WAN</h2>
+  <p>考试最爱考的分类法是<strong>按覆盖的地理范围</strong>分三档：</p>
+  <table class="ref">
+    <tr><th>类型</th><th>英文</th><th>覆盖范围</th><th>典型例子</th></tr>
+    <tr><td>局域网</td><td><span class="term-en">LAN, Local Area Network</span></td><td>几米 ~ 几公里，一个房间/一栋楼/一个园区</td><td>你家 WiFi、机房、校园网</td></tr>
+    <tr><td>城域网</td><td><span class="term-en">MAN, Metropolitan Area Network</span></td><td>一座城市，几公里 ~ 几十公里</td><td>城市有线电视网、城市宽带骨干</td></tr>
+    <tr><td>广域网</td><td><span class="term-en">WAN, Wide Area Network</span></td><td>跨城市、跨国家，几十 ~ 几千公里</td><td>运营商骨干网、跨国企业专网</td></tr>
+  </table>
+  <blockquote>
+    ⚡ 一字之差的考点：<strong>internet</strong>（互连网，小写开头）泛指"把多个网络互连起来"的任何网络；
+    <strong>Internet</strong>（互联网/因特网，大写开头）专指全球最大的、开放的、由无数网络互连而成的那个特定网络。
+    考试和教材（谢希仁 §1.2）都强调这对术语不能混用。
+  </blockquote>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"互联网就是广域网"</strong>——错。Internet 是"网络的网络"（<span class="term-en">network of networks</span>），
+       它由无数 LAN、MAN、WAN 互连而成，本身不等于某一个 WAN。<br>
+       <strong>"无线网络没有拓扑"</strong>——错。拓扑描述的是连接关系，不要求看得见线。
+       你家的无线网依然是标准的<strong>星型</strong>：所有设备围着路由器转。</p>
+  </div>
+
+  <h2>三、拓扑结构：网络的"骨架"</h2>
+  <p>把设备抽象成点、把链路抽象成线，画出来的几何形状就叫<strong>拓扑结构</strong>
+     （<span class="term-en">topology</span>）。它是综合题里"网络规划设计"的思考语言。
+     点下面的按钮，逐个认识五种拓扑：</p>
+
+  <div class="demo" data-topology-demo></div>
+
+  <table class="ref">
+    <tr><th>拓扑</th><th>长什么样</th><th>优点</th><th>缺点</th><th>典型场景</th></tr>
+    <tr><td>星型 <span class="term-en">star</span></td><td>全员连中心</td><td>结构简单、易扩展、故障好定位</td><td>中心节点是<strong>单点故障</strong></td><td>家庭 WiFi、交换机局域网</td></tr>
+    <tr><td>总线型 <span class="term-en">bus</span></td><td>一条主干挂所有节点</td><td>省线缆、早期便宜</td><td>主干断则全网瘫；冲突多</td><td>早期以太网（已淘汰）</td></tr>
+    <tr><td>环型 <span class="term-en">ring</span></td><td>首尾相连成环</td><td>顺序访问公平</td><td>单环任一处断则全瘫</td><td>令牌环网、部分光纤环网</td></tr>
+    <tr><td>树型 <span class="term-en">tree</span></td><td>分层展开</td><td>适合分级管理、易扩展</td><td>越靠根越关键</td><td>校园网、企业分层网络</td></tr>
+    <tr><td>网状 <span class="term-en">mesh</span></td><td>节点多多互连</td><td>可靠性最高，任一链路断有备路</td><td>线缆与设备成本最高</td><td>运营商骨干网、广域网核心</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角（为第二阶段存档）</div>
+    <p>这些分类不是纸面游戏：你现在坐着的位置，就处在一个星型拓扑里（路由器是中心）；
+       你城市到北京的链路，走在网状的运营商骨干上。考试通过后转工程向，
+       第一步就是拿着拓扑词汇去读懂真实网络——<em>先会画，再会配</em>。
+       综合题里"中小型网络系统总体规划"画的就是树型 + 星型的组合。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <p>不要往回翻——先凭记忆作答，答错也没关系，<em>费力的回忆才建立长期记忆</em>。</p>
+
+  <div class="quiz" data-quiz='[
+    {"q":"你家里的 WiFi 网络（手机、笔记本都连到无线路由器）属于哪种拓扑结构？",
+     "opts":["星型：所有设备连到路由器这个中心","总线型：所有设备挂在一根主干上","环型：设备首尾相连成环"],
+     "answer":0,
+     "why":"路由器（或交换机）就是中心节点，所有设备围绕它互连——这是最典型的星型。"},
+    {"q":"一个校园内几栋教学楼之间互连组成的网络，通常属于？",
+     "opts":["局域网 LAN","城域网 MAN","广域网 WAN"],
+     "answer":0,
+     "why":"校园/园区范围（几公里内）属于局域网；跨城市才谈 MAN/WAN。校园网内部也常是树型拓扑。"},
+    {"q":"下列关于 Internet 的说法，正确的是？",
+     "opts":["专指全球最大的、开放的、由众多网络互连而成的特定网络","泛指任何把两个以上网络互连起来的系统，与 internet 同义","就是广域网 WAN 的另一个名字"],
+     "answer":0,
+     "why":"大写 Internet 专指那个全球网络；小写 internet 才是泛指互连网；Internet 是网络的网络，不等于某个 WAN。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>网络定义三要素</td><td>自治的计算机 + 通信线路/设备 + 网络软件（协议）</td></tr>
+    <tr><td>两大功能</td><td>资源共享、数据通信</td></tr>
+    <tr><td>按范围分类</td><td>LAN（楼/园区）→ MAN（城市）→ WAN（跨城市/国家）</td></tr>
+    <tr><td>internet vs Internet</td><td>小写泛指互连网；大写专指全球那个网络</td></tr>
+    <tr><td>五种拓扑</td><td>星、总线、环、树、网——记住各自的"命门"（中心故障/主干故障/环断全瘫）</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>——以后每课都遵守它。</p>
+
+  <h2>📚 延伸阅读（选一个即可）</h2>
+  <p><strong>原理向：</strong>谢希仁《计算机网络》（第 8 版）§1.1–1.2
+     —— 把"网络的网络"这个图景讲得最透。<br>
+     <strong>应试向：</strong>官方教材《三级教程——网络技术》第 1 章，
+     对照本课表格过一遍，感受考试口径。</p>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 · 完</span>
+    <a href="../reference/glossary.html">📖 术语表 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库，<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。任何不清楚的地方——哪怕只是"为什么星型最常用"——都可以直接在对话里问我，追问是最好的学习方式。</div>
+</main>
+</body>
+</html>

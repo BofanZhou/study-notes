@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="31.3.1">
+  <diagram name="国奖冲刺路线图">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1300" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="2" value="数学建模 · 国奖冲刺总体路线图" style="text;html=1;align=center;verticalAlign=middle;fontSize=26;fontStyle=1;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="1420" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="🎯 目标:冲全国一等奖(≈0.4–0.5%) · 保全国二等奖(≈1.7–2%)　|　2025 年 1837 校 · 68311 队参赛,评审分「赛区 → 全国」两阶段" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1420" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="🧭 制胜论断:下限由「规范与摘要」决定,上限由「模型主线与检验」决定 —— 国奖论文赢在读得清、信得过,不在模型多" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="1420" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="5" value="阶段一 · 筑基闭环(D1 08-31)" style="swimlane;startSize=30;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="300" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="第 1 课 · 建模闭环(人口模型)✅" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" vertex="1" parent="5">
+          <mxGeometry x="10" y="40" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="方法论骨架:假设 → 建模 → 求解 → 检验 → 成文" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" vertex="1" parent="5">
+          <mxGeometry x="10" y="100" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="手感训练:拟合演示压 SSE,体验「检验不过回炉」" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" vertex="1" parent="5">
+          <mxGeometry x="10" y="160" width="280" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="9" value="阶段二 · 高频模型族(D2–D5 09-01→04)" style="swimlane;startSize=30;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="180" width="340" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="第 2 课 · 线性规划 LP + scipy.linprog" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="9">
+          <mxGeometry x="10" y="40" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="第 3 课 · 整数规划与运筹实战" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="9">
+          <mxGeometry x="10" y="86" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="第 4 课 · 评价类:AHP / TOPSIS / 熵权" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="9">
+          <mxGeometry x="10" y="132" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="第 5 课 · 预测类:回归 / 时间序列 / GM(1,1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="9">
+          <mxGeometry x="10" y="178" width="320" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="14" value="阶段三 · 真题实战(D6–D8 09-05→07)" style="swimlane;startSize=30;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="180" width="340" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="第 6 课 · 微分方程模型 + 近年真题精读" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="14">
+          <mxGeometry x="10" y="40" width="320" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="全真模拟 48h:一道近年真题,三人轮岗" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="14">
+          <mxGeometry x="10" y="100" width="320" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="产出:一篇完整论文 + 复盘清单" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="14">
+          <mxGeometry x="10" y="160" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="18" value="阶段四 · 定装冲刺(D9–D10 09-08→09)" style="swimlane;startSize=30;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="180" width="320" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="D9 · 论文模板 + 摘要写法专练" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="18">
+          <mxGeometry x="10" y="40" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="D9 · 精读 2 篇国奖论文(官网论文展示)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="18">
+          <mxGeometry x="10" y="100" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="D10 · 查漏 + 装备检查(环境/模板/分工)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="18">
+          <mxGeometry x="10" y="160" width="300" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="22" value="🚩 09-10 18:00&#xa;开赛" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="500" width="200" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="23" value="74 小时作战手册(9/10 18:00 → 9/13 20:00)" style="swimlane;startSize=30;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="670" width="1420" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="9/10 夜&#xa;三题速读 → 30 分钟内定题 →&#xa;假设清单 + 主线草图" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1" parent="23">
+          <mxGeometry x="10" y="40" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="9/11&#xa;模型 v1 → 编程求解 →&#xa;初版图表;写作手同步成文" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1" parent="23">
+          <mxGeometry x="355" y="40" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="9/12&#xa;各问完整求解 + 检验(残差/灵敏度)&#xa;→ 论文主体成文" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1" parent="23">
+          <mxGeometry x="700" y="40" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="9/13&#xa;图表排版 → 14:00 正文定稿 →&#xa;最后 2h 专攻摘要 → 19:00 前双次提交" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1" parent="23">
+          <mxGeometry x="1045" y="40" width="330" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="28" value="交付论文 PDF" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="900" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="赛区评审&#xa;(省级奖上限:9% / 16% / 25%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="480" y="900" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="30" value="全国评审" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="900" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="31" value="🥇 全国一等奖 · ≈0.4–0.5%(约 300 队)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="880" width="320" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="32" value="🥈 全国二等奖 · ≈1.7–2%(约 1200 队)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="960" width="320" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="33" value="✅ 国奖论文四特质&#xa;假设有据 · 主线贯穿 · 检验齐全 · 摘要 30 秒" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1030" width="460" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="⚠️ 纪律红线(违纪 = 取消评奖资格)&#xa;AI 仅辅助 · 按官方规定声明 · 对原创性负全责(2026 试行)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1030" width="460" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="🛟 应急预案&#xa;卡壳 2h 降级简化 · 代码云端备份 · 双次提交留证 · 双介质备份" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1030" width="420" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="36" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="37" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="9" target="14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="38" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="14" target="18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="39" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="18" target="22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="40" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="22" target="23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="41" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="24" target="25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="42" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="25" target="26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="43" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="26" target="27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="44" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="23" target="28">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="45" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="28" target="29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="46" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="29" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="47" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="30" target="31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="48" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="30" target="32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

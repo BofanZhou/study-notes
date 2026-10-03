@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国赛备战地图 · 2026</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main id="doc-cumcm-sprint-map">
+  <p class="kicker">数学建模 · 参考文档 / 2026 高教社杯</p>
+  <h1>国赛备战地图 <span class="term-en">CUMCM Sprint Map</span></h1>
+  <p><strong>本图是赛制与分工速查</strong>;完整的国奖冲刺主计划(目标定位、能力矩阵、74 小时作战、风险预案、自检清单)见<a href="../reference/national-prize-roadmap.html">国奖冲刺总体路线图 →</a></p>
+
+  <div class="box">
+    <div class="box-title">🏁 赛制速览(以官方通知为准)</div>
+    <p><strong>时间</strong>:2026-09-10(周四)18:00 — 09-13(周日)20:00,共 74 小时。<br>
+       <strong>队伍</strong>:1–3 名本科生(通常 3 人),可配指导教师。<br>
+       <strong>选题</strong>:本科组从 A/B/C 三题中<b>任选一题</b>——A 偏理工连续(方程/物理),B 偏离散运筹(规划/调度),C 偏数据分析(大数据/统计)。<br>
+       <strong>交付</strong>:一篇 PDF 论文(含摘要页),支撑材料可选附代码。<br>
+       <strong>官方评审四标准</strong>:假设的合理性、建模的创造性、结果的正确性、文字表述的清晰程度。</p>
+  </div>
+
+  <h2>三人分工(轮岗制)</h2>
+  <table class="ref">
+    <tr><th>角色</th><th>主责</th><th>必备能力</th></tr>
+    <tr><td>建模手</td><td>假设、选模型、推方程、检验设计</td><td>模型族地图烂熟于心,判断「该用什么」</td></tr>
+    <tr><td>编程手</td><td>求解、数据处理、画图</td><td>Python/MATLAB 熟手,出图干净</td></tr>
+    <tr><td>写作手</td><td>论文结构、摘要、图表文案</td><td>会把「做了什么」讲清楚,摘要写法专精</td></tr>
+  </table>
+  <p>三人要<b>交叉</b>:建模手也要会跑代码,写作手全程参与建模讨论——独立分工在 74 小时里必然卡壳。</p>
+
+  <h2>模型族地图(冲刺主线)</h2>
+  <table class="ref">
+    <tr><th>模型族</th><th>代表方法</th><th>典型赛题气质</th><th>对应课次</th></tr>
+    <tr><td>优化</td><td>线性/整数规划、多目标</td><td>「安排生产/调度/选址,使收益最大成本最小」</td><td>第 2–3 课</td></tr>
+    <tr><td>评价</td><td>AHP、TOPSIS、熵权</td><td>「对方案/城市/政策排序打分」</td><td>第 4 课</td></tr>
+    <tr><td>预测</td><td>回归、时间序列、GM(1,1)</td><td>「根据历史数据预测未来」</td><td>第 5 课</td></tr>
+    <tr><td>微分方程</td><td>种群/传染病/温度类 ODE</td><td>「机理明确,量随时间演化」</td><td>第 1、6 课</td></tr>
+    <tr><td>统计与数据</td><td>假设检验、聚类、回归分析</td><td>C 题主力:给一堆数据找规律做决策</td><td>第 5 课 + 真题演练</td></tr>
+    <tr><td>模拟</td><td>蒙特卡洛、元胞自动机</td><td>「随机性明显、解析解难求」</td><td>真题演练中按需</td></tr>
+  </table>
+
+  <h2>论文骨架(评审从摘要读起)</h2>
+  <ol>
+    <li><strong>摘要</strong>——半页到一页:问题→方法→结果(给数字)→亮点;<b>评审的第一印象几乎全在这</b></li>
+    <li>问题重述与分析</li>
+    <li>模型假设(逐条编号,并给理由)</li>
+    <li>符号说明(表)</li>
+    <li>模型建立与求解(分问分节,图文并茂)</li>
+    <li>模型检验(残差/误差分析、灵敏度分析)</li>
+    <li>模型评价(优点+缺点+推广)</li>
+    <li>参考文献、附录(完整代码)</li>
+  </ol>
+
+  <h2>工具链</h2>
+  <p><strong>求解</strong>:Python(numpy / scipy / pandas / matplotlib)或 MATLAB(本课程默认 Python)。
+     <strong>写作</strong>:Word 或 LaTeX 模板提前备好;<strong>画图</strong>:matplotlib 出 PNG(300 dpi),图要有轴标签、单位、图例。</p>
+
+  <h2>十天冲刺路线(08-31 → 09-09)</h2>
+  <table class="ref">
+    <tr><th>日期</th><th>任务</th><th>产出</th></tr>
+    <tr><td>08-31(D1)</td><td>✅ 第 1 课:建模闭环(人口模型)</td><td>闭环方法论 + 手工拟合体验</td></tr>
+    <tr><td>09-01(D2)</td><td>第 2 课:线性规划 + scipy 求解</td><td>一道配比/生产问题完整求解</td></tr>
+    <tr><td>09-02(D3)</td><td>第 3 课:整数规划与运筹实战</td><td>调度类问题套路</td></tr>
+    <tr><td>09-03(D4)</td><td>第 4 课:评价类 AHP/TOPSIS/熵权</td><td>评价题全套流程</td></tr>
+    <tr><td>09-04(D5)</td><td>第 5 课:预测类(回归/时间序列/GM(1,1))</td><td>预测题套路 + 检验方法</td></tr>
+    <tr><td>09-05(D6)</td><td>第 6 课:微分方程模型 + 真题精读</td><td>近 3 年真题 skim,选题倾向确定</td></tr>
+    <tr><td>09-06/07(D7–8)</td><td><strong>全真模拟</strong>:压缩 48h 做一道近年真题</td><td>一篇完整论文 + 复盘清单</td></tr>
+    <tr><td>09-08(D9)</td><td>论文模板 + 摘要写法专练</td><td>开赛即可用的模板与摘要范式</td></tr>
+    <tr><td>09-09(D10)</td><td>查漏补缺 + 装备检查(环境/模板/分工)</td><td>轻装上阵</td></tr>
+    <tr><td><strong>09-10 18:00</strong></td><td>🚩 开赛</td><td>—</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 来源与延伸</div>
+    <p>赛程与规则:<a href="https://www.mcm.edu.cn/html_cn/node/d6fd7a0ee8f3a3d525e30af1c365fcec.html">2026 年第一次通知(官网)</a> ·
+       历年赛题见官网「赛题」栏目 · 教材:姜启源《数学模型》、司守奎《数学建模算法与应用》(见 RESOURCES.md)。</p>
+  </div>
+
+  <nav class="lesson-nav">
+    <a href="#doc-glossary">← 术语表</a>
+    <a href="../lessons/0001-what-is-mathematical-modeling.html">第 1 课:数学建模是什么 →</a>
+  </nav>
+</main>
+</body>
+</html>

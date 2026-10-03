@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 3 课 · 整数规划</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/lp-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">数学建模 · 第 3 课 / 备战 2026 国赛 · 09-02</p>
+  <h1>整数规划 <span class="term-en">Integer Programming</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 一眼识别「变量必须取整数」的场景;<strong>②</strong> 解释为什么对 LP 解四舍五入是错的;<strong>③</strong> 会用 <code>scipy.optimize.milp</code> 求解整数/0-1 规划,并用 0-1 变量表达「选/不选」。</p>
+  </div>
+
+  <h2>什么时候必须整数</h2>
+  <p>人数、设备台数、选址(建/不建)、开关(投/不投)——这些量取 17.5 没有意义。整数规划(<span class="term-en">integer programming, IP</span>)就是给 LP 加上整数要求;变量只取 0 或 1 时叫 <strong>0-1 规划</strong>(<span class="term-en">binary programming</span>),是国赛 B 题的常客。</p>
+
+  <h2>四舍五入为什么是错的</h2>
+  <p>回到第 2 课的例子:<span class="var">max z = 5x + 4y</span>,LP 最优在顶点 <span class="var">(17.5, 15)</span>。四舍五入到 <span class="var">(18, 15)</span>?——违反约束 <span class="var">2x + y ≤ 50</span>(2×18+15=51),<strong>根本不可行</strong>。而真正的整数最优是 <span class="var">(18, 14)</span>,z=146,比 LP 上界 147.5 损失 1.5。</p>
+  <div class="demo" data-lp-demo></div>
+  <blockquote>两个教训:<strong>① 取整可能不可行,② 取整可能次优</strong>。整数最优必须用算法找,不能手工凑。</blockquote>
+
+  <h2>分支定界:一分钟的直觉</h2>
+  <p>求解器用的主力算法是<strong>分支定界</strong>(<span class="term-en">branch and bound</span>):先解 LP 松弛(不管整数要求)得到一个<strong>上界</strong>;若解非整数(如 x=17.5),就分成两支:x ≤ 17 和 x ≥ 18,各再解 LP……同时用当前最好整数解剪掉不可能更优的分支。理解它,你就能回答评审的追问:「为什么这个解是全局最优?」</p>
+
+  <h2>scipy.optimize.milp 与 0-1 变量</h2>
+  <pre>from scipy.optimize import milp, LinearConstraint, Bounds
+# 例:5 个候选站选 3 个(0-1),最小化建设成本
+c = [12, 8, 15, 9, 11]                    # 各站成本
+A = [[1,1,1,1,1]]                          # 总数恰好 3 个
+res = milp(c=c, constraints=[LinearConstraint(A, 3, 3)],
+           integrality=[1,1,1,1,1],        # 1 表示该变量必须整数
+           bounds=Bounds(0, 1))            # 0-1 变量</pre>
+  <p>建模技巧「大 M 法」:想表达「只有选了站 i( yᵢ=1 )才允许在那里建容量 xᵢ」,写 <span class="var">xᵢ ≤ M·yᵢ</span>。逻辑约束(至少建两个、A 建则 B 不建)都能用 0-1 变量的线性组合写出来。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 对 LP 解取整</strong>——本课刚反例过:不可行或次优。<br>
+       <strong>② 0-1 变量当成 0~1 连续变量</strong>——integrality 忘了设,求解器当 LP 处理。<br>
+       <strong>③ 变量越多越稳</strong>——整数规划是 NP-hard,几百个整数变量加烂约束就可能算不动;先精简变量与约束。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>第 2 课的<strong>顶点直觉</strong>仍然成立,只是可行域从连续多边形变成离散格点——所以最优可能「够不到」顶点。检验环节新增一招:把 LP 松弛解当作<strong>上界基准</strong>,整数解离上界越近,说明解的质量越好(论文里可以报告这个间隙 <span class="term-en">gap</span>)。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"对 LP 最优解四舍五入得到整数解,问题出在?","opts":["可能不可行也可能次优","结果一定还是最优的","四舍五入必导致超约束","只要可行就一定最优"],"answer":0,"why":"两个坑都存在:取整点可能落在可行域外,即使可行也未必是整数最优。"},
+    {"q":"0-1 规划里变量 y 取值为?","opts":["只能取 0 或 1","可取 0 到 1 之间任何数","必须取正整数","由求解器自由决定"],"answer":0,"why":"0-1(二元)变量是整数变量的特例,用于表达选/不选、开/关。"},
+    {"q":"milp 与 linprog 的关键区别是?","opts":["milp 可指定整数变量","milp 只能求最大值","milp 不支持约束","milp 求不出全局最优"],"answer":0,"why":"milp = mixed-integer LP,通过 integrality 参数指明哪些变量必须整数。"},
+    {"q":"分支定界算法中,LP 松弛解的作用是?","opts":["提供全局最优的上界","直接就是最终答案","用来生成随机初始解","用于减少整数变量个数"],"answer":0,"why":"最小化问题里 LP 松弛给下界/最大化给上界,配合分支剪枝保证全局最优。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>整数规划</td><td>integer programming</td><td>LP + 变量整数要求;四舍五入不可靠</td></tr>
+    <tr><td>0-1 规划</td><td>binary programming</td><td>变量只取 0/1,表达选/不选与逻辑约束</td></tr>
+    <tr><td>分支定界</td><td>branch and bound</td><td>LP 松弛给界 + 分割搜索 + 剪枝</td></tr>
+    <tr><td>大 M 法</td><td>big-M method</td><td>x ≤ M·y 把「选了才能建」写进约束</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.milp.html">scipy.optimize.milp 官方文档</a>,把选站例题跑通。</li>
+    <li>司守奎《数学建模算法与应用》整数规划章节:0-1 规划的经典建模套路表。</li>
+    <li>下一课预告:<a href="../lessons/0004-evaluation-methods.html">评价类方法</a>——当问题不是「选最优」而是「排序打分」时用哪些模型。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0002-linear-programming.html">← 第 2 课:线性规划</a>
+    <a href="../lessons/0004-evaluation-methods.html">第 4 课:评价类方法 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。milp 参数、0-1 约束翻译不出来、或者想让我检查你的建模——直接贴到对话里。</div>
+</main>
+</body>
+</html>

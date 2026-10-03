@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 4 课 · 评价类方法</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/topsis-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">数学建模 · 第 4 课 / 备战 2026 国赛 · 09-03</p>
+  <h1>评价类方法 <span class="term-en">AHP &amp; TOPSIS</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 搭出「指标体系 → 标准化 → 定权 → 聚合 → 检验」的评价全流程;<strong>②</strong> 会用 AHP 定主观权重并通过一致性检验;<strong>③</strong> 会用 TOPSIS 与熵权法,并能对「排序随权重变化」做灵敏度辩护。</p>
+  </div>
+
+  <h2>评价题长什么样</h2>
+  <p>「对四种冷热源方案排序」「对城市宜居性打分」「选哪种修复技术」——没有唯一解析解,只有<strong>合理可辩护的排序</strong>。国赛评价题(常在 C 题)的得分点不在用了哪个模型,而在<strong>每一步都有依据</strong>。</p>
+
+  <h2>全流程五步</h2>
+  <ol>
+    <li><strong>指标体系</strong>:从问题里选 4–8 个可量化指标(别堆几十个凑数);</li>
+    <li><strong>标准化</strong>(<span class="term-en">normalization</span>):把「越大越好/越小越好」统一成同向,常用极差法;</li>
+    <li><strong>定权</strong>:AHP(主观)、熵权法(客观)、或两者组合;</li>
+    <li><strong>聚合</strong>:加权求和,或更稳的 TOPSIS;</li>
+    <li><strong>检验</strong>:AHP 做一致性检验;整体做<strong>权重灵敏度分析</strong>——权重挪一挪,排序稳不稳?</li>
+  </ol>
+
+  <h2>AHP:两两比较定权重</h2>
+  <p>层次分析法(<span class="term-en">Analytic Hierarchy Process</span>):对同一层的指标两两比较(1–9 标度:「同样重要」到「极端重要」),得到判断矩阵,取其最大特征值对应的特征向量归一化为权重。关键是<strong>一致性检验</strong>:要求判断不出现「A>B, B>C, 却 C>A」。</p>
+  <div class="formula">CI = (λ<sub>max</sub> − n)/(n − 1),　CR = CI / RI &lt; 0.1 才通过</div>
+  <p>RI 是随机一致性指标查表值(n=3 时 0.58,n=4 时 0.90,n=5 时 1.12)。CR 不过关就回去调判断矩阵——论文里要写明这个过程。</p>
+
+  <h2>TOPSIS:离理想解有多近</h2>
+  <p>优劣解距离法(<span class="term-en">TOPSIS</span>):标准化并加权后,每个指标取所有方案中的最好值拼成<strong>正理想解</strong>,最差值拼成<strong>负理想解</strong>;计算每个方案到两者的距离,贴近度越大越优:</p>
+  <div class="formula">C<sub>i</sub> = D<sub>i</sub><sup>−</sup> / (D<sub>i</sub><sup>+</sup> + D<sub>i</sub><sup>−</sup>)</div>
+  <p><strong>熵权法</strong>(<span class="term-en">entropy weight</span>)则用数据自身的离散度定权:某指标各方案取值越接近(信息熵越大),区分度越低,权重越小。与 AHP 组合成「主客观组合权重」是论文常用加分项。</p>
+
+  <div class="demo" data-topsis-demo></div>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 忘了同趋势化</strong>——成本是负向指标,不翻直接算,「越贵越好」;<br>
+       <strong>② 权重拍脑袋</strong>——评审必问「权重怎么来的」;AHP 要给判断矩阵,熵权要给数据依据;<br>
+       <strong>③ CR ≥ 0.1 还硬用</strong>——宁可重调矩阵,不可硬着头皮上;<br>
+       <strong>④ 把 TOPSIS 分当客观真理</strong>——它完全依赖权重,灵敏度分析才是你的辩护武器。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>熵权法的「离散度定权」就是概统里<strong>方差/信息量</strong>的直觉;标准化与你正在学的 z-score 是一回事。建环专业的<strong>方案比选</strong>(冷热源、风机选型、围护结构改造优先级)就是评价题的原型——上面演示里的方案就是按你的专业挑的。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"指标「初投资(万元)」进入评价前必须先做?","opts":["负向化后再标准化","直接乘上权重使用","先取对数再求和","换算成百分比即可"],"answer":0,"why":"成本越小越好,是负向指标;不同向就聚合,排序必然出错。"},
+    {"q":"AHP 一致性比率 CR 的合格线是?","opts":["小于 0.1","小于 0.5","小于 1.12","等于 0 才行"],"answer":0,"why":"CR = CI/RI < 0.1 是公认阈值;不通过应重调判断矩阵。"},
+    {"q":"TOPSIS 中贴近度 C 越大说明?","opts":["离正理想解越近","离负理想解越近","权重设置越客观","指标个数越合理"],"answer":0,"why":"C = D⁻/(D⁺+D⁻):对理想解近、对负理想解远的方案 C 大。"},
+    {"q":"熵权法给某个指标权重大,意味着?","opts":["该指标区分度大","该指标最重要","该指标数值最大","该指标一定是正向"],"answer":0,"why":"熵权反映数据本身的区分能力,不代表工程意义上的重要性;所以才要主客观组合。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>层次分析法</td><td>AHP</td><td>两两比较 → 特征向量权重 → CR&lt;0.1 检验</td></tr>
+    <tr><td>优劣解距离法</td><td>TOPSIS</td><td>到正/负理想解的距离比决定排序</td></tr>
+    <tr><td>熵权法</td><td>entropy weight</td><td>数据区分度大 → 权重大(客观定权)</td></tr>
+    <tr><td>灵敏度分析</td><td>sensitivity analysis</td><td>权重挪动后排序是否稳定,评价题的保命检验</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:姜启源《数学模型》层次分析法章节(源自 SASHP 经典案例),把演示里的冷热源矩阵手算一遍权重。</li>
+    <li>司守奎《数学建模算法与应用》评价类章节:TOPSIS 与熵权的完整 MATLAB/Python 代码模板。</li>
+    <li>下一课预告:<a href="../lessons/0005-forecasting-methods.html">预测类方法</a>——从历史数据外推未来时的模型箱与检验方法。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0003-integer-programming.html">← 第 3 课:整数规划</a>
+    <a href="../lessons/0005-forecasting-methods.html">第 5 课:预测类方法 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。判断矩阵不会算特征值、熵权公式推不动、或者想让我审你的指标体系——直接问。</div>
+</main>
+</body>
+</html>

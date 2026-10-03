@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> · 课程手册</title>
+<style>
+/* ============================================================
+   市场营销课程 · 共享样式表
+   Tufte 风格：大量留白、优雅衬线、内容优先
+   ============================================================ */
+
+:root {
+  --ink: #1a1a1a;
+  --ink-soft: #555;
+  --accent: #a0522d;        /* 赭石色：链接与强调 */
+  --accent-dark: #7a3b1e;
+  --paper: #fffff8;
+  --code-bg: #f4f2ee;
+  --quiz-correct: #e8f5e9;
+  --quiz-wrong: #fdecea;
+  --border: #ddd8d0;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; scroll-behavior: smooth; }
+
+body {
+  font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC",
+               "STSong", Georgia, serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.75;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* ---------- 标题 ---------- */
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 2rem;
+  margin: 0 0 .3rem;
+}
+h2 {
+  font-size: 1.35rem;
+  margin-top: 2.8rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .35rem;
+}
+h3 { font-size: 1.1rem; margin-top: 2rem; }
+
+.kicker {
+  font-family: "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- 正文元素 ---------- */
+p { margin: 1rem 0; }
+a { color: var(--accent); text-decoration-color: rgba(160,82,45,.35); }
+a:hover { color: var(--accent-dark); }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+.term-en {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: .92em;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: .2rem 1.4rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink-soft);
+  background: rgba(160, 82, 45, .04);
+}
+
+hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+/* ---------- 公式 ---------- */
+.formula {
+  text-align: center;
+  font-family: "Latin Modern Math", "Cambria Math", Georgia, serif;
+  font-size: 1.25rem;
+  margin: 1.6rem 0;
+  overflow-x: auto;
+}
+.var { font-style: italic; font-family: inherit; }
+sub, sup { font-size: .72em; }
+
+/* ---------- 提示框 ---------- */
+.box {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.3rem;
+  margin: 1.8rem 0;
+  background: #faf9f6;
+}
+.box-title {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  margin-bottom: .4rem;
+}
+.box.cfd .box-title { color: #1a5276; }
+.box.warn .box-title { color: #922b21; }
+.box p:first-of-type { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+/* ---------- 测验 ---------- */
+.quiz {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+}
+.quiz-q {
+  font-weight: 700;
+  margin-bottom: .9rem;
+}
+.quiz-opts { list-style: none; padding: 0; margin: 0; }
+.quiz-opts li { margin: .45rem 0; }
+.quiz-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: .98rem;
+  padding: .55rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: #fdf8f4; }
+.quiz-opt.correct { background: var(--quiz-correct); border-color: #66bb6a; font-weight: 700; }
+.quiz-opt.wrong { background: var(--quiz-wrong); border-color: #e57373; }
+.quiz-feedback {
+  margin-top: .8rem;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  display: none;
+}
+.quiz-score {
+  margin-top: 1.2rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  display: none;
+}
+
+/* ---------- 演示画布 ---------- */
+.demo {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+  text-align: center;
+}
+.demo canvas {
+  max-width: 100%;
+  border-radius: 4px;
+  background: #fff;
+  touch-action: manipulation;
+}
+.demo-controls { margin-top: .9rem; }
+.btn {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .9rem;
+  padding: .5rem 1.2rem;
+  margin: 0 .3rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent-dark);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.btn:hover { background: var(--accent); color: #fff; }
+.btn.active { background: var(--accent); color: #fff; }
+.caption { font-size: .88rem; color: var(--ink-soft); margin-top: .8rem; }
+
+/* ---------- Obsidian 跳转链接 ---------- */
+.obsidian-link {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  padding: .35rem .8rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  white-space: nowrap;
+}
+
+/* ---------- 演示控制项（滑块、下拉框、标签） ---------- */
+.demo label {
+  display: block;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .86rem;
+  color: var(--ink-soft);
+  margin: .6rem 0 .25rem;
+  text-align: left;
+}
+.demo input[type="range"],
+.demo select {
+  width: 100%;
+  max-width: 22rem;
+  font: inherit;
+  font-size: .95rem;
+  padding: .35rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+.demo .readout {
+  margin-top: .7rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.demo .readout strong { color: var(--ink); }
+
+/* ---------- 课程导航 ---------- */
+.lesson-nav {
+  margin-top: 4rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.lesson-nav a {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+}
+
+.ask {
+  margin-top: 3rem;
+  padding: 1rem 1.3rem;
+  border-radius: 8px;
+  background: #eef3f8;
+  border: 1px solid #c9d8e8;
+  font-size: .95rem;
+}
+
+/* ---------- 参考/术语表 ---------- */
+dl.glossary dt {
+  font-weight: 700;
+  margin-top: 1.4rem;
+}
+dl.glossary dt .term-en { font-weight: 400; margin-left: .4em; }
+dl.glossary dd { margin-left: 0; padding-left: 1.2rem; border-left: 2px solid var(--border); }
+
+table.ref {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: .95rem;
+}
+table.ref th, table.ref td {
+  border-bottom: 1px solid var(--border);
+  padding: .55rem .7rem;
+  text-align: left;
+}
+table.ref th {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .85rem;
+  letter-spacing: .05em;
+  border-bottom: 2px solid var(--ink);
+}
+
+/* ---------- 打印优化 ---------- */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  main { max-width: 100%; padding: 0; }
+  .quiz, .demo, .btn { break-inside: avoid; }
+  a { color: var(--ink); text-decoration: underline; }
+  .lesson-nav, .ask { page-break-inside: avoid; }
+}
+
+
+/* ============ 手册外壳 · 纸感配色与正文一致 ============ */
+html { scroll-behavior: smooth; }
+.shell-body { margin: 0; }
+
+/* 顶部工具条:纸色底 + 墨字 + 赭石强调 */
+.ribbon { position: sticky; top: 0; z-index: 60;
+  background: rgba(244,242,238,.96); backdrop-filter: blur(6px);
+  border-bottom: 1px solid #ddd8d0; }
+.ribbon-in { max-width: 1500px; margin: 0 auto; padding: 9px 18px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.brand { font-size: 15px; font-weight: 700; letter-spacing: .04em;
+  white-space: nowrap; font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.brand i { font-style: normal; color: #a0522d; margin-right: 8px; }
+.sub { font-size: 10.5px; color: #8b8577; letter-spacing: .12em; white-space: nowrap; }
+.r-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.search-wrap { display: flex; align-items: center; border-bottom: 1px solid #c9c2b4; padding: 2px; }
+.search-wrap:focus-within { border-bottom-color: #a0522d; }
+#q { background: transparent; border: none; color: #1a1a1a;
+  font-family: inherit; font-size: 13px; width: min(280px, 40vw); padding: 3px 4px; }
+#q::placeholder { color: #a39b8d; } #q:focus { outline: none; }
+#q-count { font-size: 11px; color: #a0522d; min-width: 52px; text-align: right; }
+.rbtn { background: transparent; border: 1px solid #c9c2b4; color: #55503f;
+  font-family: inherit; font-size: 12px; letter-spacing: .08em; padding: 4px 12px; cursor: pointer; }
+.rbtn:hover { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.05); }
+
+/* 布局 */
+.layout { display: flex; max-width: 1500px; margin: 0 auto; align-items: flex-start; }
+.sidebar { width: 256px; flex-shrink: 0; position: sticky; top: 51px;
+  height: calc(100vh - 51px); overflow-y: auto; padding: 24px 20px 50px;
+  border-right: 1px solid #ddd8d0; background: #f4f2ee; }
+.main { flex: 1; min-width: 0; display: flex; justify-content: center; padding: 44px 40px 90px; }
+.content { max-width: 46rem; width: 100%; }
+
+/* 侧栏目录 */
+.sb-brand h1 { font-size: 17px; line-height: 1.5; font-weight: 700;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.sb-brand .en { display: block; font-size: 9px; letter-spacing: .26em; color: #55503f;
+  text-transform: uppercase; margin-top: 3px; }
+.sb-search input { width: 100%; border: none; border-bottom: 1px solid #ddd8d0; background: transparent;
+  font-family: inherit; font-size: 12.5px; padding: 5px 1px; color: #1a1a1a; }
+.sb-search input:focus { outline: none; border-bottom-color: #a0522d; }
+.sb-sec { font-size: 10px; letter-spacing: .22em; color: #55503f; margin: 22px 0 8px; text-transform: uppercase; }
+details.part { margin-bottom: 2px; }
+details.part summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 9px;
+  padding: 5px 4px; border-bottom: 1px solid #e6e1d7; font-size: 13px; font-weight: 600; line-height: 1.6;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+details.part summary::-webkit-details-marker { display: none; }
+details.part summary::after { content: "+"; margin-left: auto; color: #55503f; font-weight: 400; }
+details.part[open] summary::after { content: "–"; }
+details.part summary:hover { color: #a0522d; }
+.part .no { color: #a0522d; font-size: 11.5px; flex-shrink: 0; width: 20px; }
+.part .rng { color: #a39b8d; font-size: 10px; margin-left: auto; font-weight: 400; letter-spacing: .03em; }
+.pages { padding: 2px 0 8px 30px; }
+.pages a { display: block; text-decoration: none; color: #55503f; font-size: 12.2px;
+  line-height: 2.05; padding: 0 6px; }
+.pages a:hover { color: #a0522d; background: rgba(160,82,45,.06); }
+.pages a.cur { color: #a0522d; font-weight: 600; }
+.sb-tip { margin-top: 20px; padding: 10px 12px; border: 1px solid #e6e1d7;
+  font-size: 11px; color: #55503f; line-height: 1.9; }
+
+/* 正文文章分隔与检索高亮 */
+article.course-doc { padding-top: 34px; margin-bottom: 60px; border-top: 3px double #c9c2b4; }
+article.course-doc:first-of-type { border-top: none; padding-top: 0; }
+mark { background: #F2DE9B; color: inherit; padding: 0 1px; }
+mark.hit { background: #E8C9A0; outline: 1px solid #a0522d; }
+
+#top-btn { position: fixed; right: 26px; bottom: 30px; width: 40px; height: 40px;
+  border: 1px solid #ddd8d0; background: #f4f2ee; color: #55503f; cursor: pointer;
+  font-size: 15px; font-family: inherit; opacity: 0; pointer-events: none;
+  transition: opacity .25s; z-index: 70; }
+#top-btn.show { opacity: 1; pointer-events: auto; }
+#top-btn:hover { color: #a0522d; border-color: #a0522d; }
+
+/* 目录收起态:隐藏侧栏,正文占满整行并由 .main 的 justify-content:center 自动居中 */
+body.toc-hidden .sidebar { display: none; }
+#toc-toggle.on { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.06); }
+
+@media (max-width: 1080px) {
+  .sidebar { display: none; }
+  .main { padding: 32px 20px 70px; }
+}
+@media print {
+  .ribbon, .sidebar, #top-btn { display: none !important; }
+  .layout { display: block; }
+  .main { padding: 0; }
+  .content { max-width: 100%; }
+  article.course-doc { page-break-before: always; border-top: none; padding-top: 0; }
+  body { background: #fff; }
+}
+</style>
+</head>
+<body class="shell-body">
+
+<div class="ribbon"><div class="ribbon-in">
+  <span class="brand"><i>📖</i> · 课程手册</span>
+  <span class="sub">COURSE HANDBOOK · 离线可用</span>
+  <span class="r-actions">
+    <span class="search-wrap"><input id="q" type="text" placeholder="全文检索…(Enter 跳下一处)"><span id="q-count"></span></span>
+    <button class="rbtn on" id="toc-toggle" type="button">⇤ 目录</button>
+    <button class="rbtn" id="print-btn" type="button">打印 / 导出 PDF</button>
+  </span>
+</div></div>
+
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="sb-brand"><h1></h1><span class="en">Course Handbook</span></div>
+  <div class="sb-search" style="margin-top:16px"><input id="sb-q" type="text" placeholder="筛选目录…"></div>
+  <div class="sb-sec">目录 · Contents</div>
+  <details class="part" open><summary><span class="no">01</span>第 1 课 · 什么是营销<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0001-what-is-marketing">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">02</span>第 2 课 · STP:细分、目标与定位<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0002-stp">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">03</span>第 3 课 · 产品与定价<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0003-product-and-price">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">04</span>第 4 课 · 渠道与推广<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0004-place-and-promotion">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">05</span>第 5 课 · 品牌与复购<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0005-brand-and-retention">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">06</span>第 6 课 · 营销度量:漏斗与关键指标<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0006-metrics-and-funnel">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">07</span>第 7 课 · 毕业实战:一页纸营销方案<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0007-marketing-plan">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">08</span>市场营销术语表<span class="rng">REFERENCE</span></summary><div class="pages"><a href="#doc-glossary">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">09</span>市场营销总路线图<span class="rng">REFERENCE</span></summary><div class="pages"><a href="#doc-marketing-roadmap">↗ 进入本篇</a></div></details>
+
+  <div class="sb-tip">💡 检索:输入关键词即时高亮全文,Enter 在结果间跳转,Esc 清除。<br>🖨 打印时自动隐藏侧栏,每课独立分页。</div>
+</nav>
+
+<div class="main"><div class="content" id="content">
+
+<article class="course-doc" id="lesson-0001-what-is-marketing">
+<p class="kicker">市场营销 · 第 1 课 / 副业实操 + 商业通识 · W1</p>
+  <h1>什么是营销？<span class="term-en">What is marketing?</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 12 分钟),你将能够:<strong>①</strong> 用一句话说清营销不是吆喝,而是「发现并满足需求」;<strong>②</strong> 区分「需要」与「需求」;<strong>③</strong> 对任何一个你常买的东西,说出它到底满足了什么需求。</p>
+  </div>
+
+  <h2>从一杯奶茶说起</h2>
+  <p>你花 15 块钱买一杯奶茶,买的是什么?糖水成本大概 3 块。你买的是:<strong>工作日下午的一刻放松、和朋友拼单的社交仪式、发朋友圈的素材</strong>。奶茶店卖的从来不是糖水,是「快乐时刻」。</p>
+  <blockquote>营销(<span class="term-en">marketing</span>)的教科书定义:发现并满足需求,从中创造与交换价值。
+  拆开看:先<strong>发现</strong>(研究人缺什么),再<strong>满足</strong>(做出东西并让人知道、买到),全程围绕<strong>交换</strong>(双方都觉得值)。</blockquote>
+
+  <h2>需要 ≠ 需求</h2>
+  <div class="formula">需求 <span class="term-en">demand</span> = 需要 <span class="term-en">need</span> + 购买力</div>
+  <p>「想住在离公司近的地方」是需要(人固有的缺乏感);「愿意每月多掏 1500 块租个小单间」才是需求。<strong>副业找方向时,只盯着需要会饿死——要找的是「愿意付钱」的需求。</strong>「大家都想要便宜好用」不是生意,「愿意为省 20 分钟加价 10 块」才是。</p>
+
+  <h2>两种生意观:先造后卖 vs 先懂再造</h2>
+  <p>营销观念史上最大的分水岭:<strong>推销观念</strong>(<span class="term-en">selling concept</span>)——先把货造出来,再想办法卖掉;vs <strong>市场营销观念</strong>(<span class="term-en">marketing concept</span>)——先弄懂用户要什么,再造。前者关注「我的货怎么出手」,后者关注「用户的问题怎么解决」。库存压垮小生意的故事,几乎都是前者的故事。</p>
+
+  <h2>价值交换的天平</h2>
+  <div class="formula">成交 ≈ 感知价值 &gt; 感知成本(钱 + 时间 + 风险 + 麻烦)</div>
+  <p>用户掏钱,永远是在比较「我得到的是否多于我付出的」。营销的所有动作,本质只有两件事:<strong>提高感知价值</strong>(产品更好、故事更动人)或<strong>降低感知成本</strong>(更近、更便宜、更省心、更放心)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 营销 = 广告/吆喝/骗人</strong> ✗ 广告只是推广的一小块;营销的起点是需求,终点是回头客。<br>
+       <strong>② 需求 = 大家都说好</strong> ✗ 嘴上说要,钱包说不要——只算需求(有购买力)。<br>
+       <strong>③ 营销是市场部的事</strong> ✗ 副业老板本人就是首席营销官,选品、定价、接待全是营销动作。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🛠 本周实操(W1)</div>
+    <p>找 3 个你最近买的东西(一杯咖啡/一次打车/一个会员),每个写一句:「它真正满足了什么需求?我感知到的价值和成本各是什么?」写进 Obsidian 习题页即可——这门课的所有作业,都在给你第 7 课的毕业方案攒素材。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"营销的起点和终点分别是?","opts":["发现需求;赢得回头客","设计广告;引爆曝光量","压低价格;清空库存","模仿对手;抢下市场份额"],"answer":0,"why":"营销=发现并满足需求;一次性买卖不是营销的成功,复购与口碑才是。"},
+    {"q":"「想住得离公司近」和「愿每月多付 1500 元租近处」,两者的关系是?","opts":["前者是需要,后者是需求","前者是需求,后者是需要","都是需求,只是强度不同","都是需要,与钱无关"],"answer":0,"why":"需求 = 需要 + 购买力;副业找方向必须找「愿意付钱」的那部分。"},
+    {"q":"推销观念与市场营销观念的根本区别在?","opts":["先造货还是先懂用户","线上卖还是线下卖","定价高还是定价低","广告多还是广告少"],"answer":0,"why":"先造后卖=推销观念;先弄懂需求再满足=市场营销观念。"},
+    {"q":"用户决定掏钱的判据是?","opts":["感知价值大于感知成本","商家成本低于售价","广告看得足够多","身边人还没买过"],"answer":0,"why":"成交的本质是价值交换:得到的大于付出的(钱+时间+风险+麻烦)。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>营销</td><td>marketing</td><td>发现并满足需求,创造与交换价值</td></tr>
+    <tr><td>需要 / 需求</td><td>need / demand</td><td>需求 = 需要 + 购买力;生意只认需求</td></tr>
+    <tr><td>推销 vs 营销观念</td><td>selling vs marketing concept</td><td>先造后卖 vs 先懂再造</td></tr>
+    <tr><td>价值交换</td><td>value exchange</td><td>感知价值 &gt; 感知成本,成交才发生</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:小马宋《营销笔记》第一部分——「营销的本质是利他」的中文实操版,轻松好读。</li>
+    <li>对照读物:科特勒《营销管理》第 1 章——看教科书怎么定义同一件事(不必啃,翻一遍定义即可)。</li>
+    <li>下一课预告:<a href="#lesson-0002-stp">STP</a>——同一条街三家奶茶店为何都能活?答案:它们根本没抢同一批用户。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 / 共 7 课(W1)</span>
+    <a href="#lesson-0002-stp">第 2 课:STP →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B8%82%E5%9C%BA%E8%90%A5%E9%94%80/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 实操 + 1 开放 + 2 陷阱选择)</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。「我想到的副业方向算不算真需求?」这种问题最适合问我——把你的想法贴过来,我们用本课的框架掰开看。</div>
+</article>
+
+<article class="course-doc" id="lesson-0002-stp">
+<p class="kicker">市场营销 · 第 2 课 / 副业实操 + 商业通识 · W2</p>
+  <h1>STP:细分、目标与定位 <span class="term-en">Segmentation, Targeting, Positioning</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 用四把刀(地理/人口/心理/行为)切分一个市场;<strong>②</strong> 判断哪块细分「你够得着」;<strong>③</strong> 用定位语句模板写出一句话定位。</p>
+  </div>
+
+  <h2>同一条街,三家奶茶店,为什么都能活?</h2>
+  <p>低价店(学生党,3–6 元)、新茶饮(年轻人,15–25 元,买的是拍照与社交)、咖啡奶茶混合(写字楼白领,买的是提神)。它们表面是「同行」,实际服务的是<strong>三批不同的人</strong>——竞争的胜负,在选址和定价之前,就已经由「你服务谁」决定了。这就是 STP:营销战略的第一块基石。</p>
+
+  <h2>S:细分 —— 四把刀</h2>
+  <table class="ref">
+    <tr><th>维度</th><th>切分依据</th><th>奶茶店例子</th></tr>
+    <tr><td>地理 <span class="term-en">geographic</span></td><td>城市/商圈/社区</td><td>学校后街 vs 写字楼底商</td></tr>
+    <tr><td>人口 <span class="term-en">demographic</span></td><td>年龄/收入/职业/身份</td><td>学生 vs 白领 vs 宝妈</td></tr>
+    <tr><td>心理 <span class="term-en">psychographic</span></td><td>价值观/生活方式/态度</td><td>省钱务实 vs 悦己尝鲜</td></tr>
+    <tr><td>行为 <span class="term-en">behavioral</span></td><td>使用场景/频率/忠诚度</td><td>每天提神刚需 vs 周末社交偶发</td></tr>
+  </table>
+  <p>好的细分,块与块之间<strong>需求差异要真实存在</strong>——切得细不等于切得对。</p>
+
+  <h2>T:目标 —— 选「你够得着」的那块</h2>
+  <p>评估一块细分市场看四点:<strong>规模够不够、增长快不快、竞争挤不挤、你够不够得着</strong>。大公司看前两点,副业只看后两点:<strong>避开巨头正面,选巨头懒得弯腰、而你恰好有资源的小块</strong>。「社区宝妈的儿童摄影跟拍」打不过连锁影楼?没关系——连锁看不上这个规模,这就是你的仗。</p>
+
+  <h2>P:定位 —— 在用户心里占一个词</h2>
+  <p>定位(<span class="term-en">positioning</span>)不是你喊的口号,而是<strong>用户想到某类需求时,脑子里是不是先蹦出你</strong>:怕上火=王老吉,提神=咖啡,稳=沃尔沃。模板:</p>
+  <div class="formula">对于【目标人群】,我们是【品类】中【一个差异点】的选择,因为【信任状】。</div>
+  <p>例:「对于【社区养猫上班族】,我们是【宠物寄养】中【像家一样自由散养】的选择,因为【每日视频 + 上门喂养持证上岗】。」差异点必须<strong>用户可感知</strong>——「我们的匠心」不可感知,「每日视频直播」可感知。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 定位 = 一句广告词</strong> ✗ 定位是战略选择,口号只是它的外衣;先想清楚服务谁,再想怎么说话。<br>
+       <strong>② 全都要 = 没有定位</strong> ✗ 「男女老少都适合」在用户心里等于「谁都想不到你」。<br>
+       <strong>③ 差异点自己说了算</strong> ✗ 用户感知不到的差异,在竞争中不存在。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🛠 本周实操(W2)</div>
+    <p>挑一个你熟悉的小店/账号(或你自己的副业雏形),用定位语句模板写一句话定位,再用四把刀检查:它的目标用户是哪一刀切出来的?写进习题页。想不出差异点?去问 2 个真实顾客:「你为什么选这家而不是别家?」——他们的原话就是定位素材。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"STP 三个字母的正确顺序是?","opts":["细分→目标→定位","目标→细分→定位","定位→细分→目标","细分→定位→目标"],"answer":0,"why":"先切市场(S),再选目标(T),最后在用户心里定位置(P)。"},
+    {"q":"「每天来买咖啡的上班族」与「周末拍照打卡的学生」,是用哪把刀切开的?","opts":["行为:使用场景与频率","人口:年龄与收入","地理:城市与商圈","心理:价值观与态度"],"answer":0,"why":"每天刚需 vs 周末偶发,是使用频率与场景的行为差异。"},
+    {"q":"副业选目标市场的优先标准是?","opts":["巨头懒得弯腰且自己够得着","市场规模越大越好","增长速度越快越好","竞争越激烈越说明有需求"],"answer":0,"why":"小资源打大仗必输;找巨头看不上、你恰好有优势的细分才活得下。"},
+    {"q":"下面哪个差异点在竞争中真实存在?","opts":["每日视频直播喂养过程","我们的服务充满匠心","老板人很好很有情怀","性价比其实相当不错"],"answer":0,"why":"定位的差异点必须用户可感知、可验证;「匠心」「情怀」无法被感知。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>市场细分</td><td>segmentation</td><td>地理/人口/心理/行为四把刀,块间差异要真实</td></tr>
+    <tr><td>目标市场</td><td>targeting</td><td>副业优先选「够得着」的细分</td></tr>
+    <tr><td>定位</td><td>positioning</td><td>在目标用户心里占一个词</td></tr>
+    <tr><td>差异化</td><td>differentiation</td><td>用户可感知的不同,才是竞争中的不同</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:里斯 &amp; 特劳特《定位》——本周读完正好,篇幅短,本课的「占领一个词」就出自它。</li>
+    <li>小马宋《营销笔记》里「做对细分」相关章节——看中国生意怎么用 STP。</li>
+    <li>下一课预告:<a href="#lesson-0003-product-and-price">产品与定价</a>——定位选好了,产品该打包什么价值,价格该怎么标。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0001-what-is-marketing">← 第 1 课:什么是营销</a>
+    <a href="#lesson-0003-product-and-price">第 3 课:产品与定价 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B8%82%E5%9C%BA%E8%90%A5%E9%94%80/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。想不出现实可行的定位?把你的副业想法贴过来,我陪你用四把刀切一遍。</div>
+</article>
+
+<article class="course-doc" id="lesson-0003-product-and-price">
+<p class="kicker">市场营销 · 第 3 课 / 副业实操 + 商业通识 · W3</p>
+  <h1>产品与定价 <span class="term-en">Product &amp; Price</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 用产品三层次拆解任何商品;<strong>②</strong> 在「成本 ≤ 价格 ≤ 感知价值」区间里为产品选定价方法;<strong>③</strong> 识别锚定、尾数定价、诱饵选项三个价格心理套路。</p>
+  </div>
+
+  <h2>产品的三个层次:你卖的不止是那杯咖啡</h2>
+  <table class="ref">
+    <tr><th>层次</th><th>回答的问题</th><th>咖啡店例子</th></tr>
+    <tr><td>核心产品 <span class="term-en">core product</span></td><td>用户真正买什么?</td><td>提神 + 一刻放松</td></tr>
+    <tr><td>形式产品 <span class="term-en">actual product</span></td><td>它长什么样?</td><td>那杯液体、杯子、杯套设计</td></tr>
+    <tr><td>附加产品 <span class="term-en">augmented product</span></td><td>围绕它还有什么?</td><td>WiFi、座位、会员积分、微笑</td></tr>
+  </table>
+  <p>副业的启示:<strong>同质化竞争往往发生在「形式产品」层</strong>(都是拿铁),而突围机会在核心层(卖第三空间?卖 10 分钟出杯?)与附加层(卖 predictable 的体验)。写价值主张一句话:「为【谁】在【场景】提供【核心价值】,不同于【对手】的是【附加层亮点】。」</p>
+
+  <h2>产品生命周期:不同阶段不同打法</h2>
+  <p>导入期(教育市场,聚焦尝鲜者)→ 成长期(口碑扩散,保证供给)→ 成熟期(拼效率与差异化)→ 衰退期(收缩或转型)。副业常见错误:把成熟期的价格战打法用在导入期——新品没人知道,降价也没人看见。</p>
+
+  <h2>定价:一条区间,三种方法</h2>
+  <div class="formula">单位成本 ≤ 价格 ≤ 用户感知价值</div>
+  <ul>
+    <li><strong>成本加成定价</strong>(<span class="term-en">cost-plus</span>):成本 ×(1+加成率)。给你保底,不告诉你上限;</li>
+    <li><strong>竞争导向定价</strong>(<span class="term-en">competition-based</span>):对标同类,略高(更有价值感)或略低(抢市场);</li>
+    <li><strong>价值定价</strong>(<span class="term-en">value-based</span>):按用户感知价值定——同样是水,便利店 2 元、景区 5 元、酒店会场 10 元,水没变,场景变了。</li>
+  </ul>
+  <p>副业定价动作:先算清成本(保底线),再看对手(参照系),最后问「我的差异点值多少钱」(往上限够)。<strong>只会成本加成,等于把差异化的钱都留在桌上。</strong></p>
+
+  <h2>价格心理:三个常见套路</h2>
+  <ul>
+    <li><strong>锚定效应</strong>(<span class="term-en">anchoring</span>):先看到「原价 299」再看到「现价 159」,159 显得划算——锚先入为主;</li>
+    <li><strong>尾数定价</strong>(<span class="term-en">odd pricing</span>):9.9 与 10 只差一毛,感觉差一档;</li>
+    <li><strong>诱饵选项</strong>(<span class="term-en">decoy</span>):中杯 15 / 大杯 18 / 超大杯 19——19 的存在让 18 显得「懂事」,很多人因此选大杯。</li>
+  </ul>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 只会成本加成</strong> ✗ 用户不为你的成本买单,只为自己的价值买单。<br>
+       <strong>② 开业就打折</strong> ✗ 低价锚定了你的价值,以后涨价极难;导入期该做的是让首批用户体验到价值,而不是便宜。<br>
+       <strong>③ 定价拍脑袋</strong> ✗ 三个数至少算两个:成本、对手价格、感知价值(去问目标用户)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🛠 本周实操(W3)</div>
+    <p>观察 3 个商品(奶茶单/电商页/会员定价页),各写一句:它用了锚定、尾数还是诱饵?换你会怎么标价?写进习题页。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"产品三层次中,「用户真正买的东西」属于?","opts":["核心产品","形式产品","附加产品","期望产品"],"answer":0,"why":"核心层回答「到底买什么」;杯子和 WiFi 分别在形式层与附加层。"},
+    {"q":"「成本 ≤ 价格 ≤ 感知价值」中,价值定价法把价格往哪边靠?","opts":["尽量靠近感知价值","尽量靠近单位成本","必须等于对手价格","必须低于成本清库存"],"answer":0,"why":"价值定价按用户感知到的价值定价,把差异化的钱收回来。"},
+    {"q":"电商页「原价 299 划掉,现价 159」利用的是?","opts":["锚定效应","尾数定价","成本加成","产品生命周期"],"answer":0,"why":"先入为主的 299 成了参照系,让 159 显得划算。"},
+    {"q":"新品导入期最常见的定价错误是?","opts":["立刻打折亏本换吆喝","定价高于感知价值","完全不看成本","只在成熟期降价"],"answer":0,"why":"导入期该做的是让尝鲜者体验价值;低价锚定以后极难翻身。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>产品三层次</td><td>three product levels</td><td>核心/形式/附加;突围在核心与附加层</td></tr>
+    <tr><td>产品生命周期</td><td>product life cycle</td><td>导入/成长/成熟/衰退,各阶段打法不同</td></tr>
+    <tr><td>定价三法</td><td>cost-plus / competition / value-based</td><td>成本保底、对手参照、价值封顶</td></tr>
+    <tr><td>价格心理</td><td>pricing psychology</td><td>锚定、尾数、诱饵——感知比数字更真实</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:科特勒《营销管理》产品与定价章节——当字典查,重点看产品层次与定价方法两节。</li>
+    <li>小马宋《营销笔记》定价案例:看实战里「定价即定位」怎么操作。</li>
+    <li>下一课预告:<a href="#lesson-0004-place-and-promotion">渠道与推广</a>——好产品定好价之后,用户在哪、怎么让他们心动。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0002-stp">← 第 2 课:STP</a>
+    <a href="#lesson-0004-place-and-promotion">第 4 课:渠道与推广 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B8%82%E5%9C%BA%E8%90%A5%E9%94%80/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。给你的产品定个价拿不准?把成本、对手价格、目标用户贴过来,我们当场算一遍。</div>
+</article>
+
+<article class="course-doc" id="lesson-0004-place-and-promotion">
+<p class="kicker">市场营销 · 第 4 课 / 副业实操 + 商业通识 · W4</p>
+  <h1>渠道与推广 <span class="term-en">Place &amp; Promotion</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 用「用户的注意力在哪,渠道就在哪」给产品选主渠道;<strong>②</strong> 用 AIDA 四步拆解(或撰写)一条卖货内容;<strong>③</strong> 说清公域与私域的区别及各自的角色。</p>
+  </div>
+
+  <h2>渠道:用户在哪,货架就在哪</h2>
+  <p>渠道(<span class="term-en">place / channel</span>)是产品到用户手中的路径。选渠道只问一件事:<strong>你的目标用户,注意力和钱包已经在哪?</strong>写字楼白领 → 楼下便利店与外卖平台;宝妈 → 社区团购群与母婴号;学生 → 校园与短视频。</p>
+  <ul>
+    <li><strong>直接渠道</strong>(<span class="term-en">direct</span>):自己的店/账号/小程序——利润全留,但要自己拉流量;</li>
+    <li><strong>间接渠道</strong>(<span class="term-en">indirect</span>):平台与中间商(电商、外卖、分销)——自带流量,但抽成且用户是「平台的」;</li>
+    <li><strong>副业策略:先集中打透一个主渠道</strong>,站稳了再扩。三个渠道各 30 分,不如一个渠道 90 分。</li>
+  </ul>
+
+  <h2>推广:AIDA,一条内容的四步</h2>
+  <div class="formula">注意 Attention → 兴趣 Interest → 欲望 Desire → 行动 Action</div>
+  <p>拿一条让你下单过的视频拆:前 3 秒冲突钩子(A:「千万别再乱买投影仪了」)→ 戳中痛点(I:「我也踩过五个坑」)→ 给方案与证据(D:「这三台实测数据摆在这」)→ 明确行动(C:「点击左下角小黄车」)。<strong>大多数失败内容,死在只有 D(自说自话夸产品)没有 A 和 I。</strong></p>
+  <p><strong>内容营销</strong>(<span class="term-en">content marketing</span>)的逻辑:用「对用户有用的东西」换注意力,而不是花钱砸硬广。教程、测评、避坑指南、幕后故事——先给价值,信任自然长出来,信任之后才有生意。</p>
+
+  <h2>公域与私域:一次流量,反复见面</h2>
+  <p><strong>公域</strong>是平台上的流量池:每次触达都要再付钱(投放、佣金、推荐位)。<strong>私域</strong>(<span class="term-en">private domain</span>)是你自己的用户池:好友、群、会员群——触达免费、可反复。生意的标准姿势:<strong>公域获客 → 沉淀私域 → 私域复购与转介绍</strong>(下一课细讲复购)。副业第一天就该想:客人成交后,用什么方式留住再见面?一句话都说不出来,等于每次从零买流量。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 渠道越多越好</strong> ✗ 精力是副业最稀缺资源,先在主渠道做到头部细分。<br>
+       <strong>② 内容只讲自己</strong> ✗ 「我家产品多好」是 D 层自嗨;先给 A(注意)与 I(兴趣)才有人听。<br>
+       <strong>③ 把推广当成营销的全部</strong> ✗ 推广只是 4P 之一;定位和产品没做对,推广只会加速暴露问题。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🛠 本周实操(W4)</div>
+    <p>找一条<strong>真的让你下过单</strong>的短视频/笔记/直播切片,逐句拆:AIDA 四步各是哪一句?缺了哪步?换你的产品,写一版自己的四步脚本,写进习题页——毕业方案里「推广」那格就用它。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"选主渠道的核心判断依据是?","opts":["目标用户的注意力与钱包在哪","哪个平台抽成最低","哪个渠道最近最方便","竞争对手还没进场"],"answer":0,"why":"渠道=通往用户的路径;用户在哪,货架就该在哪。"},
+    {"q":"AIDA 四步的正确顺序是?","opts":["注意→兴趣→欲望→行动","兴趣→注意→行动→欲望","行动→欲望→兴趣→注意","欲望→注意→兴趣→行动"],"answer":0,"why":"先抢注意力,再建兴趣与欲望,最后给明确行动指令。"},
+    {"q":"内容营销与硬广的根本区别是?","opts":["先用有用的内容换注意力","预算更大投放更猛","不需要明确的行动指令","只发文字不发视频"],"answer":0,"why":"给价值换信任,信任之后才有生意;硬广是直接买注意力。"},
+    {"q":"「公域获客 → 沉淀私域」这套动作的意义是?","opts":["触达从每次付费变免费可反复","让平台推荐算法更喜欢你","免去所有后续推广动作","一次性清空库存"],"answer":0,"why":"私域是自己的用户池:反复免费触达,是复购与转介绍的地基。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>渠道</td><td>place / channel</td><td>用户在哪,货架在哪;先打透一个主渠道</td></tr>
+    <tr><td>推广 / AIDA</td><td>promotion / AIDA</td><td>注意→兴趣→欲望→行动;多数内容死在缺 A 和 I</td></tr>
+    <tr><td>内容营销</td><td>content marketing</td><td>给价值换注意力,先信任后生意</td></tr>
+    <tr><td>公域 vs 私域</td><td>public vs private domain</td><td>每次付费 vs 免费反复触达;成交只是关系的开始</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:史玉柱《我的营销心得》——「广告要说人话、重复重复再重复」,中国实战视角的最佳注脚。</li>
+    <li>小马宋《营销笔记》渠道与内容章节。</li>
+    <li>下一课预告:<a href="#lesson-0005-brand-and-retention">品牌与复购</a>——为什么说「流量是水,复购是池」。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0003-product-and-price">← 第 3 课:产品与定价</a>
+    <a href="#lesson-0005-brand-and-retention">第 5 课:品牌与复购 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B8%82%E5%9C%BA%E8%90%A5%E9%94%80/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。写好了 AIDA 脚本拿不准?贴过来,我逐句帮你标四步、补钩子。</div>
+</article>
+
+<article class="course-doc" id="lesson-0005-brand-and-retention">
+<p class="kicker">市场营销 · 第 5 课 / 副业实操 + 商业通识 · W5</p>
+  <h1>品牌与复购 <span class="term-en">Brand &amp; Retention</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 说清品牌是「信任资产」而非 logo;<strong>②</strong> 用留存曲线与 LTV/CAC 判断一门生意健不健康;<strong>③</strong> 设计一个让老客愿意回头与转介绍的最小机制。</p>
+  </div>
+
+  <h2>品牌:让用户不加思索选你</h2>
+  <p>品牌(<span class="term-en">brand</span>)不是 logo 和配色,而是<strong>存在于用户心里的信任资产</strong>:一提到某类需求就想到你,并且相信你不会翻车。它的功能是降低用户的决策成本——选你不用再比价、不用再担心。对副业来说,品牌落地成三件小事:<strong>识别一致</strong>(头像/包装/话术统一)、<strong>稳定兑现承诺</strong>(每次都不差)、<strong>一个记忆点</strong>(第 2 课的定位词)。</p>
+
+  <h2>复购:生意的生命线</h2>
+  <blockquote>行业经验值:获取一个新客的成本,约是留住一个老客的 5 倍(经验比例,不同行业有浮动)。</blockquote>
+  <p>流量是水,复购是池——拉新的水龙头一关,没有池子的生意立刻见底。衡量它的核心是<strong>月留存率</strong>:每月还有多少老客回来买。下面亲手玩一次:</p>
+
+  <div class="demo" data-retention-demo></div>
+
+  <h2>LTV 与 CAC:一门生意的算术</h2>
+  <div class="formula">LTV(客户终身价值)≥ 3 × CAC(获客成本)→ 生意结构健康(通用经验线)</div>
+  <p>刚才演示里你已经体会:留存率从 40% 拉到 80%,LTV 翻好几倍,而 CAC 一分没变。<strong>先修产品与留存,再谈买流量</strong>——顺序反了,等于往漏水的池子里注水。</p>
+
+  <h2>留住老客的最小机制</h2>
+  <ul>
+    <li><strong>成交后 24 小时内</strong>:一次回访(使用得怎么样?)+ 把人请进私域(群/好友)——衔接上一课;</li>
+    <li><strong>会员/储值</strong>:把「下次还来」变成制度(预存、次卡、积分);</li>
+    <li><strong>转介绍</strong>(<span class="term-en">referral</span>):口碑(<span class="term-en">word of mouth</span>)是最便宜的获客。设计成机制:「推荐一位好友,各得 XX」——让满意的人顺手做推荐,而不是指望他们自发奔走相告。</li>
+  </ul>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 品牌 = 设计个 logo</strong> ✗ logo 只是外壳;识别不一致、承诺不兑现,再好看的 logo 也存不下信任。<br>
+       <strong>② 只顾拉新</strong> ✗ 月月拉新、月月流失,流水好看、账上没钱——池子漏水的生意。<br>
+       <strong>③ 口碑靠刷好评</strong> ✗ 假口碑毁真信任;真口碑 = 稳定超预期 + 顺手的推荐机制。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🛠 本周实操(W5)</div>
+    <p>选一家你反复消费的店,写三句:它留住你靠什么(产品?习惯?会员?人情)?如果让你给它设计一个转介绍机制,你会怎么设计?然后到演示里把这家店的「月留存率」和「客单价」代进去,看看它的生意结构是否健康。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"品牌对用户的核心功能是?","opts":["降低决策成本,建立信任","把 logo 做得更好看","让产品成本更低","让广告更容易过审"],"answer":0,"why":"品牌=心里的信任资产:想到你、信你、不用比价。"},
+    {"q":"行业经验中,获取一个新客的成本大约是留住一个老客的?","opts":["5 倍左右","完全相同","一半左右","与老客无关"],"answer":0,"why":"经典经验比例(各行业有浮动):留住老客远比拉新便宜。"},
+    {"q":"LTV/CAC 的通用健康线是?","opts":["大于等于 3","大于等于 1","必须等于 10","越小越安全"],"answer":0,"why":"LTV≥3×CAC 说明扣掉获客与成本后仍有健康利润空间。"},
+    {"q":"设计转介绍机制的正确姿势是?","opts":["给满意客户一个顺手的推荐理由","请人网上刷好评","强制老客发朋友圈","等客户自发奔走相告"],"answer":0,"why":"真口碑靠稳定超预期,机制负责让推荐顺手发生。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>品牌</td><td>brand</td><td>心里认下的信任资产;让选择变简单</td></tr>
+    <tr><td>留存 / 复购</td><td>retention / repeat purchase</td><td>流量是水复购是池;月留存率是生命线</td></tr>
+    <tr><td>LTV / CAC</td><td>lifetime value / acquisition cost</td><td>LTV ≥ 3×CAC,生意结构才算健康</td></tr>
+    <tr><td>转介绍</td><td>referral</td><td>超预期 + 顺手机制 = 最便宜的获客</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:小马宋《营销笔记》关于「复购与老客户」的章节——国内小生意的真实账本。</li>
+    <li>科特勒《营销管理》品牌章节——体系化理解品牌资产(<span class="term-en">brand equity</span>)。</li>
+    <li>下一课预告:<a href="#lesson-0006-metrics-and-funnel">营销度量</a>——把整条生意装进一个漏斗里看数字。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0004-place-and-promotion">← 第 4 课:渠道与推广</a>
+    <a href="#lesson-0006-metrics-and-funnel">第 6 课:营销度量 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B8%82%E5%9C%BA%E8%90%A5%E9%94%80/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。想给自己的副业算一笔 LTV/CAC 的账?把客单价、复购情况、获客方式贴过来,一起算算健康不健康。</div>
+</article>
+
+<article class="course-doc" id="lesson-0006-metrics-and-funnel">
+<p class="kicker">市场营销 · 第 6 课 / 副业实操 + 商业通识 · W6</p>
+  <h1>营销度量:漏斗与关键指标 <span class="term-en">Metrics &amp; Conversion Funnel</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 把整条生意画成一个转化漏斗并算清每层转化率;<strong>②</strong> 识别虚荣指标,选对自己的北极星指标;<strong>③</strong> 用「小成本试错」检验任何营销动作,而不是凭感觉砸钱。</p>
+  </div>
+
+  <h2>为什么先学度量:感觉会骗人,数字不会</h2>
+  <p>副业最常见的死法:「曝光量不错」「很多人夸」——然后账算不平。<strong>夸你的人不一定是买的人,看得多不等于买得多。</strong>度量就是把「感觉」换成一串可以逐层检查的数字:问题出在哪一层,一目了然。</p>
+
+  <h2>转化漏斗:整条生意装进四层</h2>
+  <div class="formula">曝光 → 兴趣(点击/进店)→ 咨询/加购 → 成交 →(复购)</div>
+  <p>漏斗是<strong>乘法</strong>:每层转化率相乘才是最终成交。它有两个推论:<strong>① 任何一层的转化率提升,都会放大到整条链路;</strong>② <strong>越往下层(越接近成交)的改进,通常越划算</strong>——曝光翻倍要砸钱,成交率翻倍只要改话术。</p>
+
+  <div class="demo" data-funnel-demo></div>
+
+  <h2>虚荣指标与北极星指标</h2>
+  <p><strong>虚荣指标</strong>(<span class="term-en">vanity metrics</span>):看起来爽、但不指向生意的数——总曝光、粉丝数、点赞数。<strong>北极星指标</strong>(<span class="term-en">north star metric</span>):未来一段时间只盯一个数,它涨生意就健康。副业阶段的最优选:<strong>每周成交单数</strong>(或稳定后的复购率)。盯住它,把所有动作对齐到它,而不是对齐到热闹。</p>
+
+  <h2>小成本试错:营销里的「检验闭环」</h2>
+  <p>任何新想法,先设计<strong>最小检验</strong>再投入:<strong>① 需求验证</strong>——先做 30–50 份问卷 / 和 5 个目标用户深聊,再动手;出摊类生意可以先摆一天摊数一数询问量;<strong>② 内容验证</strong>——同一主题发 3 条不同钩子,看哪条咨询多;<strong>③ A/B 测试</strong>(<span class="term-en">A/B testing</span>)——两个版本同时小流量跑,只改一个变量,数据说话。这与你在数学建模课学的「模型检验」同一个思想:<strong>先验证,再放大;不达标,回炉假设。</strong></p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 盯着虚荣指标沾沾自喜</strong> ✗ 曝光十万成交两单,该焦虑不是庆祝。<br>
+       <strong>② 没有对照就下结论</strong> ✗ 「换了头像后卖得好」——也许是周末效应;同时段对比才有说服力。<br>
+       <strong>③ 一次改五个变量</strong> ✗ 涨了不知道是谁的功劳;A/B 一次只改一个变量。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🛠 本周实操(W6)</div>
+    <p>为你自己的副业设想(或一个真实小店)画漏斗:四层各填一个真实估算数(不确定就去数一数、问一问),算出总转化率;再指出「如果下周只能改进一层,你改哪层、怎么改」——这就是毕业方案里「漏斗目标」那一格的雏形。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"漏斗「曝光→成交」的总转化率等于?","opts":["各层转化率的连乘","各层转化率的连加","曝光量除以成交单数","成交额除以曝光量"],"answer":0,"why":"漏斗是乘法:每层留下比例相乘,才是最终成交比例。"},
+    {"q":"下面哪个是典型的虚荣指标?","opts":["账号总粉丝数","每周成交单数","月复购率","单均利润"],"answer":0,"why":"粉丝数好看但不直接指向生意;后三个都是钱和回头客。"},
+    {"q":"副业阶段最合适的北极星指标是?","opts":["每周成交单数(或复购率)","总曝光量","内容发布条数","点赞总数"],"answer":0,"why":"北极星指标必须直接指向生意健康:成交与复购。"},
+    {"q":"做 A/B 测试,正确的做法是?","opts":["一次只改一个变量","一次改五个看总效果","先看结果再分组","只跑自己喜欢的那版"],"answer":0,"why":"单变量+同时对照,涨跌才能归因到改动本身。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>转化漏斗</td><td>conversion funnel</td><td>曝光→兴趣→咨询→成交(→复购);乘法链路</td></tr>
+    <tr><td>虚荣指标</td><td>vanity metrics</td><td>热闹但不指向钱;别让它当军师</td></tr>
+    <tr><td>北极星指标</td><td>north star metric</td><td>一段时间只盯一个数:成交/复购</td></tr>
+    <tr><td>A/B 测试</td><td>A/B testing</td><td>小流量、单变量、同时对照</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:把本课漏斗演示玩 10 分钟——亲手感受「改哪层最划算」,胜过读一章书。</li>
+    <li>科特勒《营销管理》营销度量相关章节——看大公司怎么建指标体系(副业只需其中一成)。</li>
+    <li>下一课预告:<a href="#lesson-0007-marketing-plan">毕业实战</a>——把六课装进一页纸,写出你的营销方案。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0005-brand-and-retention">← 第 5 课:品牌与复购</a>
+    <a href="#lesson-0007-marketing-plan">第 7 课:毕业实战 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B8%82%E5%9C%BA%E8%90%A5%E9%94%80/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。你的漏斗哪一层最堵、数据怎么估?贴过来,我们一起把数字落到纸上。</div>
+</article>
+
+<article class="course-doc" id="lesson-0007-marketing-plan">
+<p class="kicker">市场营销 · 第 7 课 / 副业实操 + 商业通识 · W7</p>
+  <h1>毕业实战:一页纸营销方案 <span class="term-en">One-Page Marketing Plan</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟 + 课后 2 小时),你将能够:<strong>①</strong> 用六格模板把七课所学装进一页纸;<strong>②</strong> 对照一个完整范例检查自己的方案;<strong>③</strong> 交稿并接受「两个为什么」的追问,完成本课程毕业。</p>
+  </div>
+
+  <h2>为什么是「一页纸」</h2>
+  <p>方案写 30 页不难,难的是<strong>一页说清楚</strong>——因为每一格都必须真的想清楚了。这份一页纸就是你副业的作战地图:贴在桌前,每周对着它检查漏斗,跑偏了立刻能看出来。</p>
+
+  <h2>六格模板</h2>
+  <table class="ref">
+    <tr><th>格</th><th>内容</th><th>来自</th></tr>
+    <tr><td>① 一句话定位</td><td>帮【谁】在【场景】解决【问题】,与【对手】不同在【一个词】</td><td>第 2 课</td></tr>
+    <tr><td>② 目标用户画像</td><td>3 句话:他们是谁 / 在哪出没 / 最怕什么</td><td>第 1–2 课</td></tr>
+    <tr><td>③ 产品与定价</td><td>价值主张 1 条;价格 + 定价逻辑(成本/对手/价值)</td><td>第 3 课</td></tr>
+    <tr><td>④ 渠道与推广</td><td>主渠道 1 个;AIDA 四步内容脚本 1 条</td><td>第 4 课</td></tr>
+    <tr><td>⑤ 漏斗目标</td><td>四层各一个数字 + CAC 估算 + LTV/CAC 判断</td><td>第 5–6 课</td></tr>
+    <tr><td>⑥ 检验方式</td><td>两周内最小试错动作 + 判断「继续/换向」的指标</td><td>第 6 课</td></tr>
+  </table>
+
+  <h2>完整范例:社区宠物寄养(节选)</h2>
+  <div class="box">
+    <div class="box-title">🐱 范例(你的作业要比它更具体)</div>
+    <p><strong>① 定位</strong>:帮【养猫的上班族】在【长假没人管】场景解决【猫咪应激与无人照看】问题,与【宠物店笼养】不同在【上门喂养,猫不离家】。<br>
+       <strong>② 画像</strong>:25–40 岁合租/小户型养猫白领;出没在小红书养猫话题与小区群;最怕应激生病、钥匙安全。<br>
+       <strong>③ 产品与定价</strong>:上门喂养 45 分钟/次;单次 60 元(价值定价:对标寄养店 80/天且猫不受罪),节假日 75 元。<br>
+       <strong>④ 渠道与推广</strong>:主渠道 = 小红书 + 小区群;AIDA——A「猫在家等你,别把它关进笼子」/ I 上门实拍视频 / D 每日反馈照片 + 持证证明 / C 「假期档期私我预约」。<br>
+       <strong>⑤ 漏斗目标</strong>:月曝光 8000 → 咨询 80(10%)→ 成交 24(30%)→ 节后复购 50%;CAC≈30 元(首月地推+内容)。<br>
+       <strong>⑥ 检验</strong>:先跑 1 个小长假 5 单试水;指标 = 好评率 100% 且 ≥2 人预约下次;两周不达标则改「上门范围或定价」重试。</p>
+  </div>
+
+  <h2>三种最常见的失败模式</h2>
+  <ul>
+    <li><strong>没定位就开干</strong>:「大家都可能是我客户」——等于没有客户(回第 2 课);</li>
+    <li><strong>漏斗没数字</strong>:「争取多多曝光」——无法检查、无法改进(回第 6 课);</li>
+    <li><strong>没有检验动作</strong>:一把梭哈装修/囤货,输不起(回第 6 课小成本试错)。</li>
+  </ul>
+
+  <div class="box cfd">
+    <div class="box-title">🛠 毕业动作(W7–W8)</div>
+    <p>填写你自己的六格方案(模板见<a href="#doc-marketing-roadmap">总路线图</a>),发到对话里——<strong>我会追问两个「为什么」</strong>(通常是:为什么这个定位站得住?为什么这个检验动作判得住?),答得住,本课程毕业;答不住,我们回对应课次补。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"一页纸方案六格的正确起点是?","opts":["一句话定位","投放预算表","详细财务报表","装修设计图"],"answer":0,"why":"定位是战略地基:先想清楚服务谁、占哪个词,其余格子才有依托。"},
+    {"q":"方案里「漏斗目标」格必须包含?","opts":["各层目标数字与 CAC 估算","粉丝增长愿景","竞品完整分析","三年发展规划"],"answer":0,"why":"漏斗格的作用是可检查:每层有数,CAC 与 LTV/CAC 可算。"},
+    {"q":"副业启动前,第一件该做的事是?","opts":["用最小成本验证需求","先注册商标和公司","把装修做到极致","先囤三个月的货"],"answer":0,"why":"检验先于放大:需求没验证前的大额投入都是风险。"},
+    {"q":"收到「为什么是这个定价」的追问,合格的回答是?","opts":["成本、对手、感知价值三头对照","比同行随便低一点","感觉用户应该能接受","定价不重要薄利多销"],"answer":0,"why":"定价逻辑要能辩护:保底线、参照系、上限三个数至少算两个。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>一页纸方案</td><td>one-page marketing plan</td><td>定位/画像/产品定价/渠道推广/漏斗/检验,六格装下全部</td></tr>
+    <tr><td>毕业标准</td><td>graduation bar</td><td>经得住两个「为什么」的追问</td></tr>
+    <tr><td>持续动作</td><td>ongoing practice</td><td>每周对着漏斗看数字,跑偏即回炉</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:把范例逐格抄一遍再替换成你的内容——先模仿,再超越。</li>
+    <li>科特勒《营销管理》——从现在起当字典:遇到具体问题查对应章节。</li>
+    <li>课程完结:后续随时带着实战问题回来,答疑、复盘、改方案,随叫随到。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0006-metrics-and-funnel">← 第 6 课:营销度量</a>
+    <span>课程完结 · 交方案,毕业!</span>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B8%82%E5%9C%BA%E8%90%A5%E9%94%80/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC7%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 课程毕业不散场:方案写好了发上来,两个「为什么」等着你;实战中遇到任何新问题,这里一直是你的营销顾问。</div>
+</article>
+
+<article class="course-doc" id="doc-glossary">
+<p class="kicker">市场营销 · 参考文档 / 随课程扩充</p>
+  <h1>术语表 <span class="term-en">Glossary</span></h1>
+  <p>每个术语给一句话本质解释 + 英文对照。课程中首次出现的术语会追加到这里。</p>
+
+  <table class="ref">
+    <tr><th>术语</th><th>English</th><th>一句话解释</th></tr>
+    <tr><td><strong>市场营销</strong></td><td>marketing</td><td>发现并满足需求、创造与交换价值的全过程;不是吆喝,始于需求。</td></tr>
+    <tr><td><strong>需要 / 需求</strong></td><td>needs / demands</td><td>需要是人固有的缺乏感;需求 = 需要 + 购买力。</td></tr>
+    <tr><td><strong>价值主张</strong></td><td>value proposition</td><td>「买我的理由」:为谁、在什么场景、解决什么问题、好在哪。</td></tr>
+    <tr><td><strong>市场细分</strong></td><td>segmentation</td><td>把大市场按需求差异切成可服务的小块。</td></tr>
+    <tr><td><strong>目标市场</strong></td><td>targeting</td><td>从细分里选定你要服务的那一块。</td></tr>
+    <tr><td><strong>定位</strong></td><td>positioning</td><td>在目标用户心里占据一个词/一个位置。</td></tr>
+    <tr><td><strong>差异化</strong></td><td>differentiation</td><td>和对手比,用户可感知的不同点。</td></tr>
+    <tr><td><strong>营销组合 4P</strong></td><td>marketing mix (4Ps)</td><td>产品 Product、价格 Price、渠道 Place、推广 Promotion。</td></tr>
+    <tr><td><strong>产品生命周期</strong></td><td>product life cycle</td><td>导入—成长—成熟—衰退;不同阶段打法不同。</td></tr>
+    <tr><td><strong>品牌</strong></td><td>brand</td><td>用户认知与信任的资产;让人不加思索选你。</td></tr>
+    <tr><td><strong>成本加成定价</strong></td><td>cost-plus pricing</td><td>成本 + 目标加成率 = 售价;最简单,但与价值无关。</td></tr>
+    <tr><td><strong>价值定价</strong></td><td>value-based pricing</td><td>按用户感知到的价值定价,而非成本。</td></tr>
+    <tr><td><strong>锚定效应</strong></td><td>anchoring effect</td><td>先看到的数字成为参照系,影响后续判断。</td></tr>
+    <tr><td><strong>尾数定价</strong></td><td>odd pricing</td><td>9.9 比 10 感觉便宜一档——心理账户的把戏。</td></tr>
+    <tr><td><strong>渠道</strong></td><td>place / channel</td><td>产品到用户手中的路径;用户在哪,渠道就在哪。</td></tr>
+    <tr><td><strong>推广</strong></td><td>promotion</td><td>让目标用户知道你、心动、行动的所有动作。</td></tr>
+    <tr><td><strong>AIDA</strong></td><td>Attention–Interest–Desire–Action</td><td>注意→兴趣→欲望→行动,内容与广告的经典路径。</td></tr>
+    <tr><td><strong>内容营销</strong></td><td>content marketing</td><td>用有用的/有趣的内容吸引目标用户,而非硬广。</td></tr>
+    <tr><td><strong>私域</strong></td><td>private domain</td><td>可反复免费触达的用户池(群/好友/会员)。</td></tr>
+    <tr><td><strong>客户终身价值</strong></td><td>customer lifetime value (LTV)</td><td>一个客户在整个关系期贡献的总利润。</td></tr>
+    <tr><td><strong>获客成本</strong></td><td>customer acquisition cost (CAC)</td><td>平均获得一个新客户花的钱;LTV/CAC 是生意的算术。</td></tr>
+    <tr><td><strong>转化漏斗</strong></td><td>conversion funnel</td><td>曝光→兴趣→咨询→成交→复购的逐层流失模型。</td></tr>
+    <tr><td><strong>复购率</strong></td><td>repeat purchase rate</td><td>老客户再买的比例;生意的生命线。</td></tr>
+    <tr><td><strong>口碑</strong></td><td>word of mouth (WOM)</td><td>用户替你传播;成本最低、信任最高的推广。</td></tr>
+    <tr><td><strong>A/B 测试</strong></td><td>A/B testing</td><td>两个版本同时小流量试,数据说话。</td></tr>
+  </table>
+
+  <nav class="lesson-nav">
+    <a href="#doc-marketing-roadmap">← 总路线图</a>
+    <a href="#lesson-0001-what-is-marketing">第 1 课:什么是营销 →</a>
+  </nav>
+</article>
+
+<article class="course-doc" id="doc-marketing-roadmap">
+<p class="kicker">市场营销 · 总路线 / 目标:副业实操 + 商业通识</p>
+  <h1>市场营销总路线图 <span class="term-en">Marketing Roadmap</span></h1>
+  <p>本路线按你的使命定制:<strong>零基础起步、每周 2–3 小时、实操优先</strong>。7 课走完一个完整闭环:
+     <strong>找需求 → 定位 → 产品定价 → 渠道推广 → 复购留存 → 度量 → 自己写方案</strong>。
+     节奏建议一周一课(约 8 周学完),完全自控,不必赶。</p>
+
+  <h2>一、学习闭环与七课主线</h2>
+  <table class="ref">
+    <tr><th>周次</th><th>课次</th><th>主题</th><th>本周实操小动作</th></tr>
+    <tr><td>W1</td><td>第 1 课 · 什么是营销</td><td>价值交换;营销始于需求而非吆喝</td><td>找 3 个你常买的东西,各写一句「它到底满足了什么需求」</td></tr>
+    <tr><td>W2</td><td>第 2 课 · STP</td><td>细分 → 目标 → 定位(占领一个词)</td><td>给一个你熟悉的小店/账号写一句话定位</td></tr>
+    <tr><td>W3</td><td>第 3 课 · 产品与定价</td><td>价值主张;成本加成/竞争/价值定价;价格心理</td><td>观察 3 个商品的价格尾数与锚定套路</td></tr>
+    <tr><td>W4</td><td>第 4 课 · 渠道与推广</td><td>用户在哪(渠道)与如何触达(推广);AIDA</td><td>拆解一条让你下单的短视频/笔记的结构</td></tr>
+    <tr><td>W5</td><td>第 5 课 · 品牌与复购</td><td>信任资产;复购、私域与口碑转介绍</td><td>算一算你在某店消费的次数:它留住你靠什么</td></tr>
+    <tr><td>W6</td><td>第 6 课 · 营销度量</td><td>转化漏斗;CAC 与 LTV;小成本试错</td><td>用漏斗组件玩「提升哪层最划算」</td></tr>
+    <tr><td>W7</td><td>第 7 课 · 毕业实战</td><td>一页纸营销方案(STP+4P+漏斗+检验)</td><td>写出你自己的方案初稿,发我点评</td></tr>
+  </table>
+
+  <h2>二、毕业产出:一页纸营销方案(模板)</h2>
+  <div class="box">
+    <div class="box-title">📄 模板:第 7 课完成后提交</div>
+    <p><strong>① 一句话定位</strong>:我的产品/服务帮【谁】在【什么场景】解决【什么问题】,和【对手】不同在【一个词】。<br>
+       <strong>② 目标用户画像</strong>:3 句话(他们是谁/在哪出没/最怕什么)。<br>
+       <strong>③ 产品与定价</strong>:核心价值主张 1 条;价格 + 定价逻辑 1 句(成本加成/竞争/价值定价选哪种,为什么)。<br>
+       <strong>④ 渠道与推广</strong>:主渠道 1 个 + 内容钩子 1 条(AIDA 对应)。<br>
+       <strong>⑤ 漏斗目标</strong>:曝光 → 咨询 → 成交 → 复购,各层目标数字;CAC 大致估算。<br>
+       <strong>⑥ 检验方式</strong>:两周内最小的试错动作(多少份问卷/几单测试/什么指标判断继续或换方向)。</p>
+  </div>
+
+  <h2>三、学习方法(零基础友好)</h2>
+  <ul>
+    <li><strong>每周一课</strong>:读课(10–15 分钟)→ 做检索练习 → 去 Obsidian 做该课习题 → 完成实操小动作;</li>
+    <li><strong>费力回忆优先</strong>:习题先凭记忆作答再展开答案——营销概念多而浅,回忆是把它变深的唯一办法;</li>
+    <li><strong>案例优先于定义</strong>:每个概念先想「奶茶店/二手教材/宠物寄养会怎么用」,再记术语;</li>
+    <li><strong>真实用户是最好的老师</strong>:从 W1 的实操动作起,你就开始和真实需求打交道——副业成败在此,不在术语。</li>
+  </ul>
+
+  <h2>四、配套阅读路径(不强制,按兴趣)</h2>
+  <table class="ref">
+    <tr><th>顺序</th><th>书</th><th>什么时候读</th></tr>
+    <tr><td>①</td><td>小马宋《营销笔记》</td><td>W1–W2 期间当「课外书」读,建立直觉</td></tr>
+    <tr><td>②</td><td>里斯 &amp; 特劳特《定位》</td><td>W2 学完 STP 后读,篇幅短</td></tr>
+    <tr><td>③</td><td>科特勒《营销管理》(第 16 版)</td><td>全部课程学完后当字典查体系</td></tr>
+  </table>
+
+  <h2>五、检验是否学成(自评清单)</h2>
+  <ol>
+    <li>看到任何广告,能指出它在漏斗哪一层、想触发 AIDA 的哪一步;</li>
+    <li>能对一个真实产品说出:目标用户、一句话定位、定价逻辑、主渠道;</li>
+    <li>知道自己的副业该先做什么(验证需求)而不是先做什么(砸钱推广);</li>
+    <li>能算清一单生意的 CAC 与大致 LTV,判断能不能做;</li>
+    <li>交出一页纸营销方案,并接受两个「为什么」的追问。</li>
+  </ol>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 配套文档</div>
+    <p>生词随时查<a href="#doc-glossary">术语表</a>;课程全部在<a href="#lesson-0001-what-is-marketing">第 1 课</a>开始;参考资料出处见 RESOURCES.md(<a href="https://www.adquan.com/article/341900">营销书单综述</a>、<a href="https://www.digitaling.com/articles/22722.html">入门扫盲书单</a>)。</p>
+  </div>
+
+  <nav class="lesson-nav">
+    <a href="#doc-glossary">← 术语表</a>
+    <a href="#lesson-0001-what-is-marketing">第 1 课:什么是营销 →</a>
+  </nav>
+</article>
+</div></div>
+</div>
+
+<button id="top-btn" title="回到顶部">↑</button>
+<script>
+
+/* ---- funnel-demo.js ---- */
+/* ============================================================
+   转化漏斗演示(可复用,服务第 6 课)
+   用法:<div class="demo" data-funnel-demo></div>
+   固定曝光 10000,滑块调点击率/咨询率/成交率/客单价,
+   实时算各层人数、成交额、CAC 与盈亏 —— 体验「漏斗乘法」。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var EXPOSURE = 10000;   // 固定曝光
+  var BUDGET = 5000;      // 固定推广预算(元)
+  var MARGIN = 0.5;       // 固定毛利率 50%
+
+  function mount(host) {
+    var W = 560, H = 330, dpr = window.devicePixelRatio || 1;
+    var canvas = document.createElement("canvas");
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.maxWidth = "100%";
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    var controls = document.createElement("div");
+    controls.className = "demo-controls";
+    function slider(id, label, min, max, step, value) {
+      var lab = document.createElement("label");
+      lab.setAttribute("for", id);
+      lab.textContent = label;
+      var input = document.createElement("input");
+      input.type = "range"; input.id = id;
+      input.min = min; input.max = max; input.step = step; input.value = value;
+      controls.appendChild(lab); controls.appendChild(input);
+      return input;
+    }
+    var cSlider = slider("fun-ctr", "点击率(曝光 → 兴趣)", 2, 20, 1, 8);
+    var eSlider = slider("fun-consult", "咨询率(兴趣 → 咨询)", 5, 50, 1, 25);
+    var dSlider = slider("fun-close", "成交率(咨询 → 成交)", 10, 60, 1, 30);
+    var pSlider = slider("fun-price", "客单价(元)", 50, 500, 10, 150);
+
+    var readout = document.createElement("div");
+    readout.className = "readout";
+    var caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = "任务:① 分别只把点击率、咨询率、成交率翻一倍,看哪个对成交数帮助最大 —— 漏斗是乘法,越往下的层越金贵;② 把客单价拉高,看 CAC 不变时盈亏怎么翻转。";
+
+    var STAGES = [
+      { name: "曝光", color: "#6c8ebf" },
+      { name: "兴趣(点击)", color: "#4a7a9b" },
+      { name: "咨询", color: "#a0522d" },
+      { name: "成交", color: "#2f6f2f" }
+    ];
+
+    function draw() {
+      var ctr = parseFloat(cSlider.value) / 100;
+      var consult = parseFloat(eSlider.value) / 100;
+      var close = parseFloat(dSlider.value) / 100;
+      var price = parseFloat(pSlider.value);
+      var vals = [
+        EXPOSURE,
+        EXPOSURE * ctr,
+        EXPOSURE * ctr * consult,
+        EXPOSURE * ctr * consult * close
+      ];
+      var deals = vals[3];
+      var revenue = deals * price;
+      var gross = revenue * MARGIN - BUDGET;
+      var cac = deals > 0 ? BUDGET / deals : 0;
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.font = "12px 'Microsoft YaHei', sans-serif";
+      var barMaxW = 320, minW = 90, x0 = 150;
+      STAGES.forEach(function (st, i) {
+        var y = 18 + i * 76;
+        var w = minW + (barMaxW - minW) * (Math.sqrt(vals[i]) / Math.sqrt(EXPOSURE));
+        ctx.fillStyle = st.color;
+        ctx.fillRect(x0, y, w, 56);
+        ctx.fillStyle = "#fff";
+        ctx.textAlign = "left";
+        ctx.fillText(st.name + "  " + Math.round(vals[i]).toLocaleString() + " 人", x0 + 10, y + 32);
+        if (i > 0) {
+          ctx.fillStyle = "#555";
+          ctx.textAlign = "right";
+          var rate = vals[i] / vals[i - 1] * 100;
+          ctx.fillText(rate.toFixed(1) + "%", x0 - 10, y + 32);
+        }
+      });
+      ctx.fillStyle = "#333";
+      ctx.textAlign = "left";
+      ctx.fillText("← 转化率", x0 - 10, 18);
+
+      readout.innerHTML =
+        "成交 <strong>" + Math.round(deals) + "</strong> 单 · 成交额 <strong>" + Math.round(revenue).toLocaleString() +
+        "</strong> 元 · CAC = 预算/成交 = <strong>" + (Math.round(cac * 10) / 10) + "</strong> 元/单<br>" +
+        "毛利(50%) = <strong>" + Math.round(gross).toLocaleString() + "</strong> 元 → " +
+        (gross >= 0
+          ? "<strong style='color:#2f6f2f'>这波投放是赚的</strong>"
+          : "<strong style='color:#b85450'>这波投放亏了</strong>(提高转化率或客单价再试)");
+    }
+
+    [cSlider, eSlider, dSlider, pSlider].forEach(function (s) { s.addEventListener("input", draw); });
+    host.appendChild(canvas);
+    host.appendChild(controls);
+    host.appendChild(readout);
+    host.appendChild(caption);
+    draw();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-funnel-demo]").forEach(mount);
+  });
+})();
+
+/* ---- quiz.js ---- */
+/* ============================================================
+   测验组件（可复用）
+   用法：在 HTML 中放置：
+   <div class="quiz" data-quiz='[{"q":"问题","opts":["A","B","C"],"answer":0,"why":"解释"},...]'></div>
+   并引入本脚本。答案选项长度应一致，避免泄露线索。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  const stats = { correct: 0, answered: 0, total: 0 };
+  let scoreShown = false;
+
+  function renderQuiz(container) {
+    let data;
+    try {
+      data = JSON.parse(container.getAttribute("data-quiz"));
+    } catch (e) {
+      console.error("data-quiz JSON 解析失败", e);
+      return;
+    }
+    stats.total += data.length;
+
+    data.forEach(function (item) {
+      const q = document.createElement("div");
+      q.className = "quiz-q";
+      q.textContent = item.q;
+      container.appendChild(q);
+
+      const ul = document.createElement("ul");
+      ul.className = "quiz-opts";
+
+      const feedback = document.createElement("div");
+      feedback.className = "quiz-feedback";
+
+      let answered = false;
+
+      item.opts.forEach(function (optText, idx) {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.className = "quiz-opt";
+        btn.type = "button";
+        btn.textContent = optText;
+        btn.addEventListener("click", function () {
+          if (answered) return;
+          answered = true;
+          stats.answered++;
+          const buttons = ul.querySelectorAll(".quiz-opt");
+          buttons.forEach(function (b, i) {
+            b.disabled = true;
+            if (i === item.answer) b.classList.add("correct");
+          });
+          if (idx === item.answer) {
+            stats.correct++;
+            feedback.textContent = "✓ 正确。" + (item.why || "");
+          } else {
+            btn.classList.add("wrong");
+            feedback.textContent =
+              "✗ 正确答案是绿色那项。" + (item.why || "");
+          }
+          feedback.style.display = "block";
+          maybeShowScore();
+        });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+
+      container.appendChild(ul);
+      container.appendChild(feedback);
+    });
+  }
+
+  function maybeShowScore() {
+    if (scoreShown || stats.answered < stats.total) return;
+    scoreShown = true;
+    const lastQuiz = document.querySelector(".quiz[data-quiz]:last-of-type")
+      || document.querySelector(".quiz[data-quiz]");
+    const score = document.createElement("div");
+    score.className = "quiz-score";
+    score.textContent =
+      "本次得分：" + stats.correct + " / " + stats.total +
+      (stats.correct === stats.total
+        ? "　🎉 全部正确！"
+        : "　答错的题目值得明天回来重测一次——间隔重复才是长期记忆之道。");
+    score.style.display = "block";
+    lastQuiz.parentNode.appendChild(score);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".quiz[data-quiz]").forEach(renderQuiz);
+  });
+})();
+
+/* ---- retention-demo.js ---- */
+/* ============================================================
+   复购留存与 LTV 演示(可复用,服务第 5 课)
+   用法:<div class="demo" data-retention-demo></div>
+   100 个新客,滑块调月留存率/客单价/获客成本 CAC,
+   实时画 12 个月留存曲线,算 12 个月 LTV 与 LTV/CAC —— 体验「复购是命脉」。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var N0 = 100, MONTHS = 12;
+
+  function mount(host) {
+    var W = 560, H = 380, dpr = window.devicePixelRatio || 1;
+    var canvas = document.createElement("canvas");
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.maxWidth = "100%";
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    var controls = document.createElement("div");
+    controls.className = "demo-controls";
+    function slider(id, label, min, max, step, value) {
+      var lab = document.createElement("label");
+      lab.setAttribute("for", id);
+      lab.textContent = label;
+      var input = document.createElement("input");
+      input.type = "range"; input.id = id;
+      input.min = min; input.max = max; input.step = step; input.value = value;
+      controls.appendChild(lab); controls.appendChild(input);
+      return input;
+    }
+    var rSlider = slider("ret-rate", "月留存率(每月还回来的老客比例)", 30, 90, 1, 60);
+    var pSlider = slider("ret-price", "客单价(元)", 50, 500, 10, 150);
+    var cSlider = slider("ret-cac", "获客成本 CAC(元/人)", 10, 300, 5, 50);
+
+    var readout = document.createElement("div");
+    readout.className = "readout";
+    var caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = "任务:① 留存率 40% 与 80% 各看一眼 —— 曲线形状天差地别,这就是「流量是水,复购是池」;② 固定留存率,把客单价或 CAC 调到 LTV/CAC < 3,体验这门生意为什么不成立。";
+
+    var L = 50, R = 14, T = 14, B = 40;
+    var pw = W - L - R, ph = H - T - B;
+    function xp(m) { return L + (m / MONTHS) * pw; }
+    function yp(v) { return T + ph - (v / N0) * ph; }
+
+    function draw() {
+      var r = parseFloat(rSlider.value) / 100;
+      var price = parseFloat(pSlider.value);
+      var cac = parseFloat(cSlider.value);
+      var series = [];
+      for (var m = 0; m <= MONTHS; m++) series.push(N0 * Math.pow(r, m));
+
+      var ltv = 0;
+      for (m = 0; m <= MONTHS; m++) ltv += series[m] / N0 * price; // 每客期望累计消费
+      var ratio = cac > 0 ? ltv / cac : 0;
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = "#b9b2a6"; ctx.fillStyle = "#555";
+      ctx.lineWidth = 1; ctx.font = "11px 'Microsoft YaHei', sans-serif";
+      ctx.beginPath();
+      ctx.moveTo(L, T); ctx.lineTo(L, T + ph); ctx.lineTo(L + pw, T + ph);
+      ctx.stroke();
+      ctx.textAlign = "center";
+      for (var d = 0; d <= MONTHS; d += 3) ctx.fillText(d + " 月", xp(d), T + ph + 16);
+      ctx.textAlign = "right";
+      for (var v = 0; v <= N0; v += 25) ctx.fillText(String(v), L - 6, yp(v) + 4);
+
+      ctx.strokeStyle = "#a0522d"; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      series.forEach(function (val, m) {
+        if (m === 0) ctx.moveTo(xp(m), yp(val));
+        else ctx.lineTo(xp(m), yp(val));
+      });
+      ctx.stroke();
+      ctx.fillStyle = "#a0522d";
+      ctx.beginPath();
+      ctx.arc(xp(MONTHS), yp(series[MONTHS]), 4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.textAlign = "left";
+      ctx.fillText(Math.round(series[MONTHS]) + " 人还活跃", xp(MONTHS) - 90, yp(series[MONTHS]) - 10);
+
+      readout.innerHTML =
+        "12 个月 LTV(每客累计消费)≈ <strong>" + Math.round(ltv) + "</strong> 元 · CAC = <strong>" + cac +
+        "</strong> 元 · LTV/CAC ≈ <strong>" + (Math.round(ratio * 10) / 10) + "</strong><br>" +
+        (ratio >= 3
+          ? "<strong style='color:#2f6f2f'>≥ 3,生意结构健康</strong>(通用经验线)"
+          : "<strong style='color:#b85450'>&lt; 3,获客太贵或复购太弱</strong> —— 先修产品与留存,别急着买流量");
+    }
+
+    [rSlider, pSlider, cSlider].forEach(function (s) { s.addEventListener("input", draw); });
+    host.appendChild(canvas);
+    host.appendChild(controls);
+    host.appendChild(readout);
+    host.appendChild(caption);
+    draw();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-retention-demo]").forEach(mount);
+  });
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var art = document.getElementById('content');
+
+  /* ---------- 全文检索 ---------- */
+  function unmark() {
+    var ms = art.querySelectorAll('mark');
+    for (var i = 0; i < ms.length; i++) {
+      var m = ms[i], t = document.createTextNode(m.textContent);
+      m.parentNode.replaceChild(t, m);
+    }
+    art.normalize();
+  }
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function mark(qs) {
+    var rx = new RegExp(esc(qs), 'gi');
+    var walker = document.createTreeWalker(art, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = n.parentNode;
+        if (/^(SCRIPT|STYLE|MARK)$/.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+        return rx.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var hits = [];
+    while (walker.nextNode()) hits.push(walker.currentNode);
+    hits.forEach(function (n) {
+      var frag = document.createDocumentFragment(), last = 0, any = false;
+      n.nodeValue.replace(rx, function (mt, off) {
+        any = true;
+        frag.appendChild(document.createTextNode(n.nodeValue.slice(last, off)));
+        var mk = document.createElement('mark');
+        mk.textContent = mt;
+        frag.appendChild(mk);
+        last = off + mt.length;
+        return mt;
+      });
+      if (!any) return;
+      frag.appendChild(document.createTextNode(n.nodeValue.slice(last)));
+      n.parentNode.replaceChild(frag, n);
+    });
+    return hits.length;
+  }
+
+  var q = document.getElementById('q');
+  var cnt = document.getElementById('q-count');
+  var cur = -1;
+
+  function jumpTo(i) {
+    var ms = [].slice.call(art.querySelectorAll('mark'));
+    if (!ms.length) return;
+    cur = (i + ms.length) % ms.length;
+    ms.forEach(function (m, k) { m.classList.toggle('hit', k === cur); });
+    var el = ms[cur];
+    try {
+      if (el.scrollIntoViewIfNeeded) el.scrollIntoViewIfNeeded(false);
+      else if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'center' });
+    } catch (e) { }
+  }
+  function doSearch() {
+    unmark();
+    cur = -1;
+    var s = q.value.trim();
+    if (!s) { cnt.textContent = ''; return; }
+    var n = mark(s);
+    cnt.textContent = n ? n + ' 处' : '无结果';
+    if (n) jumpTo(0);
+  }
+  q.addEventListener('input', doSearch);
+  q.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); jumpTo(cur + 1); }
+    if (e.key === 'Escape') { q.value = ''; doSearch(); }
+  });
+
+  /* ---------- 目录筛选 ---------- */
+  var sbq = document.getElementById('sb-q');
+  sbq.addEventListener('input', function () {
+    var v = this.value.trim().toLowerCase();
+    var parts = document.querySelectorAll('.sidebar details.part');
+    for (var i = 0; i < parts.length; i++) {
+      var d = parts[i];
+      var hit = d.textContent.toLowerCase().indexOf(v) > -1;
+      d.style.display = (v && !hit) ? 'none' : '';
+      if (v && hit) d.open = true;
+    }
+  });
+
+  /* ---------- Scrollspy:滚动到哪一课,侧栏自动展开并高亮 ---------- */
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        var links = document.querySelectorAll('.sidebar .pages a');
+        for (var i = 0; i < links.length; i++) {
+          links[i].classList.toggle('cur', links[i].getAttribute('href') === '#' + id);
+        }
+        var act = document.querySelector('.sidebar .pages a.cur');
+        if (act) {
+          var d = act.closest('details');
+          if (d && !d.open) d.open = true;
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    var arts = document.querySelectorAll('article.course-doc');
+    for (var i = 0; i < arts.length; i++) spy.observe(arts[i]);
+  }
+
+  /* ---------- 目录收起/展开 ---------- */
+  var tocBtn = document.getElementById('toc-toggle');
+  function applyToc(hidden) {
+    document.body.classList.toggle('toc-hidden', hidden);
+    tocBtn.classList.toggle('on', !hidden);
+    try { localStorage.setItem('handbook-toc', hidden ? '0' : '1'); } catch (e) {}
+  }
+  tocBtn.addEventListener('click', function () {
+    applyToc(!document.body.classList.contains('toc-hidden'));
+  });
+  var saved = null;
+  try { saved = localStorage.getItem('handbook-toc'); } catch (e) {}
+  if (saved === '0') {
+    document.body.classList.add('toc-hidden');
+    tocBtn.classList.remove('on');
+  }
+
+  /* ---------- 回顶 + 打印导出 ---------- */
+  var tb = document.getElementById('top-btn');
+  window.addEventListener('scroll', function () {
+    tb.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  tb.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  document.getElementById('print-btn').addEventListener('click', function () {
+    window.print();
+  });
+})();
+</script>
+</body>
+</html>

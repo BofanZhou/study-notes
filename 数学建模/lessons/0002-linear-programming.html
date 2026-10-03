@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 2 课 · 线性规划</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/lp-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">数学建模 · 第 2 课 / 备战 2026 国赛 · 09-01</p>
+  <h1>线性规划 <span class="term-en">Linear Programming</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 把「生产/配比/分配」类问题翻译成标准 LP 三要素(决策变量、目标函数、约束);<strong>②</strong> 用图解法理解「最优必在顶点」;<strong>③</strong> 用 <code>scipy.optimize.linprog</code> 一步求解。</p>
+  </div>
+
+  <h2>为什么它是国赛第一模型族</h2>
+  <p>大量赛题的本质都是:<strong>资源有限,如何分配,使收益最大或成本最小</strong>。只要目标与约束都能写成决策变量的线性函数,它就是线性规划。第 2–3 课(优化族)值得你花掉备赛时间的最大头。</p>
+
+  <h2>三要素与标准形式</h2>
+  <ol>
+    <li><strong>决策变量</strong>(<span class="term-en">decision variables</span>):你要决定的量,如两种产品的产量 <span class="var">x, y</span>;</li>
+    <li><strong>目标函数</strong>(<span class="term-en">objective</span>):max <span class="var">z = 5x + 4y</span>;</li>
+    <li><strong>约束条件</strong>(<span class="term-en">constraints</span>):资源/工时/需求,如 <span class="var">2x + y ≤ 50, x + 2y ≤ 60, y ≤ 15, x, y ≥ 0</span>。</li>
+  </ol>
+  <div class="formula">max c<sup>T</sup>x　s.t.　Ax ≤ b,　x ≥ 0</div>
+  <p>写模型时<strong>先把变量和单位写清楚</strong>,再一条条列约束——评审第一条看的就是这一步是否严谨。</p>
+
+  <h2>图解法:为什么最优在顶点</h2>
+  <p>把每条约束画成半平面,交集是一个<strong>凸多边形</strong>(可行域,<span class="term-en">feasible region</span>)。目标函数的等值线 <span class="var">z = 5x + 4y</span> 是一族平行直线:<span class="var">z</span> 越大直线越远离原点。当等值线即将离开可行域的那一刻,接触的必然是一个<strong>顶点</strong>——这就是「最优在顶点」定理,也是单纯形法的全部直觉。</p>
+
+  <div class="demo" data-lp-demo></div>
+
+  <h2>编程求解:scipy.optimize.linprog</h2>
+  <pre>from scipy.optimize import linprog
+# linprog 默认求最小值,故目标取负:max 5x+4y → min -5x-4y
+c = [-5, -4]
+A = [[2, 1], [1, 2], [0, 1]]     # 左端系数
+b = [50, 60, 15]                 # 右端上限
+res = linprog(c, A_ub=A, b_ub=b, bounds=[(0, None), (0, None)])
+print(res.x, -res.fun)           # x=[17.5, 15.], z=147.5</pre>
+  <p>记住两个对应关系:<strong>≤ 约束 → A_ub/b_ub</strong>;<strong>min → max 取负号</strong>。等式约束用 A_eq/b_eq。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 约束方向写反</strong>——「至少」「不超过」要逐句核对,这是 LP 代码第一大 bug 源。<br>
+       <strong>② 忘了 linprog 是 min</strong>——忘记取负号会得到「最优在原点」的可疑结果。<br>
+       <strong>③ 把 LP 解当最终答案</strong>——产量可以切割到 17.5 台吗?变量该整数时,请进第 3 课。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>约束组 <span class="var">Ax ≤ b</span> 就是矩阵语言——你在<strong>线性代数</strong>工作区学的矩阵乘法在这里落地。「最优在顶点 + 顶点由约束交出」也解释了为什么解对约束参数敏感:约束变一变,顶点就搬家——这正是论文里<strong>灵敏度分析</strong>的入口(影子价格 <span class="term-en">shadow price</span> 我们在全真模拟前补讲)。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"用 linprog 求 max z=5x+4y,正确的写法是?","opts":["目标向量取 c=[-5,-4]","目标向量取 c=[5,4]","把 b 全部乘以负一","把约束改成大于等于"],"answer":0,"why":"linprog 只会 min;min -5x-4y 等价于 max 5x+4y。"},
+    {"q":"线性规划「最优必在顶点」成立的前提是?","opts":["目标与约束都是线性","决策变量必须为整数","可行域必须是空集","目标必须是最小化"],"answer":0,"why":"线性目标 + 凸多边形可行域,等值线离开可行域前最后接触的是顶点。"},
+    {"q":"约束「甲原料用量不超过 50 千克」在标准形式中属于?","opts":["一条小于等于约束","一条大于等于约束","目标函数的一部分","变量的整数要求"],"answer":0,"why":"「不超过」= ≤,进 A_ub/b_ub;「至少/不低于」才是 ≥。"},
+    {"q":"把「选择建或不建某设施」直接放进 LP 的错误在于?","opts":["该决策本质是 0-1 变量","设施名称不能做变量","目标函数必须求最小","LP 不能有常数项"],"answer":0,"why":"建/不建只有两种取值,是整数变量,LP 的连续解没有意义——这正是第 3 课的主题。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>线性规划</td><td>linear programming</td><td>线性目标 + 线性约束下的最优分配</td></tr>
+    <tr><td>可行域</td><td>feasible region</td><td>所有约束的交集,凸多边形/凸多面体</td></tr>
+    <tr><td>顶点定理</td><td>vertex optimality</td><td>LP 最优必可在顶点取到</td></tr>
+    <tr><td>标准形式</td><td>standard form</td><td>min cᵀx s.t. Ax≤b, x≥0;max 取负号</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html">scipy.optimize.linprog 官方文档</a>——把本课例题亲手跑一遍。</li>
+    <li>姜启源《数学模型》规划模型章节:看「下料问题」「运输问题」两个经典建模案例。</li>
+    <li>下一课预告:<a href="../lessons/0003-integer-programming.html">整数规划</a>——当变量必须取整数时会发生什么(剧透:上面例子里取整点根本不可行)。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0001-what-is-mathematical-modeling.html">← 第 1 课:数学建模是什么</a>
+    <a href="../lessons/0003-integer-programming.html">第 3 课:整数规划 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。卡在哪里(比如 linprog 报错、约束翻译不出来)直接在对话里问我,带着报错信息来更快。</div>
+</main>
+</body>
+</html>

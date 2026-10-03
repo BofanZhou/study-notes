@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 5 课 · 数据链路层与局域网</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 5 课 / 为计算机三级打基础</p>
+  <h1>数据链路层与局域网 <span class="term-en">Data Link Layer &amp; LAN</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 说清链路层三大功能与成帧/差错检测;
+       <strong>②</strong> 讲清以太网 MAC 地址、CSMA/CD 与最小帧长;
+       <strong>③</strong> 区分集线器/交换机、冲突域/广播域,理解 VLAN 与交换机自学习。</p>
+  </div>
+
+  <h2>一、链路层做什么</h2>
+  <p>物理层只管把比特送出去,不保证"送对"。数据链路层在相邻两节点之间补上秩序,三大任务:</p>
+  <table class="ref">
+    <tr><th>功能</th><th>做法</th></tr>
+    <tr><td>成帧 <span class="term-en">framing</span></td><td>把比特流组装成帧:帧头+数据+帧尾;用字符计数/比特填充/字节填充定界</td></tr>
+    <tr><td>差错检测 <span class="term-en">error detection</span></td><td>奇偶校验(弱)→ 校验和 → <strong>CRC 循环冗余校验</strong>(以太网 FCS 用,检错强)</td></tr>
+    <tr><td>流量控制/可靠传输</td><td>停止-等待、回退 N 帧 GBN、选择重传 SR(滑动窗口思想,运输层继续用)</td></tr>
+  </table>
+  <p>点对点信道用 <strong>PPP 协议</strong>(无差错恢复,检错丢弃);广播信道才需要解决"大家抢线"的问题。</p>
+
+  <h2>二、以太网与 CSMA/CD</h2>
+  <blockquote>
+    <strong>CSMA/CD</strong>(<span class="term-en">Carrier Sense Multiple Access with Collision Detection</span>):
+    载波监听多点接入/碰撞检测——先听后发、边发边听、碰撞停发、<strong>等待随机时间</strong>重发(截断二进制指数退避)。
+  </blockquote>
+  <p>半双工以太网的规则。由它推出<strong>最小帧长 64 字节</strong>:帧必须在发完前能感知碰撞
+     (争用期 2τ),否则"发完了才发现撞车"无法重传。帧长 <strong>64B ~ 1518B</strong>。
+     今天的交换机以太网是全双工,不再有碰撞,CSMA/CD 已成历史——但考试年年考。</p>
+  <p><strong>MAC 地址</strong>(<span class="term-en">physical/hardware address</span>):48 位,固化在网卡,
+     前 3 字节厂商标识(OUI)+ 后 3 字节编号;全 1 即 FF-FF-FF-FF-FF-FF 为<strong>广播地址</strong>。
+     注意:MAC 是"本地地址"——跨网段传输时 MAC 逐段变化,IP 端到端不变(第 7 课 ARP 呼应)。</p>
+
+  <h2>三、集线器 vs 交换机:冲突域与广播域</h2>
+  <table class="ref">
+    <tr><th>设备</th><th>工作层次</th><th>转发方式</th><th>冲突域</th><th>广播域</th></tr>
+    <tr><td>集线器 <span class="term-en">Hub</span></td><td>物理层</td><td>广播式:比特放大转发到所有口</td><td><strong>不隔离</strong>(所有口一个冲突域)</td><td>不隔离</td></tr>
+    <tr><td>交换机 <span class="term-en">Switch</span></td><td>数据链路层</td><td>按 MAC 表转发帧;全双工</td><td><strong>每端口隔离</strong></td><td>不隔离(VLAN 才隔离)</td></tr>
+    <tr><td>路由器 <span class="term-en">Router</span></td><td>网络层</td><td>按 IP 转发分组</td><td>隔离</td><td><strong>隔离</strong></td></tr>
+  </table>
+  <p><strong>交换机自学习</strong>:收到帧→把"源 MAC+入口"记进 MAC 地址表→查表转发;查不到就向除入口外
+     所有端口<strong>泛洪</strong>。表项有老化时间。这个过程自动完成,无需配置——综合题常给拓扑问
+     "交换机学会哪些表项/哪些端口收到该帧"。</p>
+
+  <h2>四、VLAN:一个交换机切出多个逻辑局域网</h2>
+  <blockquote>
+    <strong>VLAN</strong>(<span class="term-en">Virtual LAN</span>,IEEE 802.1Q):在交换机上按端口等维度
+    把物理局域网划分成若干<strong>逻辑上隔离</strong>的广播域,不同 VLAN 二层不通,须靠路由器/三层交换机互通。
+  </blockquote>
+  <p>划分方式:基于<strong>端口</strong>(最常用)、基于 MAC、基于 IP。价值:抑制广播风暴、安全隔离、
+     灵活组网(人动网不动)。综合题考:把端口划入 VLAN 的配置命令(如 <code>vlan 10</code> →
+     <code>switchport access vlan 10</code> 思科风格,三级教程用华为/思科双口径之一,以教材为准)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"交换机隔离广播域"</strong>——错!交换机只隔离<strong>冲突域</strong>;
+       隔离广播域要靠 VLAN(二层划分)或路由器(三层隔离)。<br>
+       <strong>"MAC 地址在全球唯一所以能当互联网地址"</strong>——MAC 只在本地网段有意义,
+       全球寻址靠 IP;MAC 不含位置信息,路由器无法据此转发。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"以太网 MAC 地址的长度与广播地址是?",
+     "opts":["48 位;FF-FF-FF-FF-FF-FF","32 位;255.255.255.255","48 位;00-00-00-00-00-00"],
+     "answer":0,
+     "why":"MAC 48 位(6 字节),全 1 为广播地址;32 位全 1 是 IPv4 的广播 IP,别混。"},
+    {"q":"由 CSMA/CD 推出的以太网最小帧长是?",
+     "opts":["64 字节","1518 字节","1500 字节"],
+     "answer":0,
+     "why":"帧的发送时间必须大于 2 倍端到端传播时延(争用期),推出最短 64B;1500B 是数据字段上限(MTU)。"},
+    {"q":"一台 24 口交换机未做任何配置,连在它上面的三台电脑属于?",
+     "opts":["一个冲突域、一个广播域","三个冲突域、一个广播域","三个冲突域、三个广播域"],
+     "answer":1,
+     "why":"交换机每端口一个冲突域(3 个),但 VLAN 未划分时整个交换机是一个广播域;隔离广播域需 VLAN 或路由器。"},
+    {"q":"交换机收到一个目的 MAC 不在地址表中的帧,会?",
+     "opts":["向除入口外的所有端口泛洪","直接丢弃","只转发给网关"],
+     "answer":0,
+     "why":"查表失败即泛洪(flooding),目的主机应答后交换机自学习到其位置,后续不再泛洪。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>三大功能</td><td>成帧、差错检测(CRC)、流量控制/可靠传输</td></tr>
+    <tr><td>CSMA/CD</td><td>先听后发、边发边听、碰撞退避;推出最小帧长 64B</td></tr>
+    <tr><td>MAC 地址</td><td>48 位,本地有效;广播全 1;跨网段逐段变</td></tr>
+    <tr><td>Hub/Switch/Router</td><td>Hub 不隔离任何域;Switch 隔冲突域;Router 隔广播域</td></tr>
+    <tr><td>VLAN</td><td>802.1Q,按端口划分,隔离广播域,跨 VLAN 需三层</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 3 章;官方教材"局域网组网技术"章(网线制作、交换机配置)。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0004-physical-layer.html">← 第 4 课</a>
+    <a href="../lessons/0006-ip-addressing.html">第 6 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

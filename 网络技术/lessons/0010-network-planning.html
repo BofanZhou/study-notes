@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 10 课 · 中小型网络规划与设计</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 10 课 / 为计算机三级打基础 · 综合题"规划"题源</p>
+  <h1>中小型网络规划与设计 <span class="term-en">Network Planning &amp; Design</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 说出网络系统组建的阶段划分;
+       <strong>②</strong> 用核心/汇聚/接入三层结构设计园区网;
+       <strong>③</strong> 做设备选型与结构化布线选择(综合题规划填表直接对应)。</p>
+  </div>
+
+  <h2>一、网络系统组建的阶段划分(必背顺序)</h2>
+  <table class="ref">
+    <tr><th>阶段</th><th>做什么</th><th>产出</th></tr>
+    <tr><td>① 规划 <span class="term-en">planning</span></td><td>需求调研:功能/性能/成本/扩展性/地理分布</td><td>需求分析报告</td></tr>
+    <tr><td>② 设计 <span class="term-en">design</span></td><td>拓扑设计、分层设计、设备选型、IP 与 VLAN 规划、布线设计</td><td>总体设计方案</td></tr>
+    <tr><td>③ 实施 <span class="term-en">implementation</span></td><td>布线施工、设备安装、配置调试</td><td>可运行网络</td></tr>
+    <tr><td>④ 测试验收 <span class="term-en">testing</span></td><td>连通性、性能、可靠性测试,试运行</td><td>验收报告</td></tr>
+    <tr><td>⑤ 运行维护 <span class="term-en">O&amp;M</span></td><td>监控、备份、故障处理、升级</td><td>运维记录</td></tr>
+  </table>
+  <p>需求调研的"五个什么":谁用(用户数与分布)、用多久(高峰)、用什么应用(带宽敏感?)、
+     预算多少、将来扩多少。<strong>需求决定设计</strong>,顺序不能倒。</p>
+
+  <h2>二、分层设计:核心—汇聚—接入</h2>
+  <table class="ref">
+    <tr><th>层</th><th>任务</th><th>设备要求</th></tr>
+    <tr><td>核心层 <span class="term-en">core</span></td><td><strong>高速背板转发</strong>全网流量,不做复杂策略</td><td>高性能三层交换机,双机冗余</td></tr>
+    <tr><td>汇聚层 <span class="term-en">aggregation/distribution</span></td><td>汇聚接入流量、VLAN 间路由、策略(ACL)实施点</td><td>三层交换机</td></tr>
+    <tr><td>接入层 <span class="term-en">access</span></td><td>把终端接入网络,划分 VLAN/端口安全</td><td>二层交换机</td></tr>
+  </table>
+  <p>中小型网络允许"核心—接入"两层扁平化(省成本),规模大才要三层。
+     可靠性三板斧:<strong>设备冗余</strong>(双核心)、<strong>链路冗余</strong>(双上联/链路聚合)、
+     <strong>电源冗余</strong>(UPS)。</p>
+
+  <h2>三、设备选型看什么</h2>
+  <table class="ref">
+    <tr><th>指标</th><th>含义</th><th>选型判断</th></tr>
+    <tr><td>背板带宽 <span class="term-en">backplane</span></td><td>交换机所有端口总吞吐能力</td><td>≥ 端口数 × 端口速率 × 2(全双工)才算线速</td></tr>
+    <tr><td>包转发率 <span class="term-en">pps</span></td><td>每秒转发包数</td><td>决定小包性能</td></tr>
+    <tr><td>端口密度/类型</td><td>口数、电口/光口、上联口速率</td><td>接入 24/48 口;上联 10G 光口</td></tr>
+    <tr><td>路由器:转发性能/接口/NAT 并发</td><td>—</td><td>出口路由看 NAT 并发与带机量</td></tr>
+  </table>
+
+  <h2>四、结构化布线系统(六大子系统,必背)</h2>
+  <table class="ref">
+    <tr><th>子系统</th><th>覆盖范围</th><th>常用介质</th></tr>
+    <tr><td>工作区子系统</td><td>信息插座 → 终端设备</td><td>跳线(≤5 m)</td></tr>
+    <tr><td>水平子系统</td><td>信息插座 → 楼层配线间</td><td>双绞线(≤90 m,加跳线共 100 m)</td></tr>
+    <tr><td>垂直(干线)子系统</td><td>楼层配线间 → 设备间</td><td><strong>光纤</strong>或大对数电缆</td></tr>
+    <tr><td>设备间子系统</td><td>中心机房:核心设备所在</td><td>—</td></tr>
+    <tr><td>管理子系统</td><td>配线架、跳接、标识</td><td>—</td></tr>
+    <tr><td>建筑群子系统</td><td>楼与楼之间</td><td>室外光纤</td></tr>
+  </table>
+  <p>IP 规划原则(第 6 课落地):按部门/VLAN 划子网、<strong>留 30%~50% 余量</strong>、
+     网关取每段第一个可用地址、服务器放独立服务器区(DMZ 思想见第 12 课)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"核心层应该多做 ACL 等安全策略"</strong>——错,核心层只求快,策略放<strong>汇聚层</strong>做。<br>
+       <strong>"水平布线用光纤更好所以一律上光纤"</strong>——水平子系统双绞线是标准做法(成本+端口兼容),
+       光纤用于垂直/建筑群子系统。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>这就是二级建造师"网络工程师"日常:一张拓扑图 + 一张地址规划表 + 一张端口对应表。
+       三级综合题的"网络规划填表"考的就是:给定楼层/人数,写出子网、掩码、网关、设备层数分配。
+       把第 6 课的算法和本课的分层框架拼起来,这 20 分就稳了。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"网络系统组建的正确阶段顺序是?",
+     "opts":["规划→设计→实施→测试验收→运行维护","设计→规划→实施→测试→维护","规划→实施→设计→维护→测试"],
+     "answer":0,
+     "why":"先调研需求再设计,配置实施后必须测试验收,最后长期运维。"},
+    {"q":"VLAN 间路由与 ACL 安全策略一般部署在哪一层?",
+     "opts":["汇聚层","核心层","接入层"],
+     "answer":0,
+     "why":"核心层专注高速转发;策略控制(路由、ACL)是汇聚层的职责。"},
+    {"q":"楼层信息插座到楼层配线间的水平子系统应选用?",
+     "opts":["双绞线,长度不超过 90 m(含跳线共 100 m)","单模光纤","同轴电缆"],
+     "answer":0,
+     "why":"水平子系统标准是双绞线;光纤用于垂直干线与建筑群子系统。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>五阶段</td><td>规划→设计→实施→测试验收→运行维护</td></tr>
+    <tr><td>三层结构</td><td>核心求快、汇聚做策略、接入管终端</td></tr>
+    <tr><td>选型</td><td>背板带宽、包转发率、端口密度;冗余三板斧</td></tr>
+    <tr><td>布线六子系统</td><td>工作区/水平(≤90m 双绞线)/垂直(光纤)/设备间/管理/建筑群</td></tr>
+    <tr><td>IP 规划</td><td>按部门划子网、留余量、网关取首个可用地址</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>官方教材第 2 章"中小型网络系统总体规划与设计方法"——本章与教材对应度最高,建议通读。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0009-application.html">← 第 9 课</a>
+    <a href="../lessons/0011-services-config.html">第 11 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC10%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

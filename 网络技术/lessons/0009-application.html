@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 9 课 · 应用层协议</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 9 课 / 为计算机三级打基础</p>
+  <h1>应用层协议 <span class="term-en">Application Layer</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 讲清 DNS 的层次结构与递归/迭代查询;
+       <strong>②</strong> 默写 DHCP 四步租约过程(综合题考报文分析);
+       <strong>③</strong> 说出 HTTP/电子邮件/FTP 的工作要点与端口。</p>
+  </div>
+
+  <h2>一、C/S 与 P2P:两种工作模型</h2>
+  <p><strong>客户/服务器模型</strong>(<span class="term-en">Client/Server</span>):服务集中提供,客户请求-响应
+     (WWW、FTP、Email、DNS)。<strong>P2P</strong>(<span class="term-en">peer-to-peer</span>):
+     每个节点既是客户又是服务器,对等共享(BT 下载),扩展性强、管理难。判断依据:谁服务谁。</p>
+
+  <h2>二、DNS:域名的"查号台"</h2>
+  <blockquote>
+    <strong>DNS</strong>(<span class="term-en">Domain Name System</span>,UDP 53):把域名解析成 IP 地址。
+    域名树:<strong>根 → 顶级域(.com/.cn)→ 权限域</strong>。本地 DNS 服务器帮主机问路,问法两种:
+  </blockquote>
+  <table class="ref">
+    <tr><th>查询方式</th><th>过程</th><th>要点</th></tr>
+    <tr><td>递归查询</td><td>"替我问到底,把结果给我"</td><td>主机 → 本地 DNS 通常用递归</td></tr>
+    <tr><td>迭代查询</td><td>"我给你下一个线索,你继续问"</td><td>本地 DNS → 根/顶级/权限服务器通常用迭代</td></tr>
+  </table>
+  <p>常见资源记录:<strong>A</strong>(域名→IPv4)、<strong>CNAME</strong>(别名)、<strong>MX</strong>(邮件交换)、
+     <strong>PTR</strong>(IP→域名,反向解析)。</p>
+
+  <h2>三、DHCP:插上网线就有 IP(综合题必考)</h2>
+  <blockquote>
+    <strong>DHCP</strong>(<span class="term-en">Dynamic Host Configuration Protocol</span>,UDP,
+    服务器 67/客户 68):主机开机<strong>广播</strong>四步拿地址——
+    <strong>D</strong>iscover(我要 IP!)→ <strong>O</strong>ffer(给你这个)→
+    <strong>R</strong>equest(我要这个)→ <strong>A</strong>ck(成交,附掩码/网关/DNS/租约期)。
+  </blockquote>
+  <p>考点:全程 UDP;前两步是广播(此时主机还没有 IP);<strong>租约</strong>到期可续租;
+     跨网段要用 <strong>DHCP 中继代理</strong>把广播转成单播;可配置<strong>保留地址</strong>(MAC 绑定)、
+     <strong>排除范围</strong>、选项(网关/DNS)。综合题常给抓包问"这是第几步/为什么用广播"。</p>
+
+  <h2>四、WWW、电子邮件与 FTP</h2>
+  <table class="ref">
+    <tr><th>服务</th><th>协议/端口</th><th>要点</th></tr>
+    <tr><td>WWW <span class="term-en">Web</span></td><td>HTTP 80 / HTTPS 443</td><td>URL = 协议://主机:端口/路径;HTTP 请求(方法 GET/POST+头部)+ 响应(状态码 200/404/500);
+        HTTP1.1 <strong>持续连接</strong>省时;无状态 → 用 Cookie 记住会话;HTTPS = HTTP+SSL/TLS 加密</td></tr>
+    <tr><td>电子邮件</td><td>SMTP 25(发/推)/ POP3 110(收/拉)/ IMAP(在线管理)</td><td>"SMTP 推、POP3 拉";附件扩展用 MIME;Outlook 是 UA(用户代理)</td></tr>
+    <tr><td>文件传输 FTP</td><td>控制 21 / 数据 20(主动模式)</td><td>控制与数据<strong>两个连接</strong>分离;登录或匿名 FTP</td></tr>
+    <tr><td>远程登录</td><td>Telnet 23 / SSH 22</td><td>Telnet 明文,SSH 加密(工程用 SSH)</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"DNS 用 TCP"</strong>——常规查询用 <strong>UDP 53</strong>(快);区域传送(主从同步)才用 TCP。<br>
+       <strong>"DHCP 客户端与服务器通信用 TCP 保证可靠"</strong>——DHCP 全程 <strong>UDP</strong>。<br>
+       <strong>"POP3 收信也用 SMTP"</strong>——SMTP 负责<strong>推送</strong>(发件人与服务器间、服务器间);
+       用户从服务器<strong>拉取</strong>用 POP3/IMAP。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>"网页打不开"的排障链(第 7 课 + 本课):能 ping IP 但域名打不开 → DNS 故障;
+       IP 也 ping 不通 → 网关/路由问题。三级综合题"DHCP 报文分析""DNS 服务器配置"
+       就是把本课表格背熟+看清题面。第 11 课会亲手配置这些服务器。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"主机开机获取 IP 地址时,DHCP 四步报文的正确顺序是?",
+     "opts":["Discover → Offer → Request → Ack","Request → Offer → Discover → Ack","Offer → Discover → Request → Ack"],
+     "answer":0,
+     "why":"D-O-R-A:先广播找服务器,收报价,再正式申请,最后确认并携带租约信息。"},
+    {"q":"本地 DNS 服务器向根域名服务器的查询通常采用?",
+     "opts":["迭代查询","递归查询","广播查询"],
+     "answer":0,
+     "why":"主机→本地 DNS 用递归;本地 DNS→根/顶级/权限用迭代,根只给线索不代劳。"},
+    {"q":"用户从邮件服务器读取邮件使用的协议是?",
+     "opts":["POP3/IMAP","SMTP","SNMP"],
+     "answer":0,
+     "why":"SMTP 是推信协议(发送/服务器间转发),收信用 POP3 或 IMAP;SNMP 是网络管理,别混。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>模型</td><td>C/S 集中服务;P2P 对等互传</td></tr>
+    <tr><td>DNS</td><td>UDP53;递归(主机侧)/迭代(服务器侧);A/CNAME/MX/PTR</td></tr>
+    <tr><td>DHCP</td><td>UDP;DORA 四步;租约/保留/排除/中继</td></tr>
+    <tr><td>WWW</td><td>HTTP80/HTTPS443;请求-响应;Cookie 补状态</td></tr>
+    <tr><td>Email/FTP</td><td>SMTP 推、POP3 拉;FTP 控21/数20 双连接</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 6 章;官方教材"信息服务系统的安装与配置"章(第 11 课直接续上)。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0008-transport.html">← 第 8 课</a>
+    <a href="../lessons/0010-network-planning.html">第 10 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC9%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

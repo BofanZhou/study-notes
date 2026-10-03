@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 12 课 · 网络安全与管理</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 12 课 / 为计算机三级打基础 · 课程收官</p>
+  <h1>网络安全与管理 <span class="term-en">Security &amp; Management</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 说出安全五目标与加密/签名体系;
+       <strong>②</strong> 讲清防火墙/DMZ/IDS 的部署逻辑,会读写标准与扩展 ACL;
+       <strong>③</strong> 记住 SNMP 组件与无线网络安全演进(选择题高频)。</p>
+  </div>
+
+  <h2>一、安全五目标(必背)</h2>
+  <table class="ref">
+    <tr><th>目标</th><th>英文</th><th>一句话</th></tr>
+    <tr><td>机密性</td><td><span class="term-en">Confidentiality</span></td><td>只有该看的人看得懂(加密)</td></tr>
+    <tr><td>完整性</td><td><span class="term-en">Integrity</span></td><td>没被篡改(摘要/签名)</td></tr>
+    <tr><td>可用性</td><td><span class="term-en">Availability</span></td><td>该用时用得了(抗 DoS/冗余)</td></tr>
+    <tr><td>真实性(可认证)</td><td><span class="term-en">Authenticity</span></td><td>身份是真的(认证/证书)</td></tr>
+    <tr><td>可控性</td><td><span class="term-en">Controllability</span></td><td>行为可管可控(审计)</td></tr>
+  </table>
+  <p><strong>加密体系</strong>:<strong>对称加密</strong>(DES/3DES/AES——快,密钥分发难,双方同一把钥匙)
+     vs <strong>非对称加密</strong>(RSA——公钥加密私钥解,慢,解决密钥分发)。
+     实战组合:非对称交换对称密钥,再用对称加密传数据(HTTPS 就这样)。
+     <strong>数字签名</strong> = 发方用<strong>自己的私钥</strong>对摘要加密(认证+完整性+不可否认);
+     <strong>数字证书</strong>由 <strong>CA</strong>(认证中心)签发,证明"公钥确实是他的"。
+     常见攻击:DoS/DDoS(耗尽资源)、钓鱼、中间人、ARP 欺骗、SQL 注入。</p>
+
+  <h2>二、防火墙、DMZ 与 IDS</h2>
+  <blockquote>
+    <strong>防火墙</strong>(<span class="term-en">firewall</span>):位于内外网之间的访问控制点。
+    三类:<strong>包过滤</strong>(网络层,查 IP/端口,快但粗)、
+    <strong>状态检测</strong>(跟踪连接状态)、<strong>应用网关/代理</strong>(应用层,细但慢)。
+  </blockquote>
+  <p><strong>DMZ</strong>(<span class="term-en">demilitarized zone</span> 非军事区):外网↔DMZ↔内网三区结构,
+     Web/FTP/Mail 等对外服务器放 DMZ——被攻破也不至于直捣内网。
+     内网 → DMZ 允许、DMZ → 内网<strong>默认拒绝</strong>。<br>
+     <strong>IDS 入侵检测系统</strong>:监听旁路报警(不拦截);IPS 则串路在线拦截。</p>
+
+  <h2>三、ACL:路由器上的门禁(配置题常客)</h2>
+  <table class="ref">
+    <tr><th>类型</th><th>编号</th><th>匹配依据</th><th>要点</th></tr>
+    <tr><td>标准 ACL <span class="term-en">standard</span></td><td>1~99</td><td>仅<strong>源 IP</strong></td><td>放<strong>靠近目的</strong>的接口(免得误杀路上流量)</td></tr>
+    <tr><td>扩展 ACL <span class="term-en">extended</span></td><td>100~199</td><td>源/目的 IP + 协议 + 端口</td><td>放<strong>靠近源</strong>的接口(尽早拦截)</td></tr>
+  </table>
+  <p>规则:自上而下逐条匹配,命中即停;<strong>末尾隐含 deny all</strong>(至少要有一条 permit);
+     通配符掩码(wildcard,0=严格匹配,1=任意,如 0.0.0.255 匹配一个 C 段);方向分 in/out。</p>
+
+  <h2>四、SNMP 与无线安全</h2>
+  <p><strong>SNMP</strong>(<span class="term-en">Simple Network Management Protocol</span>,UDP 161/162):
+     管理站(NMS)↔ 设备上的代理(Agent),代理维护 <strong>MIB</strong>(管理信息库);
+     操作:Get(读)/Set(写)/<strong>Trap</strong>(代理主动报警,发往 162)。版本 v3 加了认证加密。</p>
+  <p><strong>无线网络</strong>:IEEE 802.11 家族(11a/b/g/n/ac/ax,2.4G 与 5G 频段;11b/g/ax 在 2.4G);
+     AP 广播 <strong>SSID</strong>;安全演进(必背顺序,越往后越安全):
+     <strong>WEP(已破解,禁用)→ WPA(TKIP,过渡)→ WPA2(AES/CCMP,当前主流)→ WPA3(最新)</strong>。
+     家庭路由器选 WPA2/WPA3-Personal(PSK 预共享密钥),企业用 802.1X 认证。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"数字签名用接收方的公钥加密"</strong>——签名用发送方的<strong>私钥</strong>;
+       用接收方公钥加密的是<strong>保密</strong>(机密性),两者目的不同。<br>
+       <strong>"标准 ACL 可以匹配端口号"</strong>——不能,标准 ACL 只看源 IP;要看端口用<strong>扩展 ACL</strong>。<br>
+       <strong>"WPA2 已经被破解所以不如 WEP 稳"</strong>——方向反了,WEP 早已淘汰;KRACK 类攻击已有补丁,
+       WPA2+WPA3 混合模式是当前家用最佳选择。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角(毕业寄语)</div>
+    <p>12 课走完,你已经拿到三级考试的全套地图:概念线撑单选、配置线撑综合、真题线收口。
+       工程向第二阶段随时可以开始:抓包看真实流量、路由器交换机模拟器(GNS3/eNSP)做实验、
+       把家里路由器按本课思路加固一遍。学完这课,回到课程手册把错题过一遍,然后按 [[../路线图.md|路线图]] 走 P3 真题冲刺。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"发送方用自己的私钥对报文摘要加密,这一过程实现的是?",
+     "opts":["数字签名(认证+完整性+不可否认)","机密性加密","密钥交换"],
+     "answer":0,
+     "why":"私钥加密=数字签名,任何人可用其公钥验证;保密要反过来用接收方公钥加密。"},
+    {"q":"标准 ACL(编号 1~99)能够匹配的条件是?",
+     "opts":["仅源 IP 地址","源 IP 和目的 IP","协议与端口号"],
+     "answer":0,
+     "why":"标准 ACL 只看源地址;要看目的/端口用扩展 ACL(100~199)。"},
+    {"q":"某对外网站服务器应部署在网络的哪个区域?",
+     "opts":["DMZ 区","内网核心区","外网"],
+     "answer":0,
+     "why":"对外服务放 DMZ:外网可达,但即使被攻破也无法直接访问内网,内网对 DMZ 默认拒绝。"},
+    {"q":"无线安全机制的破解难度从高到低(最安全→最不安全)排列正确的是?",
+     "opts":["WPA3 > WPA2 > WPA > WEP","WEP > WPA2 > WPA3","WPA > WPA3 > WEP > WPA2"],
+     "answer":0,
+     "why":"演进顺序 WEP→WPA→WPA2→WPA3,后出现的更安全;WEP 已可被秒破,禁用。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>五目标</td><td>机密性、完整性、可用性、真实性、可控性</td></tr>
+    <tr><td>加密/签名</td><td>对称快(AES)、非对称分发易(RSA);签名用发方私钥;CA 发证书</td></tr>
+    <tr><td>防火墙</td><td>包过滤/状态检测/应用网关;对外服务进 DMZ;IDS 旁路报警</td></tr>
+    <tr><td>ACL</td><td>标准 1-99 源 IP 靠近目的;扩展 100-199 全条件靠近源;隐含 deny all</td></tr>
+    <tr><td>SNMP/无线</td><td>Get/Set/Trap + MIB;WEP→WPA→WPA2→WPA3</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>官方教材"网络安全与管理"两章;谢希仁《计算机网络》第 7 章网络安全。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0011-services-config.html">← 第 11 课</a>
+    <a href="../reference/glossary.html">📖 术语表 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC12%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 全部课程完结!有疑问随时问我;接下来按路线图进入 P3 真题冲刺。</div>
+</main>
+</body>
+</html>

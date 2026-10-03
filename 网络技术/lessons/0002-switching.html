@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 2 课 · 数据交换方式</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 2 课 / 为计算机三级打基础</p>
+  <h1>数据交换方式 <span class="term-en">Switching</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 说清电路交换、报文交换、分组交换的工作过程;
+       <strong>②</strong> 三者优缺点对比(选择题常客);
+       <strong>③</strong> 计算发送时延与传播时延。</p>
+  </div>
+
+  <h2>一、为什么需要"交换"?</h2>
+  <p>两台电脑直接拉一根网线当然简单,但 N 台设备两两直连需要 N(N−1)/2 条线路——
+     100 台就要 4950 条,完全不现实。解决办法:让通信经过<strong>中间节点</strong>转接,
+     这些节点就叫做<strong>交换节点</strong>(<span class="term-en">switching node</span>)。
+     怎么转接,就是"交换方式"的问题。历史上出现了三种答案。</p>
+
+  <h2>二、电路交换:先占线,再通话</h2>
+  <blockquote>
+    <strong>电路交换</strong>(<span class="term-en">circuit switching</span>):通信前先建立一条
+    <strong>专用的物理通路</strong>(建立→通话→释放,如传统电话网),通信期间<strong>独占</strong>这条线路。
+  </blockquote>
+  <p>优点:一旦接通,<strong>时延极小、带宽稳定</strong>,适合实时性要求高的语音。
+     缺点:<strong>线路利用率低</strong>——通话间隙线路空着也不能给别人用;建立连接有开销;
+     无差错控制能力。关键判断:<strong>数据传输前必须建立物理连接的,就是电路交换</strong>。</p>
+
+  <h2>三、报文交换与分组交换:存储转发</h2>
+  <blockquote>
+    <strong>存储转发</strong>(<span class="term-en">store-and-forward</span>):交换节点先完整收下数据、
+    检查无误,再找路转发给下一节点。不建立专用通路,线路可以<strong>逐段占用</strong>。
+  </blockquote>
+  <p>按"一次转发的数据有多大"分两种:</p>
+  <table class="ref">
+    <tr><th>方式</th><th>转发单位</th><th>特点</th><th>问题</th></tr>
+    <tr><td>报文交换 <span class="term-en">message switching</span></td><td>整个报文(不限长)</td><td>无需建立连接、线路利用率高</td><td>报文大,节点需大缓存;<strong>时延大</strong></td></tr>
+    <tr><td>分组交换 <span class="term-en">packet switching</span></td><td>分组(上限通常 1500B 级)</td><td>把报文切开,每组带<strong>首部(地址)</strong>;灵活、迅速、可靠,是<strong>互联网采用的方式</strong></td><td>每组有首部开销;可能失序、丢包需重组</td></tr>
+  </table>
+  <p>记忆抓手:报文 = 整封信一次寄;分组 = 拆成多个带编号的信封分批寄。
+     分组的首部写明"收件地址 + 序号",到了终点按序号重装。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"分组交换比电路交换时延一定小"</strong>——错。分组交换省掉了建立连接的时间,
+       但每个节点都有<strong>存储转发时延 + 排队时延</strong>,负载重时反而更慢。
+       它赢在<strong>线路利用率和健壮性</strong>,不是绝对速度。<br>
+       <strong>"报文交换和分组交换都要建立连接"</strong>——错,两者都不建立连接;
+       需要事先建立连接的只有电路交换。</p>
+  </div>
+
+  <h2>四、时延计算(选择题计算题)</h2>
+  <table class="ref">
+    <tr><th>时延</th><th>公式</th><th>说明</th></tr>
+    <tr><td>发送时延 <span class="term-en">transmission delay</span></td><td>数据长度 ÷ 发送速率(带宽)</td><td>"把比特推上线"的时间</td></tr>
+    <tr><td>传播时延 <span class="term-en">propagation delay</span></td><td>信道长度 ÷ 传播速率(铜线约 2.3×10⁸ m/s)</td><td>"比特在路上跑"的时间</td></tr>
+  </table>
+  <p><strong>例</strong>:100MB 文件(8×10⁸ bit)在 100Mbps 链路上发送:8×10⁸ ÷ 10⁸ = 8 s;
+     若改为 4 倍带宽(400Mbps),发送时延降为 2 s——带宽影响的是发送时延,
+     不会让"路上跑"变快(传播时延只与距离和介质有关)。</p>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>你家的宽带是"共享线路"的分组交换:不用时不占资源,所以运营商能把一条线路卖给多户(统计复用);
+       电话时代打长途占一条线,就是电路交换。理解这一点,你就懂了为什么宽带"办 200M"
+       却和邻居共享出口——综合题里算"线路利用率"用的正是这个概念。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"互联网核心部分采用的数据交换方式是?",
+     "opts":["分组交换","电路交换","报文交换"],
+     "answer":0,
+     "why":"互联网的基石是分组交换:数据切成分组、存储转发、首部带地址。"},
+    {"q":"下列哪项是电路交换的典型特征?",
+     "opts":["通信前必须建立专用物理通路","每个分组独立选路","首部包含序号用于重组"],
+     "answer":0,
+     "why":"先建立连接、独占线路、通信完释放——这是电路交换;后两项是分组交换的特征。"},
+    {"q":"1000KB 数据在 100Mbps 链路上的发送时延约为?(1KB=8000bit 口径可取 10⁷ bit)",
+     "opts":["约 0.1 s","约 1 s","约 10 s"],
+     "answer":0,
+     "why":"10⁷ bit ÷ 10⁸ bit/s = 0.1 s。发送时延=长度÷带宽,与距离无关。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>电路交换</td><td>先建专用通路再通信;时延小但线路利用率低(电话网)</td></tr>
+    <tr><td>报文交换</td><td>存储转发整个报文;无需建连但时延大</td></tr>
+    <tr><td>分组交换</td><td>切分组+首部地址;互联网采用;有首部开销与失序问题</td></tr>
+    <tr><td>时延计算</td><td>发送时延=长度÷带宽;传播时延=距离÷速率</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p><strong>原理向:</strong>谢希仁《计算机网络》(第 8 版)§1.3 电路交换/分组交换。
+     <strong>应试向:</strong>官方教材第 1 章相关小节。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0001-what-is-a-network.html">← 第 1 课</a>
+    <a href="../lessons/0003-architecture.html">第 3 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

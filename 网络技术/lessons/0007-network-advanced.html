@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 7 课 · 网络层进阶:ARP、ICMP、NAT 与路由</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 7 课 / 为计算机三级打基础</p>
+  <h1>网络层进阶 <span class="term-en">ARP · ICMP · NAT · Routing · IPv6</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 讲清 ARP 的工作过程与跨网段寻址;
+       <strong>②</strong> 说出 ICMP 的作用与 ping/traceroute 原理;
+       <strong>③</strong> 对比 RIP/OSPF/BGP(高频考点),理解 NAT 与 IPv6 基础。</p>
+  </div>
+
+  <h2>一、ARP:IP 地址 → MAC 地址</h2>
+  <blockquote>
+    <strong>ARP</strong>(<span class="term-en">Address Resolution Protocol</span>):
+    同一网段内,已知对方 IP 求其 MAC——主机广播 ARP 请求("谁是 192.168.1.20?"),
+    目标主机单播 ARP 应答;结果存入 <strong>ARP 缓存表</strong>。
+  </blockquote>
+  <p><strong>跨网段关键逻辑</strong>(必考):源主机发现目的 IP 与自己<strong>不在同一网段</strong>
+     (IP AND 掩码比较,第 6 课!)→ 不直接找对方,而是把帧发给<strong>默认网关</strong>(路由器接口)的 MAC;
+     每过一个路由器,帧的<strong>源/目的 MAC 都被替换</strong>,而 IP 头里的源/目的 IP <strong>始终不变</strong>
+     ——"MAC 逐段变,IP 端到端不变"。</p>
+
+  <h2>二、ICMP:网络层的"诊断协议"</h2>
+  <p><strong>ICMP</strong>(<span class="term-en">Internet Control Message Protocol</span>)封装在 IP 中,
+     两类报文:<strong>ICMP 询问</strong>(回送请求/应答)与 <strong>ICMP 差错报告</strong>
+     (终点不可达、超时、参数问题、改变路由)。<br>
+     <strong>ping</strong> = 回送请求/应答,测连通性与往返时延;<strong>traceroute/tracert</strong> =
+     利用 TTL 逐跳递增,让沿途每台路由器返回超时报文,从而画出路径。</p>
+
+  <h2>三、路由:静态 vs 动态,三大协议对比</h2>
+  <p>路由器查<strong>路由表</strong>转发:目的网络 → 下一跳。路由来源:直连、<strong>静态</strong>(手工配,小网可靠)
+     与<strong>动态</strong>(协议自动学习)。动态分<strong>内部网关协议 IGP</strong>(一个自治系统 AS 内)
+     与<strong>外部网关协议 EGP</strong>(AS 之间):</p>
+  <table class="ref">
+    <tr><th>协议</th><th>算法</th><th>度量</th><th>承载</th><th>要点</th></tr>
+    <tr><td>RIP <span class="term-en">Routing Information Protocol</span></td><td>距离向量</td><td>跳数(≤15,16=不可达)</td><td>UDP 520</td><td>小网络;周期广播;坏消息传得慢(慢收敛)</td></tr>
+    <tr><td>OSPF <span class="term-en">Open Shortest Path First</span></td><td>链路状态 + Dijkstra</td><td>开销(带宽)</td><td>IP(协议号 89)</td><td>大中型网络;泛洪链路状态;收敛快;区域划分</td></tr>
+    <tr><td>BGP <span class="term-en">Border Gateway Protocol</span></td><td>路径向量</td><td>策略(多准则)</td><td>TCP 179</td><td>AS 之间(互联网骨干);求"可达+策略好"而非最快</td></tr>
+  </table>
+
+  <h2>四、NAT 与 IPv6</h2>
+  <p><strong>NAT</strong>(<span class="term-en">Network Address Translation</span>):内网私有地址 ↔ 公网地址转换。
+     常用 <strong>NAPT</strong>(端口地址转换):路由器记录"(内网IP:端口)→(公网IP:端口)"映射表,
+     回程按表翻回——你家路由器就是 NAT 设备;这也让外网无法主动连入内网(顺带的安全效果,需端口映射开放)。</p>
+  <p><strong>IPv6</strong>:128 位,冒号十六进制表示,<strong>零压缩</strong>规则(每组前导 0 省略;
+     连续全 0 组用 <code>::</code>,<strong>只能出现一次</strong>),如
+     <code>2001:0db8:0000:0000:0000:ff00:0042:8329</code> →
+     <code>2001:db8::ff00:42:8329</code>。地址无前导 0 可省。过渡技术:<strong>双协议栈</strong>、
+     <strong>隧道</strong>。IPv6 不用 NAT、地址即充足;首部更简、内置安全与自动配置。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"ARP 是运输层协议"</strong>——ARP/ICMP 都属于<strong>网络层</strong>(TCP/IP 网际层),
+       ping 用的是 ICMP 不是 TCP/UDP。<br>
+       <strong>"RIP 用带宽当度量,OSPF 用跳数"</strong>——正好说反:RIP 数<strong>跳数</strong>,OSPF 看<strong>开销(带宽)</strong>。<br>
+       <strong>":: 可以压缩多个位置的连续零组"</strong>——错,<strong>只能用一次</strong>。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>家里断网的第一排查看法全是本课:ping 网关(ARP/连通性)→ ping 8.8.8.8(公网路由)
+       → ping 域名(DNS,第 9 课)。三级应用题的"路由器配置"(IP、静态路由)与"网络故障诊断"
+       也建立在这层。记住排障顺序:物理连通 → 网关 → 路由 → DNS。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"主机要与本网段外的主机通信时,它把帧发往谁?",
+     "opts":["默认网关的 MAC 地址","目的主机的 MAC 地址","DNS 服务器的 MAC 地址"],
+     "answer":0,
+     "why":"跨网段时目的 MAC 填网关;IP 层目的地址仍是真正的目的主机——MAC 逐段变,IP 端到端不变。"},
+    {"q":"关于 RIP 与 OSPF,正确的是?",
+     "opts":["RIP 用跳数、UDP 封装;OSPF 用链路状态、IP 封装","RIP 用带宽;OSPF 用跳数","两者都用 Dijkstra 算法"],
+     "answer":0,
+     "why":"RIP:距离向量+跳数≤15+UDP 520;OSPF:链路状态+Dijkstra+IP 89,适合大网。"},
+    {"q":"地址 2001:0db8:0000:0000:0abc:0000:0000:0001 的合法零压缩写法是?",
+     "opts":["2001:db8::abc:0:0:1 或 2001:db8:0:0:abc::1","2001:db8::abc::1","2001:0db8::abc:0000:0000:0001::"],
+     "answer":0,
+     "why":":: 只能出现一次,每组前导零可省;选项 B 出现两次 ::,不合法。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>ARP</td><td>同网段 IP→MAC,广播问/单播答;跨网段问网关</td></tr>
+    <tr><td>ICMP</td><td>询问+差错报告;ping/traceroute 的底层</td></tr>
+    <tr><td>RIP/OSPF/BGP</td><td>跳数-UDP / 链路状态-IP / 路径向量-TCP,范围 IGP→EGP</td></tr>
+    <tr><td>NAT/NAPT</td><td>私有→公网转换,端口区分连接;外网不能主动进内网</td></tr>
+    <tr><td>IPv6</td><td>128 位冒号十六进制;零压缩 :: 仅一次;双栈+隧道过渡</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 4 章 §4.4–4.7;官方教材"路由器配置与高级功能"章节(与第 8 课习题联练)。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0006-ip-addressing.html">← 第 6 课</a>
+    <a href="../lessons/0008-transport.html">第 8 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC7%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

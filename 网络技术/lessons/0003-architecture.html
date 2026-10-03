@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 3 课 · 网络体系结构</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 3 课 / 为计算机三级打基础</p>
+  <h1>网络体系结构 <span class="term-en">Network Architecture</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 默写 OSI 七层与 TCP/IP 四层(五层)及各层功能;
+       <strong>②</strong> 层—设备—数据单元对号入座(选择题最高频);
+       <strong>③</strong> 说清分层的好处与"协议"三要素。</p>
+  </div>
+
+  <h2>一、为什么要分层?</h2>
+  <p>两台不同厂商的机器要通信,涉及"用什么线""信号怎么编码""地址怎么编""丢包怎么办"……
+     一团麻。分层的答案:<strong>把复杂问题切成若干层,每层只做一件事、只对上层提供服务、
+     只依赖下层</strong>。分层的好处(考点):<strong>各层相互独立、灵活性好、易于实现维护、
+     促进标准化、层次解耦</strong>。各层的规则集合就是<strong>协议</strong>(protocol);
+     计算机网络的体系结构 = 分层 + 各层协议的集合。</p>
+  <p>协议三要素(背下来):<strong>语法</strong>(数据格式/结构)、<strong>语义</strong>(做什么/控制信息含义)、
+     <strong>同步/时序</strong>(事件顺序与速度匹配)。</p>
+
+  <h2>二、OSI 七层 vs TCP/IP:两张必背对照表</h2>
+  <table class="ref">
+    <tr><th>OSI 七层</th><th>核心功能(一句话)</th><th>传输单元 PDU</th><th>典型设备</th></tr>
+    <tr><td>7 应用层 <span class="term-en">Application</span></td><td>为用户应用提供服务(HTTP/DNS/DHCP)</td><td>报文/数据</td><td>网关</td></tr>
+    <tr><td>6 表示层 <span class="term-en">Presentation</span></td><td>编码转换、加密、压缩</td><td>—</td><td>—</td></tr>
+    <tr><td>5 会话层 <span class="term-en">Session</span></td><td>建立/管理/终止会话</td><td>—</td><td>—</td></tr>
+    <tr><td>4 运输层 <span class="term-en">Transport</span></td><td>端到端可靠传输(TCP/UDP)、端口复用分用</td><td>报文段 <span class="term-en">segment</span></td><td>—</td></tr>
+    <tr><td>3 网络层 <span class="term-en">Network</span></td><td>路由选择、IP 寻址、分组转发</td><td>分组 <span class="term-en">packet</span></td><td><strong>路由器</strong></td></tr>
+    <tr><td>2 数据链路层 <span class="term-en">Data Link</span></td><td>成帧、MAC 寻址、差错检测</td><td>帧 <span class="term-en">frame</span></td><td><strong>交换机</strong>、网桥</td></tr>
+    <tr><td>1 物理层 <span class="term-en">Physical</span></td><td>比特流传输:电压/接口/介质规范</td><td>比特 <span class="term-en">bit</span></td><td><strong>集线器</strong>、中继器</td></tr>
+  </table>
+  <table class="ref">
+    <tr><th>TCP/IP 四层</th><th>对应 OSI</th><th>核心协议(必背)</th></tr>
+    <tr><td>应用层</td><td>7+6+5</td><td>HTTP、HTTPS、DNS、DHCP、FTP、SMTP/POP3、Telnet、SNMP</td></tr>
+    <tr><td>运输层</td><td>4</td><td>TCP、UDP</td></tr>
+    <tr><td>网际层(网络层)</td><td>3</td><td>IP、ICMP、ARP、IGMP</td></tr>
+    <tr><td>网络接口层</td><td>2+1</td><td>Ethernet、PPP 等(未具体规定)</td></tr>
+  </table>
+  <p>教学常用的<strong>五层原理体系</strong>= 物理层/数据链路层/网络层/运输层/应用层(上表中间四行 + 应用层),
+     本课程默认按五层讲。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"TCP/IP 严格划分了网络接口层"</strong>——错,TCP/IP 恰恰没规定底层(这是它灵活的原因)。<br>
+       <strong>"路由器工作在运输层"</strong>——错,路由器根据 IP 地址转发,工作在<strong>网络层</strong>;
+       根据端口工作的是四层以上的设备(如应用层网关)。<br>
+       <strong>"集线器隔离冲突域"</strong>——错,集线器是物理层设备,<strong>不隔离冲突域</strong>;
+       交换机的每个端口才是一个独立冲突域。</p>
+  </div>
+
+  <h2>三、封装:数据是怎么"穿衣服"的</h2>
+  <p>发送方:应用数据 → 加 TCP 头成<strong>段</strong> → 加 IP 头成<strong>分组</strong> → 加帧头帧尾成<strong>帧</strong> → 变<strong>比特</strong>上线。
+     接收方逐层"脱衣服"。每一层剥掉/加上自己的头部,靠的就是协议规定的格式——
+     这就是协议三要素里"语法"的落地。接收方对等层读对等层写的头部(对等通信原则)。</p>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>抓包工具(Wireshark)展示的就是这张图:一个数据包从以太网帧头 → IP 头 → TCP 头 → HTTP 内容,
+       一层一层展开。综合题"协议分析"和工程排障(看数据包卡在哪一层)用的都是分层模型。
+       考试里"某功能属于哪一层""某设备工作在哪一层"几乎每卷必考。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"在 OSI 参考模型中,实现节点间路由选择的是?",
+     "opts":["网络层","数据链路层","运输层"],
+     "answer":0,
+     "why":"路由选择、IP 寻址是网络层(第 3 层)的职责,对应设备是路由器。"},
+    {"q":"交换机与路由器分别工作在哪一层?",
+     "opts":["数据链路层;网络层","网络层;数据链路层","物理层;数据链路层"],
+     "answer":0,
+     "why":"交换机按 MAC 地址转发帧(链路层),路由器按 IP 地址转发分组(网络层)。"},
+    {"q":"下列哪个协议属于 TCP/IP 网际层?",
+     "opts":["ICMP","TCP","HTTP"],
+     "answer":0,
+     "why":"IP/ICMP/ARP/IGMP 属网际层;TCP 是运输层;HTTP 是应用层。"},
+    {"q":"协议的三要素是?",
+     "opts":["语法、语义、同步(时序)","语法、加密、压缩","层次、接口、服务"],
+     "answer":0,
+     "why":"语法规定格式、语义规定动作含义、同步规定顺序与速度,三者缺一不可。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>分层好处</td><td>独立、灵活、易维护、促进标准化</td></tr>
+    <tr><td>协议三要素</td><td>语法、语义、同步</td></tr>
+    <tr><td>层-设备</td><td>物理层=集线器/中继器;链路层=交换机/网桥;网络层=路由器</td></tr>
+    <tr><td>层-PDU</td><td>比特→帧→分组→报文段→数据(自下而上收)</td></tr>
+    <tr><td>TCP/IP</td><td>应用/运输/网际/网络接口四层;底层未具体规定</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》§1.7 与第 2 章 §2.1;官方教材对应"网络体系结构"章节。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0002-switching.html">← 第 2 课</a>
+    <a href="../lessons/0004-physical-layer.html">第 4 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

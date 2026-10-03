@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 6 课 · 微分方程模型</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/sir-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">数学建模 · 第 6 课 / 备战 2026 国赛 · 09-05</p>
+  <h1>微分方程模型 <span class="term-en">Differential Equation Models</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 用「变化率 = 流入 − 流出」套路把机理问题写成 ODE;<strong>②</strong> 用 SIR 模型理解阈值(R0)与防控目标;<strong>③</strong> 会用 <code>scipy.integrate.solve_ivp</code> 数值求解并说明「数值解够用」。</p>
+  </div>
+
+  <h2>机理建模的万能套路</h2>
+  <p>当问题有明确的<strong>物理/生物/经济机理</strong>时,不再从数据拟合出发,而是直接写平衡式:</p>
+  <div class="formula">某量的变化率 = 流入速率 − 流出速率</div>
+  <p>人口增长(出生率−死亡率)、房间温度(得热−散热)、库存(进货−消耗)、疫情(新感染−恢复)——全是这个套路的换装。你在流体力学学的<strong>连续性方程</strong>,就是它最恢弘的版本。</p>
+
+  <h2>SIR:传染病模型的教科书</h2>
+  <p>把人群分成易感(<span class="term-en">Susceptible</span>)、感染(<span class="term-en">Infectious</span>)、移出(<span class="term-en">Removed</span>)三类:</p>
+  <div class="formula">dS/dt = −βSI/N,　dI/dt = βSI/N − γI,　dR/dt = γI</div>
+  <p>核心量是<strong>基本再生数</strong> <span class="var">R0 = β/γ</span>:一个感染者在全易感人群中平均传染的人数。<strong>R0 &gt; 1 疫情爆发,R0 &lt; 1 自然消退</strong>——这就是阈值效应,也是防控建模的意义(把有效再生数压到 1 以下)。</p>
+
+  <div class="demo" data-sir-demo></div>
+
+  <h2>数值解:为什么够用</h2>
+  <p>大多数 ODE(尤其非线性组)没有初等解析解。工程上的标准做法是<strong>数值积分</strong>:把时间切成小步,按导数逐步外推(Euler 的思想),<code>scipy.integrate.solve_ivp</code> 内置自适应高阶方法,精度远超手工 Euler。论文里写明:方法(RK45)、步长控制、初值与参数来源——就完整了。</p>
+  <pre>from scipy.integrate import solve_ivp
+def sir(t, y, beta, gamma, N):
+    S, I, R = y
+    return [-beta*S*I/N, beta*S*I/N - gamma*I, gamma*I]
+sol = solve_ivp(sir, [0, 120], [990, 10, 0],
+                args=(0.3, 0.1, 1000), dense_output=True)</pre>
+
+  <h2>参数从哪来 + 平衡点分析</h2>
+  <p>参数 β、γ 两个来源:<strong>文献引用</strong>(注明出处)或<strong>数据拟合</strong>(第 5 课的 curve_fit 套在 ODE 解外面)。进阶动作:令所有导数为零解出<strong>平衡点</strong>(如地方病平衡点 S* = γN/β),并说明解从哪边趋近它——这一小节写进论文,就是「建模的创造性」的直接证据。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 参数拍脑袋</strong>——β=0.3 必须有出处或拟合依据,评审必问;<br>
+       <strong>② 只画曲线不做分析</strong>——峰值、到达时间、平衡点、灵敏度至少做两样;<br>
+       <strong>③ 死磕解析解</strong>——非线性模型数值解 + 检验完全够,别浪费 74 小时里的 10 小时;<br>
+       <strong>④ 单位不统一</strong>——β 的单位是 1/天还是 1/小时,算错量纲全盘皆输。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>这就是你流力学了三课的那条路:连续介质假设 → 建立方程 → 数值求解 → 与数据对比——<strong>CFD 本身就是大型 ODE/PDE 建模</strong>。建环课里的房间逐时温度、CO₂ 浓度积分方程,与 SIR 同属一族。第 1 课的 Logistic 与牛顿冷却,则是本课的一维特例。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"SIR 模型中 R0 = β/γ 的建模含义是?","opts":["一个感染者平均传染的人数","总人口的恢复比例","疫情持续的预期天数","需要隔离的人口比例"],"answer":0,"why":"R0>1 爆发、R0<1 消退,是防控模型的核心阈值。"},
+    {"q":"「库存量的变化率 = 进货速率 − 消耗速率」体现的建模套路是?","opts":["变化率等于流入减流出","变化率等于存量的平方","变化率必须为常数","变化率与时间无关"],"answer":0,"why":"守恒/平衡式是机理建模的通用入口,与物理学科完全同源。"},
+    {"q":"非线性 ODE 组没有解析解时,标准做法是?","opts":["数值积分并说明方法与精度","改用线性规划求解","把方程删掉只画流程图","必须手算级数展开"],"answer":0,"why":"solve_ivp 自适应 RK45 是工程标准;写清方法与参数来源即可。"},
+    {"q":"分析平衡点 S* = γN/β 的意义在于?","opts":["说明疫情长期的走向","让模型少一个参数","证明解析解不存在","降低数值求解误差"],"answer":0,"why":"平衡点与趋近方向回答「最终会怎样」,是机理模型独有的洞察。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>机理建模</td><td>mechanistic modeling</td><td>变化率 = 流入 − 流出,与数据拟合互补</td></tr>
+    <tr><td>SIR 模型</td><td>SIR model</td><td>三类人群 + 阈值 R0 = β/γ</td></tr>
+    <tr><td>数值解</td><td>numerical solution</td><td>solve_ivp(RK45);写明方法与精度</td></tr>
+    <tr><td>平衡点</td><td>equilibrium</td><td>导数为零的定态;回答「长期走向」</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">scipy.integrate.solve_ivp 文档</a>,把 SIR 例题跑通并画出三曲线。</li>
+    <li>姜启源《数学模型》微分方程模型章节:传染病模型的完整推导与 SIS/SIR 扩展。</li>
+    <li>下一课预告:<a href="../lessons/0007-paper-and-abstract.html">论文写作与摘要冲刺</a>——把六课所学装订成国奖论文的最后一课。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0005-forecasting-methods.html">← 第 5 课:预测类方法</a>
+    <a href="../lessons/0007-paper-and-abstract.html">第 7 课:论文写作与摘要 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。solve_ivp 报错、R0 推导存疑、想讨论你赛题的方程组——直接贴出来。</div>
+</main>
+</body>
+</html>

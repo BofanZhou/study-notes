@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 6 课 · IP 地址与子网划分</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/subnet-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 6 课 / 为计算机三级打基础 · ★综合题核心</p>
+  <h1>IP 地址与子网划分 <span class="term-en">IP Addressing &amp; Subnetting</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标(全课程最重要的一课)</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 判断 IP 地址类别、识别特殊地址与私有地址;
+       <strong>②</strong> 给定 IP+掩码算出网络地址、广播地址、可用主机数;
+       <strong>③</strong> 按需求做子网划分(综合题第 1 大题就是这个)。</p>
+  </div>
+
+  <h2>一、IPv4 地址:32 位的"门牌号"</h2>
+  <p>IPv4 地址 32 位,按 8 位一组写成点分十进制(如 192.168.1.10)。
+     传统<strong>分类编址</strong>(考点):</p>
+  <table class="ref">
+    <tr><th>类</th><th>首位</th><th>网络位.主机位</th><th>默认掩码</th><th>网络范围</th></tr>
+    <tr><td>A</td><td>0</td><td>8.24</td><td>/8 = 255.0.0.0</td><td>1 ~ 126</td></tr>
+    <tr><td>B</td><td>10</td><td>16.16</td><td>/16 = 255.255.0.0</td><td>128 ~ 191</td></tr>
+    <tr><td>C</td><td>110</td><td>24.8</td><td>/24 = 255.255.255.0</td><td>192 ~ 223</td></tr>
+    <tr><td>D</td><td>1110</td><td>多播组地址</td><td>—</td><td>224 ~ 239</td></tr>
+    <tr><td>E</td><td>1111</td><td>保留实验</td><td>—</td><td>240 ~ 255</td></tr>
+  </table>
+  <p><strong>特殊地址(必背)</strong>:127.x.x.x 环回测试;主机位全 0 = <strong>网络地址</strong>不可用;
+     主机位全 1 = <strong>广播地址</strong>不可用;0.0.0.0 本机;255.255.255.255 受限广播。<br>
+     <strong>私有地址(内网专用,不上公网)</strong>:10.0.0.0/8、172.16.0.0/12(172.16~172.31)、
+     192.168.0.0/16——你家路由器分配的 192.168.x.x 就在第三段。</p>
+
+  <h2>二、子网掩码与三件套计算</h2>
+  <p>掩码 1 的部分=网络位,0 的部分=主机位。给定 IP 和掩码,综合题三连:</p>
+  <table class="ref">
+    <tr><th>要求</th><th>算法</th></tr>
+    <tr><td>网络地址</td><td>IP <strong>AND</strong> 掩码(掩码外部分全部归 0)</td></tr>
+    <tr><td>广播地址</td><td>网络地址 + 主机位全 1(即下一个网络地址 − 1)</td></tr>
+    <tr><td>可用主机数</td><td>2<sup>主机位数</sup> − 2(扣网络地址与广播地址)</td></tr>
+  </table>
+  <p><strong>例</strong>:192.168.1.130/26(掩码 255.255.255.192):
+     块大小 = 256−192 = 64 → 网络们是 0, 64, 128, 192;130 落在 128~191 →
+     网络地址 <strong>192.168.1.128</strong>,广播地址 <strong>192.168.1.191</strong>,
+     可用主机 2⁶−2 = <strong>62</strong> 台(129~190)。</p>
+
+  <div class="demo" data-subnet-demo></div>
+
+  <h2>三、子网划分与 CIDR</h2>
+  <p><strong>划子网 = 从主机位借位当网络位</strong>:需要 N 个子网,借 n 位须 2ⁿ ≥ N;
+     每个子网要容 H 台主机,主机位 h 须 2ʰ−2 ≥ H。借位后掩码变长(如 /24 → /26)。<br>
+     <strong>CIDR</strong>(<span class="term-en">Classless Inter-Domain Routing</span>,无类域间路由):
+     抛弃 A/B/C 分类,用"IP/前缀长度"任意定长(如 10.1.0.0/16),配合<strong>路由聚合</strong>
+     把多个连续网络合并成一条路由,减小路由表——现代互联网与 VLSM(变长子网掩码)的基础。</p>
+  <p><strong>综合题标准套路</strong>(按步走,稳拿 40 分里的填空):
+     ① 按最大部门定主机位 → ② 推各子网掩码与块大小 → ③ 依次分配网络地址
+     (从大到小或顺序切)→ ④ 写出每段可用范围与广播地址 → ⑤ 路由器接口占第一个可用地址。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"192.168.1.0/24 有 256 个可用主机地址"</strong>——错,256 是地址总数,
+       可用 = 256−2 = 254(网络地址与广播地址不可分配)。<br>
+       <strong>"127.0.0.1 是 A 类所以可以配在网卡上通信"</strong>——环回地址永不出网卡,用于本机测试。<br>
+       <strong>"掩码 255.255.255.192 能划分出 4 个子网,每个 62 台"</strong>——对!但注意题目若问
+       "再划出 8 个子网"就要借 3 位(/27),每子网只剩 30 台——<strong>子网越多,每子网主机越少</strong>。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>你家路由器默认 192.168.1.0/24、给手机分 192.168.1.100,就是这套体系;
+       公司里"市场部一个子网、财务部一个子网"对应 VLAN + 子网划分(第 5 课呼应),
+       而家庭宽带能上公网,靠的是 NAT 把私有地址翻译成公网地址(第 7 课)。
+       综合题 40 分里地址规划通常占一半以上——本课值得反复刷。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"地址 172.20.1.5 属于哪一类?是不是私有地址?",
+     "opts":["B 类,且属于私有地址段","A 类,公网地址","C 类,私有地址"],
+     "answer":0,
+     "why":"首字节 172 在 128~191 → B 类;172.16~172.31 属私有段 172.16.0.0/12,20 在其中。"},
+    {"q":"主机 192.168.10.77/28 所在子网的广播地址是?",
+     "opts":["192.168.10.79","192.168.10.95","192.168.10.63"],
+     "answer":0,
+     "why":"/28 → 块大小 16,子网边界 64、80;77 落在 64~79 → 广播地址 79,可用主机 14 台。"},
+    {"q":"某部门需要容纳 60 台主机,至少需要多大的前缀?",
+     "opts":["/26(62 台可用)","/25(126 台)","/27(30 台)"],
+     "answer":0,
+     "why":"60 台需 2^h−2 ≥ 60 → h=6 → 前缀 32−6=/26,掩码 255.255.255.192。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>分类</td><td>A/B/C 按首位 0/10/110;D 多播;E 保留;127 环回</td></tr>
+    <tr><td>私有段</td><td>10/8、172.16/12、192.168/16</td></tr>
+    <tr><td>三件套</td><td>网络地址=IP AND 掩码;广播=下一网络−1;可用=2ʰ−2</td></tr>
+    <tr><td>划分</td><td>借主机位做子网位:2ⁿ≥子网数,2ʰ−2≥主机数</td></tr>
+    <tr><td>CIDR</td><td>IP/前缀,任意长度+路由聚合</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 4 章 §4.2–4.3;官方教材 IP 地址规划章节。
+     <strong>强烈建议:</strong>配合上方演示器随机出 10 道给自己算。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0005-datalink-lan.html">← 第 5 课</a>
+    <a href="../lessons/0007-network-advanced.html">第 7 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。子网划分卡住是很正常的,随时问。</div>
+</main>
+</body>
+</html>

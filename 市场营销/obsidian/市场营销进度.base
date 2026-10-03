@@ -1,0 +1,36 @@
+filters:
+  and:
+    - file.hasTag("市场营销/课程")
+formulas:
+  status_icon: if(status == "done", "✅ 已完成", if(status == "learning", "📖 学习中", "⏳ 未开始"))
+  days_since: if(studied, (today() - studied).days.round(0) + " 天前", "")
+  review_hint: if(status == "done" && studied, if((today() - studied).days >= 7, "🔄 该复习了", "记忆保鲜中"), "")
+properties:
+  lesson:
+    displayName: 课次
+  formula.status_icon:
+    displayName: 状态
+  studied:
+    displayName: 学习日期
+  formula.review_hint:
+    displayName: 间隔复习提示
+views:
+  - type: table
+    name: 课程进度
+    order:
+      - lesson
+      - file.name
+      - formula.status_icon
+      - studied
+      - formula.review_hint
+    summaries:
+      lesson: Average
+  - type: list
+    name: 待复习
+    filters:
+      or:
+        - status == "learning"
+        - formula.review_hint == "🔄 该复习了"
+    order:
+      - file.name
+      - formula.status_icon

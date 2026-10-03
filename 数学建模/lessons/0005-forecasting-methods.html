@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 5 课 · 预测类方法</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/lsq-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">数学建模 · 第 5 课 / 备战 2026 国赛 · 09-04</p>
+  <h1>预测类方法 <span class="term-en">Regression &amp; Forecasting</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 会做线性/多项式回归并读懂 SSE 与 R²;<strong>②</strong> 说出 R² 高不等于模型对(过拟合);<strong>③</strong> 知道时间序列与灰色 GM(1,1) 各自的适用场景;能把「外推检验」变成默认动作。</p>
+  </div>
+
+  <h2>预测题的三种武器</h2>
+  <table class="ref">
+    <tr><th>武器</th><th>适用场景</th><th>关键检验</th></tr>
+    <tr><td>回归分析(本课主力)</td><td>有解释变量、样本较充足</td><td>残差诊断 + R² + 外推检验</td></tr>
+    <tr><td>时间序列(移动平均/指数平滑/ARIMA)</td><td>只有历史序列、有趋势或季节性</td><td>留出后段做回测</td></tr>
+    <tr><td>灰色 GM(1,1)</td><td>小样本、近似指数增长的数据</td><td>后验差比 C 与小误差概率 p</td></tr>
+  </table>
+
+  <h2>最小二乘回归:一条直线的自我修养</h2>
+  <p>给定点 <span class="var">(xᵢ, yᵢ)</span>,选直线 <span class="var">ŷ = a + bx</span> 使残差平方和最小——这正是第 1 课检验环节的引擎:</p>
+  <div class="formula">min Σ(yᵢ − ŷᵢ)²,　R² = 1 − SS<sub>res</sub>/SS<sub>tot</sub></div>
+  <p>Python 里 <code>numpy.polyfit</code> 或 <code>scipy.optimize.curve_fit</code>(可拟合任意曲线,比如第 1 课的 Logistic)一步完成。<strong>残差要看图</strong>:随机散布=模型没漏东西;有弯曲趋势=该换曲线了。</p>
+
+  <div class="demo" data-lsq-demo></div>
+
+  <h2>R² 陷阱与过拟合</h2>
+  <p>把阶数从 1 提到 3,训练集 R² 几乎必然上升——但曲线两端开始「翘飞」,对新数据反而更差。这叫<strong>过拟合</strong>(<span class="term-en">overfitting</span>):模型背下了噪声,而不是学到了规律。对策很简单:<strong>留出最后 20% 数据不参与拟合,用它们验证预测力(外推检验)</strong>;模型选择上宁可简洁。</p>
+
+  <h2>GM(1,1):小样本时的灰色武器</h2>
+  <p>数据只有七八个点、又近似指数增长时,经典操作是灰色预测:对原始序列做<strong>累加生成</strong>(AGO)让规律显形,再拟合白化微分方程 <span class="var">dx/dt + a·x = b</span>,最后累减还原。报告结果时必须附<strong>后验差比 C = S₂/S₁</strong>(C&lt;0.35 好)与<strong>小误差概率 p</strong>(p&gt;0.95 好)——不附检验的 GM(1,1) 是评审最容易扣分的地方。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 把外推当可靠</strong>——预测超出数据范围越远越虚,要说明置信衰减;<br>
+       <strong>② R² 高 = 模型对</strong>——过拟合随时恭候,要看外推与残差;<br>
+       <strong>③ 小样本硬上深度学习</strong>——几十个数据点,回归/灰色/指数平滑才是正路;<br>
+       <strong>④ 预测完不检验</strong>——回测(用前段预测后段)是预测题的标配动作。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>第 1 课的 Logistic 拟合就是「预测类」实操;你现在正在概统工作区学的<strong>最小二乘、相关系数、假设检验</strong>会在这里全部落地。建环场景:用逐时负荷数据预测建筑全年能耗、用历史数据预测设备劣化——都是回归 + 检验的标准动作。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"回归后残差图呈现明显弯曲趋势,说明?","opts":["模型形式选错了","数据量一定太少","R² 一定接近 1","应该继续用直线拟合"],"answer":0,"why":"残差有结构 = 直线没抓住规律;换曲线或加项,而不是无视。"},
+    {"q":"把多项式阶数不断升高,R² 会怎样?","opts":["训练集 R² 上升但外推更差","训练集与外推都更差","训练集下降外推上升","与阶数完全无关"],"answer":0,"why":"过拟合的经典症状:背噪声换训练 R²,牺牲预测力。"},
+    {"q":"GM(1,1) 最适用的数据特征是?","opts":["小样本且近似指数变化","大数据且强非线性","带强季节性的长序列","完全随机的白噪声"],"answer":0,"why":"累加生成 AGO 恰好放大准指数规律;季节序列应选时间序列方法。"},
+    {"q":"预测题里「回测」指的是?","opts":["用前段数据预测后段来验证","把预测结果重新拟合一遍","把样本量扩大到两倍","把残差平方和除以样本数"],"answer":0,"why":"留出法回测是预测力的直接证据,论文里务必报告。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>最小二乘</td><td>least squares</td><td>残差平方和最小;残差图诊断模型形式</td></tr>
+    <tr><td>决定系数</td><td>R²</td><td>解释了多大比例的波动;高≠对</td></tr>
+    <tr><td>过拟合</td><td>overfitting</td><td>背噪声不学规律;外推检验才能抓住它</td></tr>
+    <tr><td>灰色预测</td><td>GM(1,1)</td><td>小样本准指数:AGO + 白化方程 + 后验差检验</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html">scipy.optimize.curve_fit 文档</a>——把第 1 课的 Logistic 拟合用真实代码复现一遍。</li>
+    <li>司守奎《数学建模算法与应用》灰色预测章节:GM(1,1) 的完整代码与检验表。</li>
+    <li>下一课预告:<a href="../lessons/0006-ode-models.html">微分方程模型</a>——当机理明确时,建模从「拟合数据」升级为「写出规律」。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0004-evaluation-methods.html">← 第 4 课:评价类方法</a>
+    <a href="../lessons/0006-ode-models.html">第 6 课:微分方程模型 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。curve_fit 不收敛、残差图看不懂、GM(1,1) 推导卡壳——直接把代码或图贴上来问。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 11 课 · 信息服务系统配置</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 11 课 / 为计算机三级打基础 · 综合题配置题源</p>
+  <h1>信息服务系统配置 <span class="term-en">DHCP · DNS · WWW · FTP</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 按步骤在 Windows Server 上配置 DHCP/DNS/WWW/FTP 服务;
+       <strong>②</strong> 认出每种服务的关键配置项与常见错误(综合题"看截图选配置")。</p>
+  </div>
+
+  <h2>一、配置前的共同动作</h2>
+  <p>服务器先做三件事:<strong>静态 IP</strong>(服务器地址不能漂)、安装对应<strong>角色/服务</strong>
+     (Windows Server 的"添加角色",Linux 下装服务包)、<strong>防火墙放行端口</strong>
+     (DHCP 67/68、DNS 53、HTTP 80、FTP 21/20)。客户端验证:DHCP 用 <code>ipconfig /renew</code>、
+     DNS 用 <code>nslookup</code>、连通用 <code>ping</code>(第 7 课工具链)。</p>
+
+  <h2>二、DHCP 服务器(综合题最爱)</h2>
+  <table class="ref">
+    <tr><th>配置项</th><th>含义</th><th>考法</th></tr>
+    <tr><td>作用域 <span class="term-en">scope</span></td><td>一段可分配的 IP 范围(如 192.168.10.100~200)</td><td>给需求算范围(第 6 课结合)</td></tr>
+    <tr><td>排除范围 <span class="term-en">exclusion</span></td><td>作用域内不自动分配的地址(留给打印机/服务器)</td><td>问"打印机为何还能冲突"→ 没设排除</td></tr>
+    <tr><td>保留 <span class="term-en">reservation</span></td><td>MAC 绑定固定 IP</td><td>某主机永远拿同一地址</td></tr>
+    <tr><td>租约期 <span class="term-en">lease</span></td><td>地址可用时长,默认 8 天;50% 时续租</td><td>租约到期未续 → 地址回收</td></tr>
+    <tr><td>作用域选项</td><td>003 路由器(网关)、006 DNS 服务器</td><td>客户端拿不到网关 → 选项没配</td></tr>
+  </table>
+  <p>跨网段分配 → 部署 <strong>DHCP 中继代理</strong>(把广播转单播到 DHCP 服务器)。
+     回顾第 9 课 DORA 四步,配置题常配抓包截图问步骤序号。</p>
+
+  <h2>三、DNS 服务器</h2>
+  <table class="ref">
+    <tr><th>配置项</th><th>含义</th></tr>
+    <tr><td>正向查找区域</td><td>域名 → IP(建 A 记录、CNAME 别名、MX 邮件)</td></tr>
+    <tr><td>反向查找区域</td><td>IP → 域名(<strong>PTR</strong> 记录)</td></tr>
+    <tr><td>根提示 / 转发器</td><td>本地查不到时问谁:根提示走根;转发器转给上级 DNS</td></tr>
+    <tr><td>主/辅助区域</td><td>辅助区域从主服务器<strong>区域传送</strong>复制(用 TCP 53)</td></tr>
+  </table>
+  <p>验证:<code>nslookup www.example.com</code> 返回地址即成功。客户端"首选/备用 DNS"填的就是这台服务器地址。</p>
+
+  <h2>四、WWW(IIS)与 FTP 服务器</h2>
+  <table class="ref">
+    <tr><th>服务</th><th>关键配置</th><th>考点</th></tr>
+    <tr><td>WWW(IIS)</td><td>网站物理路径、<strong>绑定</strong>(IP:端口:主机名)、默认文档(index.html)、
+        SSL 证书(443)</td><td>同一台机多网站:改端口或加主机名;访问 https 要装证书</td></tr>
+    <tr><td>FTP(IIS)</td><td>主目录、读写权限、用户隔离、端口 21</td><td>匿名 vs 授权登录;<strong>主动 vs 被动模式</strong>(防火墙后常用被动)</td></tr>
+    <tr><td>Email(概念)</td><td>SMTP 服务 + POP3/IMAP 服务 + 邮箱域</td><td>端口与收发协议回顾第 9 课</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"服务器 IP 用 DHCP 自动获取很方便"</strong>——错!服务器必须<strong>静态 IP</strong>
+       (或 DHCP 保留),否则地址一变全公司断服。<br>
+       <strong>"DNS 建了区域就能反向解析"</strong>——反向解析要建<strong>反向查找区域</strong>并配 PTR 记录。<br>
+       <strong>"FTP 端口 21 传数据"</strong>——21 是<strong>控制连接</strong>;主动模式数据连接用 <strong>20</strong>,
+       被动模式用服务器随机高位端口。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>家里路由器的"DHCP 地址池""静态 IP 绑定"就是本课功能家用化;公司里的 OA/网站服务器
+       就是 IIS/FTP。三级综合题的配置题给一张 Windows Server 配置界面截图问
+       "空缺处该填什么"——把上面的表格背熟,选项基本一眼可辨。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"公司要求打印机永远使用 192.168.10.50,最优做法是?",
+     "opts":["在 DHCP 中为打印机 MAC 配置保留地址","写告示让员工别用这个 IP","把作用域改为从 .51 开始"],
+     "answer":0,
+     "why":"保留(Reservation)按 MAC 绑定地址,既自动管理又固定;硬避开会浪费地址且易错。"},
+    {"q":"客户端拿到了 IP 但上不了网,检查发现网关为空。最可能是?",
+     "opts":["DHCP 作用域选项 003(路由器)没配","DNS 服务停了","服务器没建保留"],
+     "answer":0,
+     "why":"网关由 DHCP 选项 003 下发;选项缺失 → 客户端有 IP 无网关,只能访问本网段。"},
+    {"q":"关于 DNS,下列说法正确的是?",
+     "opts":["反向解析需要反向查找区域和 PTR 记录","A 记录用于 IP 到域名的解析","辅助区域通过 UDP 进行区域传送"],
+     "answer":0,
+     "why":"A 记录是域名→IP(PTR 才反向);区域传送用 TCP 53 保证可靠。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>服务器三件事</td><td>静态 IP、装角色、防火墙放行端口</td></tr>
+    <tr><td>DHCP</td><td>作用域/排除/保留/租约/选项003-006;跨网段用中继</td></tr>
+    <tr><td>DNS</td><td>正向 A/CNAME/MX;反向 PTR;转发器与根提示;传送用 TCP</td></tr>
+    <tr><td>WWW</td><td>绑定、默认文档、SSL;多站靠端口/主机名区分</td></tr>
+    <tr><td>FTP</td><td>控制 21/数据 20;被动模式过防火墙</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>官方教材"计算机网络信息服务系统的安装与配置"章——截图题的原文出处,建议对照教材界面图过一遍。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0010-network-planning.html">← 第 10 课</a>
+    <a href="../lessons/0012-security-management.html">第 12 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC11%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

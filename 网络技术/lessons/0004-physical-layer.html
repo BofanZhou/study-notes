@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 4 课 · 物理层与传输介质</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">网络技术 · 第 4 课 / 为计算机三级打基础</p>
+  <h1>物理层与传输介质 <span class="term-en">Physical Layer</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 说出物理层四大特性与常用传输介质的选用;
+       <strong>②</strong> 区分曼彻斯特等常用编码(选择题);
+       <strong>③</strong> 用奈奎斯特定理与香农公式做信道容量计算。</p>
+  </div>
+
+  <h2>一、物理层干什么:四大特性</h2>
+  <p>物理层不研究具体的传输介质(那是通信课的事),它规定的是
+     <strong>与传输媒体接口的四个特性</strong>(考点):</p>
+  <table class="ref">
+    <tr><th>特性</th><th>规定什么</th><th>例子</th></tr>
+    <tr><td>机械特性 <span class="term-en">mechanical</span></td><td>接口形状、引脚数目、尺寸</td><td>RJ-45 水晶头</td></tr>
+    <tr><td>电气特性 <span class="term-en">electrical</span></td><td>电压范围、阻抗、传输速率</td><td>多少伏代表 1</td></tr>
+    <tr><td>功能特性 <span class="term-en">functional</span></td><td>某根线上某电平的意义</td><td>哪根是数据线/控制线</td></tr>
+    <tr><td>规程特性(过程特性)</td><td>事件先后顺序与配合关系</td><td>先建连还是先发数据</td></tr>
+  </table>
+
+  <h2>二、传输介质:有线与无线</h2>
+  <table class="ref">
+    <tr><th>介质</th><th>特点</th><th>典型用途</th></tr>
+    <tr><td>双绞线 UTP/STP</td><td>便宜、距离 ≤100 m;8 芯 4 对相互绞合抗干扰</td><td>局域网布线(网线)</td></tr>
+    <tr><td>同轴电缆</td><td>抗干扰好、带宽大;比双绞线贵</td><td>有线电视、早期以太网</td></tr>
+    <tr><td>光纤 <span class="term-en">optical fiber</span></td><td>利用光的全反射;带宽大、损耗小、抗电磁干扰、安全;
+        单模(远距离、激光)vs 多模(短距离、便宜)</td><td>骨干网、远距离主干</td></tr>
+    <tr><td>无线:无线电波/微波/红外</td><td>微波直线传播、需视距;WiFi 用无线电波 2.4/5 GHz</td><td>移动通信、WiFi</td></tr>
+  </table>
+
+  <h2>三、编码与调制</h2>
+  <p><strong>基带信号</strong>(原始数字信号)直接传输叫基带传输;要上模拟信道需<strong>调制</strong>
+     (调幅 ASK/调频 FSK/调相 PSK)。数字数据的常用<strong>编码</strong>(考点):</p>
+  <table class="ref">
+    <tr><th>编码</th><th>规则</th><th>要点</th></tr>
+    <tr><td>归零制 RZ / 不归零制 NRZ</td><td>高电平 1 低电平 0(NRZ)</td><td>连续同值无法同步,少用于局域网</td></tr>
+    <tr><td>曼彻斯特编码 <span class="term-en">Manchester</span></td><td>每个比特<strong>中间必跳变</strong>(传统以太网:1 为高→低跳变)</td><td>自带时钟同步;波特率是比特率 2 倍</td></tr>
+    <tr><td>差分曼彻斯特</td><td>看比特<strong>开始处</strong>有无跳变:有跳变=0,无=1</td><td>抗干扰更好</td></tr>
+  </table>
+
+  <h2>四、信道极限容量:两个必考公式</h2>
+  <table class="ref">
+    <tr><th>定理</th><th>公式</th><th>适用条件</th></tr>
+    <tr><td>奈奎斯特定理 <span class="term-en">Nyquist</span></td><td>极限码元速率 = 2W(波特);<br>极限数据率 = 2W·log₂V (bit/s)</td><td><strong>理想无噪声</strong>信道;W=带宽(Hz),V=码元离散电平数</td></tr>
+    <tr><td>香农定理 <span class="term-en">Shannon</span></td><td>极限数据率 C = W·log₂(1+S/N) (bit/s)</td><td><strong>有高斯噪声</strong>信道;S/N 为信噪比,<br> dB 表示:10·log₁₀(S/N)</td></tr>
+  </table>
+  <p><strong>例 1(奈氏)</strong>:带宽 3 kHz、每个码元 4 个离散电平 → 2×3000×log₂4 = 12000 bit/s。<br>
+     <strong>例 2(香农)</strong>:带宽 3 kHz、信噪比 30 dB(S/N=1000)→ 3000×log₂1001 ≈ 30 kbit/s。<br>
+     实际信道取两者中<strong>较小的</strong>。dB 与倍数换算要熟:30dB=1000 倍、20dB=100 倍、10dB=10 倍。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"带宽加大,传播时延就缩短"</strong>——错,带宽只影响发送时延(第 2 课);
+       传播时延由距离和介质决定。<br>
+       <strong>"光纤比铜线传播快很多"</strong>——错!光纤中光速约 2×10⁸ m/s,铜线中电信号约 2.3×10⁸ m/s,
+       <strong>传播速度差不多</strong>;光纤赢的是带宽、损耗与抗干扰,不是传播速度。</p>
+  </div>
+
+  <h2>五、多路复用:一条线路大家用</h2>
+  <table class="ref">
+    <tr><th>复用</th><th>怎么分</th><th>场景</th></tr>
+    <tr><td>频分复用 FDM</td><td>不同用户占不同<strong>频率</strong>带宽</td><td>广播电台、传统电话</td></tr>
+    <tr><td>时分复用 TDM / 统计 TDM</td><td>轮流占不同<strong>时隙</strong>;统计 TDM 按需分配更高效</td><td>数字电话干线</td></tr>
+    <tr><td>波分复用 WDM</td><td>一根光纤传多个<strong>波长</strong>(光的频分)</td><td>长途光纤骨干</td></tr>
+    <tr><td>码分复用 CDM/CDMA</td><td>不同用户用正交<strong>码片序列</strong>,同时同频不冲突</td><td>3G 手机</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>家装网络里"千兆网线要选超五类/六类""长距离用光纤"就是本课的落地:双绞线 100 m 限制来自
+       信号衰减,超了就加中继/换光纤;曼彻斯特编码这类知识,决定了两台设备"说同一种电平语言"。
+       综合题里做结构化布线选型(第 10 课)时,介质特性表直接翻本课。</p>
+  </div>
+
+  <h2>六、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"在无噪声信道中,带宽 4 kHz、每个码元 16 个离散电平,极限数据率为?",
+     "opts":["32 kbit/s","8 kbit/s","64 kbit/s"],
+     "answer":0,
+     "why":"2×4000×log₂16 = 8000×4 = 32000 bit/s。奈氏公式:2W·log₂V。"},
+    {"q":"传统以太网采用的编码是?",
+     "opts":["曼彻斯特编码","不归零制编码","差分曼彻斯特编码"],
+     "answer":0,
+     "why":"传统以太网(10M)用曼彻斯特编码,中间跳变自带同步;差分曼彻斯特用于令牌环。"},
+    {"q":"关于光纤,下列说法正确的是?",
+     "opts":["利用光的全反射传光,抗电磁干扰强","传播速度远快于铜线中的电信号","多模光纤适合长距离骨干传输"],
+     "answer":0,
+     "why":"光纤传播速度与铜线相近;长距离应选单模光纤,多模适合短距离室内。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>四大特性</td><td>机械、电气、功能、规程</td></tr>
+    <tr><td>介质选型</td><td>双绞线 ≤100m;光纤远距大带宽;单模远、多模近</td></tr>
+    <tr><td>编码</td><td>曼彻斯特中间跳变、自带同步(传统以太网)</td></tr>
+    <tr><td>信道容量</td><td>无噪声用奈氏 2W·log₂V;有噪声用香农 W·log₂(1+S/N);取小者</td></tr>
+    <tr><td>复用</td><td>FDM 分频、TDM 分时、WDM 分波、CDMA 分码</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 2 章 §2.1–2.4;官方教材物理层与布线相关章节。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0003-architecture.html">← 第 3 课</a>
+    <a href="../lessons/0005-datalink-lan.html">第 5 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

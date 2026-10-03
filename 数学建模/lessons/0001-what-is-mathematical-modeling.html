@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 1 课 · 数学建模是什么</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/growth-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">数学建模 · 第 1 课 / 备战 2026 国赛 · 9 月 10 日开赛</p>
+  <h1>数学建模是什么？<span class="term-en">What is mathematical modeling?</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 用一句话说清「建模」在干什么;<strong>②</strong> 以人口预测为例,亲手走通一次完整的建模闭环(假设→建立→求解→检验→修正);<strong>③</strong> 说出国赛赛制要点,并知道你的<a href="../reference/cumcm-sprint-map.html">十天冲刺地图</a>在哪。</p>
+  </div>
+
+  <h2>建模,就是「翻译」</h2>
+  <p>现实问题不会自己长成方程。数学建模(<span class="term-en">mathematical modeling</span>)做的事是:<strong>把现实翻译成数学</strong>(方程、规划、统计模型),<strong>求解之后,再把数学答案翻译回现实</strong>——并对现实说话。</p>
+  <p>一句话认识国赛:3 人、约 3 天(74 小时)、ABC 三题任选一、交一篇论文。评审盯的是四条:<strong>假设的合理性、建模的创造性、结果的正确性、表述的清晰性</strong>——注意,没有一条是「模型越高级越好」。</p>
+
+  <h2>建模闭环:六个环节,一个循环</h2>
+  <ol>
+    <li><strong>明确问题</strong>:决策变量是什么?目标是什么?约束是什么?</li>
+    <li><strong>模型假设</strong>:抓主要矛盾,把次要因素先砍掉,<strong>逐条写下</strong>你砍了什么。</li>
+    <li><strong>模型建立</strong>:把假设翻译成方程 / 规划 / 统计结构。</li>
+    <li><strong>模型求解</strong>:解析解、数值解或编程计算。</li>
+    <li><strong>模型检验</strong>:拿数据算残差、做灵敏度分析、用常识审问结果。</li>
+    <li><strong>应用成文</strong>:回答最初的问题,写清楚假设的代价。</li>
+  </ol>
+  <blockquote>检验不达标?回到第 2 步修正假设——闭环的意义就在这里:<strong>模型是迭代出来的,不是一次写对的</strong>。</blockquote>
+
+  <h2>走一遍:预测人口(1790 → 2050)</h2>
+  <p><strong>问题</strong>:美国自 1790 年起每 10 年一次人口普查。用历史数据建模,预测未来人口。这是最经典的入门案例(Pearl &amp; Reed, 1920),也是国赛 C 题气质的缩影:<strong>给数据 → 建模 → 预测 → 检验</strong>。</p>
+
+  <h3>第一轮:指数模型(Malthus, 1798)</h3>
+  <p><strong>假设</strong>:单位时间人口的相对增长率为常数 <span class="var">r</span>(出生多、死亡少,净增速率不变)。</p>
+  <div class="formula">dP/dt = rP　⟹　P(t) = P₀·e<sup>rt</sup></div>
+  <p>短期看相当准。但指数函数的宿命是爆炸——放到两百年尺度上,它必然脱离现实。<strong>怎么发现?靠检验。</strong>拖动下面的滑块试试:灰色虚线(指数模型)无论怎么调 <span class="var">r</span>,残差平方和(SSE)都压不下去——这一步叫「<strong>检验不达标,回炉假设</strong>」。</p>
+
+  <div class="demo" data-growth-demo></div>
+
+  <h3>第二轮:修正假设 → Logistic 模型</h3>
+  <p>哪里错了?「增长率恒定」这个假设。人口越多,资源越紧张,增长率应该<strong>随规模递减</strong>。最简单的刻画:让增长率线性下降,到容量 <span class="var">K</span>(环境容纳量,<span class="term-en">carrying capacity</span>)时归零:</p>
+  <div class="formula">dP/dt = rP(1 − P/K)　⟹　P(t) = K / (1 + A·e<sup>−rt</sup>),A = (K−P₀)/P₀</div>
+  <p>这就是 <strong>Logistic(阻滞增长)模型</strong>:S 形曲线,前期近似指数增长,后期被 <span class="var">K</span> 压住。Pearl 与 Reed 用 1790–1910 的数据拟合出 <span class="var">r</span>≈0.031、<span class="var">K</span>≈1.97 亿,<strong>预测 1930 年人口 1.231 亿,实际 1.228 亿,误差仅 0.24%</strong>——教科书级的成功检验。</p>
+  <p>但故事没完:20 世纪后期,真实人口越过了 1.97 亿仍在增长。为什么?<span class="var">K</span> 并非常数——农业与医疗技术<strong>抬高了容纳量</strong>。于是再次回炉假设、改进模型。<strong>闭环永远转下去,这正是建模的诚实之处。</strong></p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「模型越复杂越好」</strong>✗ 评审第一条是假设合理性;简单模型 + 完整闭环,胜过大模型黑箱。<br>
+       <strong>②「一次就建对」</strong>✗ 检验不达标回炉是常态,论文里写明迭代过程反而加分。<br>
+       <strong>③「拟合得好 = 模型对」</strong>✗ 还要外推检验与灵敏度分析——参数微调,结论稳不稳?</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>这套闭环你在<a href="../../../流体力学/课程手册.html">流体力学</a>里见过:连续介质假设 = 模型假设;N-S 方程 = 模型建立;数值解 = 模型求解;与实验对比 = 模型检验。概统在学的<strong>最小二乘</strong>,就是今天「检验」环节的数学引擎。</p>
+    <p>Logistic 的亲戚遍布建环专业:牛顿冷却 <span class="var">dT/dt = −k(T − T<sub>室温</sub>)</span>(房间温度趋近空调设定值)、传染病 SIR、新产品市场扩散——<strong>换壳不换芯</strong>。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"建模闭环里,「检验」发现模型与数据偏差过大,规范动作是?","opts":["更换更复杂的求解算法","回到假设环节修正模型","删掉偏差大的那组数据","直接进入论文写作环节"],"answer":1,"why":"检验不达标→回炉假设,是闭环存在的意义;换算法、删数据都不解决假设层面的错误。"},
+    {"q":"Malthus 指数模型在长期预测中必然失效,根源是?","opts":["增长率恒定的假设不成立","指数函数的数值不稳定","人口普查数据的误差累积","微积分推导的精度不足"],"answer":0,"why":"数学推导没错,错的是「增长率恒定」这条假设——资源有限时它必不成立。"},
+    {"q":"Logistic 方程 dP/dt = rP(1−P/K) 中 K 的含义是?","opts":["出生率减去死亡率的净值","曲线拐点出现的时间","资源约束下的最大容量","初始时刻的人口数量"],"answer":2,"why":"K 是环境容纳量(carrying capacity):增长率随规模线性下降、到 K 归零。"},
+    {"q":"按全国组委会的评审标准,论文最看重的是?","opts":["模型数量越多得分越高","假设、建模、结果、表述","算法代码越前沿越加分","软件截图越精美越加分"],"answer":1,"why":"官方四条:假设的合理性、建模的创造性、结果的正确性、文字表述的清晰程度。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>数学建模</td><td>mathematical modeling</td><td>现实 ↔ 数学 的双向翻译,闭环迭代</td></tr>
+    <tr><td>建模闭环</td><td>modeling loop</td><td>明确问题→假设→建立→求解→检验→成文,检验不过回炉</td></tr>
+    <tr><td>指数模型</td><td>Malthus model</td><td>dP/dt = rP,长期爆炸,检验必挂</td></tr>
+    <tr><td>阻滞增长</td><td>Logistic model</td><td>dP/dt = rP(1−P/K),S 形,趋于容纳量 K</td></tr>
+    <tr><td>残差平方和</td><td>SSE</td><td>拟合好坏的尺子;最小二乘的目标函数</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:姜启源等《数学模型》第 1 章——建模方法论的权威出处,和本课闭环一一对应。</li>
+    <li>Pearl &amp; Reed (1920) 原文(PNAS)——只看图也能看懂「拟合—预测—失准」全过程。</li>
+    <li><a href="../reference/cumcm-sprint-map.html">国赛备战地图</a>:赛制、分工、模型族路线、十天冲刺表。</li>
+    <li>生词随时查<a href="../reference/glossary.html">术语表</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 / 共 7 课(冲刺期)</span>
+    <a href="../lessons/0002-linear-programming.html">第 2 课:线性规划 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。任何不清楚的地方——哪怕只是「为什么增长率要设成线性下降」——都直接在对话里问我。追问是最好的学习方式。</div>
+</main>
+</body>
+</html>

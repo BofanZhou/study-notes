@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数学建模术语表</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main id="doc-glossary">
+  <p class="kicker">数学建模 · 参考文档 / 随课程扩充</p>
+  <h1>术语表 <span class="term-en">Glossary</span></h1>
+  <p>每个术语给一句话本质解释 + 英文对照。课程中首次出现的术语会追加到这里。</p>
+
+  <table class="ref">
+    <tr><th>术语</th><th>English</th><th>一句话解释</th></tr>
+    <tr><td><strong>数学建模</strong></td><td>mathematical modeling</td><td>把现实问题翻译成数学结构(方程/规划/统计模型),求解后把答案翻译回现实。</td></tr>
+    <tr><td><strong>模型假设</strong></td><td>model assumptions</td><td>建模时主动声明的简化(抓主要矛盾),是模型成立的前提,也是评审第一条检查项。</td></tr>
+    <tr><td><strong>拟合</strong></td><td>fitting</td><td>调模型参数,使模型输出尽量贴合观测数据;参数要有物理含义才算建模。</td></tr>
+    <tr><td><strong>最小二乘法</strong></td><td>least squares</td><td>最常用的拟合准则:让「残差的平方和」最小。</td></tr>
+    <tr><td><strong>残差</strong></td><td>residual</td><td>模型值 − 观测值;残差的分布暴露模型哪里不行。</td></tr>
+    <tr><td><strong>指数增长模型</strong></td><td>Malthus model</td><td>dP/dt = rP,增长率恒定 → P = P₀e^{rt},长期必然爆炸。</td></tr>
+    <tr><td><strong>阻滞增长模型</strong></td><td>Logistic model</td><td>dP/dt = rP(1−P/K),增长率随密度递减 → S 形曲线,趋于容量 K。</td></tr>
+    <tr><td><strong>环境容纳量</strong></td><td>carrying capacity (K)</td><td>资源约束下系统规模的上限;Logistic 中 K 的物理含义。</td></tr>
+    <tr><td><strong>内禀增长率</strong></td><td>intrinsic growth rate (r)</td><td>资源不受限时的固有增长率,对应曲线早期斜率。</td></tr>
+    <tr><td><strong>外推</strong></td><td>extrapolation</td><td>把模型用到数据范围之外做预测;翻车高发区,必须谨慎并说明理由。</td></tr>
+    <tr><td><strong>灵敏度分析</strong></td><td>sensitivity analysis</td><td>轻微扰动假设/参数,看结论动不动;检验结论是否稳的一种手段。</td></tr>
+    <tr><td><strong>国赛(CUMCM)</strong></td><td>China Undergraduate Mathematical Contest in Modeling</td><td>全国大学生数学建模竞赛:3 人、约 3 天、ABC 三题选一,交一篇论文。</td></tr>
+    <tr><td><strong>线性规划</strong></td><td>linear programming</td><td>线性目标 + 线性约束下求最优分配;最优必在顶点。</td></tr>
+    <tr><td><strong>可行域</strong></td><td>feasible region</td><td>全部约束的交集,凸多边形/凸多面体。</td></tr>
+    <tr><td><strong>影子价格</strong></td><td>shadow price</td><td>约束右端每放松一单位,目标改善多少;灵敏度分析的入口。</td></tr>
+    <tr><td><strong>整数规划</strong></td><td>integer programming</td><td>LP + 整数要求;LP 解四舍五入不可靠。</td></tr>
+    <tr><td><strong>0-1 规划</strong></td><td>binary programming</td><td>变量只取 0/1,表达「选/不选」与逻辑约束。</td></tr>
+    <tr><td><strong>分支定界</strong></td><td>branch and bound</td><td>LP 松弛给界 + 分支搜索 + 剪枝,求全局整数最优。</td></tr>
+    <tr><td><strong>大 M 法</strong></td><td>big-M method</td><td>x ≤ M·y 把「选了才能建」翻译成线性约束。</td></tr>
+    <tr><td><strong>层次分析法</strong></td><td>AHP</td><td>两两比较得判断矩阵 → 特征向量定权重。</td></tr>
+    <tr><td><strong>一致性比率</strong></td><td>consistency ratio (CR)</td><td>CR = CI/RI &lt; 0.1 才算判断不自相矛盾。</td></tr>
+    <tr><td><strong>优劣解距离法</strong></td><td>TOPSIS</td><td>贴近度 = 到负理想距离 / 到两理想距离之和。</td></tr>
+    <tr><td><strong>熵权法</strong></td><td>entropy weight</td><td>数据区分度大 → 权重大;客观定权。</td></tr>
+    <tr><td><strong>决定系数</strong></td><td>coefficient of determination (R²)</td><td>模型解释的波动比例;高 ≠ 模型对。</td></tr>
+    <tr><td><strong>过拟合</strong></td><td>overfitting</td><td>背下噪声而非规律;外推检验是照妖镜。</td></tr>
+    <tr><td><strong>时间序列</strong></td><td>time series</td><td>只用历史序列预测未来(移动平均/指数平滑/ARIMA)。</td></tr>
+    <tr><td><strong>灰色预测</strong></td><td>GM(1,1)</td><td>小样本准指数:累加生成 + 白化方程,须附后验差检验。</td></tr>
+    <tr><td><strong>机理建模</strong></td><td>mechanistic modeling</td><td>变化率 = 流入 − 流出;与数据拟合互补。</td></tr>
+    <tr><td><strong>SIR 模型</strong></td><td>SIR model</td><td>易感/感染/移出三仓室的传染病微分方程组。</td></tr>
+    <tr><td><strong>基本再生数</strong></td><td>basic reproduction number (R0)</td><td>一个感染者平均传染人数;R0=1 是爆发阈值。</td></tr>
+    <tr><td><strong>平衡点</strong></td><td>equilibrium</td><td>导数为零的定态,回答系统长期走向。</td></tr>
+  </table>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0001-what-is-mathematical-modeling.html">← 第 1 课:数学建模是什么</a>
+    <a href="../reference/cumcm-sprint-map.html">国赛备战地图 →</a>
+  </nav>
+</main>
+</body>
+</html>

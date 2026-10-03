@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> · 课程手册</title>
+<style>
+/* ============================================================
+   数学建模课程 · 共享样式表
+   Tufte 风格：大量留白、优雅衬线、内容优先
+   ============================================================ */
+
+:root {
+  --ink: #1a1a1a;
+  --ink-soft: #555;
+  --accent: #a0522d;        /* 赭石色：链接与强调 */
+  --accent-dark: #7a3b1e;
+  --paper: #fffff8;
+  --code-bg: #f4f2ee;
+  --quiz-correct: #e8f5e9;
+  --quiz-wrong: #fdecea;
+  --border: #ddd8d0;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; scroll-behavior: smooth; }
+
+body {
+  font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC",
+               "STSong", Georgia, serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.75;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* ---------- 标题 ---------- */
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 2rem;
+  margin: 0 0 .3rem;
+}
+h2 {
+  font-size: 1.35rem;
+  margin-top: 2.8rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .35rem;
+}
+h3 { font-size: 1.1rem; margin-top: 2rem; }
+
+.kicker {
+  font-family: "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- 正文元素 ---------- */
+p { margin: 1rem 0; }
+a { color: var(--accent); text-decoration-color: rgba(160,82,45,.35); }
+a:hover { color: var(--accent-dark); }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+.term-en {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: .92em;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: .2rem 1.4rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink-soft);
+  background: rgba(160, 82, 45, .04);
+}
+
+hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+/* ---------- 公式 ---------- */
+.formula {
+  text-align: center;
+  font-family: "Latin Modern Math", "Cambria Math", Georgia, serif;
+  font-size: 1.25rem;
+  margin: 1.6rem 0;
+  overflow-x: auto;
+}
+.var { font-style: italic; font-family: inherit; }
+sub, sup { font-size: .72em; }
+
+/* ---------- 提示框 ---------- */
+.box {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.3rem;
+  margin: 1.8rem 0;
+  background: #faf9f6;
+}
+.box-title {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  margin-bottom: .4rem;
+}
+.box.cfd .box-title { color: #1a5276; }
+.box.warn .box-title { color: #922b21; }
+.box p:first-of-type { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+/* ---------- 测验 ---------- */
+.quiz {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+}
+.quiz-q {
+  font-weight: 700;
+  margin-bottom: .9rem;
+}
+.quiz-opts { list-style: none; padding: 0; margin: 0; }
+.quiz-opts li { margin: .45rem 0; }
+.quiz-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: .98rem;
+  padding: .55rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: #fdf8f4; }
+.quiz-opt.correct { background: var(--quiz-correct); border-color: #66bb6a; font-weight: 700; }
+.quiz-opt.wrong { background: var(--quiz-wrong); border-color: #e57373; }
+.quiz-feedback {
+  margin-top: .8rem;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  display: none;
+}
+.quiz-score {
+  margin-top: 1.2rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  display: none;
+}
+
+/* ---------- 演示画布 ---------- */
+.demo {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+  text-align: center;
+}
+.demo canvas {
+  max-width: 100%;
+  border-radius: 4px;
+  background: #fff;
+  touch-action: manipulation;
+}
+.demo-controls { margin-top: .9rem; }
+.btn {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .9rem;
+  padding: .5rem 1.2rem;
+  margin: 0 .3rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent-dark);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.btn:hover { background: var(--accent); color: #fff; }
+.btn.active { background: var(--accent); color: #fff; }
+.caption { font-size: .88rem; color: var(--ink-soft); margin-top: .8rem; }
+
+/* ---------- Obsidian 跳转链接 ---------- */
+.obsidian-link {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  padding: .35rem .8rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  white-space: nowrap;
+}
+
+/* ---------- 演示控制项（滑块、下拉框、标签） ---------- */
+.demo label {
+  display: block;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .86rem;
+  color: var(--ink-soft);
+  margin: .6rem 0 .25rem;
+  text-align: left;
+}
+.demo input[type="range"],
+.demo select {
+  width: 100%;
+  max-width: 22rem;
+  font: inherit;
+  font-size: .95rem;
+  padding: .35rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+.demo .readout {
+  margin-top: .7rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.demo .readout strong { color: var(--ink); }
+
+/* ---------- 课程导航 ---------- */
+.lesson-nav {
+  margin-top: 4rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.lesson-nav a {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+}
+
+.ask {
+  margin-top: 3rem;
+  padding: 1rem 1.3rem;
+  border-radius: 8px;
+  background: #eef3f8;
+  border: 1px solid #c9d8e8;
+  font-size: .95rem;
+}
+
+/* ---------- 参考/术语表 ---------- */
+dl.glossary dt {
+  font-weight: 700;
+  margin-top: 1.4rem;
+}
+dl.glossary dt .term-en { font-weight: 400; margin-left: .4em; }
+dl.glossary dd { margin-left: 0; padding-left: 1.2rem; border-left: 2px solid var(--border); }
+
+table.ref {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: .95rem;
+}
+table.ref th, table.ref td {
+  border-bottom: 1px solid var(--border);
+  padding: .55rem .7rem;
+  text-align: left;
+}
+table.ref th {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .85rem;
+  letter-spacing: .05em;
+  border-bottom: 2px solid var(--ink);
+}
+
+/* ---------- 打印优化 ---------- */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  main { max-width: 100%; padding: 0; }
+  .quiz, .demo, .btn { break-inside: avoid; }
+  a { color: var(--ink); text-decoration: underline; }
+  .lesson-nav, .ask { page-break-inside: avoid; }
+}
+
+
+/* ============ 手册外壳 · 纸感配色与正文一致 ============ */
+html { scroll-behavior: smooth; }
+.shell-body { margin: 0; }
+
+/* 顶部工具条:纸色底 + 墨字 + 赭石强调 */
+.ribbon { position: sticky; top: 0; z-index: 60;
+  background: rgba(244,242,238,.96); backdrop-filter: blur(6px);
+  border-bottom: 1px solid #ddd8d0; }
+.ribbon-in { max-width: 1500px; margin: 0 auto; padding: 9px 18px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.brand { font-size: 15px; font-weight: 700; letter-spacing: .04em;
+  white-space: nowrap; font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.brand i { font-style: normal; color: #a0522d; margin-right: 8px; }
+.sub { font-size: 10.5px; color: #8b8577; letter-spacing: .12em; white-space: nowrap; }
+.r-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.search-wrap { display: flex; align-items: center; border-bottom: 1px solid #c9c2b4; padding: 2px; }
+.search-wrap:focus-within { border-bottom-color: #a0522d; }
+#q { background: transparent; border: none; color: #1a1a1a;
+  font-family: inherit; font-size: 13px; width: min(280px, 40vw); padding: 3px 4px; }
+#q::placeholder { color: #a39b8d; } #q:focus { outline: none; }
+#q-count { font-size: 11px; color: #a0522d; min-width: 52px; text-align: right; }
+.rbtn { background: transparent; border: 1px solid #c9c2b4; color: #55503f;
+  font-family: inherit; font-size: 12px; letter-spacing: .08em; padding: 4px 12px; cursor: pointer; }
+.rbtn:hover { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.05); }
+
+/* 布局 */
+.layout { display: flex; max-width: 1500px; margin: 0 auto; align-items: flex-start; }
+.sidebar { width: 256px; flex-shrink: 0; position: sticky; top: 51px;
+  height: calc(100vh - 51px); overflow-y: auto; padding: 24px 20px 50px;
+  border-right: 1px solid #ddd8d0; background: #f4f2ee; }
+.main { flex: 1; min-width: 0; display: flex; justify-content: center; padding: 44px 40px 90px; }
+.content { max-width: 46rem; width: 100%; }
+
+/* 侧栏目录 */
+.sb-brand h1 { font-size: 17px; line-height: 1.5; font-weight: 700;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.sb-brand .en { display: block; font-size: 9px; letter-spacing: .26em; color: #55503f;
+  text-transform: uppercase; margin-top: 3px; }
+.sb-search input { width: 100%; border: none; border-bottom: 1px solid #ddd8d0; background: transparent;
+  font-family: inherit; font-size: 12.5px; padding: 5px 1px; color: #1a1a1a; }
+.sb-search input:focus { outline: none; border-bottom-color: #a0522d; }
+.sb-sec { font-size: 10px; letter-spacing: .22em; color: #55503f; margin: 22px 0 8px; text-transform: uppercase; }
+details.part { margin-bottom: 2px; }
+details.part summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 9px;
+  padding: 5px 4px; border-bottom: 1px solid #e6e1d7; font-size: 13px; font-weight: 600; line-height: 1.6;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+details.part summary::-webkit-details-marker { display: none; }
+details.part summary::after { content: "+"; margin-left: auto; color: #55503f; font-weight: 400; }
+details.part[open] summary::after { content: "–"; }
+details.part summary:hover { color: #a0522d; }
+.part .no { color: #a0522d; font-size: 11.5px; flex-shrink: 0; width: 20px; }
+.part .rng { color: #a39b8d; font-size: 10px; margin-left: auto; font-weight: 400; letter-spacing: .03em; }
+.pages { padding: 2px 0 8px 30px; }
+.pages a { display: block; text-decoration: none; color: #55503f; font-size: 12.2px;
+  line-height: 2.05; padding: 0 6px; }
+.pages a:hover { color: #a0522d; background: rgba(160,82,45,.06); }
+.pages a.cur { color: #a0522d; font-weight: 600; }
+.sb-tip { margin-top: 20px; padding: 10px 12px; border: 1px solid #e6e1d7;
+  font-size: 11px; color: #55503f; line-height: 1.9; }
+
+/* 正文文章分隔与检索高亮 */
+article.course-doc { padding-top: 34px; margin-bottom: 60px; border-top: 3px double #c9c2b4; }
+article.course-doc:first-of-type { border-top: none; padding-top: 0; }
+mark { background: #F2DE9B; color: inherit; padding: 0 1px; }
+mark.hit { background: #E8C9A0; outline: 1px solid #a0522d; }
+
+#top-btn { position: fixed; right: 26px; bottom: 30px; width: 40px; height: 40px;
+  border: 1px solid #ddd8d0; background: #f4f2ee; color: #55503f; cursor: pointer;
+  font-size: 15px; font-family: inherit; opacity: 0; pointer-events: none;
+  transition: opacity .25s; z-index: 70; }
+#top-btn.show { opacity: 1; pointer-events: auto; }
+#top-btn:hover { color: #a0522d; border-color: #a0522d; }
+
+/* 目录收起态:隐藏侧栏,正文占满整行并由 .main 的 justify-content:center 自动居中 */
+body.toc-hidden .sidebar { display: none; }
+#toc-toggle.on { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.06); }
+
+@media (max-width: 1080px) {
+  .sidebar { display: none; }
+  .main { padding: 32px 20px 70px; }
+}
+@media print {
+  .ribbon, .sidebar, #top-btn { display: none !important; }
+  .layout { display: block; }
+  .main { padding: 0; }
+  .content { max-width: 100%; }
+  article.course-doc { page-break-before: always; border-top: none; padding-top: 0; }
+  body { background: #fff; }
+}
+</style>
+</head>
+<body class="shell-body">
+
+<div class="ribbon"><div class="ribbon-in">
+  <span class="brand"><i>📖</i> · 课程手册</span>
+  <span class="sub">COURSE HANDBOOK · 离线可用</span>
+  <span class="r-actions">
+    <span class="search-wrap"><input id="q" type="text" placeholder="全文检索…(Enter 跳下一处)"><span id="q-count"></span></span>
+    <button class="rbtn on" id="toc-toggle" type="button">⇤ 目录</button>
+    <button class="rbtn" id="print-btn" type="button">打印 / 导出 PDF</button>
+  </span>
+</div></div>
+
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="sb-brand"><h1></h1><span class="en">Course Handbook</span></div>
+  <div class="sb-search" style="margin-top:16px"><input id="sb-q" type="text" placeholder="筛选目录…"></div>
+  <div class="sb-sec">目录 · Contents</div>
+  <details class="part" open><summary><span class="no">01</span>第 1 课 · 数学建模是什么<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0001-what-is-mathematical-modeling">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">02</span>第 2 课 · 线性规划<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0002-linear-programming">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">03</span>第 3 课 · 整数规划<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0003-integer-programming">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">04</span>第 4 课 · 评价类方法<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0004-evaluation-methods">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">05</span>第 5 课 · 预测类方法<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0005-forecasting-methods">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">06</span>第 6 课 · 微分方程模型<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0006-ode-models">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">07</span>第 7 课 · 论文写作与摘要冲刺<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0007-paper-and-abstract">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">08</span>国赛备战地图 · 2026<span class="rng">REFERENCE</span></summary><div class="pages"><a href="#doc-cumcm-sprint-map">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">09</span>数学建模术语表<span class="rng">REFERENCE</span></summary><div class="pages"><a href="#doc-glossary">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">10</span>国奖冲刺总体路线图 · 2026<span class="rng">REFERENCE</span></summary><div class="pages"><a href="#doc-national-prize-roadmap">↗ 进入本篇</a></div></details>
+
+  <div class="sb-tip">💡 检索:输入关键词即时高亮全文,Enter 在结果间跳转,Esc 清除。<br>🖨 打印时自动隐藏侧栏,每课独立分页。</div>
+</nav>
+
+<div class="main"><div class="content" id="content">
+
+<article class="course-doc" id="lesson-0001-what-is-mathematical-modeling">
+<p class="kicker">数学建模 · 第 1 课 / 备战 2026 国赛 · 9 月 10 日开赛</p>
+  <h1>数学建模是什么？<span class="term-en">What is mathematical modeling?</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 用一句话说清「建模」在干什么;<strong>②</strong> 以人口预测为例,亲手走通一次完整的建模闭环(假设→建立→求解→检验→修正);<strong>③</strong> 说出国赛赛制要点,并知道你的<a href="#doc-cumcm-sprint-map">十天冲刺地图</a>在哪。</p>
+  </div>
+
+  <h2>建模,就是「翻译」</h2>
+  <p>现实问题不会自己长成方程。数学建模(<span class="term-en">mathematical modeling</span>)做的事是:<strong>把现实翻译成数学</strong>(方程、规划、统计模型),<strong>求解之后,再把数学答案翻译回现实</strong>——并对现实说话。</p>
+  <p>一句话认识国赛:3 人、约 3 天(74 小时)、ABC 三题任选一、交一篇论文。评审盯的是四条:<strong>假设的合理性、建模的创造性、结果的正确性、表述的清晰性</strong>——注意,没有一条是「模型越高级越好」。</p>
+
+  <h2>建模闭环:六个环节,一个循环</h2>
+  <ol>
+    <li><strong>明确问题</strong>:决策变量是什么?目标是什么?约束是什么?</li>
+    <li><strong>模型假设</strong>:抓主要矛盾,把次要因素先砍掉,<strong>逐条写下</strong>你砍了什么。</li>
+    <li><strong>模型建立</strong>:把假设翻译成方程 / 规划 / 统计结构。</li>
+    <li><strong>模型求解</strong>:解析解、数值解或编程计算。</li>
+    <li><strong>模型检验</strong>:拿数据算残差、做灵敏度分析、用常识审问结果。</li>
+    <li><strong>应用成文</strong>:回答最初的问题,写清楚假设的代价。</li>
+  </ol>
+  <blockquote>检验不达标?回到第 2 步修正假设——闭环的意义就在这里:<strong>模型是迭代出来的,不是一次写对的</strong>。</blockquote>
+
+  <h2>走一遍:预测人口(1790 → 2050)</h2>
+  <p><strong>问题</strong>:美国自 1790 年起每 10 年一次人口普查。用历史数据建模,预测未来人口。这是最经典的入门案例(Pearl &amp; Reed, 1920),也是国赛 C 题气质的缩影:<strong>给数据 → 建模 → 预测 → 检验</strong>。</p>
+
+  <h3>第一轮:指数模型(Malthus, 1798)</h3>
+  <p><strong>假设</strong>:单位时间人口的相对增长率为常数 <span class="var">r</span>(出生多、死亡少,净增速率不变)。</p>
+  <div class="formula">dP/dt = rP　⟹　P(t) = P₀·e<sup>rt</sup></div>
+  <p>短期看相当准。但指数函数的宿命是爆炸——放到两百年尺度上,它必然脱离现实。<strong>怎么发现?靠检验。</strong>拖动下面的滑块试试:灰色虚线(指数模型)无论怎么调 <span class="var">r</span>,残差平方和(SSE)都压不下去——这一步叫「<strong>检验不达标,回炉假设</strong>」。</p>
+
+  <div class="demo" data-growth-demo></div>
+
+  <h3>第二轮:修正假设 → Logistic 模型</h3>
+  <p>哪里错了?「增长率恒定」这个假设。人口越多,资源越紧张,增长率应该<strong>随规模递减</strong>。最简单的刻画:让增长率线性下降,到容量 <span class="var">K</span>(环境容纳量,<span class="term-en">carrying capacity</span>)时归零:</p>
+  <div class="formula">dP/dt = rP(1 − P/K)　⟹　P(t) = K / (1 + A·e<sup>−rt</sup>),A = (K−P₀)/P₀</div>
+  <p>这就是 <strong>Logistic(阻滞增长)模型</strong>:S 形曲线,前期近似指数增长,后期被 <span class="var">K</span> 压住。Pearl 与 Reed 用 1790–1910 的数据拟合出 <span class="var">r</span>≈0.031、<span class="var">K</span>≈1.97 亿,<strong>预测 1930 年人口 1.231 亿,实际 1.228 亿,误差仅 0.24%</strong>——教科书级的成功检验。</p>
+  <p>但故事没完:20 世纪后期,真实人口越过了 1.97 亿仍在增长。为什么?<span class="var">K</span> 并非常数——农业与医疗技术<strong>抬高了容纳量</strong>。于是再次回炉假设、改进模型。<strong>闭环永远转下去,这正是建模的诚实之处。</strong></p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「模型越复杂越好」</strong>✗ 评审第一条是假设合理性;简单模型 + 完整闭环,胜过大模型黑箱。<br>
+       <strong>②「一次就建对」</strong>✗ 检验不达标回炉是常态,论文里写明迭代过程反而加分。<br>
+       <strong>③「拟合得好 = 模型对」</strong>✗ 还要外推检验与灵敏度分析——参数微调,结论稳不稳?</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>这套闭环你在<a href="../../../流体力学/课程手册.html">流体力学</a>里见过:连续介质假设 = 模型假设;N-S 方程 = 模型建立;数值解 = 模型求解;与实验对比 = 模型检验。概统在学的<strong>最小二乘</strong>,就是今天「检验」环节的数学引擎。</p>
+    <p>Logistic 的亲戚遍布建环专业:牛顿冷却 <span class="var">dT/dt = −k(T − T<sub>室温</sub>)</span>(房间温度趋近空调设定值)、传染病 SIR、新产品市场扩散——<strong>换壳不换芯</strong>。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"建模闭环里,「检验」发现模型与数据偏差过大,规范动作是?","opts":["更换更复杂的求解算法","回到假设环节修正模型","删掉偏差大的那组数据","直接进入论文写作环节"],"answer":1,"why":"检验不达标→回炉假设,是闭环存在的意义;换算法、删数据都不解决假设层面的错误。"},
+    {"q":"Malthus 指数模型在长期预测中必然失效,根源是?","opts":["增长率恒定的假设不成立","指数函数的数值不稳定","人口普查数据的误差累积","微积分推导的精度不足"],"answer":0,"why":"数学推导没错,错的是「增长率恒定」这条假设——资源有限时它必不成立。"},
+    {"q":"Logistic 方程 dP/dt = rP(1−P/K) 中 K 的含义是?","opts":["出生率减去死亡率的净值","曲线拐点出现的时间","资源约束下的最大容量","初始时刻的人口数量"],"answer":2,"why":"K 是环境容纳量(carrying capacity):增长率随规模线性下降、到 K 归零。"},
+    {"q":"按全国组委会的评审标准,论文最看重的是?","opts":["模型数量越多得分越高","假设、建模、结果、表述","算法代码越前沿越加分","软件截图越精美越加分"],"answer":1,"why":"官方四条:假设的合理性、建模的创造性、结果的正确性、文字表述的清晰程度。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>数学建模</td><td>mathematical modeling</td><td>现实 ↔ 数学 的双向翻译,闭环迭代</td></tr>
+    <tr><td>建模闭环</td><td>modeling loop</td><td>明确问题→假设→建立→求解→检验→成文,检验不过回炉</td></tr>
+    <tr><td>指数模型</td><td>Malthus model</td><td>dP/dt = rP,长期爆炸,检验必挂</td></tr>
+    <tr><td>阻滞增长</td><td>Logistic model</td><td>dP/dt = rP(1−P/K),S 形,趋于容纳量 K</td></tr>
+    <tr><td>残差平方和</td><td>SSE</td><td>拟合好坏的尺子;最小二乘的目标函数</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:姜启源等《数学模型》第 1 章——建模方法论的权威出处,和本课闭环一一对应。</li>
+    <li>Pearl &amp; Reed (1920) 原文(PNAS)——只看图也能看懂「拟合—预测—失准」全过程。</li>
+    <li><a href="#doc-cumcm-sprint-map">国赛备战地图</a>:赛制、分工、模型族路线、十天冲刺表。</li>
+    <li>生词随时查<a href="#doc-glossary">术语表</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 / 共 7 课(冲刺期)</span>
+    <a href="#lesson-0002-linear-programming">第 2 课:线性规划 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。任何不清楚的地方——哪怕只是「为什么增长率要设成线性下降」——都直接在对话里问我。追问是最好的学习方式。</div>
+</article>
+
+<article class="course-doc" id="lesson-0002-linear-programming">
+<p class="kicker">数学建模 · 第 2 课 / 备战 2026 国赛 · 09-01</p>
+  <h1>线性规划 <span class="term-en">Linear Programming</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 把「生产/配比/分配」类问题翻译成标准 LP 三要素(决策变量、目标函数、约束);<strong>②</strong> 用图解法理解「最优必在顶点」;<strong>③</strong> 用 <code>scipy.optimize.linprog</code> 一步求解。</p>
+  </div>
+
+  <h2>为什么它是国赛第一模型族</h2>
+  <p>大量赛题的本质都是:<strong>资源有限,如何分配,使收益最大或成本最小</strong>。只要目标与约束都能写成决策变量的线性函数,它就是线性规划。第 2–3 课(优化族)值得你花掉备赛时间的最大头。</p>
+
+  <h2>三要素与标准形式</h2>
+  <ol>
+    <li><strong>决策变量</strong>(<span class="term-en">decision variables</span>):你要决定的量,如两种产品的产量 <span class="var">x, y</span>;</li>
+    <li><strong>目标函数</strong>(<span class="term-en">objective</span>):max <span class="var">z = 5x + 4y</span>;</li>
+    <li><strong>约束条件</strong>(<span class="term-en">constraints</span>):资源/工时/需求,如 <span class="var">2x + y ≤ 50, x + 2y ≤ 60, y ≤ 15, x, y ≥ 0</span>。</li>
+  </ol>
+  <div class="formula">max c<sup>T</sup>x　s.t.　Ax ≤ b,　x ≥ 0</div>
+  <p>写模型时<strong>先把变量和单位写清楚</strong>,再一条条列约束——评审第一条看的就是这一步是否严谨。</p>
+
+  <h2>图解法:为什么最优在顶点</h2>
+  <p>把每条约束画成半平面,交集是一个<strong>凸多边形</strong>(可行域,<span class="term-en">feasible region</span>)。目标函数的等值线 <span class="var">z = 5x + 4y</span> 是一族平行直线:<span class="var">z</span> 越大直线越远离原点。当等值线即将离开可行域的那一刻,接触的必然是一个<strong>顶点</strong>——这就是「最优在顶点」定理,也是单纯形法的全部直觉。</p>
+
+  <div class="demo" data-lp-demo></div>
+
+  <h2>编程求解:scipy.optimize.linprog</h2>
+  <pre>from scipy.optimize import linprog
+# linprog 默认求最小值,故目标取负:max 5x+4y → min -5x-4y
+c = [-5, -4]
+A = [[2, 1], [1, 2], [0, 1]]     # 左端系数
+b = [50, 60, 15]                 # 右端上限
+res = linprog(c, A_ub=A, b_ub=b, bounds=[(0, None), (0, None)])
+print(res.x, -res.fun)           # x=[17.5, 15.], z=147.5</pre>
+  <p>记住两个对应关系:<strong>≤ 约束 → A_ub/b_ub</strong>;<strong>min → max 取负号</strong>。等式约束用 A_eq/b_eq。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 约束方向写反</strong>——「至少」「不超过」要逐句核对,这是 LP 代码第一大 bug 源。<br>
+       <strong>② 忘了 linprog 是 min</strong>——忘记取负号会得到「最优在原点」的可疑结果。<br>
+       <strong>③ 把 LP 解当最终答案</strong>——产量可以切割到 17.5 台吗?变量该整数时,请进第 3 课。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>约束组 <span class="var">Ax ≤ b</span> 就是矩阵语言——你在<strong>线性代数</strong>工作区学的矩阵乘法在这里落地。「最优在顶点 + 顶点由约束交出」也解释了为什么解对约束参数敏感:约束变一变,顶点就搬家——这正是论文里<strong>灵敏度分析</strong>的入口(影子价格 <span class="term-en">shadow price</span> 我们在全真模拟前补讲)。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"用 linprog 求 max z=5x+4y,正确的写法是?","opts":["目标向量取 c=[-5,-4]","目标向量取 c=[5,4]","把 b 全部乘以负一","把约束改成大于等于"],"answer":0,"why":"linprog 只会 min;min -5x-4y 等价于 max 5x+4y。"},
+    {"q":"线性规划「最优必在顶点」成立的前提是?","opts":["目标与约束都是线性","决策变量必须为整数","可行域必须是空集","目标必须是最小化"],"answer":0,"why":"线性目标 + 凸多边形可行域,等值线离开可行域前最后接触的是顶点。"},
+    {"q":"约束「甲原料用量不超过 50 千克」在标准形式中属于?","opts":["一条小于等于约束","一条大于等于约束","目标函数的一部分","变量的整数要求"],"answer":0,"why":"「不超过」= ≤,进 A_ub/b_ub;「至少/不低于」才是 ≥。"},
+    {"q":"把「选择建或不建某设施」直接放进 LP 的错误在于?","opts":["该决策本质是 0-1 变量","设施名称不能做变量","目标函数必须求最小","LP 不能有常数项"],"answer":0,"why":"建/不建只有两种取值,是整数变量,LP 的连续解没有意义——这正是第 3 课的主题。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>线性规划</td><td>linear programming</td><td>线性目标 + 线性约束下的最优分配</td></tr>
+    <tr><td>可行域</td><td>feasible region</td><td>所有约束的交集,凸多边形/凸多面体</td></tr>
+    <tr><td>顶点定理</td><td>vertex optimality</td><td>LP 最优必可在顶点取到</td></tr>
+    <tr><td>标准形式</td><td>standard form</td><td>min cᵀx s.t. Ax≤b, x≥0;max 取负号</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html">scipy.optimize.linprog 官方文档</a>——把本课例题亲手跑一遍。</li>
+    <li>姜启源《数学模型》规划模型章节:看「下料问题」「运输问题」两个经典建模案例。</li>
+    <li>下一课预告:<a href="#lesson-0003-integer-programming">整数规划</a>——当变量必须取整数时会发生什么(剧透:上面例子里取整点根本不可行)。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0001-what-is-mathematical-modeling">← 第 1 课:数学建模是什么</a>
+    <a href="#lesson-0003-integer-programming">第 3 课:整数规划 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。卡在哪里(比如 linprog 报错、约束翻译不出来)直接在对话里问我,带着报错信息来更快。</div>
+</article>
+
+<article class="course-doc" id="lesson-0003-integer-programming">
+<p class="kicker">数学建模 · 第 3 课 / 备战 2026 国赛 · 09-02</p>
+  <h1>整数规划 <span class="term-en">Integer Programming</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 一眼识别「变量必须取整数」的场景;<strong>②</strong> 解释为什么对 LP 解四舍五入是错的;<strong>③</strong> 会用 <code>scipy.optimize.milp</code> 求解整数/0-1 规划,并用 0-1 变量表达「选/不选」。</p>
+  </div>
+
+  <h2>什么时候必须整数</h2>
+  <p>人数、设备台数、选址(建/不建)、开关(投/不投)——这些量取 17.5 没有意义。整数规划(<span class="term-en">integer programming, IP</span>)就是给 LP 加上整数要求;变量只取 0 或 1 时叫 <strong>0-1 规划</strong>(<span class="term-en">binary programming</span>),是国赛 B 题的常客。</p>
+
+  <h2>四舍五入为什么是错的</h2>
+  <p>回到第 2 课的例子:<span class="var">max z = 5x + 4y</span>,LP 最优在顶点 <span class="var">(17.5, 15)</span>。四舍五入到 <span class="var">(18, 15)</span>?——违反约束 <span class="var">2x + y ≤ 50</span>(2×18+15=51),<strong>根本不可行</strong>。而真正的整数最优是 <span class="var">(18, 14)</span>,z=146,比 LP 上界 147.5 损失 1.5。</p>
+  <div class="demo" data-lp-demo></div>
+  <blockquote>两个教训:<strong>① 取整可能不可行,② 取整可能次优</strong>。整数最优必须用算法找,不能手工凑。</blockquote>
+
+  <h2>分支定界:一分钟的直觉</h2>
+  <p>求解器用的主力算法是<strong>分支定界</strong>(<span class="term-en">branch and bound</span>):先解 LP 松弛(不管整数要求)得到一个<strong>上界</strong>;若解非整数(如 x=17.5),就分成两支:x ≤ 17 和 x ≥ 18,各再解 LP……同时用当前最好整数解剪掉不可能更优的分支。理解它,你就能回答评审的追问:「为什么这个解是全局最优?」</p>
+
+  <h2>scipy.optimize.milp 与 0-1 变量</h2>
+  <pre>from scipy.optimize import milp, LinearConstraint, Bounds
+# 例:5 个候选站选 3 个(0-1),最小化建设成本
+c = [12, 8, 15, 9, 11]                    # 各站成本
+A = [[1,1,1,1,1]]                          # 总数恰好 3 个
+res = milp(c=c, constraints=[LinearConstraint(A, 3, 3)],
+           integrality=[1,1,1,1,1],        # 1 表示该变量必须整数
+           bounds=Bounds(0, 1))            # 0-1 变量</pre>
+  <p>建模技巧「大 M 法」:想表达「只有选了站 i( yᵢ=1 )才允许在那里建容量 xᵢ」,写 <span class="var">xᵢ ≤ M·yᵢ</span>。逻辑约束(至少建两个、A 建则 B 不建)都能用 0-1 变量的线性组合写出来。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 对 LP 解取整</strong>——本课刚反例过:不可行或次优。<br>
+       <strong>② 0-1 变量当成 0~1 连续变量</strong>——integrality 忘了设,求解器当 LP 处理。<br>
+       <strong>③ 变量越多越稳</strong>——整数规划是 NP-hard,几百个整数变量加烂约束就可能算不动;先精简变量与约束。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>第 2 课的<strong>顶点直觉</strong>仍然成立,只是可行域从连续多边形变成离散格点——所以最优可能「够不到」顶点。检验环节新增一招:把 LP 松弛解当作<strong>上界基准</strong>,整数解离上界越近,说明解的质量越好(论文里可以报告这个间隙 <span class="term-en">gap</span>)。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"对 LP 最优解四舍五入得到整数解,问题出在?","opts":["可能不可行也可能次优","结果一定还是最优的","四舍五入必导致超约束","只要可行就一定最优"],"answer":0,"why":"两个坑都存在:取整点可能落在可行域外,即使可行也未必是整数最优。"},
+    {"q":"0-1 规划里变量 y 取值为?","opts":["只能取 0 或 1","可取 0 到 1 之间任何数","必须取正整数","由求解器自由决定"],"answer":0,"why":"0-1(二元)变量是整数变量的特例,用于表达选/不选、开/关。"},
+    {"q":"milp 与 linprog 的关键区别是?","opts":["milp 可指定整数变量","milp 只能求最大值","milp 不支持约束","milp 求不出全局最优"],"answer":0,"why":"milp = mixed-integer LP,通过 integrality 参数指明哪些变量必须整数。"},
+    {"q":"分支定界算法中,LP 松弛解的作用是?","opts":["提供全局最优的上界","直接就是最终答案","用来生成随机初始解","用于减少整数变量个数"],"answer":0,"why":"最小化问题里 LP 松弛给下界/最大化给上界,配合分支剪枝保证全局最优。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>整数规划</td><td>integer programming</td><td>LP + 变量整数要求;四舍五入不可靠</td></tr>
+    <tr><td>0-1 规划</td><td>binary programming</td><td>变量只取 0/1,表达选/不选与逻辑约束</td></tr>
+    <tr><td>分支定界</td><td>branch and bound</td><td>LP 松弛给界 + 分割搜索 + 剪枝</td></tr>
+    <tr><td>大 M 法</td><td>big-M method</td><td>x ≤ M·y 把「选了才能建」写进约束</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.milp.html">scipy.optimize.milp 官方文档</a>,把选站例题跑通。</li>
+    <li>司守奎《数学建模算法与应用》整数规划章节:0-1 规划的经典建模套路表。</li>
+    <li>下一课预告:<a href="#lesson-0004-evaluation-methods">评价类方法</a>——当问题不是「选最优」而是「排序打分」时用哪些模型。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0002-linear-programming">← 第 2 课:线性规划</a>
+    <a href="#lesson-0004-evaluation-methods">第 4 课:评价类方法 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。milp 参数、0-1 约束翻译不出来、或者想让我检查你的建模——直接贴到对话里。</div>
+</article>
+
+<article class="course-doc" id="lesson-0004-evaluation-methods">
+<p class="kicker">数学建模 · 第 4 课 / 备战 2026 国赛 · 09-03</p>
+  <h1>评价类方法 <span class="term-en">AHP &amp; TOPSIS</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 搭出「指标体系 → 标准化 → 定权 → 聚合 → 检验」的评价全流程;<strong>②</strong> 会用 AHP 定主观权重并通过一致性检验;<strong>③</strong> 会用 TOPSIS 与熵权法,并能对「排序随权重变化」做灵敏度辩护。</p>
+  </div>
+
+  <h2>评价题长什么样</h2>
+  <p>「对四种冷热源方案排序」「对城市宜居性打分」「选哪种修复技术」——没有唯一解析解,只有<strong>合理可辩护的排序</strong>。国赛评价题(常在 C 题)的得分点不在用了哪个模型,而在<strong>每一步都有依据</strong>。</p>
+
+  <h2>全流程五步</h2>
+  <ol>
+    <li><strong>指标体系</strong>:从问题里选 4–8 个可量化指标(别堆几十个凑数);</li>
+    <li><strong>标准化</strong>(<span class="term-en">normalization</span>):把「越大越好/越小越好」统一成同向,常用极差法;</li>
+    <li><strong>定权</strong>:AHP(主观)、熵权法(客观)、或两者组合;</li>
+    <li><strong>聚合</strong>:加权求和,或更稳的 TOPSIS;</li>
+    <li><strong>检验</strong>:AHP 做一致性检验;整体做<strong>权重灵敏度分析</strong>——权重挪一挪,排序稳不稳?</li>
+  </ol>
+
+  <h2>AHP:两两比较定权重</h2>
+  <p>层次分析法(<span class="term-en">Analytic Hierarchy Process</span>):对同一层的指标两两比较(1–9 标度:「同样重要」到「极端重要」),得到判断矩阵,取其最大特征值对应的特征向量归一化为权重。关键是<strong>一致性检验</strong>:要求判断不出现「A>B, B>C, 却 C>A」。</p>
+  <div class="formula">CI = (λ<sub>max</sub> − n)/(n − 1),　CR = CI / RI &lt; 0.1 才通过</div>
+  <p>RI 是随机一致性指标查表值(n=3 时 0.58,n=4 时 0.90,n=5 时 1.12)。CR 不过关就回去调判断矩阵——论文里要写明这个过程。</p>
+
+  <h2>TOPSIS:离理想解有多近</h2>
+  <p>优劣解距离法(<span class="term-en">TOPSIS</span>):标准化并加权后,每个指标取所有方案中的最好值拼成<strong>正理想解</strong>,最差值拼成<strong>负理想解</strong>;计算每个方案到两者的距离,贴近度越大越优:</p>
+  <div class="formula">C<sub>i</sub> = D<sub>i</sub><sup>−</sup> / (D<sub>i</sub><sup>+</sup> + D<sub>i</sub><sup>−</sup>)</div>
+  <p><strong>熵权法</strong>(<span class="term-en">entropy weight</span>)则用数据自身的离散度定权:某指标各方案取值越接近(信息熵越大),区分度越低,权重越小。与 AHP 组合成「主客观组合权重」是论文常用加分项。</p>
+
+  <div class="demo" data-topsis-demo></div>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 忘了同趋势化</strong>——成本是负向指标,不翻直接算,「越贵越好」;<br>
+       <strong>② 权重拍脑袋</strong>——评审必问「权重怎么来的」;AHP 要给判断矩阵,熵权要给数据依据;<br>
+       <strong>③ CR ≥ 0.1 还硬用</strong>——宁可重调矩阵,不可硬着头皮上;<br>
+       <strong>④ 把 TOPSIS 分当客观真理</strong>——它完全依赖权重,灵敏度分析才是你的辩护武器。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>熵权法的「离散度定权」就是概统里<strong>方差/信息量</strong>的直觉;标准化与你正在学的 z-score 是一回事。建环专业的<strong>方案比选</strong>(冷热源、风机选型、围护结构改造优先级)就是评价题的原型——上面演示里的方案就是按你的专业挑的。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"指标「初投资(万元)」进入评价前必须先做?","opts":["负向化后再标准化","直接乘上权重使用","先取对数再求和","换算成百分比即可"],"answer":0,"why":"成本越小越好,是负向指标;不同向就聚合,排序必然出错。"},
+    {"q":"AHP 一致性比率 CR 的合格线是?","opts":["小于 0.1","小于 0.5","小于 1.12","等于 0 才行"],"answer":0,"why":"CR = CI/RI < 0.1 是公认阈值;不通过应重调判断矩阵。"},
+    {"q":"TOPSIS 中贴近度 C 越大说明?","opts":["离正理想解越近","离负理想解越近","权重设置越客观","指标个数越合理"],"answer":0,"why":"C = D⁻/(D⁺+D⁻):对理想解近、对负理想解远的方案 C 大。"},
+    {"q":"熵权法给某个指标权重大,意味着?","opts":["该指标区分度大","该指标最重要","该指标数值最大","该指标一定是正向"],"answer":0,"why":"熵权反映数据本身的区分能力,不代表工程意义上的重要性;所以才要主客观组合。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>层次分析法</td><td>AHP</td><td>两两比较 → 特征向量权重 → CR&lt;0.1 检验</td></tr>
+    <tr><td>优劣解距离法</td><td>TOPSIS</td><td>到正/负理想解的距离比决定排序</td></tr>
+    <tr><td>熵权法</td><td>entropy weight</td><td>数据区分度大 → 权重大(客观定权)</td></tr>
+    <tr><td>灵敏度分析</td><td>sensitivity analysis</td><td>权重挪动后排序是否稳定,评价题的保命检验</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:姜启源《数学模型》层次分析法章节(源自 SASHP 经典案例),把演示里的冷热源矩阵手算一遍权重。</li>
+    <li>司守奎《数学建模算法与应用》评价类章节:TOPSIS 与熵权的完整 MATLAB/Python 代码模板。</li>
+    <li>下一课预告:<a href="#lesson-0005-forecasting-methods">预测类方法</a>——从历史数据外推未来时的模型箱与检验方法。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0003-integer-programming">← 第 3 课:整数规划</a>
+    <a href="#lesson-0005-forecasting-methods">第 5 课:预测类方法 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。判断矩阵不会算特征值、熵权公式推不动、或者想让我审你的指标体系——直接问。</div>
+</article>
+
+<article class="course-doc" id="lesson-0005-forecasting-methods">
+<p class="kicker">数学建模 · 第 5 课 / 备战 2026 国赛 · 09-04</p>
+  <h1>预测类方法 <span class="term-en">Regression &amp; Forecasting</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 会做线性/多项式回归并读懂 SSE 与 R²;<strong>②</strong> 说出 R² 高不等于模型对(过拟合);<strong>③</strong> 知道时间序列与灰色 GM(1,1) 各自的适用场景;能把「外推检验」变成默认动作。</p>
+  </div>
+
+  <h2>预测题的三种武器</h2>
+  <table class="ref">
+    <tr><th>武器</th><th>适用场景</th><th>关键检验</th></tr>
+    <tr><td>回归分析(本课主力)</td><td>有解释变量、样本较充足</td><td>残差诊断 + R² + 外推检验</td></tr>
+    <tr><td>时间序列(移动平均/指数平滑/ARIMA)</td><td>只有历史序列、有趋势或季节性</td><td>留出后段做回测</td></tr>
+    <tr><td>灰色 GM(1,1)</td><td>小样本、近似指数增长的数据</td><td>后验差比 C 与小误差概率 p</td></tr>
+  </table>
+
+  <h2>最小二乘回归:一条直线的自我修养</h2>
+  <p>给定点 <span class="var">(xᵢ, yᵢ)</span>,选直线 <span class="var">ŷ = a + bx</span> 使残差平方和最小——这正是第 1 课检验环节的引擎:</p>
+  <div class="formula">min Σ(yᵢ − ŷᵢ)²,　R² = 1 − SS<sub>res</sub>/SS<sub>tot</sub></div>
+  <p>Python 里 <code>numpy.polyfit</code> 或 <code>scipy.optimize.curve_fit</code>(可拟合任意曲线,比如第 1 课的 Logistic)一步完成。<strong>残差要看图</strong>:随机散布=模型没漏东西;有弯曲趋势=该换曲线了。</p>
+
+  <div class="demo" data-lsq-demo></div>
+
+  <h2>R² 陷阱与过拟合</h2>
+  <p>把阶数从 1 提到 3,训练集 R² 几乎必然上升——但曲线两端开始「翘飞」,对新数据反而更差。这叫<strong>过拟合</strong>(<span class="term-en">overfitting</span>):模型背下了噪声,而不是学到了规律。对策很简单:<strong>留出最后 20% 数据不参与拟合,用它们验证预测力(外推检验)</strong>;模型选择上宁可简洁。</p>
+
+  <h2>GM(1,1):小样本时的灰色武器</h2>
+  <p>数据只有七八个点、又近似指数增长时,经典操作是灰色预测:对原始序列做<strong>累加生成</strong>(AGO)让规律显形,再拟合白化微分方程 <span class="var">dx/dt + a·x = b</span>,最后累减还原。报告结果时必须附<strong>后验差比 C = S₂/S₁</strong>(C&lt;0.35 好)与<strong>小误差概率 p</strong>(p&gt;0.95 好)——不附检验的 GM(1,1) 是评审最容易扣分的地方。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 把外推当可靠</strong>——预测超出数据范围越远越虚,要说明置信衰减;<br>
+       <strong>② R² 高 = 模型对</strong>——过拟合随时恭候,要看外推与残差;<br>
+       <strong>③ 小样本硬上深度学习</strong>——几十个数据点,回归/灰色/指数平滑才是正路;<br>
+       <strong>④ 预测完不检验</strong>——回测(用前段预测后段)是预测题的标配动作。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>第 1 课的 Logistic 拟合就是「预测类」实操;你现在正在概统工作区学的<strong>最小二乘、相关系数、假设检验</strong>会在这里全部落地。建环场景:用逐时负荷数据预测建筑全年能耗、用历史数据预测设备劣化——都是回归 + 检验的标准动作。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"回归后残差图呈现明显弯曲趋势,说明?","opts":["模型形式选错了","数据量一定太少","R² 一定接近 1","应该继续用直线拟合"],"answer":0,"why":"残差有结构 = 直线没抓住规律;换曲线或加项,而不是无视。"},
+    {"q":"把多项式阶数不断升高,R² 会怎样?","opts":["训练集 R² 上升但外推更差","训练集与外推都更差","训练集下降外推上升","与阶数完全无关"],"answer":0,"why":"过拟合的经典症状:背噪声换训练 R²,牺牲预测力。"},
+    {"q":"GM(1,1) 最适用的数据特征是?","opts":["小样本且近似指数变化","大数据且强非线性","带强季节性的长序列","完全随机的白噪声"],"answer":0,"why":"累加生成 AGO 恰好放大准指数规律;季节序列应选时间序列方法。"},
+    {"q":"预测题里「回测」指的是?","opts":["用前段数据预测后段来验证","把预测结果重新拟合一遍","把样本量扩大到两倍","把残差平方和除以样本数"],"answer":0,"why":"留出法回测是预测力的直接证据,论文里务必报告。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>最小二乘</td><td>least squares</td><td>残差平方和最小;残差图诊断模型形式</td></tr>
+    <tr><td>决定系数</td><td>R²</td><td>解释了多大比例的波动;高≠对</td></tr>
+    <tr><td>过拟合</td><td>overfitting</td><td>背噪声不学规律;外推检验才能抓住它</td></tr>
+    <tr><td>灰色预测</td><td>GM(1,1)</td><td>小样本准指数:AGO + 白化方程 + 后验差检验</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html">scipy.optimize.curve_fit 文档</a>——把第 1 课的 Logistic 拟合用真实代码复现一遍。</li>
+    <li>司守奎《数学建模算法与应用》灰色预测章节:GM(1,1) 的完整代码与检验表。</li>
+    <li>下一课预告:<a href="#lesson-0006-ode-models">微分方程模型</a>——当机理明确时,建模从「拟合数据」升级为「写出规律」。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0004-evaluation-methods">← 第 4 课:评价类方法</a>
+    <a href="#lesson-0006-ode-models">第 6 课:微分方程模型 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。curve_fit 不收敛、残差图看不懂、GM(1,1) 推导卡壳——直接把代码或图贴上来问。</div>
+</article>
+
+<article class="course-doc" id="lesson-0006-ode-models">
+<p class="kicker">数学建模 · 第 6 课 / 备战 2026 国赛 · 09-05</p>
+  <h1>微分方程模型 <span class="term-en">Differential Equation Models</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 用「变化率 = 流入 − 流出」套路把机理问题写成 ODE;<strong>②</strong> 用 SIR 模型理解阈值(R0)与防控目标;<strong>③</strong> 会用 <code>scipy.integrate.solve_ivp</code> 数值求解并说明「数值解够用」。</p>
+  </div>
+
+  <h2>机理建模的万能套路</h2>
+  <p>当问题有明确的<strong>物理/生物/经济机理</strong>时,不再从数据拟合出发,而是直接写平衡式:</p>
+  <div class="formula">某量的变化率 = 流入速率 − 流出速率</div>
+  <p>人口增长(出生率−死亡率)、房间温度(得热−散热)、库存(进货−消耗)、疫情(新感染−恢复)——全是这个套路的换装。你在流体力学学的<strong>连续性方程</strong>,就是它最恢弘的版本。</p>
+
+  <h2>SIR:传染病模型的教科书</h2>
+  <p>把人群分成易感(<span class="term-en">Susceptible</span>)、感染(<span class="term-en">Infectious</span>)、移出(<span class="term-en">Removed</span>)三类:</p>
+  <div class="formula">dS/dt = −βSI/N,　dI/dt = βSI/N − γI,　dR/dt = γI</div>
+  <p>核心量是<strong>基本再生数</strong> <span class="var">R0 = β/γ</span>:一个感染者在全易感人群中平均传染的人数。<strong>R0 &gt; 1 疫情爆发,R0 &lt; 1 自然消退</strong>——这就是阈值效应,也是防控建模的意义(把有效再生数压到 1 以下)。</p>
+
+  <div class="demo" data-sir-demo></div>
+
+  <h2>数值解:为什么够用</h2>
+  <p>大多数 ODE(尤其非线性组)没有初等解析解。工程上的标准做法是<strong>数值积分</strong>:把时间切成小步,按导数逐步外推(Euler 的思想),<code>scipy.integrate.solve_ivp</code> 内置自适应高阶方法,精度远超手工 Euler。论文里写明:方法(RK45)、步长控制、初值与参数来源——就完整了。</p>
+  <pre>from scipy.integrate import solve_ivp
+def sir(t, y, beta, gamma, N):
+    S, I, R = y
+    return [-beta*S*I/N, beta*S*I/N - gamma*I, gamma*I]
+sol = solve_ivp(sir, [0, 120], [990, 10, 0],
+                args=(0.3, 0.1, 1000), dense_output=True)</pre>
+
+  <h2>参数从哪来 + 平衡点分析</h2>
+  <p>参数 β、γ 两个来源:<strong>文献引用</strong>(注明出处)或<strong>数据拟合</strong>(第 5 课的 curve_fit 套在 ODE 解外面)。进阶动作:令所有导数为零解出<strong>平衡点</strong>(如地方病平衡点 S* = γN/β),并说明解从哪边趋近它——这一小节写进论文,就是「建模的创造性」的直接证据。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>① 参数拍脑袋</strong>——β=0.3 必须有出处或拟合依据,评审必问;<br>
+       <strong>② 只画曲线不做分析</strong>——峰值、到达时间、平衡点、灵敏度至少做两样;<br>
+       <strong>③ 死磕解析解</strong>——非线性模型数值解 + 检验完全够,别浪费 74 小时里的 10 小时;<br>
+       <strong>④ 单位不统一</strong>——β 的单位是 1/天还是 1/小时,算错量纲全盘皆输。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你已有的知识</div>
+    <p>这就是你流力学了三课的那条路:连续介质假设 → 建立方程 → 数值求解 → 与数据对比——<strong>CFD 本身就是大型 ODE/PDE 建模</strong>。建环课里的房间逐时温度、CO₂ 浓度积分方程,与 SIR 同属一族。第 1 课的 Logistic 与牛顿冷却,则是本课的一维特例。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"SIR 模型中 R0 = β/γ 的建模含义是?","opts":["一个感染者平均传染的人数","总人口的恢复比例","疫情持续的预期天数","需要隔离的人口比例"],"answer":0,"why":"R0>1 爆发、R0<1 消退,是防控模型的核心阈值。"},
+    {"q":"「库存量的变化率 = 进货速率 − 消耗速率」体现的建模套路是?","opts":["变化率等于流入减流出","变化率等于存量的平方","变化率必须为常数","变化率与时间无关"],"answer":0,"why":"守恒/平衡式是机理建模的通用入口,与物理学科完全同源。"},
+    {"q":"非线性 ODE 组没有解析解时,标准做法是?","opts":["数值积分并说明方法与精度","改用线性规划求解","把方程删掉只画流程图","必须手算级数展开"],"answer":0,"why":"solve_ivp 自适应 RK45 是工程标准;写清方法与参数来源即可。"},
+    {"q":"分析平衡点 S* = γN/β 的意义在于?","opts":["说明疫情长期的走向","让模型少一个参数","证明解析解不存在","降低数值求解误差"],"answer":0,"why":"平衡点与趋近方向回答「最终会怎样」,是机理模型独有的洞察。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>机理建模</td><td>mechanistic modeling</td><td>变化率 = 流入 − 流出,与数据拟合互补</td></tr>
+    <tr><td>SIR 模型</td><td>SIR model</td><td>三类人群 + 阈值 R0 = β/γ</td></tr>
+    <tr><td>数值解</td><td>numerical solution</td><td>solve_ivp(RK45);写明方法与精度</td></tr>
+    <tr><td>平衡点</td><td>equilibrium</td><td>导数为零的定态;回答「长期走向」</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推</strong>:<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">scipy.integrate.solve_ivp 文档</a>,把 SIR 例题跑通并画出三曲线。</li>
+    <li>姜启源《数学模型》微分方程模型章节:传染病模型的完整推导与 SIS/SIR 扩展。</li>
+    <li>下一课预告:<a href="#lesson-0007-paper-and-abstract">论文写作与摘要冲刺</a>——把六课所学装订成国奖论文的最后一课。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0005-forecasting-methods">← 第 5 课:预测类方法</a>
+    <a href="#lesson-0007-paper-and-abstract">第 7 课:论文写作与摘要 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。solve_ivp 报错、R0 推导存疑、想讨论你赛题的方程组——直接贴出来。</div>
+</article>
+
+<article class="course-doc" id="lesson-0007-paper-and-abstract">
+<p class="kicker">数学建模 · 第 7 课 / 备战 2026 国赛 · D9-D10 09-08→09</p>
+  <h1>论文写作与摘要冲刺 <span class="term-en">Paper Writing &amp; Abstract</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 按九段骨架搭起论文;<strong>②</strong> 写出「30 秒讲清问题→方法→结果(带数字)」的摘要;<strong>③</strong> 把格式与合规要求一次配齐,做到 D10 轻装、9/10 零障碍开赛。</p>
+  </div>
+
+  <h2>为什么单独用一课讲写作</h2>
+  <p>评审老师平均花在<strong>摘要上的时间以分钟计</strong>,很多论文只被读到摘要+图表。写作不是锦上添花,它直接决定你六课学的东西<strong>能不能被看见</strong>。官方四标准里「表述的清晰性」是独立一条。</p>
+
+  <h2>九段骨架(与评审阅读顺序一致)</h2>
+  <ol>
+    <li><strong>摘要</strong>(见下节,单独打磨)</li>
+    <li>问题重述与分析:用自己的话重述 + 各问之间关系的分析图</li>
+    <li>模型假设:逐条编号,<strong>每条附理由</strong>(评审第一条标准)</li>
+    <li>符号说明:三线表,符号—含义—单位</li>
+    <li>模型建立与求解:分问分节,每节「思路→公式→结果」</li>
+    <li>模型检验:残差/误差 + 灵敏度(六课里练过的全部搬上来)</li>
+    <li>模型评价:优点、缺点、推广——敢写缺点反而加分</li>
+    <li>参考文献:规范格式,引用要真实</li>
+    <li>附录:完整可运行代码</li>
+  </ol>
+
+  <h2>摘要五句式</h2>
+  <ol>
+    <li><strong>做了什么问题</strong>:针对……问题(一句);</li>
+    <li><strong>关键假设/数据处理</strong>:针对……,考虑到……,建立了……;</li>
+    <li><strong>方法主线</strong>:采用……方法求解(一以贯之的主线,不罗列);</li>
+    <li><strong>结果带数字</strong>:求得……为 XX(误差/增益 XX%),<strong>没有数字的摘要等于没写</strong>;</li>
+    <li><strong>亮点与检验</strong>:模型经灵敏度/回测检验,结论稳健。</li>
+  </ol>
+  <blockquote>反例:「本文建立了多种模型,运用了大量算法,取得了良好的效果。」——零信息。<br>正例:「针对负荷预测,建立 Logistic 阻滞增长模型,curve_fit 拟合得 K=331.5(残差 2.1%),回测 2020 年误差 1.8%,灵敏度分析显示 ±10% 参数扰动下结论不变。」</blockquote>
+
+  <h2>图表与排版规范</h2>
+  <ul>
+    <li>每张图:<strong>轴标签 + 单位 + 图例 + 正文引用</strong>(「如图 3 所示」);300 dpi 导出;</li>
+    <li>表格用三线表;公式统一编号,正文用「式(5)」引用;</li>
+    <li>全文符号一致(符号说明表是你的合同);</li>
+    <li>遵守当年格式要求:页数上限、字号、<strong>匿名要求</strong>——以<a href="https://www.mcm.edu.cn/upload_cn/node/774/FlQt6kJV6f5d5b4603e06c3c60acf89b72d7f298.pdf">参赛规则(2026 修订稿)</a>为准。</li>
+  </ul>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 合规红线(与<a href="#doc-national-prize-roadmap">路线图</a>同一条)</div>
+    <p><a href="https://www.mcm.edu.cn/html_cn/node/fef94648f2836ab6cc81586f4c38512b.html">AI 工具使用规定(2026 试行)</a>:AI 只能辅助,按官方要求<strong>声明使用情况</strong>,队伍对原创性、真实性、准确性<strong>负全责</strong>。备赛期间就养成习惯:AI 给思路,你验证、你写明、你负责。</p>
+  </div>
+
+  <h2>D10 装备检查清单</h2>
+  <table class="ref">
+    <tr><th>类别</th><th>检查项</th></tr>
+    <tr><td>环境</td><td>Python + numpy/scipy/pandas/matplotlib 跑通例题;备用电脑;云端同步盘</td></tr>
+    <tr><td>模板</td><td>论文 Word/LaTeX 模板、三线表样式、图模板(轴标签/图例预设)</td></tr>
+    <tr><td>资料</td><td>六课小结表打印、路线图 74h 手册、两篇精读的国奖论文</td></tr>
+    <tr><td>团队</td><td>三人分工确认(建模/编程/写作)、每天对齐节奏、互审 30 分钟约定</td></tr>
+  </table>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"摘要最能提升评审印象的写法是?","opts":["结果句给出具体数字","罗列用到的所有模型","强调篇幅长工作量大","多放公式展示推导"],"answer":0,"why":"「求得 XX 为 331.5,误差 1.8%」胜过一切形容词;没有数字的摘要等于没写。"},
+    {"q":"模型假设环节的规范写法是?","opts":["逐条编号并每条给理由","把所有假设合成一段","只写不影响结果的假设","等结果出来再补两条"],"answer":0,"why":"假设的合理性是评审第一条标准;编号+理由才可辩护。"},
+    {"q":"论文里插入图表的正确姿势是?","opts":["有轴标签单位图例且正文引用","图越多越显得工作量大","截图不清可以后期评审脑补","只在附录放图正文不放"],"answer":0,"why":"图表自明 + 正文引用「如图 3」;评审通过图表快速核对结果。"},
+    {"q":"关于竞赛中使用 AI 工具,符合规定的是?","opts":["辅助使用并按官方要求声明","直接生成论文核心内容","用后不留任何记录","队友代写无需声明"],"answer":0,"why":"2026 试行规定:AI 仅辅助、须声明、对原创性负全责;违规取消评奖。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>论文骨架</td><td>paper skeleton</td><td>九段结构,按评审阅读顺序组织</td></tr>
+    <tr><td>摘要五句式</td><td>abstract formula</td><td>问题→假设→方法→结果(数字)→检验</td></tr>
+    <tr><td>格式合规</td><td>compliance</td><td>页数/匿名/AI 声明,以当年官方文件为准</td></tr>
+    <tr><td>装备检查</td><td>gear check</td><td>D10 逐项打钩,开赛零障碍</td></tr>
+  </table>
+
+  <h2>延伸阅读</h2>
+  <ol>
+    <li><strong>主推(D9 任务)</strong>:去官网<a href="https://www.mcm.edu.cn/html_cn/block/018500ec1a6bd8c7e9997133def2b590.html">论文展示页</a>精读 2 篇国奖论文——只看「摘要怎么写、图表怎么放」。</li>
+    <li>把本课九段骨架在你的论文模板里先排好空章节。</li>
+    <li>赛程最后一站:<a href="#doc-national-prize-roadmap">74 小时作战手册</a>,9/10 见。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0006-ode-models">← 第 6 课:微分方程模型</a>
+    <span>课程完结 · 全真模拟(D7–8)→ 开赛(9/10)</span>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC7%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a></p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。写摘要没手感、模板排版报错、想让我点评你写的摘要——直接贴上来,这是答疑性价比最高的环节。</div>
+</article>
+
+<article class="course-doc" id="doc-cumcm-sprint-map">
+<p class="kicker">数学建模 · 参考文档 / 2026 高教社杯</p>
+  <h1>国赛备战地图 <span class="term-en">CUMCM Sprint Map</span></h1>
+  <p><strong>本图是赛制与分工速查</strong>;完整的国奖冲刺主计划(目标定位、能力矩阵、74 小时作战、风险预案、自检清单)见<a href="#doc-national-prize-roadmap">国奖冲刺总体路线图 →</a></p>
+
+  <div class="box">
+    <div class="box-title">🏁 赛制速览(以官方通知为准)</div>
+    <p><strong>时间</strong>:2026-09-10(周四)18:00 — 09-13(周日)20:00,共 74 小时。<br>
+       <strong>队伍</strong>:1–3 名本科生(通常 3 人),可配指导教师。<br>
+       <strong>选题</strong>:本科组从 A/B/C 三题中<b>任选一题</b>——A 偏理工连续(方程/物理),B 偏离散运筹(规划/调度),C 偏数据分析(大数据/统计)。<br>
+       <strong>交付</strong>:一篇 PDF 论文(含摘要页),支撑材料可选附代码。<br>
+       <strong>官方评审四标准</strong>:假设的合理性、建模的创造性、结果的正确性、文字表述的清晰程度。</p>
+  </div>
+
+  <h2>三人分工(轮岗制)</h2>
+  <table class="ref">
+    <tr><th>角色</th><th>主责</th><th>必备能力</th></tr>
+    <tr><td>建模手</td><td>假设、选模型、推方程、检验设计</td><td>模型族地图烂熟于心,判断「该用什么」</td></tr>
+    <tr><td>编程手</td><td>求解、数据处理、画图</td><td>Python/MATLAB 熟手,出图干净</td></tr>
+    <tr><td>写作手</td><td>论文结构、摘要、图表文案</td><td>会把「做了什么」讲清楚,摘要写法专精</td></tr>
+  </table>
+  <p>三人要<b>交叉</b>:建模手也要会跑代码,写作手全程参与建模讨论——独立分工在 74 小时里必然卡壳。</p>
+
+  <h2>模型族地图(冲刺主线)</h2>
+  <table class="ref">
+    <tr><th>模型族</th><th>代表方法</th><th>典型赛题气质</th><th>对应课次</th></tr>
+    <tr><td>优化</td><td>线性/整数规划、多目标</td><td>「安排生产/调度/选址,使收益最大成本最小」</td><td>第 2–3 课</td></tr>
+    <tr><td>评价</td><td>AHP、TOPSIS、熵权</td><td>「对方案/城市/政策排序打分」</td><td>第 4 课</td></tr>
+    <tr><td>预测</td><td>回归、时间序列、GM(1,1)</td><td>「根据历史数据预测未来」</td><td>第 5 课</td></tr>
+    <tr><td>微分方程</td><td>种群/传染病/温度类 ODE</td><td>「机理明确,量随时间演化」</td><td>第 1、6 课</td></tr>
+    <tr><td>统计与数据</td><td>假设检验、聚类、回归分析</td><td>C 题主力:给一堆数据找规律做决策</td><td>第 5 课 + 真题演练</td></tr>
+    <tr><td>模拟</td><td>蒙特卡洛、元胞自动机</td><td>「随机性明显、解析解难求」</td><td>真题演练中按需</td></tr>
+  </table>
+
+  <h2>论文骨架(评审从摘要读起)</h2>
+  <ol>
+    <li><strong>摘要</strong>——半页到一页:问题→方法→结果(给数字)→亮点;<b>评审的第一印象几乎全在这</b></li>
+    <li>问题重述与分析</li>
+    <li>模型假设(逐条编号,并给理由)</li>
+    <li>符号说明(表)</li>
+    <li>模型建立与求解(分问分节,图文并茂)</li>
+    <li>模型检验(残差/误差分析、灵敏度分析)</li>
+    <li>模型评价(优点+缺点+推广)</li>
+    <li>参考文献、附录(完整代码)</li>
+  </ol>
+
+  <h2>工具链</h2>
+  <p><strong>求解</strong>:Python(numpy / scipy / pandas / matplotlib)或 MATLAB(本课程默认 Python)。
+     <strong>写作</strong>:Word 或 LaTeX 模板提前备好;<strong>画图</strong>:matplotlib 出 PNG(300 dpi),图要有轴标签、单位、图例。</p>
+
+  <h2>十天冲刺路线(08-31 → 09-09)</h2>
+  <table class="ref">
+    <tr><th>日期</th><th>任务</th><th>产出</th></tr>
+    <tr><td>08-31(D1)</td><td>✅ 第 1 课:建模闭环(人口模型)</td><td>闭环方法论 + 手工拟合体验</td></tr>
+    <tr><td>09-01(D2)</td><td>第 2 课:线性规划 + scipy 求解</td><td>一道配比/生产问题完整求解</td></tr>
+    <tr><td>09-02(D3)</td><td>第 3 课:整数规划与运筹实战</td><td>调度类问题套路</td></tr>
+    <tr><td>09-03(D4)</td><td>第 4 课:评价类 AHP/TOPSIS/熵权</td><td>评价题全套流程</td></tr>
+    <tr><td>09-04(D5)</td><td>第 5 课:预测类(回归/时间序列/GM(1,1))</td><td>预测题套路 + 检验方法</td></tr>
+    <tr><td>09-05(D6)</td><td>第 6 课:微分方程模型 + 真题精读</td><td>近 3 年真题 skim,选题倾向确定</td></tr>
+    <tr><td>09-06/07(D7–8)</td><td><strong>全真模拟</strong>:压缩 48h 做一道近年真题</td><td>一篇完整论文 + 复盘清单</td></tr>
+    <tr><td>09-08(D9)</td><td>论文模板 + 摘要写法专练</td><td>开赛即可用的模板与摘要范式</td></tr>
+    <tr><td>09-09(D10)</td><td>查漏补缺 + 装备检查(环境/模板/分工)</td><td>轻装上阵</td></tr>
+    <tr><td><strong>09-10 18:00</strong></td><td>🚩 开赛</td><td>—</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 来源与延伸</div>
+    <p>赛程与规则:<a href="https://www.mcm.edu.cn/html_cn/node/d6fd7a0ee8f3a3d525e30af1c365fcec.html">2026 年第一次通知(官网)</a> ·
+       历年赛题见官网「赛题」栏目 · 教材:姜启源《数学模型》、司守奎《数学建模算法与应用》(见 RESOURCES.md)。</p>
+  </div>
+
+  <nav class="lesson-nav">
+    <a href="#doc-glossary">← 术语表</a>
+    <a href="#lesson-0001-what-is-mathematical-modeling">第 1 课:数学建模是什么 →</a>
+  </nav>
+</article>
+
+<article class="course-doc" id="doc-glossary">
+<p class="kicker">数学建模 · 参考文档 / 随课程扩充</p>
+  <h1>术语表 <span class="term-en">Glossary</span></h1>
+  <p>每个术语给一句话本质解释 + 英文对照。课程中首次出现的术语会追加到这里。</p>
+
+  <table class="ref">
+    <tr><th>术语</th><th>English</th><th>一句话解释</th></tr>
+    <tr><td><strong>数学建模</strong></td><td>mathematical modeling</td><td>把现实问题翻译成数学结构(方程/规划/统计模型),求解后把答案翻译回现实。</td></tr>
+    <tr><td><strong>模型假设</strong></td><td>model assumptions</td><td>建模时主动声明的简化(抓主要矛盾),是模型成立的前提,也是评审第一条检查项。</td></tr>
+    <tr><td><strong>拟合</strong></td><td>fitting</td><td>调模型参数,使模型输出尽量贴合观测数据;参数要有物理含义才算建模。</td></tr>
+    <tr><td><strong>最小二乘法</strong></td><td>least squares</td><td>最常用的拟合准则:让「残差的平方和」最小。</td></tr>
+    <tr><td><strong>残差</strong></td><td>residual</td><td>模型值 − 观测值;残差的分布暴露模型哪里不行。</td></tr>
+    <tr><td><strong>指数增长模型</strong></td><td>Malthus model</td><td>dP/dt = rP,增长率恒定 → P = P₀e^{rt},长期必然爆炸。</td></tr>
+    <tr><td><strong>阻滞增长模型</strong></td><td>Logistic model</td><td>dP/dt = rP(1−P/K),增长率随密度递减 → S 形曲线,趋于容量 K。</td></tr>
+    <tr><td><strong>环境容纳量</strong></td><td>carrying capacity (K)</td><td>资源约束下系统规模的上限;Logistic 中 K 的物理含义。</td></tr>
+    <tr><td><strong>内禀增长率</strong></td><td>intrinsic growth rate (r)</td><td>资源不受限时的固有增长率,对应曲线早期斜率。</td></tr>
+    <tr><td><strong>外推</strong></td><td>extrapolation</td><td>把模型用到数据范围之外做预测;翻车高发区,必须谨慎并说明理由。</td></tr>
+    <tr><td><strong>灵敏度分析</strong></td><td>sensitivity analysis</td><td>轻微扰动假设/参数,看结论动不动;检验结论是否稳的一种手段。</td></tr>
+    <tr><td><strong>国赛(CUMCM)</strong></td><td>China Undergraduate Mathematical Contest in Modeling</td><td>全国大学生数学建模竞赛:3 人、约 3 天、ABC 三题选一,交一篇论文。</td></tr>
+    <tr><td><strong>线性规划</strong></td><td>linear programming</td><td>线性目标 + 线性约束下求最优分配;最优必在顶点。</td></tr>
+    <tr><td><strong>可行域</strong></td><td>feasible region</td><td>全部约束的交集,凸多边形/凸多面体。</td></tr>
+    <tr><td><strong>影子价格</strong></td><td>shadow price</td><td>约束右端每放松一单位,目标改善多少;灵敏度分析的入口。</td></tr>
+    <tr><td><strong>整数规划</strong></td><td>integer programming</td><td>LP + 整数要求;LP 解四舍五入不可靠。</td></tr>
+    <tr><td><strong>0-1 规划</strong></td><td>binary programming</td><td>变量只取 0/1,表达「选/不选」与逻辑约束。</td></tr>
+    <tr><td><strong>分支定界</strong></td><td>branch and bound</td><td>LP 松弛给界 + 分支搜索 + 剪枝,求全局整数最优。</td></tr>
+    <tr><td><strong>大 M 法</strong></td><td>big-M method</td><td>x ≤ M·y 把「选了才能建」翻译成线性约束。</td></tr>
+    <tr><td><strong>层次分析法</strong></td><td>AHP</td><td>两两比较得判断矩阵 → 特征向量定权重。</td></tr>
+    <tr><td><strong>一致性比率</strong></td><td>consistency ratio (CR)</td><td>CR = CI/RI &lt; 0.1 才算判断不自相矛盾。</td></tr>
+    <tr><td><strong>优劣解距离法</strong></td><td>TOPSIS</td><td>贴近度 = 到负理想距离 / 到两理想距离之和。</td></tr>
+    <tr><td><strong>熵权法</strong></td><td>entropy weight</td><td>数据区分度大 → 权重大;客观定权。</td></tr>
+    <tr><td><strong>决定系数</strong></td><td>coefficient of determination (R²)</td><td>模型解释的波动比例;高 ≠ 模型对。</td></tr>
+    <tr><td><strong>过拟合</strong></td><td>overfitting</td><td>背下噪声而非规律;外推检验是照妖镜。</td></tr>
+    <tr><td><strong>时间序列</strong></td><td>time series</td><td>只用历史序列预测未来(移动平均/指数平滑/ARIMA)。</td></tr>
+    <tr><td><strong>灰色预测</strong></td><td>GM(1,1)</td><td>小样本准指数:累加生成 + 白化方程,须附后验差检验。</td></tr>
+    <tr><td><strong>机理建模</strong></td><td>mechanistic modeling</td><td>变化率 = 流入 − 流出;与数据拟合互补。</td></tr>
+    <tr><td><strong>SIR 模型</strong></td><td>SIR model</td><td>易感/感染/移出三仓室的传染病微分方程组。</td></tr>
+    <tr><td><strong>基本再生数</strong></td><td>basic reproduction number (R0)</td><td>一个感染者平均传染人数;R0=1 是爆发阈值。</td></tr>
+    <tr><td><strong>平衡点</strong></td><td>equilibrium</td><td>导数为零的定态,回答系统长期走向。</td></tr>
+  </table>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0001-what-is-mathematical-modeling">← 第 1 课:数学建模是什么</a>
+    <a href="#doc-cumcm-sprint-map">国赛备战地图 →</a>
+  </nav>
+</article>
+
+<article class="course-doc" id="doc-national-prize-roadmap">
+<p class="kicker">数学建模 · 总体路线 / 目标:全国奖(冲国一 · 保国二)</p>
+  <h1>国奖冲刺总体路线图 <span class="term-en">Roadmap to the National Prize</span></h1>
+  <p>本文是本工作区的<strong>主计划</strong>:课程主线、十日备战、74 小时作战、风险预案都从这里出发。
+     细化的每日任务同步记录在 <code>NOTES.md</code>。开赛:2026-09-10(周四)18:00。</p>
+
+  <h2>一、目标定位:数字先说话</h2>
+  <table class="ref">
+    <tr><th>事实(2023–2025 口径)</th><th>数字</th><th>对我们的含义</th></tr>
+    <tr><td>参赛规模(2025)</td><td>1837 校 · 68311 队(本科 61463 队)</td><td>对手是 6 万+ 本科队,不是本校同学</td></tr>
+    <tr><td>全国一等奖</td><td>约 300 队,<strong>≈0.4–0.5%</strong></td><td>冲国一 = 进入前 1/200,靠「主线清晰 + 结果可信」</td></tr>
+    <tr><td>全国二等奖</td><td>约 1200 队,<strong>≈1.7–2%</strong></td><td>保国二 = 稳定发挥的底线目标</td></tr>
+    <tr><td>评审两阶段</td><td>赛区评审 → 全国评审</td><td>论文必须先过赛区关:<strong>规范性与摘要决定下限</strong></td></tr>
+    <tr><td>省级奖比例上限</td><td>省一 9% / 省二 16% / 省三 25%</td><td>省一是安全垫,但我们的目标是向上冲</td></tr>
+  </table>
+  <blockquote>结论:<strong>下限由规范与摘要决定,上限由模型主线与检验决定</strong>。国奖论文从来不是「模型最多」的论文,而是「读起来最清楚、结果最可信」的论文。</blockquote>
+
+  <h2>二、国奖论文画像(对照官方评审四标准)</h2>
+  <table class="ref">
+    <tr><th>官方标准</th><th>国奖论文长什么样</th><th>我们怎么练</th></tr>
+    <tr><td>假设的合理性</td><td>假设逐条编号、每条给理由;简单假设贯穿全文,不自相矛盾</td><td>每课习题的「假设题」+ 全真模拟互审</td></tr>
+    <tr><td>建模的创造性</td><td><strong>一条主线模型</strong>贯穿各小问(改进/推广),而非每问换一个不相关模型</td><td>第 1–6 课都按「问题→主线→改进」讲授</td></tr>
+    <tr><td>结果的正确性</td><td>残差/误差分析 + 灵敏度分析 + 量纲常识审查,数字落到具体</td><td>每课的检验环节 + 拟合演示的 SSE 手感</td></tr>
+    <tr><td>表述的清晰性</td><td>摘要 30 秒讲清「问题→方法→结果(带数字)→亮点」;图表自明</td><td>D9 摘要专练 + 最后 2 小时摘要制度化</td></tr>
+  </table>
+
+  <h2>三、能力矩阵:现状 → 国奖线</h2>
+  <table class="ref">
+    <tr><th>轨道</th><th>现状(08-31)</th><th>国奖线</th><th>补齐途径</th></tr>
+    <tr><td>建模</td><td>微积分✅;建模闭环刚建立(第 1 课)</td><td>5 大模型族熟练,真题能判断主线</td><td>第 2–6 课 + 真题精读</td></tr>
+    <tr><td>编程</td><td>Python/MATLAB 都用过</td><td>LP/拟合/数值解/画图即开即用,出错能自救</td><td>每课配套 scipy 实操</td></tr>
+    <tr><td>写作</td><td>未起步</td><td>摘要范式化、图表规范、模板开赛即用</td><td>D9 专练 + 精读 2 篇国奖论文</td></tr>
+    <tr><td>协同</td><td>待定(三人分工未演练)</td><td>轮岗默契:交叉评审 30 分钟/天</td><td>D7–8 全真模拟</td></tr>
+  </table>
+
+  <h2>四、课程主线(每课瞄准一个国奖能力点)</h2>
+  <table class="ref">
+    <tr><th>课次</th><th>主题</th><th>瞄准能力</th><th>状态</th></tr>
+    <tr><td>第 1 课</td><td>建模闭环 · 人口模型(Malthus→Logistic)</td><td>方法论骨架:假设→检验→回炉</td><td>✅ 08-31</td></tr>
+    <tr><td>第 2 课</td><td><a href="#lesson-0002-linear-programming">线性规划 + scipy.optimize.linprog</a></td><td>优化族主线 + 约束矩阵书写</td><td>✅ 已出 · 09-01 学</td></tr>
+    <tr><td>第 3 课</td><td><a href="#lesson-0003-integer-programming">整数规划与运筹实战</a></td><td>离散决策(0-1 变量、调度)</td><td>✅ 已出 · 09-02 学</td></tr>
+    <tr><td>第 4 课</td><td><a href="#lesson-0004-evaluation-methods">评价类:AHP / TOPSIS / 熵权</a></td><td>评价题全套流程 + 权重辩护</td><td>✅ 已出 · 09-03 学</td></tr>
+    <tr><td>第 5 课</td><td><a href="#lesson-0005-forecasting-methods">预测类:回归 / 时间序列 / GM(1,1)</a></td><td>预测题套路 + 检验方法</td><td>✅ 已出 · 09-04 学</td></tr>
+    <tr><td>第 6 课</td><td><a href="#lesson-0006-ode-models">微分方程模型 + 近年真题精读</a></td><td>机理建模 + 赛题审题</td><td>✅ 已出 · 09-05 学</td></tr>
+    <tr><td>D7–8</td><td><strong>全真模拟</strong>:压缩 48h 做一道近年真题</td><td>三人轮岗 + 完整论文产出</td><td>09-06/07</td></tr>
+    <tr><td>D9</td><td><a href="#lesson-0007-paper-and-abstract">第 7 课 · 论文写作与摘要冲刺</a></td><td>表述清晰性(评审第一印象)</td><td>✅ 已出 · 09-08 学</td></tr>
+    <tr><td>D10</td><td>查漏 + 装备检查(环境/模板/分工)</td><td>零障碍开赛</td><td>09-09</td></tr>
+  </table>
+
+  <h2>五、74 小时作战手册(9/10 18:00 → 9/13 20:00)</h2>
+  <table class="ref">
+    <tr><th>时段</th><th>任务</th><th>纪律</th></tr>
+    <tr><td><strong>9/10 晚</strong><br>18:00–24:00</td><td>三题速读 → <strong>30 分钟内定题</strong> → 文献/数据检索 → 假设清单与主线草图 → 论文骨架初建</td><td>定题会议不超 30 分钟;选题决策:队伍画像匹配优先,熟悉度其次</td></tr>
+    <tr><td><strong>9/11</strong><br>全天</td><td>模型 v1 → 编程求解 → 初版图表;写作手同步成文(问题重述/假设/符号)</td><td>每 4 小时对齐一次进度;卡壳 2 小时即降级简化模型</td></tr>
+    <tr><td><strong>9/12</strong><br>全天</td><td>各小问完整求解 + <strong>检验(残差/灵敏度)</strong> + 主线深化;论文主体成文</td><td>晚上全文通读,删掉与主线无关的「炫技模型」</td></tr>
+    <tr><td><strong>9/13</strong><br>8:00–20:00</td><td>图表公式排版 → 14:00 正文定稿 → <strong>最后 2 小时专攻摘要</strong> → 19:00 前提交(留缓冲,提交两次防丢)</td><td>摘要 = 重写而非缩写:问题→方法→结果(带数字)→亮点</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 纪律红线(违纪 = 取消评奖资格)</div>
+    <p>全程遵守官方《<a href="https://www.mcm.edu.cn/upload_cn/node/774/FlQt6kJV6f5d5b4603e06c3c60acf89b72d7f298.pdf">参赛规则(2026 修订稿)</a>》与《<a href="https://www.mcm.edu.cn/html_cn/node/fef94648f2836ab6cc81586f4c38512b.html">人工智能工具使用规定(2026 试行)</a>》:AI 只能作<strong>辅助</strong>,按官方要求<strong>声明使用情况</strong>,队伍对作品的<strong>原创性、真实性、准确性负全责</strong>;违规可被要求提供原始数据、代码与 AI 交互日志核查,直至取消评奖并通报。备赛期间就用「AI 辅助、我负全责」的习惯练每一课。</p>
+  </div>
+
+  <h2>六、风险与预案</h2>
+  <table class="ref">
+    <tr><th>风险</th><th>预案</th></tr>
+    <tr><td>选题失当(做到一半发现坑)</td><td>定题前 30 分钟先各写 5 行思路;一旦定题不回头,用假设简化把题「做小」</td></tr>
+    <tr><td>某问卡壳 2 小时</td><td>降级:先给简化版结果保主线推进,有余力再升级;绝不为一个问停摆全队</td></tr>
+    <tr><td>编程环境/电脑故障</td><td>赛前环境清单(D9 检查);代码与数据实时云端备份;备用机方案</td></tr>
+    <tr><td>摘要写得像目录</td><td>D9 摘要范式专练;9/13 最后 2 小时摘要制度化;用「有数字的结果句」自查</td></tr>
+    <tr><td>队友状态波动</td><td>轮岗制(分工见<a href="#doc-cumcm-sprint-map">备战地图</a>);每天交叉评审 30 分钟互相兜底</td></tr>
+  </table>
+
+  <h2>七、国奖自检清单(交卷前逐条打钩)</h2>
+  <ol>
+    <li>摘要:30 秒能听懂吗?有具体数字结果吗?</li>
+    <li>假设:逐条编号、逐条有理由?与后文求解无矛盾?</li>
+    <li>主线:一条模型主线贯穿?改进关系讲清了?</li>
+    <li>检验:残差/误差分析做了?灵敏度做了?量纲对吗?</li>
+    <li>图表:每张图有轴标签/单位/图例?正文都引用了?</li>
+    <li>符号表:全文符号一致?</li>
+    <li>优缺点:模型评价(优点+缺点+推广)写了吗?</li>
+    <li>参考文献与附录代码完整?</li>
+    <li>AI 使用声明:按当年规定写了吗?</li>
+    <li>格式:页数/命名/匿名要求符合当年规则?</li>
+    <li>提交:两次上传?提交成功截图留证?</li>
+    <li>备份:论文与代码在两个介质上?</li>
+  </ol>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 一手来源</div>
+    <p>官网首页与规模数据 · <a href="https://www.mcm.edu.cn/html_cn/block/8579f5fce999cdc896f78bca5d4f8237.html">历年竞赛赛题(官方下载)</a> ·
+       <a href="https://www.mcm.edu.cn/html_cn/block/018500ec1a6bd8c7e9997133def2b590.html">历年获奖名单与论文展示</a> ·
+       <a href="https://www.mcm.edu.cn/html_cn/node/d6fd7a0ee8f3a3d525e30af1c365fcec.html">2026 年第一次通知</a> ·
+       获奖比例按 2023–2025 各校通报口径(国一约 0.4–0.5%、国二约 1.7–2%),以当年官方名单为准。</p>
+  </div>
+
+  <nav class="lesson-nav">
+    <a href="#doc-cumcm-sprint-map">← 国赛备战地图</a>
+    <a href="#lesson-0001-what-is-mathematical-modeling">第 1 课:数学建模是什么 →</a>
+  </nav>
+</article>
+</div></div>
+</div>
+
+<button id="top-btn" title="回到顶部">↑</button>
+<script>
+
+/* ---- growth-demo.js ---- */
+/* ============================================================
+   人口增长对比演示(可复用)
+   用法:<div class="demo" data-growth-demo></div>
+   两条解析曲线:Malthus 指数 P=P0·e^{rt} vs Logistic 阻滞增长
+   P=K/(1+A·e^{-rt});叠加美国人口普查数据点(1790–2020,百万);
+   滑块调 r(增长率)与 K(容纳量),实时显示残差平方和(SSE)。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var P0 = 3.9; // 1790 年人口(百万)
+  var DATA = [
+    [0, 3.9], [10, 5.3], [20, 7.2], [30, 9.6], [40, 12.9], [50, 17.1],
+    [60, 23.2], [70, 31.4], [80, 38.6], [90, 50.2], [100, 62.9],
+    [110, 76.0], [120, 92.0], [130, 105.7], [140, 122.8], [150, 131.7],
+    [160, 150.7], [170, 179.3], [180, 203.2], [190, 226.5], [200, 248.7],
+    [210, 281.4], [220, 308.7], [230, 331.5]
+  ];
+  var T_MAX = 260, Y_MAX = 420; // 横轴到 2050 年,纵轴 4.2 亿
+
+  function malthus(r, t) { return P0 * Math.exp(r * t); }
+  function logistic(r, K, t) {
+    var A = (K - P0) / P0;
+    return K / (1 + A * Math.exp(-r * t));
+  }
+
+  function mount(host) {
+    var W = 640, H = 380, dpr = window.devicePixelRatio || 1;
+    var canvas = document.createElement("canvas");
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.maxWidth = "100%";
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    var controls = document.createElement("div");
+    controls.className = "demo-controls";
+
+    function slider(id, label, min, max, step, value) {
+      var lab = document.createElement("label");
+      lab.setAttribute("for", id);
+      lab.textContent = label;
+      var input = document.createElement("input");
+      input.type = "range"; input.id = id;
+      input.min = min; input.max = max; input.step = step; input.value = value;
+      controls.appendChild(lab); controls.appendChild(input);
+      return input;
+    }
+    var rSlider = slider("growth-r", "增长率 r(内禀增长率,per year)",
+      0.01, 0.06, 0.001, 0.031);
+    var kSlider = slider("growth-k", "容纳量 K(环境容纳量,百万)",
+      100, 420, 1, 197);
+
+    var readout = document.createElement("div");
+    readout.className = "readout";
+
+    var caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = "任务:拖动滑块,让赭色曲线尽量贴合灰色数据点,把「残差平方和」压到最小——这就是一次手工拟合。灰色虚线(指数模型)无论怎么调都压不下去,这就是「检验不达标 → 回炉假设」。";
+
+    // 绘图区几何
+    var L = 56, R = 14, T = 14, B = 42;
+    var pw = W - L - R, ph = H - T - B;
+    function xpix(t) { return L + (t / T_MAX) * pw; }
+    function ypix(p) { return T + ph - (p / Y_MAX) * ph; }
+
+    function draw() {
+      var r = parseFloat(rSlider.value), K = parseFloat(kSlider.value);
+      ctx.clearRect(0, 0, W, H);
+
+      // 坐标轴与刻度
+      ctx.strokeStyle = "#b9b2a6"; ctx.fillStyle = "#555";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(L, T); ctx.lineTo(L, T + ph); ctx.lineTo(L + pw, T + ph);
+      ctx.stroke();
+      ctx.font = "11px 'Microsoft YaHei', sans-serif";
+      ctx.textAlign = "center";
+      for (var yr = 1800; yr <= 2050; yr += 50) {
+        var t = yr - 1790, x = xpix(t);
+        ctx.beginPath();
+        ctx.moveTo(x, T + ph); ctx.lineTo(x, T + ph + 4); ctx.stroke();
+        ctx.fillText(String(yr), x, T + ph + 16);
+      }
+      ctx.textAlign = "right";
+      for (var p = 0; p <= 400; p += 100) {
+        var y = ypix(p);
+        ctx.beginPath();
+        ctx.moveTo(L - 4, y); ctx.lineTo(L, y); ctx.stroke();
+        ctx.fillText(String(p), L - 7, y + 4);
+      }
+      ctx.save();
+      ctx.translate(14, T + ph / 2); ctx.rotate(-Math.PI / 2);
+      ctx.textAlign = "center";
+      ctx.fillText("人口(百万)", 0, 0);
+      ctx.restore();
+
+      function curve(fn, color, dash) {
+        ctx.strokeStyle = color; ctx.lineWidth = 2;
+        ctx.setLineDash(dash || []);
+        ctx.beginPath();
+        var started = false;
+        for (var t = 0; t <= T_MAX; t += 0.5) {
+          var p = fn(t);
+          if (p < 0 || p > Y_MAX) { started = false; continue; }
+          var x = xpix(t), y = ypix(p);
+          if (!started) { ctx.moveTo(x, y); started = true; }
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      curve(function (t) { return malthus(r, t); }, "#8d8578", [5, 4]);
+      curve(function (t) { return logistic(r, K, t); }, "#a0522d", []);
+
+      // 数据点
+      ctx.fillStyle = "#3d3a35";
+      DATA.forEach(function (d) {
+        ctx.beginPath();
+        ctx.arc(xpix(d[0]), ypix(d[1]), 3.2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // 残差平方和(Logistic vs 数据)
+      var sse = 0;
+      DATA.forEach(function (d) {
+        var e = logistic(r, K, d[0]) - d[1];
+        sse += e * e;
+      });
+      var p2050 = logistic(r, K, 260);
+      readout.innerHTML =
+        "r = <strong>" + r.toFixed(3) + "</strong> /年　" +
+        "K = <strong>" + K + "</strong> 百万　" +
+        "残差平方和 SSE = <strong>" + Math.round(sse) + "</strong><br>" +
+        "当前模型对 2050 年的预测:<strong>" + Math.round(p2050) + "</strong> 百万";
+    }
+
+    rSlider.addEventListener("input", draw);
+    kSlider.addEventListener("input", draw);
+
+    host.appendChild(canvas);
+    host.appendChild(controls);
+    host.appendChild(readout);
+    host.appendChild(caption);
+    draw();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-growth-demo]").forEach(mount);
+  });
+})();
+
+/* ---- lp-demo.js ---- */
+/* ============================================================
+   线性规划图解演示(可复用,服务第 2、3 课)
+   用法:<div class="demo" data-lp-demo></div>
+   实例:max z = 5x + 4y  s.t. 2x+y≤50, x+2y≤60, y≤15, x,y≥0
+   LP 最优在顶点 (17.5,15),z=147.5;
+   整数最优 (18,14),z=146;四舍五入点 (18,15) 不可行 —— 教学要点。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var CX = 35, CY = 35;           // 坐标范围
+  var POLY = [[0, 0], [25, 0], [17.5, 15], [0, 15]]; // 可行域顶点
+  var CONS = [
+    { a: 2, b: 1, c: 50, label: "2x+y≤50" },
+    { a: 1, b: 2, c: 60, label: "x+2y≤60" },
+    { a: 0, b: 1, c: 15, label: "y≤15" }
+  ];
+  var C1 = 5, C2 = 4;             // 目标系数
+  var LP_OPT = [17.5, 15, 147.5];
+  var IP_OPT = [18, 14, 146];
+  var ROUND_PT = [18, 15];        // 四舍五入点,不可行
+
+  function feasible(x, y) {
+    for (var i = 0; i < CONS.length; i++) {
+      var k = CONS[i];
+      if (k.a * x + k.b * y > k.c + 1e-9) return false;
+    }
+    return true;
+  }
+
+  function mount(host) {
+    var W = 560, H = 460, dpr = window.devicePixelRatio || 1;
+    var canvas = document.createElement("canvas");
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.maxWidth = "100%";
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    var controls = document.createElement("div");
+    controls.className = "demo-controls";
+
+    var lab = document.createElement("label");
+    lab.setAttribute("for", "lp-z");
+    lab.textContent = "等值线 z = 5x + 4y 的水平(拖动滑动,让直线扫过可行域)";
+    var zSlider = document.createElement("input");
+    zSlider.type = "range"; zSlider.id = "lp-z";
+    zSlider.min = 0; zSlider.max = 200; zSlider.step = 2; zSlider.value = 80;
+
+    var intChk = document.createElement("input");
+    intChk.type = "checkbox"; intChk.id = "lp-int";
+    var labWrap = document.createElement("label");
+    labWrap.style.display = "flex";
+    labWrap.style.alignItems = "center";
+    labWrap.style.gap = "8px";
+    labWrap.textContent = "显示整数格点(第 3 课:整数规划视角)";
+    labWrap.setAttribute("for", "lp-int");
+    controls.appendChild(lab); controls.appendChild(zSlider);
+    controls.appendChild(labWrap); controls.appendChild(intChk);
+
+    var readout = document.createElement("div");
+    readout.className = "readout";
+
+    var caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = "最优解一定出现在可行域的「顶点」上(线性目标 + 凸可行域)。观察:等值线离原点越远 z 越大,最后离开可行域的那一刻接触的正是顶点。";
+
+    var L = 46, R = 14, T = 12, B = 40;
+    var pw = W - L - R, ph = H - T - B;
+    function xp(x) { return L + (x / CX) * pw; }
+    function yp(y) { return T + ph - (y / CY) * ph; }
+
+    function draw() {
+      var z = parseFloat(zSlider.value);
+      var showInt = intChk.checked;
+      ctx.clearRect(0, 0, W, H);
+
+      // 坐标轴
+      ctx.strokeStyle = "#b9b2a6"; ctx.fillStyle = "#555";
+      ctx.lineWidth = 1; ctx.font = "11px 'Microsoft YaHei', sans-serif";
+      ctx.beginPath();
+      ctx.moveTo(L, T); ctx.lineTo(L, T + ph); ctx.lineTo(L + pw, T + ph);
+      ctx.stroke();
+      ctx.textAlign = "center";
+      for (var gx = 0; gx <= CX; gx += 5) {
+        ctx.fillText(String(gx), xp(gx), T + ph + 16);
+      }
+      ctx.textAlign = "right";
+      for (var gy = 0; gy <= CY; gy += 5) {
+        ctx.fillText(String(gy), L - 6, yp(gy) + 4);
+      }
+
+      // 可行域(浅色填充)
+      ctx.beginPath();
+      POLY.forEach(function (p, i) {
+        if (i === 0) ctx.moveTo(xp(p[0]), yp(p[1]));
+        else ctx.lineTo(xp(p[0]), yp(p[1]));
+      });
+      ctx.closePath();
+      ctx.fillStyle = "rgba(160,82,45,.14)";
+      ctx.fill();
+
+      // 约束直线
+      CONS.forEach(function (k) {
+        ctx.strokeStyle = "#8d8578"; ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        var p1, p2;
+        if (k.b !== 0) { p1 = [0, k.c / k.b]; p2 = [CX, (k.c - k.a * CX) / k.b]; }
+        else { p1 = [k.c / k.a, 0]; p2 = [k.c / k.a, CY]; }
+        ctx.moveTo(xp(p1[0]), yp(p1[1]));
+        ctx.lineTo(xp(p2[0]), yp(p2[1]));
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = "#777";
+        ctx.textAlign = "left";
+        ctx.fillText(k.label, xp(p2[0]) - 70, yp(p2[1]) + 14);
+      });
+
+      // 等值线 z = C1 x + C2 y
+      var x0 = 0, y0 = z / C2;
+      var x1 = z / C1, y1 = 0;
+      ctx.strokeStyle = "#a0522d"; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(xp(0), yp(y0));
+      ctx.lineTo(xp(x1), yp(y1));
+      ctx.stroke();
+      ctx.fillStyle = "#a0522d";
+      ctx.textAlign = "left";
+      ctx.fillText("z=" + z, xp(0) + 6, yp(y0) - 6);
+
+      // LP 最优点(顶点)
+      ctx.fillStyle = "#a0522d";
+      ctx.beginPath();
+      ctx.arc(xp(LP_OPT[0]), yp(LP_OPT[1]), 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillText("LP 顶点最优 (17.5, 15)", xp(LP_OPT[0]) + 10, yp(LP_OPT[1]) - 8);
+
+      // 整数格点
+      if (showInt) {
+        for (var ix = 0; ix <= CX; ix++) {
+          for (var iy = 0; iy <= CY; iy++) {
+            if (feasible(ix, iy)) {
+              ctx.fillStyle = "#4a7a4a";
+              ctx.fillRect(xp(ix) - 2, yp(iy) - 2, 4, 4);
+            }
+          }
+        }
+        // 整数最优
+        ctx.strokeStyle = "#2f6f2f"; ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(xp(IP_OPT[0]), yp(IP_OPT[1]), 8, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "#2f6f2f";
+        ctx.fillText("整数最优 (18,14) z=146", xp(IP_OPT[0]) + 12, yp(IP_OPT[1]) + 4);
+        // 四舍五入点:不可行
+        ctx.strokeStyle = "#b85450"; ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(xp(ROUND_PT[0]), yp(ROUND_PT[1]), 8, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "#b85450";
+        ctx.fillText("(18,15) 四舍五入 → 不可行!", xp(ROUND_PT[0]) + 12, yp(ROUND_PT[1]) - 10);
+      }
+
+      readout.innerHTML =
+        "当前等值线 z = <strong>" + z + "</strong>;" +
+        "可行域内 LP 最大 z = <strong>147.5</strong>(顶点 17.5, 15);" +
+        (showInt ? "整数最优 z = <strong>146</strong>(18, 14) —— 比 LP 少 1.5" : "勾选「整数格点」进入第 3 课视角");
+    }
+
+    zSlider.addEventListener("input", draw);
+    intChk.addEventListener("change", draw);
+    host.appendChild(canvas);
+    host.appendChild(controls);
+    host.appendChild(readout);
+    host.appendChild(caption);
+    draw();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-lp-demo]").forEach(mount);
+  });
+})();
+
+/* ---- lsq-demo.js ---- */
+/* ============================================================
+   最小二乘拟合演示(可复用,服务第 5 课)
+   用法:<div class="demo" data-lsq-demo></div>
+   点击画布加点,实时最小二乘拟合;可选 1/2/3 次多项式,
+   观察高阶项的「过拟合」与离群点的「拽动」效应;SSE 与 R² 实时显示。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var SEED = [
+    [1, 3.1], [3, 4.2], [5, 5.4], [7, 6.1], [9, 7.4], [11, 8.6],
+    [13, 9.3], [15, 10.6], [17, 11.2], [19, 12.5], [21, 13.4], [23, 14.8]
+  ];
+
+  function solve(A, b) {
+    var n = A.length;
+    for (var i = 0; i < n; i++) {
+      var piv = i;
+      for (var r = i + 1; r < n; r++) if (Math.abs(A[r][i]) > Math.abs(A[piv][i])) piv = r;
+      var t = A[i]; A[i] = A[piv]; A[piv] = t;
+      t = b[i]; b[i] = b[piv]; b[piv] = t;
+      for (r = i + 1; r < n; r++) {
+        var f = A[r][i] / A[i][i];
+        for (var c = i; c < n; c++) A[r][c] -= f * A[i][c];
+        b[r] -= f * b[i];
+      }
+    }
+    var x = new Array(n).fill(0);
+    for (i = n - 1; i >= 0; i--) {
+      var s = b[i];
+      for (c = i + 1; c < n; c++) s -= A[i][c] * x[c];
+      x[i] = s / A[i][i];
+    }
+    return x;
+  }
+
+  function polyfit(pts, deg) {
+    var n = deg + 1, A = [], b = [];
+    for (var i = 0; i < n; i++) {
+      A.push(new Array(n).fill(0)); b.push(0);
+      for (var j = 0; j < n; j++)
+        for (var k = 0; k < pts.length; k++) A[i][j] += Math.pow(pts[k][0], i + j);
+      for (k = 0; k < pts.length; k++) b[i] += pts[k][1] * Math.pow(pts[k][0], i);
+    }
+    return solve(A, b);
+  }
+  function evalPoly(c, x) {
+    var s = 0;
+    for (var i = c.length - 1; i >= 0; i--) s = s * x + c[i];
+    return s;
+  }
+
+  function mount(host) {
+    var W = 560, H = 400, dpr = window.devicePixelRatio || 1;
+    var X_MAX = 30, Y_MAX = 20;
+    var pts = SEED.slice();
+    var canvas = document.createElement("canvas");
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.maxWidth = "100%";
+    canvas.style.cursor = "crosshair";
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    var controls = document.createElement("div");
+    controls.className = "demo-controls";
+    var lab = document.createElement("label");
+    lab.textContent = "拟合阶数";
+    var sel = document.createElement("select");
+    [1, 2, 3].forEach(function (d) {
+      var o = document.createElement("option");
+      o.value = d; o.textContent = d + " 次(直线/抛物线/三次)";
+      if (d === 1) o.selected = true;
+      sel.appendChild(o);
+    });
+    controls.appendChild(lab); controls.appendChild(sel);
+
+    var row = document.createElement("div");
+    row.style.marginTop = "0.6rem";
+    function btn(text) {
+      var b = document.createElement("button");
+      b.className = "btn"; b.type = "button"; b.textContent = text;
+      row.appendChild(b);
+      return b;
+    }
+    var outlierBtn = btn("加一个离群点");
+    var resetBtn = btn("重置数据");
+
+    var readout = document.createElement("div");
+    readout.className = "readout";
+    var caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = "任务:① 点击画布任意处加点,看直线怎么走;② 按一下「离群点」,看它怎么绑架整条直线 —— 这就是为什么检验环节必须画残差;③ 切到 3 次,训练集 R² 上升,但两端翘起 —— 这就是过拟合。";
+
+    var L = 46, R = 14, T = 12, B = 40;
+    var pw = W - L - R, ph = H - T - B;
+    function xp(x) { return L + (x / X_MAX) * pw; }
+    function yp(y) { return T + ph - (y / Y_MAX) * ph; }
+
+    function draw() {
+      var deg = parseInt(sel.value, 10);
+      var coef = polyfit(pts, deg);
+      var meanY = pts.reduce(function (s, p) { return s + p[1]; }, 0) / pts.length;
+      var ssTot = 0, ssRes = 0;
+      pts.forEach(function (p) {
+        var e = p[1] - evalPoly(coef, p[0]);
+        ssRes += e * e; ssTot += (p[1] - meanY) * (p[1] - meanY);
+      });
+      var r2 = ssTot === 0 ? 1 : 1 - ssRes / ssTot;
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = "#b9b2a6"; ctx.fillStyle = "#555";
+      ctx.lineWidth = 1; ctx.font = "11px 'Microsoft YaHei', sans-serif";
+      ctx.beginPath();
+      ctx.moveTo(L, T); ctx.lineTo(L, T + ph); ctx.lineTo(L + pw, T + ph);
+      ctx.stroke();
+      ctx.textAlign = "center";
+      for (var gx = 0; gx <= X_MAX; gx += 5) ctx.fillText(String(gx), xp(gx), T + ph + 16);
+      ctx.textAlign = "right";
+      for (var gy = 0; gy <= Y_MAX; gy += 5) ctx.fillText(String(gy), L - 6, yp(gy) + 4);
+
+      // 拟合曲线
+      ctx.strokeStyle = "#a0522d"; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      var started = false;
+      for (var t = 0; t <= X_MAX; t += 0.25) {
+        var v = evalPoly(coef, t);
+        if (v < -5 || v > Y_MAX + 5) { started = false; continue; }
+        if (!started) { ctx.moveTo(xp(t), yp(v)); started = true; }
+        else ctx.lineTo(xp(t), yp(v));
+      }
+      ctx.stroke();
+
+      // 数据点
+      ctx.fillStyle = "#3d3a35";
+      pts.forEach(function (p) {
+        ctx.beginPath();
+        ctx.arc(xp(p[0]), yp(p[1]), 4, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      readout.innerHTML = "样本 n = <strong>" + pts.length + "</strong> · 阶数 = <strong>" + deg +
+        "</strong> · SSE = <strong>" + ssRes.toFixed(1) + "</strong> · R² = <strong>" + r2.toFixed(3) + "</strong>";
+    }
+
+    canvas.addEventListener("click", function (ev) {
+      var rect = canvas.getBoundingClientRect();
+      var px = (ev.clientX - rect.left) * (W / rect.width);
+      var py = (ev.clientY - rect.top) * (H / rect.height);
+      var x = (px - L) / pw * X_MAX, y = (T + ph - py) / ph * Y_MAX;
+      if (x < 0 || x > X_MAX || y < 0 || y > Y_MAX) return;
+      pts.push([Math.round(x * 10) / 10, Math.round(y * 10) / 10]);
+      draw();
+    });
+    outlierBtn.addEventListener("click", function () {
+      pts.push([29, 2.5]);
+      draw();
+    });
+    resetBtn.addEventListener("click", function () { pts = SEED.slice(); draw(); });
+    sel.addEventListener("change", draw);
+
+    host.appendChild(canvas);
+    host.appendChild(controls);
+    host.appendChild(row);
+    host.appendChild(readout);
+    host.appendChild(caption);
+    draw();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-lsq-demo]").forEach(mount);
+  });
+})();
+
+/* ---- quiz.js ---- */
+/* ============================================================
+   测验组件（可复用）
+   用法：在 HTML 中放置：
+   <div class="quiz" data-quiz='[{"q":"问题","opts":["A","B","C"],"answer":0,"why":"解释"},...]'></div>
+   并引入本脚本。答案选项长度应一致，避免泄露线索。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  const stats = { correct: 0, answered: 0, total: 0 };
+  let scoreShown = false;
+
+  function renderQuiz(container) {
+    let data;
+    try {
+      data = JSON.parse(container.getAttribute("data-quiz"));
+    } catch (e) {
+      console.error("data-quiz JSON 解析失败", e);
+      return;
+    }
+    stats.total += data.length;
+
+    data.forEach(function (item) {
+      const q = document.createElement("div");
+      q.className = "quiz-q";
+      q.textContent = item.q;
+      container.appendChild(q);
+
+      const ul = document.createElement("ul");
+      ul.className = "quiz-opts";
+
+      const feedback = document.createElement("div");
+      feedback.className = "quiz-feedback";
+
+      let answered = false;
+
+      item.opts.forEach(function (optText, idx) {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.className = "quiz-opt";
+        btn.type = "button";
+        btn.textContent = optText;
+        btn.addEventListener("click", function () {
+          if (answered) return;
+          answered = true;
+          stats.answered++;
+          const buttons = ul.querySelectorAll(".quiz-opt");
+          buttons.forEach(function (b, i) {
+            b.disabled = true;
+            if (i === item.answer) b.classList.add("correct");
+          });
+          if (idx === item.answer) {
+            stats.correct++;
+            feedback.textContent = "✓ 正确。" + (item.why || "");
+          } else {
+            btn.classList.add("wrong");
+            feedback.textContent =
+              "✗ 正确答案是绿色那项。" + (item.why || "");
+          }
+          feedback.style.display = "block";
+          maybeShowScore();
+        });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+
+      container.appendChild(ul);
+      container.appendChild(feedback);
+    });
+  }
+
+  function maybeShowScore() {
+    if (scoreShown || stats.answered < stats.total) return;
+    scoreShown = true;
+    const lastQuiz = document.querySelector(".quiz[data-quiz]:last-of-type")
+      || document.querySelector(".quiz[data-quiz]");
+    const score = document.createElement("div");
+    score.className = "quiz-score";
+    score.textContent =
+      "本次得分：" + stats.correct + " / " + stats.total +
+      (stats.correct === stats.total
+        ? "　🎉 全部正确！"
+        : "　答错的题目值得明天回来重测一次——间隔重复才是长期记忆之道。");
+    score.style.display = "block";
+    lastQuiz.parentNode.appendChild(score);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".quiz[data-quiz]").forEach(renderQuiz);
+  });
+})();
+
+/* ---- sir-demo.js ---- */
+/* ============================================================
+   SIR 传染病模型演示(可复用,服务第 6 课)
+   用法:<div class="demo" data-sir-demo></div>
+   Euler 数值积分:滑块调传播速率 β 与恢复率 γ;
+   实时显示基本再生数 R0 = β/γ、疫情峰值与时间 —— 体验阈值效应。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var N = 1000, I0 = 5, DAYS = 120;
+
+  function mount(host) {
+    var W = 560, H = 400, dpr = window.devicePixelRatio || 1;
+    var canvas = document.createElement("canvas");
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.maxWidth = "100%";
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    var controls = document.createElement("div");
+    controls.className = "demo-controls";
+    function slider(id, label, min, max, step, value) {
+      var lab = document.createElement("label");
+      lab.setAttribute("for", id);
+      lab.textContent = label;
+      var input = document.createElement("input");
+      input.type = "range"; input.id = id;
+      input.min = min; input.max = max; input.step = step; input.value = value;
+      controls.appendChild(lab); controls.appendChild(input);
+      return input;
+    }
+    var bSlider = slider("sir-beta", "传播速率 β(每人每天有效接触数 × 概率)", 0.05, 0.6, 0.01, 0.3);
+    var gSlider = slider("sir-gamma", "恢复率 γ(1/平均传染期)", 0.05, 0.6, 0.01, 0.1);
+
+    var readout = document.createElement("div");
+    readout.className = "readout";
+    var caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = "任务:把 R0 调到 1 以下(β<γ)再看曲线 —— 疫情根本起不来;调回 β>γ,峰值触顶后才回落。这个「阈值」就是 R0 的建模价值:防控的目标就是把有效再生数压到 1 以下。";
+
+    var L = 46, R = 14, T = 12, B = 40;
+    var pw = W - L - R, ph = H - T - B;
+    function xp(t) { return L + (t / DAYS) * pw; }
+    function yp(v) { return T + ph - (v / N) * ph; }
+
+    function draw() {
+      var beta = parseFloat(bSlider.value), gamma = parseFloat(gSlider.value);
+      var S = N - I0, I = I0, R = 0;
+      var series = { s: [], i: [], r: [] };
+      var peak = 0, peakDay = 0;
+      for (var t = 0; t <= DAYS; t++) {
+        series.s.push(S); series.i.push(I); series.r.push(R);
+        if (I > peak) { peak = I; peakDay = t; }
+        var dS = -beta * S * I / N;
+        var dI = beta * S * I / N - gamma * I;
+        var dR = gamma * I;
+        var h = 0.5;                    // 半步长 Euler
+        S += dS * h; I += dI * h; R += dR * h;
+        S += (-beta * S * I / N) * h; I += (beta * S * I / N - gamma * I) * h; R += gamma * I * h;
+      }
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = "#b9b2a6"; ctx.fillStyle = "#555";
+      ctx.lineWidth = 1; ctx.font = "11px 'Microsoft YaHei', sans-serif";
+      ctx.beginPath();
+      ctx.moveTo(L, T); ctx.lineTo(L, T + ph); ctx.lineTo(L + pw, T + ph);
+      ctx.stroke();
+      ctx.textAlign = "center";
+      for (var d = 0; d <= DAYS; d += 20) ctx.fillText(String(d) + " 天", xp(d), T + ph + 16);
+      ctx.textAlign = "right";
+      for (var v = 0; v <= N; v += 200) ctx.fillText(String(v), L - 6, yp(v) + 4);
+
+      function curve(arr, color) {
+        ctx.strokeStyle = color; ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        arr.forEach(function (val, t) {
+          if (t === 0) ctx.moveTo(xp(t), yp(val));
+          else ctx.lineTo(xp(t), yp(val));
+        });
+        ctx.stroke();
+      }
+      curve(series.s, "#4a7a4a");
+      curve(series.i, "#b85450");
+      curve(series.r, "#6c8ebf");
+
+      ctx.textAlign = "left";
+      ctx.fillStyle = "#4a7a4a"; ctx.fillText("易感 S", L + 8, T + 14);
+      ctx.fillStyle = "#b85450"; ctx.fillText("感染 I", L + 62, T + 14);
+      ctx.fillStyle = "#6c8ebf"; ctx.fillText("移出 R", L + 116, T + 14);
+
+      readout.innerHTML =
+        "R0 = β/γ = <strong>" + (beta / gamma).toFixed(2) + "</strong> · " +
+        (beta / gamma > 1
+          ? "R0 &gt; 1 → 疫情爆发:峰值约 <strong>" + Math.round(peak) + "</strong> 人(第 <strong>" + peakDay + "</strong> 天)"
+          : "R0 ≤ 1 → 疫情不起势,无需等峰值");
+    }
+
+    bSlider.addEventListener("input", draw);
+    gSlider.addEventListener("input", draw);
+    host.appendChild(canvas);
+    host.appendChild(controls);
+    host.appendChild(readout);
+    host.appendChild(caption);
+    draw();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-sir-demo]").forEach(mount);
+  });
+})();
+
+/* ---- topsis-demo.js ---- */
+/* ============================================================
+   TOPSIS 评价演示(可复用,服务第 4 课)
+   用法:<div class="demo" data-topsis-demo></div>
+   4 个冷热源方案 × 3 指标(成本/能效/风险),拖动权重滑块,
+   实时计算 TOPSIS 贴近度并排序 —— 体验「权重一变,排序翻转」。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var NAMES = ["方案 A 燃气锅炉", "方案 B 空气源热泵", "方案 C 地源热泵", "方案 D 电制冷+燃气热"];
+  var COST = [120, 90, 150, 100];   // 初投资(万元)——负向
+  var EFF  = [82, 95, 88, 78];      // 综合能效(%)——正向
+  var RISK = [4, 7, 3, 6];          // 运行风险(1-10,越高越险)——负向
+
+  function mount(host) {
+    var W = 620, H = 300, dpr = window.devicePixelRatio || 1;
+    var canvas = document.createElement("canvas");
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    canvas.style.maxWidth = "100%";
+    var ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    var controls = document.createElement("div");
+    controls.className = "demo-controls";
+
+    function slider(id, label, value) {
+      var lab = document.createElement("label");
+      lab.setAttribute("for", id);
+      lab.textContent = label;
+      var input = document.createElement("input");
+      input.type = "range"; input.id = id;
+      input.min = 5; input.max = 90; input.step = 5; input.value = value;
+      controls.appendChild(lab); controls.appendChild(input);
+      return input;
+    }
+    var wCost = slider("tw-cost", "权重 · 初投资(负向指标)", 40);
+    var wEff  = slider("tw-eff", "权重 · 综合能效(正向指标)", 40);
+    var wRisk = slider("tw-risk", "权重 · 运行风险(负向指标)", 20);
+
+    var readout = document.createElement("div");
+    readout.className = "readout";
+    var caption = document.createElement("div");
+    caption.className = "caption";
+    caption.textContent = "任务:先把「地源热泵」顶到第一,再把「能效」权重拉满看排序怎么变 —— 排序变了,你的推荐结论就得跟着辩护,这就是评价题的灵敏度检验。";
+
+    // 极差标准化到 [0,1],正向越大越好,负向取反
+    function norm(arr, positive) {
+      var mn = Math.min.apply(null, arr), mx = Math.max.apply(null, arr);
+      return arr.map(function (v) {
+        var t = (v - mn) / (mx - mn);
+        return positive ? t : 1 - t;
+      });
+    }
+    var nCost = norm(COST, false), nEff = norm(EFF, true), nRisk = norm(RISK, false);
+
+    function topsis(w) {
+      var cols = [nCost, nEff, nRisk];
+      var ws = w;
+      var best = [], worst = [];
+      cols.forEach(function (col, j) {
+        var weighted = col.map(function (v) { return v * ws[j]; });
+        best.push(Math.max.apply(null, weighted));
+        worst.push(Math.min.apply(null, weighted));
+      });
+      var res = NAMES.map(function (name, i) {
+        var dPlus = 0, dMinus = 0;
+        cols.forEach(function (col, j) {
+          var v = col[i] * ws[j];
+          dPlus += Math.pow(v - best[j], 2);
+          dMinus += Math.pow(v - worst[j], 2);
+        });
+        dPlus = Math.sqrt(dPlus); dMinus = Math.sqrt(dMinus);
+        return { name: name, c: dMinus / (dPlus + dMinus) };
+      });
+      res.sort(function (a, b) { return b.c - a.c; });
+      return res;
+    }
+
+    function draw() {
+      var raw = [parseFloat(wCost.value), parseFloat(wEff.value), parseFloat(wRisk.value)];
+      var sum = raw[0] + raw[1] + raw[2];
+      var w = raw.map(function (v) { return v / sum; });
+      var res = topsis(w);
+
+      ctx.clearRect(0, 0, W, H);
+      var barH = 46, gap = 22, x0 = 210, plotW = W - x0 - 60;
+      res.forEach(function (r, i) {
+        var y = 18 + i * (barH + gap);
+        ctx.fillStyle = "#333";
+        ctx.font = "12px 'Microsoft YaHei', sans-serif";
+        ctx.textAlign = "right";
+        ctx.fillText((i + 1) + ". " + r.name, x0 - 12, y + barH / 2 + 4);
+        ctx.fillStyle = "#e8e2d6";
+        ctx.fillRect(x0, y, plotW, barH);
+        ctx.fillStyle = "#a0522d";
+        ctx.fillRect(x0, y, plotW * r.c, barH);
+        ctx.fillStyle = "#333";
+        ctx.textAlign = "left";
+        ctx.fillText(r.c.toFixed(3), x0 + plotW * r.c + 8, y + barH / 2 + 4);
+      });
+      readout.innerHTML =
+        "归一化权重:成本 <strong>" + w[0].toFixed(2) + "</strong> · 能效 <strong>" + w[1].toFixed(2) +
+        "</strong> · 风险 <strong>" + w[2].toFixed(2) + "</strong> → 当前第一名:<strong>" + res[0].name + "</strong>";
+    }
+
+    [wCost, wEff, wRisk].forEach(function (s) { s.addEventListener("input", draw); });
+    host.appendChild(canvas);
+    host.appendChild(controls);
+    host.appendChild(readout);
+    host.appendChild(caption);
+    draw();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-topsis-demo]").forEach(mount);
+  });
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var art = document.getElementById('content');
+
+  /* ---------- 全文检索 ---------- */
+  function unmark() {
+    var ms = art.querySelectorAll('mark');
+    for (var i = 0; i < ms.length; i++) {
+      var m = ms[i], t = document.createTextNode(m.textContent);
+      m.parentNode.replaceChild(t, m);
+    }
+    art.normalize();
+  }
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function mark(qs) {
+    var rx = new RegExp(esc(qs), 'gi');
+    var walker = document.createTreeWalker(art, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = n.parentNode;
+        if (/^(SCRIPT|STYLE|MARK)$/.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+        return rx.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var hits = [];
+    while (walker.nextNode()) hits.push(walker.currentNode);
+    hits.forEach(function (n) {
+      var frag = document.createDocumentFragment(), last = 0, any = false;
+      n.nodeValue.replace(rx, function (mt, off) {
+        any = true;
+        frag.appendChild(document.createTextNode(n.nodeValue.slice(last, off)));
+        var mk = document.createElement('mark');
+        mk.textContent = mt;
+        frag.appendChild(mk);
+        last = off + mt.length;
+        return mt;
+      });
+      if (!any) return;
+      frag.appendChild(document.createTextNode(n.nodeValue.slice(last)));
+      n.parentNode.replaceChild(frag, n);
+    });
+    return hits.length;
+  }
+
+  var q = document.getElementById('q');
+  var cnt = document.getElementById('q-count');
+  var cur = -1;
+
+  function jumpTo(i) {
+    var ms = [].slice.call(art.querySelectorAll('mark'));
+    if (!ms.length) return;
+    cur = (i + ms.length) % ms.length;
+    ms.forEach(function (m, k) { m.classList.toggle('hit', k === cur); });
+    var el = ms[cur];
+    try {
+      if (el.scrollIntoViewIfNeeded) el.scrollIntoViewIfNeeded(false);
+      else if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'center' });
+    } catch (e) { }
+  }
+  function doSearch() {
+    unmark();
+    cur = -1;
+    var s = q.value.trim();
+    if (!s) { cnt.textContent = ''; return; }
+    var n = mark(s);
+    cnt.textContent = n ? n + ' 处' : '无结果';
+    if (n) jumpTo(0);
+  }
+  q.addEventListener('input', doSearch);
+  q.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); jumpTo(cur + 1); }
+    if (e.key === 'Escape') { q.value = ''; doSearch(); }
+  });
+
+  /* ---------- 目录筛选 ---------- */
+  var sbq = document.getElementById('sb-q');
+  sbq.addEventListener('input', function () {
+    var v = this.value.trim().toLowerCase();
+    var parts = document.querySelectorAll('.sidebar details.part');
+    for (var i = 0; i < parts.length; i++) {
+      var d = parts[i];
+      var hit = d.textContent.toLowerCase().indexOf(v) > -1;
+      d.style.display = (v && !hit) ? 'none' : '';
+      if (v && hit) d.open = true;
+    }
+  });
+
+  /* ---------- Scrollspy:滚动到哪一课,侧栏自动展开并高亮 ---------- */
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        var links = document.querySelectorAll('.sidebar .pages a');
+        for (var i = 0; i < links.length; i++) {
+          links[i].classList.toggle('cur', links[i].getAttribute('href') === '#' + id);
+        }
+        var act = document.querySelector('.sidebar .pages a.cur');
+        if (act) {
+          var d = act.closest('details');
+          if (d && !d.open) d.open = true;
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    var arts = document.querySelectorAll('article.course-doc');
+    for (var i = 0; i < arts.length; i++) spy.observe(arts[i]);
+  }
+
+  /* ---------- 目录收起/展开 ---------- */
+  var tocBtn = document.getElementById('toc-toggle');
+  function applyToc(hidden) {
+    document.body.classList.toggle('toc-hidden', hidden);
+    tocBtn.classList.toggle('on', !hidden);
+    try { localStorage.setItem('handbook-toc', hidden ? '0' : '1'); } catch (e) {}
+  }
+  tocBtn.addEventListener('click', function () {
+    applyToc(!document.body.classList.contains('toc-hidden'));
+  });
+  var saved = null;
+  try { saved = localStorage.getItem('handbook-toc'); } catch (e) {}
+  if (saved === '0') {
+    document.body.classList.add('toc-hidden');
+    tocBtn.classList.remove('on');
+  }
+
+  /* ---------- 回顶 + 打印导出 ---------- */
+  var tb = document.getElementById('top-btn');
+  window.addEventListener('scroll', function () {
+    tb.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  tb.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  document.getElementById('print-btn').addEventListener('click', function () {
+    window.print();
+  });
+})();
+</script>
+</body>
+</html>

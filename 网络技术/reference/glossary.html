@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>术语表 · 网络技术</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+  <p class="kicker">Reference · 全 12 课术语总表</p>
+  <h1>网络技术术语表 <span class="term-en">Glossary</span></h1>
+  <p>本课程的统一语言。每一课都遵守这里的译名与符号约定;
+     遇到不确定的术语,先回到这里查。</p>
+
+  <h2>第 1 课 · 计算机网络入门</h2>
+  <dl class="glossary">
+    <dt>计算机网络 <span class="term-en">computer network</span></dt>
+    <dd>自治的计算机+通信线路/设备+协议,实现资源共享与信息传递的系统。</dd>
+    <dt>自治 <span class="term-en">autonomous</span></dt>
+    <dd>主机间无主从关系,断网后各自独立可用。</dd>
+    <dt>局域网/城域网/广域网 <span class="term-en">LAN/MAN/WAN</span></dt>
+    <dd>按覆盖范围:楼/园区 → 城市 → 跨城市国家。</dd>
+    <dt>互连网/互联网 <span class="term-en">internet/Internet</span></dt>
+    <dd>小写泛指网络互连;大写专指全球"网络的网络"。</dd>
+    <dt>拓扑结构 <span class="term-en">topology</span></dt>
+    <dd>星型、总线型、环型、树型、网状;无线网络同样有拓扑(家用 WiFi 是星型)。</dd>
+  </dl>
+
+  <h2>第 2 课 · 数据交换方式</h2>
+  <dl class="glossary">
+    <dt>电路交换 <span class="term-en">circuit switching</span></dt>
+    <dd>先建专用通路再通信,独占线路;时延小、利用率低(电话网)。</dd>
+    <dt>报文交换 <span class="term-en">message switching</span></dt>
+    <dd>整个报文存储转发;不建连但时延大。</dd>
+    <dt>分组交换 <span class="term-en">packet switching</span></dt>
+    <dd>切分组+首部地址存储转发;互联网采用;有首部开销与失序问题。</dd>
+    <dt>发送时延/传播时延</dt>
+    <dd>长度÷带宽 与 距离÷速率;带宽只影响前者。</dd>
+  </dl>
+
+  <h2>第 3 课 · 网络体系结构</h2>
+  <dl class="glossary">
+    <dt>协议三要素</dt>
+    <dd>语法(格式)、语义(动作含义)、同步(顺序与速度)。</dd>
+    <dt>OSI 七层</dt>
+    <dd>物理、链路、网络、运输、会话、表示、应用;设备:集线器/交换机/路由器对应 1/2/3 层。</dd>
+    <dt>TCP/IP 四层</dt>
+    <dd>应用、运输(TCP/UDP)、网际(IP/ICMP/ARP)、网络接口(未具体规定)。</dd>
+    <dt>PDU <span class="term-en">Protocol Data Unit</span></dt>
+    <dd>各层单元:比特→帧→分组→报文段→数据。</dd>
+    <dt>封装/对等通信</dt>
+    <dd>发送逐层加头、接收逐层去头;对等层读对等层头部。</dd>
+  </dl>
+
+  <h2>第 4 课 · 物理层与传输介质</h2>
+  <dl class="glossary">
+    <dt>四大特性</dt>
+    <dd>机械、电气、功能、规程。</dd>
+    <dt>双绞线/光纤</dt>
+    <dd>双绞线 ≤100m;光纤全反射、抗干扰——单模远、多模近。</dd>
+    <dt>曼彻斯特编码 <span class="term-en">Manchester</span></dt>
+    <dd>每比特中间必跳变,自带同步;波特率=2×比特率。</dd>
+    <dt>奈奎斯特定理 <span class="term-en">Nyquist</span></dt>
+    <dd>无噪声:2W·log₂V。</dd>
+    <dt>香农定理 <span class="term-en">Shannon</span></dt>
+    <dd>有噪声:W·log₂(1+S/N);实际取两者小者;30dB=1000 倍。</dd>
+    <dt>多路复用 <span class="term-en">multiplexing</span></dt>
+    <dd>FDM 分频、TDM 分时、WDM 分波、CDMA 分码。</dd>
+  </dl>
+
+  <h2>第 5 课 · 数据链路层与局域网</h2>
+  <dl class="glossary">
+    <dt>链路层三大功能</dt>
+    <dd>成帧、差错检测(CRC)、流量控制/可靠传输。</dd>
+    <dt>CSMA/CD</dt>
+    <dd>先听后发、边发边听、碰撞退避;半双工以太网规则。</dd>
+    <dt>最小帧长 64B</dt>
+    <dd>由发送时间 ≥ 争用期 2τ 推出;帧长 64~1518B。</dd>
+    <dt>MAC 地址</dt>
+    <dd>48 位;全 1 广播;本地有效,跨网段逐段变。</dd>
+    <dt>冲突域/广播域</dt>
+    <dd>交换机每端口隔离冲突域;广播域靠 VLAN/路由器隔离。</dd>
+    <dt>自学习 <span class="term-en">self-learning</span></dt>
+    <dd>登记源 MAC 入口;查表转发,未命中泛洪;表项老化。</dd>
+    <dt>VLAN</dt>
+    <dd>802.1Q,按端口划分隔离广播域;跨 VLAN 需三层。</dd>
+  </dl>
+
+  <h2>第 6 课 · IP 地址与子网划分</h2>
+  <dl class="glossary">
+    <dt>分类编址</dt>
+    <dd>A 1~126(/8)、B 128~191(/16)、C 192~223(/24)、D 多播、E 保留。</dd>
+    <dt>私有地址</dt>
+    <dd>10/8、172.16~31(/12)、192.168/16;环回 127.0.0.1。</dd>
+    <dt>子网三件套</dt>
+    <dd>网络地址=IP AND 掩码;广播=下一网络−1;可用主机=2ʰ−2;块大小=256−掩码末段。</dd>
+    <dt>子网划分/CIDR/VLSM</dt>
+    <dd>借位 2ⁿ≥子网数、2ʰ−2≥主机数;"IP/前缀"任意定长+路由聚合。</dd>
+  </dl>
+
+  <h2>第 7 课 · 网络层进阶</h2>
+  <dl class="glossary">
+    <dt>ARP</dt>
+    <dd>同网段 IP→MAC:广播问、单播答、缓存表;跨网段问网关。</dd>
+    <dt>ICMP</dt>
+    <dd>询问+差错报告;ping/traceroute 的底层。</dd>
+    <dt>RIP/OSPF/BGP</dt>
+    <dd>跳数-UDP520 / 链路状态-IP89 / 路径向量-TCP179;IGP→EGP。</dd>
+    <dt>NAT/NAPT</dt>
+    <dd>私有↔公网(端口)转换;外网不能主动进内网。</dd>
+    <dt>IPv6</dt>
+    <dd>128 位冒号十六进制;零压缩 :: 仅一次;双栈+隧道过渡。</dd>
+  </dl>
+
+  <h2>第 8 课 · 传输层与 TCP</h2>
+  <dl class="glossary">
+    <dt>端口 <span class="term-en">port</span></dt>
+    <dd>16 位进程标识;熟知端口 FTP20/21、Telnet23、SMTP25、DNS53、HTTP80、POP3 110、HTTPS443。</dd>
+    <dt>UDP/TCP</dt>
+    <dd>UDP:无连接、8B 首部、支持一对多;TCP:面向连接、可靠、20~60B 首部、一对一。</dd>
+    <dt>三次握手</dt>
+    <dd>SYN→SYN+ACK→ACK;防失效连接请求;第三次可带数据。</dd>
+    <dt>四次挥手/TIME_WAIT</dt>
+    <dd>FIN/ACK×2 全双工分向关闭;主动方等 2MSL。</dd>
+    <dt>流量控制/拥塞控制</dt>
+    <dd>rwnd 护接收方;cwnd 四算法护网络。</dd>
+  </dl>
+
+  <h2>第 9 课 · 应用层协议</h2>
+  <dl class="glossary">
+    <dt>C/S 与 P2P</dt>
+    <dd>集中服务 vs 对等互传。</dd>
+    <dt>DNS</dt>
+    <dd>UDP53(传送 TCP);根→顶级→权限;主机递归、服务器迭代;A/CNAME/MX/PTR。</dd>
+    <dt>DHCP</dt>
+    <dd>UDP67/68;Discover→Offer→Request→Ack;租约/保留/排除/中继。</dd>
+    <dt>HTTP/HTTPS</dt>
+    <dd>80/443;请求-响应、无状态(Cookie);HTTPS=HTTP+SSL/TLS。</dd>
+    <dt>SMTP/POP3/IMAP</dt>
+    <dd>SMTP25 推信;POP3 110/IMAP 拉收;MIME 附件。</dd>
+    <dt>FTP</dt>
+    <dd>控制 21、主动模式数据 20;被动模式过防火墙。</dd>
+  </dl>
+
+  <h2>第 10 课 · 网络规划与设计</h2>
+  <dl class="glossary">
+    <dt>五阶段</dt>
+    <dd>规划→设计→实施→测试验收→运行维护。</dd>
+    <dt>三层设计</dt>
+    <dd>核心(高速转发)、汇聚(VLAN 路由+策略)、接入(终端);小网可两层扁平化。</dd>
+    <dt>背板带宽/包转发率</dt>
+    <dd>≥端口数×速率×2 为线速;每秒转发包数。</dd>
+    <dt>结构化布线六子系统</dt>
+    <dd>工作区、水平(双绞线≤90m)、垂直(光纤)、设备间、管理、建筑群。</dd>
+  </dl>
+
+  <h2>第 11 课 · 信息服务系统配置</h2>
+  <dl class="glossary">
+    <dt>作用域/排除/保留</dt>
+    <dd>分配范围 / 不自动分配段 / MAC 绑定固定 IP。</dd>
+    <dt>DHCP 选项 003/006</dt>
+    <dd>下发网关与 DNS;缺 003 客户端只能访问本网段。</dd>
+    <dt>DHCP 中继代理</dt>
+    <dd>跨网段把广播转单播给远端服务器。</dd>
+    <dt>正向/反向区域</dt>
+    <dd>域名→IP(A/CNAME/MX);IP→域名(PTR);区域传送 TCP53。</dd>
+    <dt>绑定(网站)</dt>
+    <dd>IP:端口:主机名;多网站改端口或加主机名。</dd>
+  </dl>
+
+  <h2>第 12 课 · 网络安全与管理</h2>
+  <dl class="glossary">
+    <dt>安全五目标</dt>
+    <dd>机密性、完整性、可用性、真实性、可控性。</dd>
+    <dt>对称/非对称加密</dt>
+    <dd>AES 快 vs RSA 免分发;混合使用(HTTPS)。</dd>
+    <dt>数字签名/证书/CA</dt>
+    <dd>发方私钥签摘要;CA 证书绑定公钥与身份。</dd>
+    <dt>防火墙/DMZ/IDS</dt>
+    <dd>包过滤→状态检测→应用网关;对外服务放 DMZ;IDS 旁路报警。</dd>
+    <dt>ACL</dt>
+    <dd>标准 1~99 源 IP 放近目的;扩展 100~199 全条件放近源;隐含 deny all。</dd>
+    <dt>SNMP/MIB/Trap</dt>
+    <dd>UDP161/162;Get/Set/Trap;MIB 被管对象库。</dd>
+    <dt>WEP/WPA/WPA2/WPA3</dt>
+    <dd>无线安全演进,越新越安全;WEP 禁用。</dd>
+  </dl>
+
+  <hr>
+  <nav class="lesson-nav">
+    <a href="../lessons/0012-security-management.html">← 第 12 课</a>
+    <span>术语表</span>
+  </nav>
+
+  <div class="ask">💬 有任何不清楚的术语?直接在对话里问我——我是你的老师,随时可以追问。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> · 课程手册</title>
+<style>
+/* ============================================================
+   流体力学课程 · 共享样式表
+   Tufte 风格：大量留白、优雅衬线、内容优先
+   ============================================================ */
+
+:root {
+  --ink: #1a1a1a;
+  --ink-soft: #555;
+  --accent: #a0522d;        /* 赭石色：链接与强调 */
+  --accent-dark: #7a3b1e;
+  --paper: #fffff8;
+  --code-bg: #f4f2ee;
+  --quiz-correct: #e8f5e9;
+  --quiz-wrong: #fdecea;
+  --border: #ddd8d0;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; scroll-behavior: smooth; }
+
+body {
+  font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC",
+               "STSong", Georgia, serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.75;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* ---------- 标题 ---------- */
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 2rem;
+  margin: 0 0 .3rem;
+}
+h2 {
+  font-size: 1.35rem;
+  margin-top: 2.8rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .35rem;
+}
+h3 { font-size: 1.1rem; margin-top: 2rem; }
+
+.kicker {
+  font-family: "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- 正文元素 ---------- */
+p { margin: 1rem 0; }
+a { color: var(--accent); text-decoration-color: rgba(160,82,45,.35); }
+a:hover { color: var(--accent-dark); }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+.term-en {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: .92em;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: .2rem 1.4rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink-soft);
+  background: rgba(160, 82, 45, .04);
+}
+
+hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+/* ---------- 公式 ---------- */
+.formula {
+  text-align: center;
+  font-family: "Latin Modern Math", "Cambria Math", Georgia, serif;
+  font-size: 1.25rem;
+  margin: 1.6rem 0;
+  overflow-x: auto;
+}
+.var { font-style: italic; font-family: inherit; }
+sub, sup { font-size: .72em; }
+
+/* ---------- 提示框 ---------- */
+.box {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.3rem;
+  margin: 1.8rem 0;
+  background: #faf9f6;
+}
+.box-title {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  margin-bottom: .4rem;
+}
+.box.cfd .box-title { color: #1a5276; }
+.box.warn .box-title { color: #922b21; }
+.box p:first-of-type { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+/* ---------- 测验 ---------- */
+.quiz {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+}
+.quiz-q {
+  font-weight: 700;
+  margin-bottom: .9rem;
+}
+.quiz-opts { list-style: none; padding: 0; margin: 0; }
+.quiz-opts li { margin: .45rem 0; }
+.quiz-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: .98rem;
+  padding: .55rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: #fdf8f4; }
+.quiz-opt.correct { background: var(--quiz-correct); border-color: #66bb6a; font-weight: 700; }
+.quiz-opt.wrong { background: var(--quiz-wrong); border-color: #e57373; }
+.quiz-feedback {
+  margin-top: .8rem;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  display: none;
+}
+.quiz-score {
+  margin-top: 1.2rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  display: none;
+}
+
+/* ---------- 演示画布 ---------- */
+.demo {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+  text-align: center;
+}
+.demo canvas {
+  max-width: 100%;
+  border-radius: 4px;
+  background: #fff;
+  touch-action: manipulation;
+}
+.demo-controls { margin-top: .9rem; }
+.btn {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .9rem;
+  padding: .5rem 1.2rem;
+  margin: 0 .3rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent-dark);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.btn:hover { background: var(--accent); color: #fff; }
+.btn.active { background: var(--accent); color: #fff; }
+.caption { font-size: .88rem; color: var(--ink-soft); margin-top: .8rem; }
+
+/* ---------- Obsidian 跳转链接 ---------- */
+.obsidian-link {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  padding: .35rem .8rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  white-space: nowrap;
+}
+
+/* ---------- 演示控制项（滑块、下拉框、标签） ---------- */
+.demo label {
+  display: block;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .86rem;
+  color: var(--ink-soft);
+  margin: .6rem 0 .25rem;
+  text-align: left;
+}
+.demo input[type="range"],
+.demo select {
+  width: 100%;
+  max-width: 22rem;
+  font: inherit;
+  font-size: .95rem;
+  padding: .35rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+.demo .readout {
+  margin-top: .7rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.demo .readout strong { color: var(--ink); }
+
+/* ---------- 课程导航 ---------- */
+.lesson-nav {
+  margin-top: 4rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.lesson-nav a {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+}
+
+.ask {
+  margin-top: 3rem;
+  padding: 1rem 1.3rem;
+  border-radius: 8px;
+  background: #eef3f8;
+  border: 1px solid #c9d8e8;
+  font-size: .95rem;
+}
+
+/* ---------- 参考/术语表 ---------- */
+dl.glossary dt {
+  font-weight: 700;
+  margin-top: 1.4rem;
+}
+dl.glossary dt .term-en { font-weight: 400; margin-left: .4em; }
+dl.glossary dd { margin-left: 0; padding-left: 1.2rem; border-left: 2px solid var(--border); }
+
+table.ref {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: .95rem;
+}
+table.ref th, table.ref td {
+  border-bottom: 1px solid var(--border);
+  padding: .55rem .7rem;
+  text-align: left;
+}
+table.ref th {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .85rem;
+  letter-spacing: .05em;
+  border-bottom: 2px solid var(--ink);
+}
+
+/* ---------- 打印优化 ---------- */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  main { max-width: 100%; padding: 0; }
+  .quiz, .demo, .btn { break-inside: avoid; }
+  a { color: var(--ink); text-decoration: underline; }
+  .lesson-nav, .ask { page-break-inside: avoid; }
+}
+
+
+/* ============ 手册外壳 · 纸感配色与正文一致 ============ */
+html { scroll-behavior: smooth; }
+.shell-body { margin: 0; }
+
+/* 顶部工具条:纸色底 + 墨字 + 赭石强调 */
+.ribbon { position: sticky; top: 0; z-index: 60;
+  background: rgba(244,242,238,.96); backdrop-filter: blur(6px);
+  border-bottom: 1px solid #ddd8d0; }
+.ribbon-in { max-width: 1500px; margin: 0 auto; padding: 9px 18px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.brand { font-size: 15px; font-weight: 700; letter-spacing: .04em;
+  white-space: nowrap; font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.brand i { font-style: normal; color: #a0522d; margin-right: 8px; }
+.sub { font-size: 10.5px; color: #8b8577; letter-spacing: .12em; white-space: nowrap; }
+.r-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.search-wrap { display: flex; align-items: center; border-bottom: 1px solid #c9c2b4; padding: 2px; }
+.search-wrap:focus-within { border-bottom-color: #a0522d; }
+#q { background: transparent; border: none; color: #1a1a1a;
+  font-family: inherit; font-size: 13px; width: min(280px, 40vw); padding: 3px 4px; }
+#q::placeholder { color: #a39b8d; } #q:focus { outline: none; }
+#q-count { font-size: 11px; color: #a0522d; min-width: 52px; text-align: right; }
+.rbtn { background: transparent; border: 1px solid #c9c2b4; color: #55503f;
+  font-family: inherit; font-size: 12px; letter-spacing: .08em; padding: 4px 12px; cursor: pointer; }
+.rbtn:hover { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.05); }
+
+/* 布局 */
+.layout { display: flex; max-width: 1500px; margin: 0 auto; align-items: flex-start; }
+.sidebar { width: 256px; flex-shrink: 0; position: sticky; top: 51px;
+  height: calc(100vh - 51px); overflow-y: auto; padding: 24px 20px 50px;
+  border-right: 1px solid #ddd8d0; background: #f4f2ee; }
+.main { flex: 1; min-width: 0; display: flex; justify-content: center; padding: 44px 40px 90px; }
+.content { max-width: 46rem; width: 100%; }
+
+/* 侧栏目录 */
+.sb-brand h1 { font-size: 17px; line-height: 1.5; font-weight: 700;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.sb-brand .en { display: block; font-size: 9px; letter-spacing: .26em; color: #55503f;
+  text-transform: uppercase; margin-top: 3px; }
+.sb-search input { width: 100%; border: none; border-bottom: 1px solid #ddd8d0; background: transparent;
+  font-family: inherit; font-size: 12.5px; padding: 5px 1px; color: #1a1a1a; }
+.sb-search input:focus { outline: none; border-bottom-color: #a0522d; }
+.sb-sec { font-size: 10px; letter-spacing: .22em; color: #55503f; margin: 22px 0 8px; text-transform: uppercase; }
+details.part { margin-bottom: 2px; }
+details.part summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 9px;
+  padding: 5px 4px; border-bottom: 1px solid #e6e1d7; font-size: 13px; font-weight: 600; line-height: 1.6;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+details.part summary::-webkit-details-marker { display: none; }
+details.part summary::after { content: "+"; margin-left: auto; color: #55503f; font-weight: 400; }
+details.part[open] summary::after { content: "–"; }
+details.part summary:hover { color: #a0522d; }
+.part .no { color: #a0522d; font-size: 11.5px; flex-shrink: 0; width: 20px; }
+.part .rng { color: #a39b8d; font-size: 10px; margin-left: auto; font-weight: 400; letter-spacing: .03em; }
+.pages { padding: 2px 0 8px 30px; }
+.pages a { display: block; text-decoration: none; color: #55503f; font-size: 12.2px;
+  line-height: 2.05; padding: 0 6px; }
+.pages a:hover { color: #a0522d; background: rgba(160,82,45,.06); }
+.pages a.cur { color: #a0522d; font-weight: 600; }
+.sb-tip { margin-top: 20px; padding: 10px 12px; border: 1px solid #e6e1d7;
+  font-size: 11px; color: #55503f; line-height: 1.9; }
+
+/* 正文文章分隔与检索高亮 */
+article.course-doc { padding-top: 34px; margin-bottom: 60px; border-top: 3px double #c9c2b4; }
+article.course-doc:first-of-type { border-top: none; padding-top: 0; }
+mark { background: #F2DE9B; color: inherit; padding: 0 1px; }
+mark.hit { background: #E8C9A0; outline: 1px solid #a0522d; }
+
+#top-btn { position: fixed; right: 26px; bottom: 30px; width: 40px; height: 40px;
+  border: 1px solid #ddd8d0; background: #f4f2ee; color: #55503f; cursor: pointer;
+  font-size: 15px; font-family: inherit; opacity: 0; pointer-events: none;
+  transition: opacity .25s; z-index: 70; }
+#top-btn.show { opacity: 1; pointer-events: auto; }
+#top-btn:hover { color: #a0522d; border-color: #a0522d; }
+
+/* 目录收起态:隐藏侧栏,正文占满整行并由 .main 的 justify-content:center 自动居中 */
+body.toc-hidden .sidebar { display: none; }
+#toc-toggle.on { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.06); }
+
+@media (max-width: 1080px) {
+  .sidebar { display: none; }
+  .main { padding: 32px 20px 70px; }
+}
+@media print {
+  .ribbon, .sidebar, #top-btn { display: none !important; }
+  .layout { display: block; }
+  .main { padding: 0; }
+  .content { max-width: 100%; }
+  article.course-doc { page-break-before: always; border-top: none; padding-top: 0; }
+  body { background: #fff; }
+}
+</style>
+</head>
+<body class="shell-body">
+
+<div class="ribbon"><div class="ribbon-in">
+  <span class="brand"><i>📖</i> · 课程手册</span>
+  <span class="sub">COURSE HANDBOOK · 离线可用</span>
+  <span class="r-actions">
+    <span class="search-wrap"><input id="q" type="text" placeholder="全文检索…(Enter 跳下一处)"><span id="q-count"></span></span>
+    <button class="rbtn on" id="toc-toggle" type="button">⇤ 目录</button>
+    <button class="rbtn" id="print-btn" type="button">打印 / 导出 PDF</button>
+  </span>
+</div></div>
+
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="sb-brand"><h1></h1><span class="en">Course Handbook</span></div>
+  <div class="sb-search" style="margin-top:16px"><input id="sb-q" type="text" placeholder="筛选目录…"></div>
+  <div class="sb-sec">目录 · Contents</div>
+  <details class="part" open><summary><span class="no">01</span>第 1 课 · 什么是计算机网络？<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0001-what-is-a-network">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">02</span>第 2 课 · 数据交换方式<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0002-switching">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">03</span>第 3 课 · 网络体系结构<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0003-architecture">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">04</span>第 4 课 · 物理层与传输介质<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0004-physical-layer">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">05</span>第 5 课 · 数据链路层与局域网<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0005-datalink-lan">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">06</span>第 6 课 · IP 地址与子网划分<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0006-ip-addressing">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">07</span>第 7 课 · 网络层进阶:ARP、ICMP、NAT 与路由<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0007-network-advanced">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">08</span>第 8 课 · 传输层与 TCP<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0008-transport">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">09</span>第 9 课 · 应用层协议<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0009-application">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">10</span>第 10 课 · 中小型网络规划与设计<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0010-network-planning">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">11</span>第 11 课 · 信息服务系统配置<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0011-services-config">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">12</span>第 12 课 · 网络安全与管理<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0012-security-management">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">13</span>术语表 · 网络技术<span class="rng">REFERENCE</span></summary><div class="pages"><a href="#doc-glossary">↗ 进入本篇</a></div></details>
+
+  <div class="sb-tip">💡 检索:输入关键词即时高亮全文,Enter 在结果间跳转,Esc 清除。<br>🖨 打印时自动隐藏侧栏,每课独立分页。</div>
+</nav>
+
+<div class="main"><div class="content" id="content">
+
+<article class="course-doc" id="lesson-0001-what-is-a-network">
+<p class="kicker">网络技术 · 第 1 课 / 为计算机三级打基础</p>
+  <h1>什么是计算机网络？<span class="term-en">What is a computer network?</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课（约 12 分钟），你将能够：</p>
+    <p><strong>①</strong> 说出计算机网络的定义与三要素；
+       <strong>②</strong> 按覆盖范围区分 LAN / MAN / WAN（选择题高频）；
+       <strong>③</strong> 认全五种拓扑结构并说出各自的优缺点（选择题高频）。</p>
+  </div>
+
+  <h2>为什么从这个问题开始？</h2>
+  <p>你每天连的 WiFi、进过的路由器管理页，其实早就把你带进计算机网络的世界了——
+     只是一直没人为你把它说破。三级考试的第一步，就是把这份日常经验
+     变成<strong>标准化的概念</strong>：定义是什么、分几类、有哪些结构。
+     这三类题在选择题里几乎年年出现，送分，但前提是概念精确。</p>
+
+  <h2>一、网络的定义：把独立的机器连起来</h2>
+  <p>把考试会考的<strong>标准定义</strong>拆开看：</p>
+  <blockquote>
+    <strong>计算机网络</strong>（<span class="term-en">computer network</span>）：
+    把<strong>地理位置不同</strong>、具有<strong>独立功能（自治）</strong>的多台计算机及外部设备，
+    通过通信线路和通信设备连接起来，在网络操作系统和<strong>网络协议</strong>的协调下，
+    实现<strong>资源共享</strong>和<strong>信息传递</strong>的系统。
+  </blockquote>
+  <p>别背字面，记住拆出来的<strong>三要素</strong>：</p>
+  <table class="ref">
+    <tr><th>要素</th><th>说的是什么</th><th>你家对应什么</th></tr>
+    <tr><td>自治的计算机（≥2 台）</td><td>互相之间没有主从关系，拔掉网线各自仍能独立工作（<span class="term-en">autonomous</span>）</td><td>手机、笔记本、平板</td></tr>
+    <tr><td>通信线路 + 通信设备</td><td>把机器连起来的"路"和"路口"（网线、光纤、路由器、交换机）</td><td>无线路由器、网线</td></tr>
+    <tr><td>网络软件（协议为核心）</td><td>让大家说"同一种语言"的规则（<span class="term-en">protocol</span>），如 TCP/IP</td><td>路由器里固化的通信规则</td></tr>
+  </table>
+  <p>网络最核心的两大功能：<strong>资源共享</strong>（<span class="term-en">resource sharing</span>——
+     共享文件、打印机、算力）与<strong>数据通信</strong>（<span class="term-en">data communication</span>）。
+     考试问"建立计算机网络的主要目的"，答的就是它们。</p>
+
+  <h2>二、按覆盖范围分类：LAN / MAN / WAN</h2>
+  <p>考试最爱考的分类法是<strong>按覆盖的地理范围</strong>分三档：</p>
+  <table class="ref">
+    <tr><th>类型</th><th>英文</th><th>覆盖范围</th><th>典型例子</th></tr>
+    <tr><td>局域网</td><td><span class="term-en">LAN, Local Area Network</span></td><td>几米 ~ 几公里，一个房间/一栋楼/一个园区</td><td>你家 WiFi、机房、校园网</td></tr>
+    <tr><td>城域网</td><td><span class="term-en">MAN, Metropolitan Area Network</span></td><td>一座城市，几公里 ~ 几十公里</td><td>城市有线电视网、城市宽带骨干</td></tr>
+    <tr><td>广域网</td><td><span class="term-en">WAN, Wide Area Network</span></td><td>跨城市、跨国家，几十 ~ 几千公里</td><td>运营商骨干网、跨国企业专网</td></tr>
+  </table>
+  <blockquote>
+    ⚡ 一字之差的考点：<strong>internet</strong>（互连网，小写开头）泛指"把多个网络互连起来"的任何网络；
+    <strong>Internet</strong>（互联网/因特网，大写开头）专指全球最大的、开放的、由无数网络互连而成的那个特定网络。
+    考试和教材（谢希仁 §1.2）都强调这对术语不能混用。
+  </blockquote>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"互联网就是广域网"</strong>——错。Internet 是"网络的网络"（<span class="term-en">network of networks</span>），
+       它由无数 LAN、MAN、WAN 互连而成，本身不等于某一个 WAN。<br>
+       <strong>"无线网络没有拓扑"</strong>——错。拓扑描述的是连接关系，不要求看得见线。
+       你家的无线网依然是标准的<strong>星型</strong>：所有设备围着路由器转。</p>
+  </div>
+
+  <h2>三、拓扑结构：网络的"骨架"</h2>
+  <p>把设备抽象成点、把链路抽象成线，画出来的几何形状就叫<strong>拓扑结构</strong>
+     （<span class="term-en">topology</span>）。它是综合题里"网络规划设计"的思考语言。
+     点下面的按钮，逐个认识五种拓扑：</p>
+
+  <div class="demo" data-topology-demo></div>
+
+  <table class="ref">
+    <tr><th>拓扑</th><th>长什么样</th><th>优点</th><th>缺点</th><th>典型场景</th></tr>
+    <tr><td>星型 <span class="term-en">star</span></td><td>全员连中心</td><td>结构简单、易扩展、故障好定位</td><td>中心节点是<strong>单点故障</strong></td><td>家庭 WiFi、交换机局域网</td></tr>
+    <tr><td>总线型 <span class="term-en">bus</span></td><td>一条主干挂所有节点</td><td>省线缆、早期便宜</td><td>主干断则全网瘫；冲突多</td><td>早期以太网（已淘汰）</td></tr>
+    <tr><td>环型 <span class="term-en">ring</span></td><td>首尾相连成环</td><td>顺序访问公平</td><td>单环任一处断则全瘫</td><td>令牌环网、部分光纤环网</td></tr>
+    <tr><td>树型 <span class="term-en">tree</span></td><td>分层展开</td><td>适合分级管理、易扩展</td><td>越靠根越关键</td><td>校园网、企业分层网络</td></tr>
+    <tr><td>网状 <span class="term-en">mesh</span></td><td>节点多多互连</td><td>可靠性最高，任一链路断有备路</td><td>线缆与设备成本最高</td><td>运营商骨干网、广域网核心</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角（为第二阶段存档）</div>
+    <p>这些分类不是纸面游戏：你现在坐着的位置，就处在一个星型拓扑里（路由器是中心）；
+       你城市到北京的链路，走在网状的运营商骨干上。考试通过后转工程向，
+       第一步就是拿着拓扑词汇去读懂真实网络——<em>先会画，再会配</em>。
+       综合题里"中小型网络系统总体规划"画的就是树型 + 星型的组合。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <p>不要往回翻——先凭记忆作答，答错也没关系，<em>费力的回忆才建立长期记忆</em>。</p>
+
+  <div class="quiz" data-quiz='[
+    {"q":"你家里的 WiFi 网络（手机、笔记本都连到无线路由器）属于哪种拓扑结构？",
+     "opts":["星型：所有设备连到路由器这个中心","总线型：所有设备挂在一根主干上","环型：设备首尾相连成环"],
+     "answer":0,
+     "why":"路由器（或交换机）就是中心节点，所有设备围绕它互连——这是最典型的星型。"},
+    {"q":"一个校园内几栋教学楼之间互连组成的网络，通常属于？",
+     "opts":["局域网 LAN","城域网 MAN","广域网 WAN"],
+     "answer":0,
+     "why":"校园/园区范围（几公里内）属于局域网；跨城市才谈 MAN/WAN。校园网内部也常是树型拓扑。"},
+    {"q":"下列关于 Internet 的说法，正确的是？",
+     "opts":["专指全球最大的、开放的、由众多网络互连而成的特定网络","泛指任何把两个以上网络互连起来的系统，与 internet 同义","就是广域网 WAN 的另一个名字"],
+     "answer":0,
+     "why":"大写 Internet 专指那个全球网络；小写 internet 才是泛指互连网；Internet 是网络的网络，不等于某个 WAN。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>网络定义三要素</td><td>自治的计算机 + 通信线路/设备 + 网络软件（协议）</td></tr>
+    <tr><td>两大功能</td><td>资源共享、数据通信</td></tr>
+    <tr><td>按范围分类</td><td>LAN（楼/园区）→ MAN（城市）→ WAN（跨城市/国家）</td></tr>
+    <tr><td>internet vs Internet</td><td>小写泛指互连网；大写专指全球那个网络</td></tr>
+    <tr><td>五种拓扑</td><td>星、总线、环、树、网——记住各自的"命门"（中心故障/主干故障/环断全瘫）</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>——以后每课都遵守它。</p>
+
+  <h2>📚 延伸阅读（选一个即可）</h2>
+  <p><strong>原理向：</strong>谢希仁《计算机网络》（第 8 版）§1.1–1.2
+     —— 把"网络的网络"这个图景讲得最透。<br>
+     <strong>应试向：</strong>官方教材《三级教程——网络技术》第 1 章，
+     对照本课表格过一遍，感受考试口径。</p>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 · 完</span>
+    <a href="#doc-glossary">📖 术语表 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库，<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。任何不清楚的地方——哪怕只是"为什么星型最常用"——都可以直接在对话里问我，追问是最好的学习方式。</div>
+</article>
+
+<article class="course-doc" id="lesson-0002-switching">
+<p class="kicker">网络技术 · 第 2 课 / 为计算机三级打基础</p>
+  <h1>数据交换方式 <span class="term-en">Switching</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 说清电路交换、报文交换、分组交换的工作过程;
+       <strong>②</strong> 三者优缺点对比(选择题常客);
+       <strong>③</strong> 计算发送时延与传播时延。</p>
+  </div>
+
+  <h2>一、为什么需要"交换"?</h2>
+  <p>两台电脑直接拉一根网线当然简单,但 N 台设备两两直连需要 N(N−1)/2 条线路——
+     100 台就要 4950 条,完全不现实。解决办法:让通信经过<strong>中间节点</strong>转接,
+     这些节点就叫做<strong>交换节点</strong>(<span class="term-en">switching node</span>)。
+     怎么转接,就是"交换方式"的问题。历史上出现了三种答案。</p>
+
+  <h2>二、电路交换:先占线,再通话</h2>
+  <blockquote>
+    <strong>电路交换</strong>(<span class="term-en">circuit switching</span>):通信前先建立一条
+    <strong>专用的物理通路</strong>(建立→通话→释放,如传统电话网),通信期间<strong>独占</strong>这条线路。
+  </blockquote>
+  <p>优点:一旦接通,<strong>时延极小、带宽稳定</strong>,适合实时性要求高的语音。
+     缺点:<strong>线路利用率低</strong>——通话间隙线路空着也不能给别人用;建立连接有开销;
+     无差错控制能力。关键判断:<strong>数据传输前必须建立物理连接的,就是电路交换</strong>。</p>
+
+  <h2>三、报文交换与分组交换:存储转发</h2>
+  <blockquote>
+    <strong>存储转发</strong>(<span class="term-en">store-and-forward</span>):交换节点先完整收下数据、
+    检查无误,再找路转发给下一节点。不建立专用通路,线路可以<strong>逐段占用</strong>。
+  </blockquote>
+  <p>按"一次转发的数据有多大"分两种:</p>
+  <table class="ref">
+    <tr><th>方式</th><th>转发单位</th><th>特点</th><th>问题</th></tr>
+    <tr><td>报文交换 <span class="term-en">message switching</span></td><td>整个报文(不限长)</td><td>无需建立连接、线路利用率高</td><td>报文大,节点需大缓存;<strong>时延大</strong></td></tr>
+    <tr><td>分组交换 <span class="term-en">packet switching</span></td><td>分组(上限通常 1500B 级)</td><td>把报文切开,每组带<strong>首部(地址)</strong>;灵活、迅速、可靠,是<strong>互联网采用的方式</strong></td><td>每组有首部开销;可能失序、丢包需重组</td></tr>
+  </table>
+  <p>记忆抓手:报文 = 整封信一次寄;分组 = 拆成多个带编号的信封分批寄。
+     分组的首部写明"收件地址 + 序号",到了终点按序号重装。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"分组交换比电路交换时延一定小"</strong>——错。分组交换省掉了建立连接的时间,
+       但每个节点都有<strong>存储转发时延 + 排队时延</strong>,负载重时反而更慢。
+       它赢在<strong>线路利用率和健壮性</strong>,不是绝对速度。<br>
+       <strong>"报文交换和分组交换都要建立连接"</strong>——错,两者都不建立连接;
+       需要事先建立连接的只有电路交换。</p>
+  </div>
+
+  <h2>四、时延计算(选择题计算题)</h2>
+  <table class="ref">
+    <tr><th>时延</th><th>公式</th><th>说明</th></tr>
+    <tr><td>发送时延 <span class="term-en">transmission delay</span></td><td>数据长度 ÷ 发送速率(带宽)</td><td>"把比特推上线"的时间</td></tr>
+    <tr><td>传播时延 <span class="term-en">propagation delay</span></td><td>信道长度 ÷ 传播速率(铜线约 2.3×10⁸ m/s)</td><td>"比特在路上跑"的时间</td></tr>
+  </table>
+  <p><strong>例</strong>:100MB 文件(8×10⁸ bit)在 100Mbps 链路上发送:8×10⁸ ÷ 10⁸ = 8 s;
+     若改为 4 倍带宽(400Mbps),发送时延降为 2 s——带宽影响的是发送时延,
+     不会让"路上跑"变快(传播时延只与距离和介质有关)。</p>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>你家的宽带是"共享线路"的分组交换:不用时不占资源,所以运营商能把一条线路卖给多户(统计复用);
+       电话时代打长途占一条线,就是电路交换。理解这一点,你就懂了为什么宽带"办 200M"
+       却和邻居共享出口——综合题里算"线路利用率"用的正是这个概念。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"互联网核心部分采用的数据交换方式是?",
+     "opts":["分组交换","电路交换","报文交换"],
+     "answer":0,
+     "why":"互联网的基石是分组交换:数据切成分组、存储转发、首部带地址。"},
+    {"q":"下列哪项是电路交换的典型特征?",
+     "opts":["通信前必须建立专用物理通路","每个分组独立选路","首部包含序号用于重组"],
+     "answer":0,
+     "why":"先建立连接、独占线路、通信完释放——这是电路交换;后两项是分组交换的特征。"},
+    {"q":"1000KB 数据在 100Mbps 链路上的发送时延约为?(1KB=8000bit 口径可取 10⁷ bit)",
+     "opts":["约 0.1 s","约 1 s","约 10 s"],
+     "answer":0,
+     "why":"10⁷ bit ÷ 10⁸ bit/s = 0.1 s。发送时延=长度÷带宽,与距离无关。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>电路交换</td><td>先建专用通路再通信;时延小但线路利用率低(电话网)</td></tr>
+    <tr><td>报文交换</td><td>存储转发整个报文;无需建连但时延大</td></tr>
+    <tr><td>分组交换</td><td>切分组+首部地址;互联网采用;有首部开销与失序问题</td></tr>
+    <tr><td>时延计算</td><td>发送时延=长度÷带宽;传播时延=距离÷速率</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p><strong>原理向:</strong>谢希仁《计算机网络》(第 8 版)§1.3 电路交换/分组交换。
+     <strong>应试向:</strong>官方教材第 1 章相关小节。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0001-what-is-a-network">← 第 1 课</a>
+    <a href="#lesson-0003-architecture">第 3 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0003-architecture">
+<p class="kicker">网络技术 · 第 3 课 / 为计算机三级打基础</p>
+  <h1>网络体系结构 <span class="term-en">Network Architecture</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 默写 OSI 七层与 TCP/IP 四层(五层)及各层功能;
+       <strong>②</strong> 层—设备—数据单元对号入座(选择题最高频);
+       <strong>③</strong> 说清分层的好处与"协议"三要素。</p>
+  </div>
+
+  <h2>一、为什么要分层?</h2>
+  <p>两台不同厂商的机器要通信,涉及"用什么线""信号怎么编码""地址怎么编""丢包怎么办"……
+     一团麻。分层的答案:<strong>把复杂问题切成若干层,每层只做一件事、只对上层提供服务、
+     只依赖下层</strong>。分层的好处(考点):<strong>各层相互独立、灵活性好、易于实现维护、
+     促进标准化、层次解耦</strong>。各层的规则集合就是<strong>协议</strong>(protocol);
+     计算机网络的体系结构 = 分层 + 各层协议的集合。</p>
+  <p>协议三要素(背下来):<strong>语法</strong>(数据格式/结构)、<strong>语义</strong>(做什么/控制信息含义)、
+     <strong>同步/时序</strong>(事件顺序与速度匹配)。</p>
+
+  <h2>二、OSI 七层 vs TCP/IP:两张必背对照表</h2>
+  <table class="ref">
+    <tr><th>OSI 七层</th><th>核心功能(一句话)</th><th>传输单元 PDU</th><th>典型设备</th></tr>
+    <tr><td>7 应用层 <span class="term-en">Application</span></td><td>为用户应用提供服务(HTTP/DNS/DHCP)</td><td>报文/数据</td><td>网关</td></tr>
+    <tr><td>6 表示层 <span class="term-en">Presentation</span></td><td>编码转换、加密、压缩</td><td>—</td><td>—</td></tr>
+    <tr><td>5 会话层 <span class="term-en">Session</span></td><td>建立/管理/终止会话</td><td>—</td><td>—</td></tr>
+    <tr><td>4 运输层 <span class="term-en">Transport</span></td><td>端到端可靠传输(TCP/UDP)、端口复用分用</td><td>报文段 <span class="term-en">segment</span></td><td>—</td></tr>
+    <tr><td>3 网络层 <span class="term-en">Network</span></td><td>路由选择、IP 寻址、分组转发</td><td>分组 <span class="term-en">packet</span></td><td><strong>路由器</strong></td></tr>
+    <tr><td>2 数据链路层 <span class="term-en">Data Link</span></td><td>成帧、MAC 寻址、差错检测</td><td>帧 <span class="term-en">frame</span></td><td><strong>交换机</strong>、网桥</td></tr>
+    <tr><td>1 物理层 <span class="term-en">Physical</span></td><td>比特流传输:电压/接口/介质规范</td><td>比特 <span class="term-en">bit</span></td><td><strong>集线器</strong>、中继器</td></tr>
+  </table>
+  <table class="ref">
+    <tr><th>TCP/IP 四层</th><th>对应 OSI</th><th>核心协议(必背)</th></tr>
+    <tr><td>应用层</td><td>7+6+5</td><td>HTTP、HTTPS、DNS、DHCP、FTP、SMTP/POP3、Telnet、SNMP</td></tr>
+    <tr><td>运输层</td><td>4</td><td>TCP、UDP</td></tr>
+    <tr><td>网际层(网络层)</td><td>3</td><td>IP、ICMP、ARP、IGMP</td></tr>
+    <tr><td>网络接口层</td><td>2+1</td><td>Ethernet、PPP 等(未具体规定)</td></tr>
+  </table>
+  <p>教学常用的<strong>五层原理体系</strong>= 物理层/数据链路层/网络层/运输层/应用层(上表中间四行 + 应用层),
+     本课程默认按五层讲。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"TCP/IP 严格划分了网络接口层"</strong>——错,TCP/IP 恰恰没规定底层(这是它灵活的原因)。<br>
+       <strong>"路由器工作在运输层"</strong>——错,路由器根据 IP 地址转发,工作在<strong>网络层</strong>;
+       根据端口工作的是四层以上的设备(如应用层网关)。<br>
+       <strong>"集线器隔离冲突域"</strong>——错,集线器是物理层设备,<strong>不隔离冲突域</strong>;
+       交换机的每个端口才是一个独立冲突域。</p>
+  </div>
+
+  <h2>三、封装:数据是怎么"穿衣服"的</h2>
+  <p>发送方:应用数据 → 加 TCP 头成<strong>段</strong> → 加 IP 头成<strong>分组</strong> → 加帧头帧尾成<strong>帧</strong> → 变<strong>比特</strong>上线。
+     接收方逐层"脱衣服"。每一层剥掉/加上自己的头部,靠的就是协议规定的格式——
+     这就是协议三要素里"语法"的落地。接收方对等层读对等层写的头部(对等通信原则)。</p>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>抓包工具(Wireshark)展示的就是这张图:一个数据包从以太网帧头 → IP 头 → TCP 头 → HTTP 内容,
+       一层一层展开。综合题"协议分析"和工程排障(看数据包卡在哪一层)用的都是分层模型。
+       考试里"某功能属于哪一层""某设备工作在哪一层"几乎每卷必考。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"在 OSI 参考模型中,实现节点间路由选择的是?",
+     "opts":["网络层","数据链路层","运输层"],
+     "answer":0,
+     "why":"路由选择、IP 寻址是网络层(第 3 层)的职责,对应设备是路由器。"},
+    {"q":"交换机与路由器分别工作在哪一层?",
+     "opts":["数据链路层;网络层","网络层;数据链路层","物理层;数据链路层"],
+     "answer":0,
+     "why":"交换机按 MAC 地址转发帧(链路层),路由器按 IP 地址转发分组(网络层)。"},
+    {"q":"下列哪个协议属于 TCP/IP 网际层?",
+     "opts":["ICMP","TCP","HTTP"],
+     "answer":0,
+     "why":"IP/ICMP/ARP/IGMP 属网际层;TCP 是运输层;HTTP 是应用层。"},
+    {"q":"协议的三要素是?",
+     "opts":["语法、语义、同步(时序)","语法、加密、压缩","层次、接口、服务"],
+     "answer":0,
+     "why":"语法规定格式、语义规定动作含义、同步规定顺序与速度,三者缺一不可。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>分层好处</td><td>独立、灵活、易维护、促进标准化</td></tr>
+    <tr><td>协议三要素</td><td>语法、语义、同步</td></tr>
+    <tr><td>层-设备</td><td>物理层=集线器/中继器;链路层=交换机/网桥;网络层=路由器</td></tr>
+    <tr><td>层-PDU</td><td>比特→帧→分组→报文段→数据(自下而上收)</td></tr>
+    <tr><td>TCP/IP</td><td>应用/运输/网际/网络接口四层;底层未具体规定</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》§1.7 与第 2 章 §2.1;官方教材对应"网络体系结构"章节。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0002-switching">← 第 2 课</a>
+    <a href="#lesson-0004-physical-layer">第 4 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0004-physical-layer">
+<p class="kicker">网络技术 · 第 4 课 / 为计算机三级打基础</p>
+  <h1>物理层与传输介质 <span class="term-en">Physical Layer</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 说出物理层四大特性与常用传输介质的选用;
+       <strong>②</strong> 区分曼彻斯特等常用编码(选择题);
+       <strong>③</strong> 用奈奎斯特定理与香农公式做信道容量计算。</p>
+  </div>
+
+  <h2>一、物理层干什么:四大特性</h2>
+  <p>物理层不研究具体的传输介质(那是通信课的事),它规定的是
+     <strong>与传输媒体接口的四个特性</strong>(考点):</p>
+  <table class="ref">
+    <tr><th>特性</th><th>规定什么</th><th>例子</th></tr>
+    <tr><td>机械特性 <span class="term-en">mechanical</span></td><td>接口形状、引脚数目、尺寸</td><td>RJ-45 水晶头</td></tr>
+    <tr><td>电气特性 <span class="term-en">electrical</span></td><td>电压范围、阻抗、传输速率</td><td>多少伏代表 1</td></tr>
+    <tr><td>功能特性 <span class="term-en">functional</span></td><td>某根线上某电平的意义</td><td>哪根是数据线/控制线</td></tr>
+    <tr><td>规程特性(过程特性)</td><td>事件先后顺序与配合关系</td><td>先建连还是先发数据</td></tr>
+  </table>
+
+  <h2>二、传输介质:有线与无线</h2>
+  <table class="ref">
+    <tr><th>介质</th><th>特点</th><th>典型用途</th></tr>
+    <tr><td>双绞线 UTP/STP</td><td>便宜、距离 ≤100 m;8 芯 4 对相互绞合抗干扰</td><td>局域网布线(网线)</td></tr>
+    <tr><td>同轴电缆</td><td>抗干扰好、带宽大;比双绞线贵</td><td>有线电视、早期以太网</td></tr>
+    <tr><td>光纤 <span class="term-en">optical fiber</span></td><td>利用光的全反射;带宽大、损耗小、抗电磁干扰、安全;
+        单模(远距离、激光)vs 多模(短距离、便宜)</td><td>骨干网、远距离主干</td></tr>
+    <tr><td>无线:无线电波/微波/红外</td><td>微波直线传播、需视距;WiFi 用无线电波 2.4/5 GHz</td><td>移动通信、WiFi</td></tr>
+  </table>
+
+  <h2>三、编码与调制</h2>
+  <p><strong>基带信号</strong>(原始数字信号)直接传输叫基带传输;要上模拟信道需<strong>调制</strong>
+     (调幅 ASK/调频 FSK/调相 PSK)。数字数据的常用<strong>编码</strong>(考点):</p>
+  <table class="ref">
+    <tr><th>编码</th><th>规则</th><th>要点</th></tr>
+    <tr><td>归零制 RZ / 不归零制 NRZ</td><td>高电平 1 低电平 0(NRZ)</td><td>连续同值无法同步,少用于局域网</td></tr>
+    <tr><td>曼彻斯特编码 <span class="term-en">Manchester</span></td><td>每个比特<strong>中间必跳变</strong>(传统以太网:1 为高→低跳变)</td><td>自带时钟同步;波特率是比特率 2 倍</td></tr>
+    <tr><td>差分曼彻斯特</td><td>看比特<strong>开始处</strong>有无跳变:有跳变=0,无=1</td><td>抗干扰更好</td></tr>
+  </table>
+
+  <h2>四、信道极限容量:两个必考公式</h2>
+  <table class="ref">
+    <tr><th>定理</th><th>公式</th><th>适用条件</th></tr>
+    <tr><td>奈奎斯特定理 <span class="term-en">Nyquist</span></td><td>极限码元速率 = 2W(波特);<br>极限数据率 = 2W·log₂V (bit/s)</td><td><strong>理想无噪声</strong>信道;W=带宽(Hz),V=码元离散电平数</td></tr>
+    <tr><td>香农定理 <span class="term-en">Shannon</span></td><td>极限数据率 C = W·log₂(1+S/N) (bit/s)</td><td><strong>有高斯噪声</strong>信道;S/N 为信噪比,<br> dB 表示:10·log₁₀(S/N)</td></tr>
+  </table>
+  <p><strong>例 1(奈氏)</strong>:带宽 3 kHz、每个码元 4 个离散电平 → 2×3000×log₂4 = 12000 bit/s。<br>
+     <strong>例 2(香农)</strong>:带宽 3 kHz、信噪比 30 dB(S/N=1000)→ 3000×log₂1001 ≈ 30 kbit/s。<br>
+     实际信道取两者中<strong>较小的</strong>。dB 与倍数换算要熟:30dB=1000 倍、20dB=100 倍、10dB=10 倍。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"带宽加大,传播时延就缩短"</strong>——错,带宽只影响发送时延(第 2 课);
+       传播时延由距离和介质决定。<br>
+       <strong>"光纤比铜线传播快很多"</strong>——错!光纤中光速约 2×10⁸ m/s,铜线中电信号约 2.3×10⁸ m/s,
+       <strong>传播速度差不多</strong>;光纤赢的是带宽、损耗与抗干扰,不是传播速度。</p>
+  </div>
+
+  <h2>五、多路复用:一条线路大家用</h2>
+  <table class="ref">
+    <tr><th>复用</th><th>怎么分</th><th>场景</th></tr>
+    <tr><td>频分复用 FDM</td><td>不同用户占不同<strong>频率</strong>带宽</td><td>广播电台、传统电话</td></tr>
+    <tr><td>时分复用 TDM / 统计 TDM</td><td>轮流占不同<strong>时隙</strong>;统计 TDM 按需分配更高效</td><td>数字电话干线</td></tr>
+    <tr><td>波分复用 WDM</td><td>一根光纤传多个<strong>波长</strong>(光的频分)</td><td>长途光纤骨干</td></tr>
+    <tr><td>码分复用 CDM/CDMA</td><td>不同用户用正交<strong>码片序列</strong>,同时同频不冲突</td><td>3G 手机</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>家装网络里"千兆网线要选超五类/六类""长距离用光纤"就是本课的落地:双绞线 100 m 限制来自
+       信号衰减,超了就加中继/换光纤;曼彻斯特编码这类知识,决定了两台设备"说同一种电平语言"。
+       综合题里做结构化布线选型(第 10 课)时,介质特性表直接翻本课。</p>
+  </div>
+
+  <h2>六、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"在无噪声信道中,带宽 4 kHz、每个码元 16 个离散电平,极限数据率为?",
+     "opts":["32 kbit/s","8 kbit/s","64 kbit/s"],
+     "answer":0,
+     "why":"2×4000×log₂16 = 8000×4 = 32000 bit/s。奈氏公式:2W·log₂V。"},
+    {"q":"传统以太网采用的编码是?",
+     "opts":["曼彻斯特编码","不归零制编码","差分曼彻斯特编码"],
+     "answer":0,
+     "why":"传统以太网(10M)用曼彻斯特编码,中间跳变自带同步;差分曼彻斯特用于令牌环。"},
+    {"q":"关于光纤,下列说法正确的是?",
+     "opts":["利用光的全反射传光,抗电磁干扰强","传播速度远快于铜线中的电信号","多模光纤适合长距离骨干传输"],
+     "answer":0,
+     "why":"光纤传播速度与铜线相近;长距离应选单模光纤,多模适合短距离室内。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>四大特性</td><td>机械、电气、功能、规程</td></tr>
+    <tr><td>介质选型</td><td>双绞线 ≤100m;光纤远距大带宽;单模远、多模近</td></tr>
+    <tr><td>编码</td><td>曼彻斯特中间跳变、自带同步(传统以太网)</td></tr>
+    <tr><td>信道容量</td><td>无噪声用奈氏 2W·log₂V;有噪声用香农 W·log₂(1+S/N);取小者</td></tr>
+    <tr><td>复用</td><td>FDM 分频、TDM 分时、WDM 分波、CDMA 分码</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 2 章 §2.1–2.4;官方教材物理层与布线相关章节。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0003-architecture">← 第 3 课</a>
+    <a href="#lesson-0005-datalink-lan">第 5 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0005-datalink-lan">
+<p class="kicker">网络技术 · 第 5 课 / 为计算机三级打基础</p>
+  <h1>数据链路层与局域网 <span class="term-en">Data Link Layer &amp; LAN</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 说清链路层三大功能与成帧/差错检测;
+       <strong>②</strong> 讲清以太网 MAC 地址、CSMA/CD 与最小帧长;
+       <strong>③</strong> 区分集线器/交换机、冲突域/广播域,理解 VLAN 与交换机自学习。</p>
+  </div>
+
+  <h2>一、链路层做什么</h2>
+  <p>物理层只管把比特送出去,不保证"送对"。数据链路层在相邻两节点之间补上秩序,三大任务:</p>
+  <table class="ref">
+    <tr><th>功能</th><th>做法</th></tr>
+    <tr><td>成帧 <span class="term-en">framing</span></td><td>把比特流组装成帧:帧头+数据+帧尾;用字符计数/比特填充/字节填充定界</td></tr>
+    <tr><td>差错检测 <span class="term-en">error detection</span></td><td>奇偶校验(弱)→ 校验和 → <strong>CRC 循环冗余校验</strong>(以太网 FCS 用,检错强)</td></tr>
+    <tr><td>流量控制/可靠传输</td><td>停止-等待、回退 N 帧 GBN、选择重传 SR(滑动窗口思想,运输层继续用)</td></tr>
+  </table>
+  <p>点对点信道用 <strong>PPP 协议</strong>(无差错恢复,检错丢弃);广播信道才需要解决"大家抢线"的问题。</p>
+
+  <h2>二、以太网与 CSMA/CD</h2>
+  <blockquote>
+    <strong>CSMA/CD</strong>(<span class="term-en">Carrier Sense Multiple Access with Collision Detection</span>):
+    载波监听多点接入/碰撞检测——先听后发、边发边听、碰撞停发、<strong>等待随机时间</strong>重发(截断二进制指数退避)。
+  </blockquote>
+  <p>半双工以太网的规则。由它推出<strong>最小帧长 64 字节</strong>:帧必须在发完前能感知碰撞
+     (争用期 2τ),否则"发完了才发现撞车"无法重传。帧长 <strong>64B ~ 1518B</strong>。
+     今天的交换机以太网是全双工,不再有碰撞,CSMA/CD 已成历史——但考试年年考。</p>
+  <p><strong>MAC 地址</strong>(<span class="term-en">physical/hardware address</span>):48 位,固化在网卡,
+     前 3 字节厂商标识(OUI)+ 后 3 字节编号;全 1 即 FF-FF-FF-FF-FF-FF 为<strong>广播地址</strong>。
+     注意:MAC 是"本地地址"——跨网段传输时 MAC 逐段变化,IP 端到端不变(第 7 课 ARP 呼应)。</p>
+
+  <h2>三、集线器 vs 交换机:冲突域与广播域</h2>
+  <table class="ref">
+    <tr><th>设备</th><th>工作层次</th><th>转发方式</th><th>冲突域</th><th>广播域</th></tr>
+    <tr><td>集线器 <span class="term-en">Hub</span></td><td>物理层</td><td>广播式:比特放大转发到所有口</td><td><strong>不隔离</strong>(所有口一个冲突域)</td><td>不隔离</td></tr>
+    <tr><td>交换机 <span class="term-en">Switch</span></td><td>数据链路层</td><td>按 MAC 表转发帧;全双工</td><td><strong>每端口隔离</strong></td><td>不隔离(VLAN 才隔离)</td></tr>
+    <tr><td>路由器 <span class="term-en">Router</span></td><td>网络层</td><td>按 IP 转发分组</td><td>隔离</td><td><strong>隔离</strong></td></tr>
+  </table>
+  <p><strong>交换机自学习</strong>:收到帧→把"源 MAC+入口"记进 MAC 地址表→查表转发;查不到就向除入口外
+     所有端口<strong>泛洪</strong>。表项有老化时间。这个过程自动完成,无需配置——综合题常给拓扑问
+     "交换机学会哪些表项/哪些端口收到该帧"。</p>
+
+  <h2>四、VLAN:一个交换机切出多个逻辑局域网</h2>
+  <blockquote>
+    <strong>VLAN</strong>(<span class="term-en">Virtual LAN</span>,IEEE 802.1Q):在交换机上按端口等维度
+    把物理局域网划分成若干<strong>逻辑上隔离</strong>的广播域,不同 VLAN 二层不通,须靠路由器/三层交换机互通。
+  </blockquote>
+  <p>划分方式:基于<strong>端口</strong>(最常用)、基于 MAC、基于 IP。价值:抑制广播风暴、安全隔离、
+     灵活组网(人动网不动)。综合题考:把端口划入 VLAN 的配置命令(如 <code>vlan 10</code> →
+     <code>switchport access vlan 10</code> 思科风格,三级教程用华为/思科双口径之一,以教材为准)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"交换机隔离广播域"</strong>——错!交换机只隔离<strong>冲突域</strong>;
+       隔离广播域要靠 VLAN(二层划分)或路由器(三层隔离)。<br>
+       <strong>"MAC 地址在全球唯一所以能当互联网地址"</strong>——MAC 只在本地网段有意义,
+       全球寻址靠 IP;MAC 不含位置信息,路由器无法据此转发。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"以太网 MAC 地址的长度与广播地址是?",
+     "opts":["48 位;FF-FF-FF-FF-FF-FF","32 位;255.255.255.255","48 位;00-00-00-00-00-00"],
+     "answer":0,
+     "why":"MAC 48 位(6 字节),全 1 为广播地址;32 位全 1 是 IPv4 的广播 IP,别混。"},
+    {"q":"由 CSMA/CD 推出的以太网最小帧长是?",
+     "opts":["64 字节","1518 字节","1500 字节"],
+     "answer":0,
+     "why":"帧的发送时间必须大于 2 倍端到端传播时延(争用期),推出最短 64B;1500B 是数据字段上限(MTU)。"},
+    {"q":"一台 24 口交换机未做任何配置,连在它上面的三台电脑属于?",
+     "opts":["一个冲突域、一个广播域","三个冲突域、一个广播域","三个冲突域、三个广播域"],
+     "answer":1,
+     "why":"交换机每端口一个冲突域(3 个),但 VLAN 未划分时整个交换机是一个广播域;隔离广播域需 VLAN 或路由器。"},
+    {"q":"交换机收到一个目的 MAC 不在地址表中的帧,会?",
+     "opts":["向除入口外的所有端口泛洪","直接丢弃","只转发给网关"],
+     "answer":0,
+     "why":"查表失败即泛洪(flooding),目的主机应答后交换机自学习到其位置,后续不再泛洪。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>三大功能</td><td>成帧、差错检测(CRC)、流量控制/可靠传输</td></tr>
+    <tr><td>CSMA/CD</td><td>先听后发、边发边听、碰撞退避;推出最小帧长 64B</td></tr>
+    <tr><td>MAC 地址</td><td>48 位,本地有效;广播全 1;跨网段逐段变</td></tr>
+    <tr><td>Hub/Switch/Router</td><td>Hub 不隔离任何域;Switch 隔冲突域;Router 隔广播域</td></tr>
+    <tr><td>VLAN</td><td>802.1Q,按端口划分,隔离广播域,跨 VLAN 需三层</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 3 章;官方教材"局域网组网技术"章(网线制作、交换机配置)。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0004-physical-layer">← 第 4 课</a>
+    <a href="#lesson-0006-ip-addressing">第 6 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0006-ip-addressing">
+<p class="kicker">网络技术 · 第 6 课 / 为计算机三级打基础 · ★综合题核心</p>
+  <h1>IP 地址与子网划分 <span class="term-en">IP Addressing &amp; Subnetting</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标(全课程最重要的一课)</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 判断 IP 地址类别、识别特殊地址与私有地址;
+       <strong>②</strong> 给定 IP+掩码算出网络地址、广播地址、可用主机数;
+       <strong>③</strong> 按需求做子网划分(综合题第 1 大题就是这个)。</p>
+  </div>
+
+  <h2>一、IPv4 地址:32 位的"门牌号"</h2>
+  <p>IPv4 地址 32 位,按 8 位一组写成点分十进制(如 192.168.1.10)。
+     传统<strong>分类编址</strong>(考点):</p>
+  <table class="ref">
+    <tr><th>类</th><th>首位</th><th>网络位.主机位</th><th>默认掩码</th><th>网络范围</th></tr>
+    <tr><td>A</td><td>0</td><td>8.24</td><td>/8 = 255.0.0.0</td><td>1 ~ 126</td></tr>
+    <tr><td>B</td><td>10</td><td>16.16</td><td>/16 = 255.255.0.0</td><td>128 ~ 191</td></tr>
+    <tr><td>C</td><td>110</td><td>24.8</td><td>/24 = 255.255.255.0</td><td>192 ~ 223</td></tr>
+    <tr><td>D</td><td>1110</td><td>多播组地址</td><td>—</td><td>224 ~ 239</td></tr>
+    <tr><td>E</td><td>1111</td><td>保留实验</td><td>—</td><td>240 ~ 255</td></tr>
+  </table>
+  <p><strong>特殊地址(必背)</strong>:127.x.x.x 环回测试;主机位全 0 = <strong>网络地址</strong>不可用;
+     主机位全 1 = <strong>广播地址</strong>不可用;0.0.0.0 本机;255.255.255.255 受限广播。<br>
+     <strong>私有地址(内网专用,不上公网)</strong>:10.0.0.0/8、172.16.0.0/12(172.16~172.31)、
+     192.168.0.0/16——你家路由器分配的 192.168.x.x 就在第三段。</p>
+
+  <h2>二、子网掩码与三件套计算</h2>
+  <p>掩码 1 的部分=网络位,0 的部分=主机位。给定 IP 和掩码,综合题三连:</p>
+  <table class="ref">
+    <tr><th>要求</th><th>算法</th></tr>
+    <tr><td>网络地址</td><td>IP <strong>AND</strong> 掩码(掩码外部分全部归 0)</td></tr>
+    <tr><td>广播地址</td><td>网络地址 + 主机位全 1(即下一个网络地址 − 1)</td></tr>
+    <tr><td>可用主机数</td><td>2<sup>主机位数</sup> − 2(扣网络地址与广播地址)</td></tr>
+  </table>
+  <p><strong>例</strong>:192.168.1.130/26(掩码 255.255.255.192):
+     块大小 = 256−192 = 64 → 网络们是 0, 64, 128, 192;130 落在 128~191 →
+     网络地址 <strong>192.168.1.128</strong>,广播地址 <strong>192.168.1.191</strong>,
+     可用主机 2⁶−2 = <strong>62</strong> 台(129~190)。</p>
+
+  <div class="demo" data-subnet-demo></div>
+
+  <h2>三、子网划分与 CIDR</h2>
+  <p><strong>划子网 = 从主机位借位当网络位</strong>:需要 N 个子网,借 n 位须 2ⁿ ≥ N;
+     每个子网要容 H 台主机,主机位 h 须 2ʰ−2 ≥ H。借位后掩码变长(如 /24 → /26)。<br>
+     <strong>CIDR</strong>(<span class="term-en">Classless Inter-Domain Routing</span>,无类域间路由):
+     抛弃 A/B/C 分类,用"IP/前缀长度"任意定长(如 10.1.0.0/16),配合<strong>路由聚合</strong>
+     把多个连续网络合并成一条路由,减小路由表——现代互联网与 VLSM(变长子网掩码)的基础。</p>
+  <p><strong>综合题标准套路</strong>(按步走,稳拿 40 分里的填空):
+     ① 按最大部门定主机位 → ② 推各子网掩码与块大小 → ③ 依次分配网络地址
+     (从大到小或顺序切)→ ④ 写出每段可用范围与广播地址 → ⑤ 路由器接口占第一个可用地址。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"192.168.1.0/24 有 256 个可用主机地址"</strong>——错,256 是地址总数,
+       可用 = 256−2 = 254(网络地址与广播地址不可分配)。<br>
+       <strong>"127.0.0.1 是 A 类所以可以配在网卡上通信"</strong>——环回地址永不出网卡,用于本机测试。<br>
+       <strong>"掩码 255.255.255.192 能划分出 4 个子网,每个 62 台"</strong>——对!但注意题目若问
+       "再划出 8 个子网"就要借 3 位(/27),每子网只剩 30 台——<strong>子网越多,每子网主机越少</strong>。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>你家路由器默认 192.168.1.0/24、给手机分 192.168.1.100,就是这套体系;
+       公司里"市场部一个子网、财务部一个子网"对应 VLAN + 子网划分(第 5 课呼应),
+       而家庭宽带能上公网,靠的是 NAT 把私有地址翻译成公网地址(第 7 课)。
+       综合题 40 分里地址规划通常占一半以上——本课值得反复刷。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"地址 172.20.1.5 属于哪一类?是不是私有地址?",
+     "opts":["B 类,且属于私有地址段","A 类,公网地址","C 类,私有地址"],
+     "answer":0,
+     "why":"首字节 172 在 128~191 → B 类;172.16~172.31 属私有段 172.16.0.0/12,20 在其中。"},
+    {"q":"主机 192.168.10.77/28 所在子网的广播地址是?",
+     "opts":["192.168.10.79","192.168.10.95","192.168.10.63"],
+     "answer":0,
+     "why":"/28 → 块大小 16,子网边界 64、80;77 落在 64~79 → 广播地址 79,可用主机 14 台。"},
+    {"q":"某部门需要容纳 60 台主机,至少需要多大的前缀?",
+     "opts":["/26(62 台可用)","/25(126 台)","/27(30 台)"],
+     "answer":0,
+     "why":"60 台需 2^h−2 ≥ 60 → h=6 → 前缀 32−6=/26,掩码 255.255.255.192。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>分类</td><td>A/B/C 按首位 0/10/110;D 多播;E 保留;127 环回</td></tr>
+    <tr><td>私有段</td><td>10/8、172.16/12、192.168/16</td></tr>
+    <tr><td>三件套</td><td>网络地址=IP AND 掩码;广播=下一网络−1;可用=2ʰ−2</td></tr>
+    <tr><td>划分</td><td>借主机位做子网位:2ⁿ≥子网数,2ʰ−2≥主机数</td></tr>
+    <tr><td>CIDR</td><td>IP/前缀,任意长度+路由聚合</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 4 章 §4.2–4.3;官方教材 IP 地址规划章节。
+     <strong>强烈建议:</strong>配合上方演示器随机出 10 道给自己算。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0005-datalink-lan">← 第 5 课</a>
+    <a href="#lesson-0007-network-advanced">第 7 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。子网划分卡住是很正常的,随时问。</div>
+</article>
+
+<article class="course-doc" id="lesson-0007-network-advanced">
+<p class="kicker">网络技术 · 第 7 课 / 为计算机三级打基础</p>
+  <h1>网络层进阶 <span class="term-en">ARP · ICMP · NAT · Routing · IPv6</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 讲清 ARP 的工作过程与跨网段寻址;
+       <strong>②</strong> 说出 ICMP 的作用与 ping/traceroute 原理;
+       <strong>③</strong> 对比 RIP/OSPF/BGP(高频考点),理解 NAT 与 IPv6 基础。</p>
+  </div>
+
+  <h2>一、ARP:IP 地址 → MAC 地址</h2>
+  <blockquote>
+    <strong>ARP</strong>(<span class="term-en">Address Resolution Protocol</span>):
+    同一网段内,已知对方 IP 求其 MAC——主机广播 ARP 请求("谁是 192.168.1.20?"),
+    目标主机单播 ARP 应答;结果存入 <strong>ARP 缓存表</strong>。
+  </blockquote>
+  <p><strong>跨网段关键逻辑</strong>(必考):源主机发现目的 IP 与自己<strong>不在同一网段</strong>
+     (IP AND 掩码比较,第 6 课!)→ 不直接找对方,而是把帧发给<strong>默认网关</strong>(路由器接口)的 MAC;
+     每过一个路由器,帧的<strong>源/目的 MAC 都被替换</strong>,而 IP 头里的源/目的 IP <strong>始终不变</strong>
+     ——"MAC 逐段变,IP 端到端不变"。</p>
+
+  <h2>二、ICMP:网络层的"诊断协议"</h2>
+  <p><strong>ICMP</strong>(<span class="term-en">Internet Control Message Protocol</span>)封装在 IP 中,
+     两类报文:<strong>ICMP 询问</strong>(回送请求/应答)与 <strong>ICMP 差错报告</strong>
+     (终点不可达、超时、参数问题、改变路由)。<br>
+     <strong>ping</strong> = 回送请求/应答,测连通性与往返时延;<strong>traceroute/tracert</strong> =
+     利用 TTL 逐跳递增,让沿途每台路由器返回超时报文,从而画出路径。</p>
+
+  <h2>三、路由:静态 vs 动态,三大协议对比</h2>
+  <p>路由器查<strong>路由表</strong>转发:目的网络 → 下一跳。路由来源:直连、<strong>静态</strong>(手工配,小网可靠)
+     与<strong>动态</strong>(协议自动学习)。动态分<strong>内部网关协议 IGP</strong>(一个自治系统 AS 内)
+     与<strong>外部网关协议 EGP</strong>(AS 之间):</p>
+  <table class="ref">
+    <tr><th>协议</th><th>算法</th><th>度量</th><th>承载</th><th>要点</th></tr>
+    <tr><td>RIP <span class="term-en">Routing Information Protocol</span></td><td>距离向量</td><td>跳数(≤15,16=不可达)</td><td>UDP 520</td><td>小网络;周期广播;坏消息传得慢(慢收敛)</td></tr>
+    <tr><td>OSPF <span class="term-en">Open Shortest Path First</span></td><td>链路状态 + Dijkstra</td><td>开销(带宽)</td><td>IP(协议号 89)</td><td>大中型网络;泛洪链路状态;收敛快;区域划分</td></tr>
+    <tr><td>BGP <span class="term-en">Border Gateway Protocol</span></td><td>路径向量</td><td>策略(多准则)</td><td>TCP 179</td><td>AS 之间(互联网骨干);求"可达+策略好"而非最快</td></tr>
+  </table>
+
+  <h2>四、NAT 与 IPv6</h2>
+  <p><strong>NAT</strong>(<span class="term-en">Network Address Translation</span>):内网私有地址 ↔ 公网地址转换。
+     常用 <strong>NAPT</strong>(端口地址转换):路由器记录"(内网IP:端口)→(公网IP:端口)"映射表,
+     回程按表翻回——你家路由器就是 NAT 设备;这也让外网无法主动连入内网(顺带的安全效果,需端口映射开放)。</p>
+  <p><strong>IPv6</strong>:128 位,冒号十六进制表示,<strong>零压缩</strong>规则(每组前导 0 省略;
+     连续全 0 组用 <code>::</code>,<strong>只能出现一次</strong>),如
+     <code>2001:0db8:0000:0000:0000:ff00:0042:8329</code> →
+     <code>2001:db8::ff00:42:8329</code>。地址无前导 0 可省。过渡技术:<strong>双协议栈</strong>、
+     <strong>隧道</strong>。IPv6 不用 NAT、地址即充足;首部更简、内置安全与自动配置。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"ARP 是运输层协议"</strong>——ARP/ICMP 都属于<strong>网络层</strong>(TCP/IP 网际层),
+       ping 用的是 ICMP 不是 TCP/UDP。<br>
+       <strong>"RIP 用带宽当度量,OSPF 用跳数"</strong>——正好说反:RIP 数<strong>跳数</strong>,OSPF 看<strong>开销(带宽)</strong>。<br>
+       <strong>":: 可以压缩多个位置的连续零组"</strong>——错,<strong>只能用一次</strong>。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>家里断网的第一排查看法全是本课:ping 网关(ARP/连通性)→ ping 8.8.8.8(公网路由)
+       → ping 域名(DNS,第 9 课)。三级应用题的"路由器配置"(IP、静态路由)与"网络故障诊断"
+       也建立在这层。记住排障顺序:物理连通 → 网关 → 路由 → DNS。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"主机要与本网段外的主机通信时,它把帧发往谁?",
+     "opts":["默认网关的 MAC 地址","目的主机的 MAC 地址","DNS 服务器的 MAC 地址"],
+     "answer":0,
+     "why":"跨网段时目的 MAC 填网关;IP 层目的地址仍是真正的目的主机——MAC 逐段变,IP 端到端不变。"},
+    {"q":"关于 RIP 与 OSPF,正确的是?",
+     "opts":["RIP 用跳数、UDP 封装;OSPF 用链路状态、IP 封装","RIP 用带宽;OSPF 用跳数","两者都用 Dijkstra 算法"],
+     "answer":0,
+     "why":"RIP:距离向量+跳数≤15+UDP 520;OSPF:链路状态+Dijkstra+IP 89,适合大网。"},
+    {"q":"地址 2001:0db8:0000:0000:0abc:0000:0000:0001 的合法零压缩写法是?",
+     "opts":["2001:db8::abc:0:0:1 或 2001:db8:0:0:abc::1","2001:db8::abc::1","2001:0db8::abc:0000:0000:0001::"],
+     "answer":0,
+     "why":":: 只能出现一次,每组前导零可省;选项 B 出现两次 ::,不合法。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>ARP</td><td>同网段 IP→MAC,广播问/单播答;跨网段问网关</td></tr>
+    <tr><td>ICMP</td><td>询问+差错报告;ping/traceroute 的底层</td></tr>
+    <tr><td>RIP/OSPF/BGP</td><td>跳数-UDP / 链路状态-IP / 路径向量-TCP,范围 IGP→EGP</td></tr>
+    <tr><td>NAT/NAPT</td><td>私有→公网转换,端口区分连接;外网不能主动进内网</td></tr>
+    <tr><td>IPv6</td><td>128 位冒号十六进制;零压缩 :: 仅一次;双栈+隧道过渡</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 4 章 §4.4–4.7;官方教材"路由器配置与高级功能"章节(与第 8 课习题联练)。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0006-ip-addressing">← 第 6 课</a>
+    <a href="#lesson-0008-transport">第 8 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC7%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0008-transport">
+<p class="kicker">网络技术 · 第 8 课 / 为计算机三级打基础</p>
+  <h1>传输层与 TCP <span class="term-en">Transport Layer</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用端口讲清传输层的复用分用,记住常用熟知端口;
+       <strong>②</strong> 对比 UDP 与 TCP;
+       <strong>③</strong> 默写三次握手/四次挥手(综合题常客),说出可靠与拥塞控制机制。</p>
+  </div>
+
+  <h2>一、端口:一台主机上的"房间号"</h2>
+  <p>IP 地址找到主机,靠哪台进程收数据?靠<strong>端口</strong>(<span class="term-en">port</span>,16 位 0~65535)。
+     传输层按端口把数据分给进程 = <strong>分用</strong>;多个进程共用一条网络连接 = <strong>复用</strong>。
+     常用熟知端口(必背):FTP 20(数据)/21(控制)、<strong>TELNET 23、SMTP 25、DNS 53、
+     HTTP 80、POP3 110、HTTPS 443</strong>;客户端用临时端口(>1024)。</p>
+
+  <h2>二、UDP vs TCP</h2>
+  <table class="ref">
+    <tr><th>对比</th><th>UDP <span class="term-en">User Datagram Protocol</span></th><th>TCP <span class="term-en">Transmission Control Protocol</span></th></tr>
+    <tr><td>连接</td><td>无连接(想发就发)</td><td>面向连接(三次握手建立)</td></tr>
+    <tr><td>可靠性</td><td>尽力而为,可能丢、乱序</td><td>可靠:不丢、不乱、不重、不漏</td></tr>
+    <tr><td>首部</td><td>8 字节(小)</td><td>20~60 字节</td></tr>
+    <tr><td>通信方式</td><td>一对一、一对多、多对一、多对多</td><td>仅一对一</td></tr>
+    <tr><td>典型应用</td><td>DNS、DHCP、视频直播、游戏</td><td>网页 HTTP、邮件、文件传输</td></tr>
+  </table>
+
+  <h2>三、TCP 三次握手与四次挥手(必背)</h2>
+  <p><strong>建立连接(三次握手)</strong>:① 客户端发 <strong>SYN=1, seq=x</strong>;
+     ② 服务端回 <strong>SYN=1, ACK=1, seq=y, ack=x+1</strong>;
+     ③ 客户端回 <strong>ACK=1, ack=y+1</strong>(可携带数据)。</p>
+  <blockquote>
+    为什么是三次不是两次?<strong>防止已失效的连接请求突然又到达</strong>——若两次即可建立,
+    一个滞留的旧 SYN 会让服务端单方面白白建立连接等待资源。三次让双方都确认"双方收发能力都正常"。
+  </blockquote>
+  <p><strong>释放连接(四次挥手)</strong>:① 主动方发 <strong>FIN</strong>;② 对方 <strong>ACK</strong>(对方还可继续发);
+     ③ 对方数据发完再发 <strong>FIN</strong>;④ 主动方 <strong>ACK</strong>,等 <strong>2MSL</strong> 后关闭
+     (保证最后的 ACK 能重发、旧报文消亡)。"为什么四次":TCP 全双工,两个方向要<strong>分别关闭</strong>。</p>
+
+  <h2>四、可靠传输与流量/拥塞控制</h2>
+  <table class="ref">
+    <tr><th>机制</th><th>一句话</th></tr>
+    <tr><td>序号 + 确认(ACK)</td><td>每个字节有编号,ack=n 表示"n−1 前全收到,期待第 n 个"</td></tr>
+    <tr><td>超时重传</td><td>计时器到期未收到确认就重发</td></tr>
+    <tr><td>流量控制 <span class="term-en">flow control</span></td><td>滑动窗口:接收方用<strong>rwnd 窗口字段</strong>通知"我还能收多少"(点对点,别撑死接收方)</td></tr>
+    <tr><td>拥塞控制 <span class="term-en">congestion control</span></td><td>慢启动(指数增)→ 拥塞避免(线性加 1)→ 超时回到慢启动/快重传+快恢复;针对<strong>网络整体</strong>(别挤死路由器)</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"三次握手中前两次不能携带数据,第三次也不能"</strong>——错,第三次握手<strong>可以</strong>携带数据。<br>
+       <strong>"TIME_WAIT 等一个 MSL 就够"</strong>——是 <strong>2MSL</strong>(ACK 传过去一个 MSL + 对方重发 FIN 再来一个 MSL)。<br>
+       <strong>"UDP 首部 20 字节"</strong>——UDP 首部仅 <strong>8 字节</strong>(源端口/目的端口/长度/校验和 各 2 字节)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>视频会议用 UDP(丢一帧没关系,延迟要小)、网银用 TCP(一个字节都不能错)——工程选型的本质就是
+       本课的对比表。综合题给一段 TCP 报文序列问"这是第几次握手/哪个字段错了",
+       按本课的 seq/ack 规则逐项核对即可。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"TCP 建立连接需要三次握手,第三次握手报文的正确标志是?",
+     "opts":["ACK=1","SYN=1, ACK=0","FIN=1, ACK=1"],
+     "answer":0,
+     "why":"第三次是客户端最后的确认 ACK=1(可携带数据);SYN=1 只出现在前两次。"},
+    {"q":"为什么 TCP 主动关闭方要等 2MSL?",
+     "opts":["保证最后 ACK 可达且旧报文消亡","节省服务器资源","等待新的连接请求"],
+     "answer":0,
+     "why":"若最后的 ACK 丢失,对方重发 FIN 时本方还在 TIME_WAIT 能重发 ACK;2MSL 也让本连接旧报文全部失效。"},
+    {"q":"下列应用中,最适合使用 UDP 的是?",
+     "opts":["视频直播","网上银行转账","下载系统安装包"],
+     "answer":0,
+     "why":"直播重实时轻可靠,丢帧可接受;转账与下载要求数据完整,必须 TCP。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>端口</td><td>16 位;熟知端口 HTTP80/HTTPS443/FTP21/SMTP25/DNS53/POP3 110</td></tr>
+    <tr><td>UDP</td><td>无连接、8 字节首部、快而不可靠、支持一对多</td></tr>
+    <tr><td>TCP 握手</td><td>SYN → SYN+ACK → ACK;防失效连接请求</td></tr>
+    <tr><td>TCP 挥手</td><td>FIN/ACK/FIN/ACK,TIME_WAIT 等 2MSL;全双工分向关闭</td></tr>
+    <tr><td>两大控制</td><td>流量控制护接收方(rwnd);拥塞控制护网络(cwnd 四算法)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 5 章;官方教材 TCP 章节与报文分析例题。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0007-network-advanced">← 第 7 课</a>
+    <a href="#lesson-0009-application">第 9 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC8%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。三次握手记不住?画两个小人发纸条试试。</div>
+</article>
+
+<article class="course-doc" id="lesson-0009-application">
+<p class="kicker">网络技术 · 第 9 课 / 为计算机三级打基础</p>
+  <h1>应用层协议 <span class="term-en">Application Layer</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 讲清 DNS 的层次结构与递归/迭代查询;
+       <strong>②</strong> 默写 DHCP 四步租约过程(综合题考报文分析);
+       <strong>③</strong> 说出 HTTP/电子邮件/FTP 的工作要点与端口。</p>
+  </div>
+
+  <h2>一、C/S 与 P2P:两种工作模型</h2>
+  <p><strong>客户/服务器模型</strong>(<span class="term-en">Client/Server</span>):服务集中提供,客户请求-响应
+     (WWW、FTP、Email、DNS)。<strong>P2P</strong>(<span class="term-en">peer-to-peer</span>):
+     每个节点既是客户又是服务器,对等共享(BT 下载),扩展性强、管理难。判断依据:谁服务谁。</p>
+
+  <h2>二、DNS:域名的"查号台"</h2>
+  <blockquote>
+    <strong>DNS</strong>(<span class="term-en">Domain Name System</span>,UDP 53):把域名解析成 IP 地址。
+    域名树:<strong>根 → 顶级域(.com/.cn)→ 权限域</strong>。本地 DNS 服务器帮主机问路,问法两种:
+  </blockquote>
+  <table class="ref">
+    <tr><th>查询方式</th><th>过程</th><th>要点</th></tr>
+    <tr><td>递归查询</td><td>"替我问到底,把结果给我"</td><td>主机 → 本地 DNS 通常用递归</td></tr>
+    <tr><td>迭代查询</td><td>"我给你下一个线索,你继续问"</td><td>本地 DNS → 根/顶级/权限服务器通常用迭代</td></tr>
+  </table>
+  <p>常见资源记录:<strong>A</strong>(域名→IPv4)、<strong>CNAME</strong>(别名)、<strong>MX</strong>(邮件交换)、
+     <strong>PTR</strong>(IP→域名,反向解析)。</p>
+
+  <h2>三、DHCP:插上网线就有 IP(综合题必考)</h2>
+  <blockquote>
+    <strong>DHCP</strong>(<span class="term-en">Dynamic Host Configuration Protocol</span>,UDP,
+    服务器 67/客户 68):主机开机<strong>广播</strong>四步拿地址——
+    <strong>D</strong>iscover(我要 IP!)→ <strong>O</strong>ffer(给你这个)→
+    <strong>R</strong>equest(我要这个)→ <strong>A</strong>ck(成交,附掩码/网关/DNS/租约期)。
+  </blockquote>
+  <p>考点:全程 UDP;前两步是广播(此时主机还没有 IP);<strong>租约</strong>到期可续租;
+     跨网段要用 <strong>DHCP 中继代理</strong>把广播转成单播;可配置<strong>保留地址</strong>(MAC 绑定)、
+     <strong>排除范围</strong>、选项(网关/DNS)。综合题常给抓包问"这是第几步/为什么用广播"。</p>
+
+  <h2>四、WWW、电子邮件与 FTP</h2>
+  <table class="ref">
+    <tr><th>服务</th><th>协议/端口</th><th>要点</th></tr>
+    <tr><td>WWW <span class="term-en">Web</span></td><td>HTTP 80 / HTTPS 443</td><td>URL = 协议://主机:端口/路径;HTTP 请求(方法 GET/POST+头部)+ 响应(状态码 200/404/500);
+        HTTP1.1 <strong>持续连接</strong>省时;无状态 → 用 Cookie 记住会话;HTTPS = HTTP+SSL/TLS 加密</td></tr>
+    <tr><td>电子邮件</td><td>SMTP 25(发/推)/ POP3 110(收/拉)/ IMAP(在线管理)</td><td>"SMTP 推、POP3 拉";附件扩展用 MIME;Outlook 是 UA(用户代理)</td></tr>
+    <tr><td>文件传输 FTP</td><td>控制 21 / 数据 20(主动模式)</td><td>控制与数据<strong>两个连接</strong>分离;登录或匿名 FTP</td></tr>
+    <tr><td>远程登录</td><td>Telnet 23 / SSH 22</td><td>Telnet 明文,SSH 加密(工程用 SSH)</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"DNS 用 TCP"</strong>——常规查询用 <strong>UDP 53</strong>(快);区域传送(主从同步)才用 TCP。<br>
+       <strong>"DHCP 客户端与服务器通信用 TCP 保证可靠"</strong>——DHCP 全程 <strong>UDP</strong>。<br>
+       <strong>"POP3 收信也用 SMTP"</strong>——SMTP 负责<strong>推送</strong>(发件人与服务器间、服务器间);
+       用户从服务器<strong>拉取</strong>用 POP3/IMAP。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>"网页打不开"的排障链(第 7 课 + 本课):能 ping IP 但域名打不开 → DNS 故障;
+       IP 也 ping 不通 → 网关/路由问题。三级综合题"DHCP 报文分析""DNS 服务器配置"
+       就是把本课表格背熟+看清题面。第 11 课会亲手配置这些服务器。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"主机开机获取 IP 地址时,DHCP 四步报文的正确顺序是?",
+     "opts":["Discover → Offer → Request → Ack","Request → Offer → Discover → Ack","Offer → Discover → Request → Ack"],
+     "answer":0,
+     "why":"D-O-R-A:先广播找服务器,收报价,再正式申请,最后确认并携带租约信息。"},
+    {"q":"本地 DNS 服务器向根域名服务器的查询通常采用?",
+     "opts":["迭代查询","递归查询","广播查询"],
+     "answer":0,
+     "why":"主机→本地 DNS 用递归;本地 DNS→根/顶级/权限用迭代,根只给线索不代劳。"},
+    {"q":"用户从邮件服务器读取邮件使用的协议是?",
+     "opts":["POP3/IMAP","SMTP","SNMP"],
+     "answer":0,
+     "why":"SMTP 是推信协议(发送/服务器间转发),收信用 POP3 或 IMAP;SNMP 是网络管理,别混。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>模型</td><td>C/S 集中服务;P2P 对等互传</td></tr>
+    <tr><td>DNS</td><td>UDP53;递归(主机侧)/迭代(服务器侧);A/CNAME/MX/PTR</td></tr>
+    <tr><td>DHCP</td><td>UDP;DORA 四步;租约/保留/排除/中继</td></tr>
+    <tr><td>WWW</td><td>HTTP80/HTTPS443;请求-响应;Cookie 补状态</td></tr>
+    <tr><td>Email/FTP</td><td>SMTP 推、POP3 拉;FTP 控21/数20 双连接</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>谢希仁《计算机网络》第 6 章;官方教材"信息服务系统的安装与配置"章(第 11 课直接续上)。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0008-transport">← 第 8 课</a>
+    <a href="#lesson-0010-network-planning">第 10 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC9%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0010-network-planning">
+<p class="kicker">网络技术 · 第 10 课 / 为计算机三级打基础 · 综合题"规划"题源</p>
+  <h1>中小型网络规划与设计 <span class="term-en">Network Planning &amp; Design</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 说出网络系统组建的阶段划分;
+       <strong>②</strong> 用核心/汇聚/接入三层结构设计园区网;
+       <strong>③</strong> 做设备选型与结构化布线选择(综合题规划填表直接对应)。</p>
+  </div>
+
+  <h2>一、网络系统组建的阶段划分(必背顺序)</h2>
+  <table class="ref">
+    <tr><th>阶段</th><th>做什么</th><th>产出</th></tr>
+    <tr><td>① 规划 <span class="term-en">planning</span></td><td>需求调研:功能/性能/成本/扩展性/地理分布</td><td>需求分析报告</td></tr>
+    <tr><td>② 设计 <span class="term-en">design</span></td><td>拓扑设计、分层设计、设备选型、IP 与 VLAN 规划、布线设计</td><td>总体设计方案</td></tr>
+    <tr><td>③ 实施 <span class="term-en">implementation</span></td><td>布线施工、设备安装、配置调试</td><td>可运行网络</td></tr>
+    <tr><td>④ 测试验收 <span class="term-en">testing</span></td><td>连通性、性能、可靠性测试,试运行</td><td>验收报告</td></tr>
+    <tr><td>⑤ 运行维护 <span class="term-en">O&amp;M</span></td><td>监控、备份、故障处理、升级</td><td>运维记录</td></tr>
+  </table>
+  <p>需求调研的"五个什么":谁用(用户数与分布)、用多久(高峰)、用什么应用(带宽敏感?)、
+     预算多少、将来扩多少。<strong>需求决定设计</strong>,顺序不能倒。</p>
+
+  <h2>二、分层设计:核心—汇聚—接入</h2>
+  <table class="ref">
+    <tr><th>层</th><th>任务</th><th>设备要求</th></tr>
+    <tr><td>核心层 <span class="term-en">core</span></td><td><strong>高速背板转发</strong>全网流量,不做复杂策略</td><td>高性能三层交换机,双机冗余</td></tr>
+    <tr><td>汇聚层 <span class="term-en">aggregation/distribution</span></td><td>汇聚接入流量、VLAN 间路由、策略(ACL)实施点</td><td>三层交换机</td></tr>
+    <tr><td>接入层 <span class="term-en">access</span></td><td>把终端接入网络,划分 VLAN/端口安全</td><td>二层交换机</td></tr>
+  </table>
+  <p>中小型网络允许"核心—接入"两层扁平化(省成本),规模大才要三层。
+     可靠性三板斧:<strong>设备冗余</strong>(双核心)、<strong>链路冗余</strong>(双上联/链路聚合)、
+     <strong>电源冗余</strong>(UPS)。</p>
+
+  <h2>三、设备选型看什么</h2>
+  <table class="ref">
+    <tr><th>指标</th><th>含义</th><th>选型判断</th></tr>
+    <tr><td>背板带宽 <span class="term-en">backplane</span></td><td>交换机所有端口总吞吐能力</td><td>≥ 端口数 × 端口速率 × 2(全双工)才算线速</td></tr>
+    <tr><td>包转发率 <span class="term-en">pps</span></td><td>每秒转发包数</td><td>决定小包性能</td></tr>
+    <tr><td>端口密度/类型</td><td>口数、电口/光口、上联口速率</td><td>接入 24/48 口;上联 10G 光口</td></tr>
+    <tr><td>路由器:转发性能/接口/NAT 并发</td><td>—</td><td>出口路由看 NAT 并发与带机量</td></tr>
+  </table>
+
+  <h2>四、结构化布线系统(六大子系统,必背)</h2>
+  <table class="ref">
+    <tr><th>子系统</th><th>覆盖范围</th><th>常用介质</th></tr>
+    <tr><td>工作区子系统</td><td>信息插座 → 终端设备</td><td>跳线(≤5 m)</td></tr>
+    <tr><td>水平子系统</td><td>信息插座 → 楼层配线间</td><td>双绞线(≤90 m,加跳线共 100 m)</td></tr>
+    <tr><td>垂直(干线)子系统</td><td>楼层配线间 → 设备间</td><td><strong>光纤</strong>或大对数电缆</td></tr>
+    <tr><td>设备间子系统</td><td>中心机房:核心设备所在</td><td>—</td></tr>
+    <tr><td>管理子系统</td><td>配线架、跳接、标识</td><td>—</td></tr>
+    <tr><td>建筑群子系统</td><td>楼与楼之间</td><td>室外光纤</td></tr>
+  </table>
+  <p>IP 规划原则(第 6 课落地):按部门/VLAN 划子网、<strong>留 30%~50% 余量</strong>、
+     网关取每段第一个可用地址、服务器放独立服务器区(DMZ 思想见第 12 课)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"核心层应该多做 ACL 等安全策略"</strong>——错,核心层只求快,策略放<strong>汇聚层</strong>做。<br>
+       <strong>"水平布线用光纤更好所以一律上光纤"</strong>——水平子系统双绞线是标准做法(成本+端口兼容),
+       光纤用于垂直/建筑群子系统。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>这就是二级建造师"网络工程师"日常:一张拓扑图 + 一张地址规划表 + 一张端口对应表。
+       三级综合题的"网络规划填表"考的就是:给定楼层/人数,写出子网、掩码、网关、设备层数分配。
+       把第 6 课的算法和本课的分层框架拼起来,这 20 分就稳了。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"网络系统组建的正确阶段顺序是?",
+     "opts":["规划→设计→实施→测试验收→运行维护","设计→规划→实施→测试→维护","规划→实施→设计→维护→测试"],
+     "answer":0,
+     "why":"先调研需求再设计,配置实施后必须测试验收,最后长期运维。"},
+    {"q":"VLAN 间路由与 ACL 安全策略一般部署在哪一层?",
+     "opts":["汇聚层","核心层","接入层"],
+     "answer":0,
+     "why":"核心层专注高速转发;策略控制(路由、ACL)是汇聚层的职责。"},
+    {"q":"楼层信息插座到楼层配线间的水平子系统应选用?",
+     "opts":["双绞线,长度不超过 90 m(含跳线共 100 m)","单模光纤","同轴电缆"],
+     "answer":0,
+     "why":"水平子系统标准是双绞线;光纤用于垂直干线与建筑群子系统。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>五阶段</td><td>规划→设计→实施→测试验收→运行维护</td></tr>
+    <tr><td>三层结构</td><td>核心求快、汇聚做策略、接入管终端</td></tr>
+    <tr><td>选型</td><td>背板带宽、包转发率、端口密度;冗余三板斧</td></tr>
+    <tr><td>布线六子系统</td><td>工作区/水平(≤90m 双绞线)/垂直(光纤)/设备间/管理/建筑群</td></tr>
+    <tr><td>IP 规划</td><td>按部门划子网、留余量、网关取首个可用地址</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>官方教材第 2 章"中小型网络系统总体规划与设计方法"——本章与教材对应度最高,建议通读。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0009-application">← 第 9 课</a>
+    <a href="#lesson-0011-services-config">第 11 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC10%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0011-services-config">
+<p class="kicker">网络技术 · 第 11 课 / 为计算机三级打基础 · 综合题配置题源</p>
+  <h1>信息服务系统配置 <span class="term-en">DHCP · DNS · WWW · FTP</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 按步骤在 Windows Server 上配置 DHCP/DNS/WWW/FTP 服务;
+       <strong>②</strong> 认出每种服务的关键配置项与常见错误(综合题"看截图选配置")。</p>
+  </div>
+
+  <h2>一、配置前的共同动作</h2>
+  <p>服务器先做三件事:<strong>静态 IP</strong>(服务器地址不能漂)、安装对应<strong>角色/服务</strong>
+     (Windows Server 的"添加角色",Linux 下装服务包)、<strong>防火墙放行端口</strong>
+     (DHCP 67/68、DNS 53、HTTP 80、FTP 21/20)。客户端验证:DHCP 用 <code>ipconfig /renew</code>、
+     DNS 用 <code>nslookup</code>、连通用 <code>ping</code>(第 7 课工具链)。</p>
+
+  <h2>二、DHCP 服务器(综合题最爱)</h2>
+  <table class="ref">
+    <tr><th>配置项</th><th>含义</th><th>考法</th></tr>
+    <tr><td>作用域 <span class="term-en">scope</span></td><td>一段可分配的 IP 范围(如 192.168.10.100~200)</td><td>给需求算范围(第 6 课结合)</td></tr>
+    <tr><td>排除范围 <span class="term-en">exclusion</span></td><td>作用域内不自动分配的地址(留给打印机/服务器)</td><td>问"打印机为何还能冲突"→ 没设排除</td></tr>
+    <tr><td>保留 <span class="term-en">reservation</span></td><td>MAC 绑定固定 IP</td><td>某主机永远拿同一地址</td></tr>
+    <tr><td>租约期 <span class="term-en">lease</span></td><td>地址可用时长,默认 8 天;50% 时续租</td><td>租约到期未续 → 地址回收</td></tr>
+    <tr><td>作用域选项</td><td>003 路由器(网关)、006 DNS 服务器</td><td>客户端拿不到网关 → 选项没配</td></tr>
+  </table>
+  <p>跨网段分配 → 部署 <strong>DHCP 中继代理</strong>(把广播转单播到 DHCP 服务器)。
+     回顾第 9 课 DORA 四步,配置题常配抓包截图问步骤序号。</p>
+
+  <h2>三、DNS 服务器</h2>
+  <table class="ref">
+    <tr><th>配置项</th><th>含义</th></tr>
+    <tr><td>正向查找区域</td><td>域名 → IP(建 A 记录、CNAME 别名、MX 邮件)</td></tr>
+    <tr><td>反向查找区域</td><td>IP → 域名(<strong>PTR</strong> 记录)</td></tr>
+    <tr><td>根提示 / 转发器</td><td>本地查不到时问谁:根提示走根;转发器转给上级 DNS</td></tr>
+    <tr><td>主/辅助区域</td><td>辅助区域从主服务器<strong>区域传送</strong>复制(用 TCP 53)</td></tr>
+  </table>
+  <p>验证:<code>nslookup www.example.com</code> 返回地址即成功。客户端"首选/备用 DNS"填的就是这台服务器地址。</p>
+
+  <h2>四、WWW(IIS)与 FTP 服务器</h2>
+  <table class="ref">
+    <tr><th>服务</th><th>关键配置</th><th>考点</th></tr>
+    <tr><td>WWW(IIS)</td><td>网站物理路径、<strong>绑定</strong>(IP:端口:主机名)、默认文档(index.html)、
+        SSL 证书(443)</td><td>同一台机多网站:改端口或加主机名;访问 https 要装证书</td></tr>
+    <tr><td>FTP(IIS)</td><td>主目录、读写权限、用户隔离、端口 21</td><td>匿名 vs 授权登录;<strong>主动 vs 被动模式</strong>(防火墙后常用被动)</td></tr>
+    <tr><td>Email(概念)</td><td>SMTP 服务 + POP3/IMAP 服务 + 邮箱域</td><td>端口与收发协议回顾第 9 课</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"服务器 IP 用 DHCP 自动获取很方便"</strong>——错!服务器必须<strong>静态 IP</strong>
+       (或 DHCP 保留),否则地址一变全公司断服。<br>
+       <strong>"DNS 建了区域就能反向解析"</strong>——反向解析要建<strong>反向查找区域</strong>并配 PTR 记录。<br>
+       <strong>"FTP 端口 21 传数据"</strong>——21 是<strong>控制连接</strong>;主动模式数据连接用 <strong>20</strong>,
+       被动模式用服务器随机高位端口。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角</div>
+    <p>家里路由器的"DHCP 地址池""静态 IP 绑定"就是本课功能家用化;公司里的 OA/网站服务器
+       就是 IIS/FTP。三级综合题的配置题给一张 Windows Server 配置界面截图问
+       "空缺处该填什么"——把上面的表格背熟,选项基本一眼可辨。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"公司要求打印机永远使用 192.168.10.50,最优做法是?",
+     "opts":["在 DHCP 中为打印机 MAC 配置保留地址","写告示让员工别用这个 IP","把作用域改为从 .51 开始"],
+     "answer":0,
+     "why":"保留(Reservation)按 MAC 绑定地址,既自动管理又固定;硬避开会浪费地址且易错。"},
+    {"q":"客户端拿到了 IP 但上不了网,检查发现网关为空。最可能是?",
+     "opts":["DHCP 作用域选项 003(路由器)没配","DNS 服务停了","服务器没建保留"],
+     "answer":0,
+     "why":"网关由 DHCP 选项 003 下发;选项缺失 → 客户端有 IP 无网关,只能访问本网段。"},
+    {"q":"关于 DNS,下列说法正确的是?",
+     "opts":["反向解析需要反向查找区域和 PTR 记录","A 记录用于 IP 到域名的解析","辅助区域通过 UDP 进行区域传送"],
+     "answer":0,
+     "why":"A 记录是域名→IP(PTR 才反向);区域传送用 TCP 53 保证可靠。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>服务器三件事</td><td>静态 IP、装角色、防火墙放行端口</td></tr>
+    <tr><td>DHCP</td><td>作用域/排除/保留/租约/选项003-006;跨网段用中继</td></tr>
+    <tr><td>DNS</td><td>正向 A/CNAME/MX;反向 PTR;转发器与根提示;传送用 TCP</td></tr>
+    <tr><td>WWW</td><td>绑定、默认文档、SSL;多站靠端口/主机名区分</td></tr>
+    <tr><td>FTP</td><td>控制 21/数据 20;被动模式过防火墙</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>官方教材"计算机网络信息服务系统的安装与配置"章——截图题的原文出处,建议对照教材界面图过一遍。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0010-network-planning">← 第 10 课</a>
+    <a href="#lesson-0012-security-management">第 12 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC11%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0012-security-management">
+<p class="kicker">网络技术 · 第 12 课 / 为计算机三级打基础 · 课程收官</p>
+  <h1>网络安全与管理 <span class="term-en">Security &amp; Management</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 说出安全五目标与加密/签名体系;
+       <strong>②</strong> 讲清防火墙/DMZ/IDS 的部署逻辑,会读写标准与扩展 ACL;
+       <strong>③</strong> 记住 SNMP 组件与无线网络安全演进(选择题高频)。</p>
+  </div>
+
+  <h2>一、安全五目标(必背)</h2>
+  <table class="ref">
+    <tr><th>目标</th><th>英文</th><th>一句话</th></tr>
+    <tr><td>机密性</td><td><span class="term-en">Confidentiality</span></td><td>只有该看的人看得懂(加密)</td></tr>
+    <tr><td>完整性</td><td><span class="term-en">Integrity</span></td><td>没被篡改(摘要/签名)</td></tr>
+    <tr><td>可用性</td><td><span class="term-en">Availability</span></td><td>该用时用得了(抗 DoS/冗余)</td></tr>
+    <tr><td>真实性(可认证)</td><td><span class="term-en">Authenticity</span></td><td>身份是真的(认证/证书)</td></tr>
+    <tr><td>可控性</td><td><span class="term-en">Controllability</span></td><td>行为可管可控(审计)</td></tr>
+  </table>
+  <p><strong>加密体系</strong>:<strong>对称加密</strong>(DES/3DES/AES——快,密钥分发难,双方同一把钥匙)
+     vs <strong>非对称加密</strong>(RSA——公钥加密私钥解,慢,解决密钥分发)。
+     实战组合:非对称交换对称密钥,再用对称加密传数据(HTTPS 就这样)。
+     <strong>数字签名</strong> = 发方用<strong>自己的私钥</strong>对摘要加密(认证+完整性+不可否认);
+     <strong>数字证书</strong>由 <strong>CA</strong>(认证中心)签发,证明"公钥确实是他的"。
+     常见攻击:DoS/DDoS(耗尽资源)、钓鱼、中间人、ARP 欺骗、SQL 注入。</p>
+
+  <h2>二、防火墙、DMZ 与 IDS</h2>
+  <blockquote>
+    <strong>防火墙</strong>(<span class="term-en">firewall</span>):位于内外网之间的访问控制点。
+    三类:<strong>包过滤</strong>(网络层,查 IP/端口,快但粗)、
+    <strong>状态检测</strong>(跟踪连接状态)、<strong>应用网关/代理</strong>(应用层,细但慢)。
+  </blockquote>
+  <p><strong>DMZ</strong>(<span class="term-en">demilitarized zone</span> 非军事区):外网↔DMZ↔内网三区结构,
+     Web/FTP/Mail 等对外服务器放 DMZ——被攻破也不至于直捣内网。
+     内网 → DMZ 允许、DMZ → 内网<strong>默认拒绝</strong>。<br>
+     <strong>IDS 入侵检测系统</strong>:监听旁路报警(不拦截);IPS 则串路在线拦截。</p>
+
+  <h2>三、ACL:路由器上的门禁(配置题常客)</h2>
+  <table class="ref">
+    <tr><th>类型</th><th>编号</th><th>匹配依据</th><th>要点</th></tr>
+    <tr><td>标准 ACL <span class="term-en">standard</span></td><td>1~99</td><td>仅<strong>源 IP</strong></td><td>放<strong>靠近目的</strong>的接口(免得误杀路上流量)</td></tr>
+    <tr><td>扩展 ACL <span class="term-en">extended</span></td><td>100~199</td><td>源/目的 IP + 协议 + 端口</td><td>放<strong>靠近源</strong>的接口(尽早拦截)</td></tr>
+  </table>
+  <p>规则:自上而下逐条匹配,命中即停;<strong>末尾隐含 deny all</strong>(至少要有一条 permit);
+     通配符掩码(wildcard,0=严格匹配,1=任意,如 0.0.0.255 匹配一个 C 段);方向分 in/out。</p>
+
+  <h2>四、SNMP 与无线安全</h2>
+  <p><strong>SNMP</strong>(<span class="term-en">Simple Network Management Protocol</span>,UDP 161/162):
+     管理站(NMS)↔ 设备上的代理(Agent),代理维护 <strong>MIB</strong>(管理信息库);
+     操作:Get(读)/Set(写)/<strong>Trap</strong>(代理主动报警,发往 162)。版本 v3 加了认证加密。</p>
+  <p><strong>无线网络</strong>:IEEE 802.11 家族(11a/b/g/n/ac/ax,2.4G 与 5G 频段;11b/g/ax 在 2.4G);
+     AP 广播 <strong>SSID</strong>;安全演进(必背顺序,越往后越安全):
+     <strong>WEP(已破解,禁用)→ WPA(TKIP,过渡)→ WPA2(AES/CCMP,当前主流)→ WPA3(最新)</strong>。
+     家庭路由器选 WPA2/WPA3-Personal(PSK 预共享密钥),企业用 802.1X 认证。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"数字签名用接收方的公钥加密"</strong>——签名用发送方的<strong>私钥</strong>;
+       用接收方公钥加密的是<strong>保密</strong>(机密性),两者目的不同。<br>
+       <strong>"标准 ACL 可以匹配端口号"</strong>——不能,标准 ACL 只看源 IP;要看端口用<strong>扩展 ACL</strong>。<br>
+       <strong>"WPA2 已经被破解所以不如 WEP 稳"</strong>——方向反了,WEP 早已淘汰;KRACK 类攻击已有补丁,
+       WPA2+WPA3 混合模式是当前家用最佳选择。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔧 工程视角(毕业寄语)</div>
+    <p>12 课走完,你已经拿到三级考试的全套地图:概念线撑单选、配置线撑综合、真题线收口。
+       工程向第二阶段随时可以开始:抓包看真实流量、路由器交换机模拟器(GNS3/eNSP)做实验、
+       把家里路由器按本课思路加固一遍。学完这课,回到课程手册把错题过一遍,然后按 [[../路线图.md|路线图]] 走 P3 真题冲刺。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"发送方用自己的私钥对报文摘要加密,这一过程实现的是?",
+     "opts":["数字签名(认证+完整性+不可否认)","机密性加密","密钥交换"],
+     "answer":0,
+     "why":"私钥加密=数字签名,任何人可用其公钥验证;保密要反过来用接收方公钥加密。"},
+    {"q":"标准 ACL(编号 1~99)能够匹配的条件是?",
+     "opts":["仅源 IP 地址","源 IP 和目的 IP","协议与端口号"],
+     "answer":0,
+     "why":"标准 ACL 只看源地址;要看目的/端口用扩展 ACL(100~199)。"},
+    {"q":"某对外网站服务器应部署在网络的哪个区域?",
+     "opts":["DMZ 区","内网核心区","外网"],
+     "answer":0,
+     "why":"对外服务放 DMZ:外网可达,但即使被攻破也无法直接访问内网,内网对 DMZ 默认拒绝。"},
+    {"q":"无线安全机制的破解难度从高到低(最安全→最不安全)排列正确的是?",
+     "opts":["WPA3 > WPA2 > WPA > WEP","WEP > WPA2 > WPA3","WPA > WPA3 > WEP > WPA2"],
+     "answer":0,
+     "why":"演进顺序 WEP→WPA→WPA2→WPA3,后出现的更安全;WEP 已可被秒破,禁用。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>五目标</td><td>机密性、完整性、可用性、真实性、可控性</td></tr>
+    <tr><td>加密/签名</td><td>对称快(AES)、非对称分发易(RSA);签名用发方私钥;CA 发证书</td></tr>
+    <tr><td>防火墙</td><td>包过滤/状态检测/应用网关;对外服务进 DMZ;IDS 旁路报警</td></tr>
+    <tr><td>ACL</td><td>标准 1-99 源 IP 靠近目的;扩展 100-199 全条件靠近源;隐含 deny all</td></tr>
+    <tr><td>SNMP/无线</td><td>Get/Set/Trap + MIB;WEP→WPA→WPA2→WPA3</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>官方教材"网络安全与管理"两章;谢希仁《计算机网络》第 7 章网络安全。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0011-services-config">← 第 11 课</a>
+    <a href="#doc-glossary">📖 术语表 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC12%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 全部课程完结!有疑问随时问我;接下来按路线图进入 P3 真题冲刺。</div>
+</article>
+
+<article class="course-doc" id="doc-glossary">
+<p class="kicker">Reference · 全 12 课术语总表</p>
+  <h1>网络技术术语表 <span class="term-en">Glossary</span></h1>
+  <p>本课程的统一语言。每一课都遵守这里的译名与符号约定;
+     遇到不确定的术语,先回到这里查。</p>
+
+  <h2>第 1 课 · 计算机网络入门</h2>
+  <dl class="glossary">
+    <dt>计算机网络 <span class="term-en">computer network</span></dt>
+    <dd>自治的计算机+通信线路/设备+协议,实现资源共享与信息传递的系统。</dd>
+    <dt>自治 <span class="term-en">autonomous</span></dt>
+    <dd>主机间无主从关系,断网后各自独立可用。</dd>
+    <dt>局域网/城域网/广域网 <span class="term-en">LAN/MAN/WAN</span></dt>
+    <dd>按覆盖范围:楼/园区 → 城市 → 跨城市国家。</dd>
+    <dt>互连网/互联网 <span class="term-en">internet/Internet</span></dt>
+    <dd>小写泛指网络互连;大写专指全球"网络的网络"。</dd>
+    <dt>拓扑结构 <span class="term-en">topology</span></dt>
+    <dd>星型、总线型、环型、树型、网状;无线网络同样有拓扑(家用 WiFi 是星型)。</dd>
+  </dl>
+
+  <h2>第 2 课 · 数据交换方式</h2>
+  <dl class="glossary">
+    <dt>电路交换 <span class="term-en">circuit switching</span></dt>
+    <dd>先建专用通路再通信,独占线路;时延小、利用率低(电话网)。</dd>
+    <dt>报文交换 <span class="term-en">message switching</span></dt>
+    <dd>整个报文存储转发;不建连但时延大。</dd>
+    <dt>分组交换 <span class="term-en">packet switching</span></dt>
+    <dd>切分组+首部地址存储转发;互联网采用;有首部开销与失序问题。</dd>
+    <dt>发送时延/传播时延</dt>
+    <dd>长度÷带宽 与 距离÷速率;带宽只影响前者。</dd>
+  </dl>
+
+  <h2>第 3 课 · 网络体系结构</h2>
+  <dl class="glossary">
+    <dt>协议三要素</dt>
+    <dd>语法(格式)、语义(动作含义)、同步(顺序与速度)。</dd>
+    <dt>OSI 七层</dt>
+    <dd>物理、链路、网络、运输、会话、表示、应用;设备:集线器/交换机/路由器对应 1/2/3 层。</dd>
+    <dt>TCP/IP 四层</dt>
+    <dd>应用、运输(TCP/UDP)、网际(IP/ICMP/ARP)、网络接口(未具体规定)。</dd>
+    <dt>PDU <span class="term-en">Protocol Data Unit</span></dt>
+    <dd>各层单元:比特→帧→分组→报文段→数据。</dd>
+    <dt>封装/对等通信</dt>
+    <dd>发送逐层加头、接收逐层去头;对等层读对等层头部。</dd>
+  </dl>
+
+  <h2>第 4 课 · 物理层与传输介质</h2>
+  <dl class="glossary">
+    <dt>四大特性</dt>
+    <dd>机械、电气、功能、规程。</dd>
+    <dt>双绞线/光纤</dt>
+    <dd>双绞线 ≤100m;光纤全反射、抗干扰——单模远、多模近。</dd>
+    <dt>曼彻斯特编码 <span class="term-en">Manchester</span></dt>
+    <dd>每比特中间必跳变,自带同步;波特率=2×比特率。</dd>
+    <dt>奈奎斯特定理 <span class="term-en">Nyquist</span></dt>
+    <dd>无噪声:2W·log₂V。</dd>
+    <dt>香农定理 <span class="term-en">Shannon</span></dt>
+    <dd>有噪声:W·log₂(1+S/N);实际取两者小者;30dB=1000 倍。</dd>
+    <dt>多路复用 <span class="term-en">multiplexing</span></dt>
+    <dd>FDM 分频、TDM 分时、WDM 分波、CDMA 分码。</dd>
+  </dl>
+
+  <h2>第 5 课 · 数据链路层与局域网</h2>
+  <dl class="glossary">
+    <dt>链路层三大功能</dt>
+    <dd>成帧、差错检测(CRC)、流量控制/可靠传输。</dd>
+    <dt>CSMA/CD</dt>
+    <dd>先听后发、边发边听、碰撞退避;半双工以太网规则。</dd>
+    <dt>最小帧长 64B</dt>
+    <dd>由发送时间 ≥ 争用期 2τ 推出;帧长 64~1518B。</dd>
+    <dt>MAC 地址</dt>
+    <dd>48 位;全 1 广播;本地有效,跨网段逐段变。</dd>
+    <dt>冲突域/广播域</dt>
+    <dd>交换机每端口隔离冲突域;广播域靠 VLAN/路由器隔离。</dd>
+    <dt>自学习 <span class="term-en">self-learning</span></dt>
+    <dd>登记源 MAC 入口;查表转发,未命中泛洪;表项老化。</dd>
+    <dt>VLAN</dt>
+    <dd>802.1Q,按端口划分隔离广播域;跨 VLAN 需三层。</dd>
+  </dl>
+
+  <h2>第 6 课 · IP 地址与子网划分</h2>
+  <dl class="glossary">
+    <dt>分类编址</dt>
+    <dd>A 1~126(/8)、B 128~191(/16)、C 192~223(/24)、D 多播、E 保留。</dd>
+    <dt>私有地址</dt>
+    <dd>10/8、172.16~31(/12)、192.168/16;环回 127.0.0.1。</dd>
+    <dt>子网三件套</dt>
+    <dd>网络地址=IP AND 掩码;广播=下一网络−1;可用主机=2ʰ−2;块大小=256−掩码末段。</dd>
+    <dt>子网划分/CIDR/VLSM</dt>
+    <dd>借位 2ⁿ≥子网数、2ʰ−2≥主机数;"IP/前缀"任意定长+路由聚合。</dd>
+  </dl>
+
+  <h2>第 7 课 · 网络层进阶</h2>
+  <dl class="glossary">
+    <dt>ARP</dt>
+    <dd>同网段 IP→MAC:广播问、单播答、缓存表;跨网段问网关。</dd>
+    <dt>ICMP</dt>
+    <dd>询问+差错报告;ping/traceroute 的底层。</dd>
+    <dt>RIP/OSPF/BGP</dt>
+    <dd>跳数-UDP520 / 链路状态-IP89 / 路径向量-TCP179;IGP→EGP。</dd>
+    <dt>NAT/NAPT</dt>
+    <dd>私有↔公网(端口)转换;外网不能主动进内网。</dd>
+    <dt>IPv6</dt>
+    <dd>128 位冒号十六进制;零压缩 :: 仅一次;双栈+隧道过渡。</dd>
+  </dl>
+
+  <h2>第 8 课 · 传输层与 TCP</h2>
+  <dl class="glossary">
+    <dt>端口 <span class="term-en">port</span></dt>
+    <dd>16 位进程标识;熟知端口 FTP20/21、Telnet23、SMTP25、DNS53、HTTP80、POP3 110、HTTPS443。</dd>
+    <dt>UDP/TCP</dt>
+    <dd>UDP:无连接、8B 首部、支持一对多;TCP:面向连接、可靠、20~60B 首部、一对一。</dd>
+    <dt>三次握手</dt>
+    <dd>SYN→SYN+ACK→ACK;防失效连接请求;第三次可带数据。</dd>
+    <dt>四次挥手/TIME_WAIT</dt>
+    <dd>FIN/ACK×2 全双工分向关闭;主动方等 2MSL。</dd>
+    <dt>流量控制/拥塞控制</dt>
+    <dd>rwnd 护接收方;cwnd 四算法护网络。</dd>
+  </dl>
+
+  <h2>第 9 课 · 应用层协议</h2>
+  <dl class="glossary">
+    <dt>C/S 与 P2P</dt>
+    <dd>集中服务 vs 对等互传。</dd>
+    <dt>DNS</dt>
+    <dd>UDP53(传送 TCP);根→顶级→权限;主机递归、服务器迭代;A/CNAME/MX/PTR。</dd>
+    <dt>DHCP</dt>
+    <dd>UDP67/68;Discover→Offer→Request→Ack;租约/保留/排除/中继。</dd>
+    <dt>HTTP/HTTPS</dt>
+    <dd>80/443;请求-响应、无状态(Cookie);HTTPS=HTTP+SSL/TLS。</dd>
+    <dt>SMTP/POP3/IMAP</dt>
+    <dd>SMTP25 推信;POP3 110/IMAP 拉收;MIME 附件。</dd>
+    <dt>FTP</dt>
+    <dd>控制 21、主动模式数据 20;被动模式过防火墙。</dd>
+  </dl>
+
+  <h2>第 10 课 · 网络规划与设计</h2>
+  <dl class="glossary">
+    <dt>五阶段</dt>
+    <dd>规划→设计→实施→测试验收→运行维护。</dd>
+    <dt>三层设计</dt>
+    <dd>核心(高速转发)、汇聚(VLAN 路由+策略)、接入(终端);小网可两层扁平化。</dd>
+    <dt>背板带宽/包转发率</dt>
+    <dd>≥端口数×速率×2 为线速;每秒转发包数。</dd>
+    <dt>结构化布线六子系统</dt>
+    <dd>工作区、水平(双绞线≤90m)、垂直(光纤)、设备间、管理、建筑群。</dd>
+  </dl>
+
+  <h2>第 11 课 · 信息服务系统配置</h2>
+  <dl class="glossary">
+    <dt>作用域/排除/保留</dt>
+    <dd>分配范围 / 不自动分配段 / MAC 绑定固定 IP。</dd>
+    <dt>DHCP 选项 003/006</dt>
+    <dd>下发网关与 DNS;缺 003 客户端只能访问本网段。</dd>
+    <dt>DHCP 中继代理</dt>
+    <dd>跨网段把广播转单播给远端服务器。</dd>
+    <dt>正向/反向区域</dt>
+    <dd>域名→IP(A/CNAME/MX);IP→域名(PTR);区域传送 TCP53。</dd>
+    <dt>绑定(网站)</dt>
+    <dd>IP:端口:主机名;多网站改端口或加主机名。</dd>
+  </dl>
+
+  <h2>第 12 课 · 网络安全与管理</h2>
+  <dl class="glossary">
+    <dt>安全五目标</dt>
+    <dd>机密性、完整性、可用性、真实性、可控性。</dd>
+    <dt>对称/非对称加密</dt>
+    <dd>AES 快 vs RSA 免分发;混合使用(HTTPS)。</dd>
+    <dt>数字签名/证书/CA</dt>
+    <dd>发方私钥签摘要;CA 证书绑定公钥与身份。</dd>
+    <dt>防火墙/DMZ/IDS</dt>
+    <dd>包过滤→状态检测→应用网关;对外服务放 DMZ;IDS 旁路报警。</dd>
+    <dt>ACL</dt>
+    <dd>标准 1~99 源 IP 放近目的;扩展 100~199 全条件放近源;隐含 deny all。</dd>
+    <dt>SNMP/MIB/Trap</dt>
+    <dd>UDP161/162;Get/Set/Trap;MIB 被管对象库。</dd>
+    <dt>WEP/WPA/WPA2/WPA3</dt>
+    <dd>无线安全演进,越新越安全;WEP 禁用。</dd>
+  </dl>
+
+  <hr>
+  <nav class="lesson-nav">
+    <a href="#lesson-0012-security-management">← 第 12 课</a>
+    <span>术语表</span>
+  </nav>
+
+  <div class="ask">💬 有任何不清楚的术语?直接在对话里问我——我是你的老师,随时可以追问。</div>
+</article>
+</div></div>
+</div>
+
+<button id="top-btn" title="回到顶部">↑</button>
+<script>
+
+/* ---- quiz.js ---- */
+/* ============================================================
+   测验组件（可复用）
+   用法：在 HTML 中放置：
+   <div class="quiz" data-quiz='[{"q":"问题","opts":["A","B","C"],"answer":0,"why":"解释"},...]'></div>
+   并引入本脚本。答案选项长度应一致，避免泄露线索。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  const stats = { correct: 0, answered: 0, total: 0 };
+  let scoreShown = false;
+
+  function renderQuiz(container) {
+    let data;
+    try {
+      data = JSON.parse(container.getAttribute("data-quiz"));
+    } catch (e) {
+      console.error("data-quiz JSON 解析失败", e);
+      return;
+    }
+    stats.total += data.length;
+
+    data.forEach(function (item) {
+      const q = document.createElement("div");
+      q.className = "quiz-q";
+      q.textContent = item.q;
+      container.appendChild(q);
+
+      const ul = document.createElement("ul");
+      ul.className = "quiz-opts";
+
+      const feedback = document.createElement("div");
+      feedback.className = "quiz-feedback";
+
+      let answered = false;
+
+      item.opts.forEach(function (optText, idx) {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.className = "quiz-opt";
+        btn.type = "button";
+        btn.textContent = optText;
+        btn.addEventListener("click", function () {
+          if (answered) return;
+          answered = true;
+          stats.answered++;
+          const buttons = ul.querySelectorAll(".quiz-opt");
+          buttons.forEach(function (b, i) {
+            b.disabled = true;
+            if (i === item.answer) b.classList.add("correct");
+          });
+          if (idx === item.answer) {
+            stats.correct++;
+            feedback.textContent = "✓ 正确。" + (item.why || "");
+          } else {
+            btn.classList.add("wrong");
+            feedback.textContent =
+              "✗ 正确答案是绿色那项。" + (item.why || "");
+          }
+          feedback.style.display = "block";
+          maybeShowScore();
+        });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+
+      container.appendChild(ul);
+      container.appendChild(feedback);
+    });
+  }
+
+  function maybeShowScore() {
+    if (scoreShown || stats.answered < stats.total) return;
+    scoreShown = true;
+    const lastQuiz = document.querySelector(".quiz[data-quiz]:last-of-type")
+      || document.querySelector(".quiz[data-quiz]");
+    const score = document.createElement("div");
+    score.className = "quiz-score";
+    score.textContent =
+      "本次得分：" + stats.correct + " / " + stats.total +
+      (stats.correct === stats.total
+        ? "　🎉 全部正确！"
+        : "　答错的题目值得明天回来重测一次——间隔重复才是长期记忆之道。");
+    score.style.display = "block";
+    lastQuiz.parentNode.appendChild(score);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".quiz[data-quiz]").forEach(renderQuiz);
+  });
+})();
+
+/* ---- subnet-demo.js ---- */
+/* ============================================================
+   子网计算演示组件(可复用):输入 IP/掩码 → 网络地址/广播/可用主机
+   用法:<div class="demo" data-subnet-demo></div> 并引入本脚本。
+   IIFE + DOMContentLoaded + data- 属性,兼容单课与合并手册两种环境。
+   ============================================================ */
+(function () {
+  function initDemo(root) {
+    if (root._subnetInit) return;
+    root._subnetInit = true;
+
+    var style = document.createElement("style");
+    style.textContent =
+      ".sub-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}" +
+      ".sub-row input{font:inherit;padding:6px 10px;border:1px solid #c9b99a;border-radius:6px;width:150px}" +
+      ".sub-btn{font:inherit;padding:6px 16px;border:1px solid #a0522d;border-radius:6px;" +
+      "background:#a0522d;color:#fff;cursor:pointer}" +
+      ".sub-out{font-family:monospace;font-size:.95em;background:#fbf7ee;border:1px solid #e5dcc8;" +
+      "border-radius:8px;padding:10px 14px;line-height:1.8;white-space:pre-wrap}" +
+      ".sub-err{color:#b03030}";
+    document.head.appendChild(style);
+
+    root.innerHTML =
+      '<div class="sub-row">' +
+      'IP <input class="sub-ip" value="192.168.1.130">' +
+      '前缀 <select class="sub-pfx"></select>' +
+      ' <button type="button" class="sub-btn">计算</button></div>' +
+      '<div class="sub-out">输入 IP 与前缀长度,点"计算"。</div>';
+
+    var sel = root.querySelector(".sub-pfx");
+    for (var p = 8; p <= 30; p++) {
+      var o = document.createElement("option");
+      o.value = p; o.textContent = "/" + p;
+      if (p === 26) o.selected = true;
+      sel.appendChild(o);
+    }
+
+    function parseIp(s) {
+      var m = s.trim().match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+      if (!m) return null;
+      var b = [m[1], m[2], m[3], m[4]].map(Number);
+      if (b.some(function (x) { return x < 0 || x > 255; })) return null;
+      return b;
+    }
+    function fmt(b) { return b.join("."); }
+
+    function run() {
+      var ip = parseIp(root.querySelector(".sub-ip").value);
+      var pfx = Number(sel.value);
+      var out = root.querySelector(".sub-out");
+      if (!ip) { out.textContent = "IP 格式不对:应为 a.b.c.d,每段 0–255。"; out.className = "sub-out sub-err"; return; }
+      out.className = "sub-out";
+      var mask = [], i;
+      for (i = 0; i < 4; i++) {
+        var z = pfx - i * 8;
+        mask.push(z <= 0 ? 0 : z >= 8 ? 255 : 256 - Math.pow(2, 8 - z));
+      }
+      var net = ip.map(function (x, k) { return x & mask[k]; });
+      var bc = net.slice();
+      var hostBits = 32 - pfx;
+      if (hostBits >= 8) bc[3] = 255; else bc[3] |= Math.pow(2, hostBits) - 1;
+      if (hostBits >= 16) bc[2] = 255;
+      if (hostBits >= 24) bc[1] = 255;
+      if (hostBits >= 32) bc[0] = 255;
+      var total = Math.pow(2, hostBits);
+      var usable = Math.max(0, total - 2);
+      var first = net.slice(); first[3] += 1;
+      var last = bc.slice(); last[3] -= 1;
+      var cls = ip[0] < 127 ? "A" : ip[0] < 128 ? "A" : ip[0] < 192 ? "B" : ip[0] < 224 ? "C" : "D/E";
+      var priv = (ip[0] === 10) || (ip[0] === 172 && ip[1] >= 16 && ip[1] <= 31) || (ip[0] === 192 && ip[1] === 168);
+      out.textContent =
+        "IP 地址      : " + fmt(ip) + "  (" + cls + " 类" + (priv ? ", 私有地址" : "") + ")\n" +
+        "子网掩码     : " + fmt(mask) + "  (/" + pfx + ")\n" +
+        "网络地址     : " + fmt(net) + "\n" +
+        "广播地址     : " + fmt(bc) + "\n" +
+        "可用主机范围 : " + fmt(first) + " ~ " + fmt(last) + "\n" +
+        "可用主机数   : 2^" + hostBits + " − 2 = " + usable + " 台";
+    }
+    root.querySelector(".sub-btn").addEventListener("click", run);
+    sel.addEventListener("change", run);
+    run();
+  }
+
+  function boot() { document.querySelectorAll("[data-subnet-demo]").forEach(initDemo); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+
+/* ---- topology-demo.js ---- */
+/* ============================================================
+   拓扑结构演示组件（可复用）：五种常见网络拓扑可视化
+   用法：<div class="demo" data-topology-demo></div> 并引入本脚本。
+   组件 JS 用 IIFE + DOMContentLoaded + data- 属性初始化，
+   以便在「单课（../assets/x.js）」与「合并手册（内联脚本）」两种环境都能跑。
+   ============================================================ */
+(function () {
+  var W = 640, H = 240;
+
+  var TOPOS = {
+    star: {
+      name: "星型 star",
+      desc: "所有节点都连到中心节点。中心一坏，全网瘫痪（单点故障）——但故障好定位、加机器最方便。你家路由器就是中心。",
+      nodes: [
+        { x: 320, y: 40, label: "路由器(中心)" },
+        { x: 110, y: 130, label: "手机" }, { x: 240, y: 175, label: "笔记本" },
+        { x: 400, y: 175, label: "平板" }, { x: 530, y: 130, label: "台式机" },
+        { x: 320, y: 125, label: "打印机" }
+      ],
+      links: [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5]]
+    },
+    bus: {
+      name: "总线型 bus",
+      desc: "一条主干电缆挂所有节点（两端需终结器）。省线便宜，但主干一断全网瘫痪，且节点越多冲突越多。早期以太网用，已淘汰。",
+      nodes: [
+        { x: 90, y: 60, label: "PC1" }, { x: 210, y: 60, label: "PC2" },
+        { x: 330, y: 60, label: "PC3" }, { x: 450, y: 60, label: "PC4" },
+        { x: 570, y: 60, label: "PC5" },
+        { x: 320, y: 150, label: "", bar: true }
+      ],
+      links: [[0, 5], [1, 5], [2, 5], [3, 5], [4, 5]]
+    },
+    ring: {
+      name: "环型 ring",
+      desc: "节点首尾相连成环，沿环依次传令牌。单环任何一处断开，全网瘫痪。",
+      nodes: [
+        { x: 320, y: 35, label: "PC1" }, { x: 480, y: 90, label: "PC2" },
+        { x: 440, y: 185, label: "PC3" }, { x: 200, y: 185, label: "PC4" },
+        { x: 160, y: 90, label: "PC5" }
+      ],
+      links: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]]
+    },
+    tree: {
+      name: "树型 tree",
+      desc: "分层展开：核心—汇聚—接入。适合分级管理、易扩展；越靠近根部的设备越关键。校园网/企业网的标准画法。",
+      nodes: [
+        { x: 320, y: 40, label: "核心交换机" },
+        { x: 160, y: 130, label: "楼层交换机" }, { x: 480, y: 130, label: "楼层交换机" },
+        { x: 90, y: 205, label: "PC" }, { x: 230, y: 205, label: "PC" },
+        { x: 410, y: 205, label: "PC" }, { x: 550, y: 205, label: "PC" }
+      ],
+      links: [[0, 1], [0, 2], [1, 3], [1, 4], [2, 5], [2, 6]]
+    },
+    mesh: {
+      name: "网状 mesh",
+      desc: "节点之间多多互连，任一条链路断了还有备路——可靠性最高，成本也最高。运营商骨干网/广域网核心长这样。",
+      nodes: [
+        { x: 320, y: 35, label: "A" }, { x: 500, y: 100, label: "B" },
+        { x: 420, y: 200, label: "C" }, { x: 220, y: 200, label: "D" },
+        { x: 140, y: 100, label: "E" }
+      ],
+      links: [[0, 1], [0, 2], [0, 3], [0, 4], [1, 2], [1, 4], [2, 3], [3, 4], [1, 3]]
+    }
+  };
+
+  function initDemo(root) {
+    if (root._topologyInit) return;
+    root._topologyInit = true;
+
+    var style = document.createElement("style");
+    style.textContent =
+      ".topo-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}" +
+      ".topo-btn{font:inherit;padding:6px 14px;border:1px solid #c9b99a;border-radius:6px;" +
+      "background:#fbf7ee;color:#5a4632;cursor:pointer}" +
+      ".topo-btn.on{background:#a0522d;border-color:#a0522d;color:#fff}" +
+      ".topo-canvas{width:100%;max-width:" + W + "px;height:auto;display:block;" +
+      "background:#fffdf6;border:1px solid #e5dcc8;border-radius:8px;margin:0 auto}" +
+      ".topo-desc{margin-top:10px;font-size:.95em;color:#5a4632}";
+    document.head.appendChild(style);
+
+    var btns = document.createElement("div");
+    btns.className = "topo-btns";
+    var canvas = document.createElement("canvas");
+    canvas.className = "topo-canvas";
+    canvas.width = W; canvas.height = H;
+    var desc = document.createElement("div");
+    desc.className = "topo-desc";
+    root.appendChild(btns); root.appendChild(canvas); root.appendChild(desc);
+
+    var current = "star";
+    Object.keys(TOPOS).forEach(function (key) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "topo-btn"; b.textContent = TOPOS[key].name;
+      b.addEventListener("click", function () { current = key; draw(); });
+      b._key = key;
+      btns.appendChild(b);
+    });
+
+    function draw() {
+      var t = TOPOS[current];
+      Array.prototype.forEach.call(btns.children, function (b) {
+        b.className = "topo-btn" + (b._key === current ? " on" : "");
+      });
+      desc.textContent = t.desc;
+
+      var ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = 2; ctx.strokeStyle = "#a0522d";
+      t.links.forEach(function (l) {
+        var a = t.nodes[l[0]], b = t.nodes[l[1]];
+        ctx.beginPath();
+        if (a.bar || b.bar) {
+          var bar = a.bar ? a : b, leaf = a.bar ? b : a;
+          ctx.moveTo(50, bar.y); ctx.lineTo(W - 50, bar.y);
+          ctx.moveTo(leaf.x, leaf.y + 14); ctx.lineTo(leaf.x, bar.y);
+        } else {
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+        }
+        ctx.stroke();
+      });
+      t.nodes.forEach(function (n) {
+        ctx.beginPath();
+        ctx.fillStyle = n.bar ? "none" : (n.label.indexOf("路由") > -1 || n.label.indexOf("交换") > -1 || n.label.indexOf("中心") > -1 ? "#a0522d" : "#7a6a52");
+        if (n.bar) {
+          ctx.lineWidth = 5; ctx.strokeStyle = "#5a4632";
+          ctx.beginPath(); ctx.moveTo(50, n.y); ctx.lineTo(W - 50, n.y); ctx.stroke();
+          ctx.lineWidth = 2;
+        } else {
+          ctx.arc(n.x, n.y, 13, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        if (n.label) {
+          ctx.fillStyle = "#3d3428";
+          ctx.font = "13px sans-serif"; ctx.textAlign = "center";
+          ctx.fillText(n.label, n.x, n.y - (n.bar ? 24 : 22));
+        }
+      });
+    }
+    draw();
+  }
+
+  function boot() { document.querySelectorAll("[data-topology-demo]").forEach(initDemo); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var art = document.getElementById('content');
+
+  /* ---------- 全文检索 ---------- */
+  function unmark() {
+    var ms = art.querySelectorAll('mark');
+    for (var i = 0; i < ms.length; i++) {
+      var m = ms[i], t = document.createTextNode(m.textContent);
+      m.parentNode.replaceChild(t, m);
+    }
+    art.normalize();
+  }
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function mark(qs) {
+    var rx = new RegExp(esc(qs), 'gi');
+    var walker = document.createTreeWalker(art, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = n.parentNode;
+        if (/^(SCRIPT|STYLE|MARK)$/.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+        return rx.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var hits = [];
+    while (walker.nextNode()) hits.push(walker.currentNode);
+    hits.forEach(function (n) {
+      var frag = document.createDocumentFragment(), last = 0, any = false;
+      n.nodeValue.replace(rx, function (mt, off) {
+        any = true;
+        frag.appendChild(document.createTextNode(n.nodeValue.slice(last, off)));
+        var mk = document.createElement('mark');
+        mk.textContent = mt;
+        frag.appendChild(mk);
+        last = off + mt.length;
+        return mt;
+      });
+      if (!any) return;
+      frag.appendChild(document.createTextNode(n.nodeValue.slice(last)));
+      n.parentNode.replaceChild(frag, n);
+    });
+    return hits.length;
+  }
+
+  var q = document.getElementById('q');
+  var cnt = document.getElementById('q-count');
+  var cur = -1;
+
+  function jumpTo(i) {
+    var ms = [].slice.call(art.querySelectorAll('mark'));
+    if (!ms.length) return;
+    cur = (i + ms.length) % ms.length;
+    ms.forEach(function (m, k) { m.classList.toggle('hit', k === cur); });
+    var el = ms[cur];
+    try {
+      if (el.scrollIntoViewIfNeeded) el.scrollIntoViewIfNeeded(false);
+      else if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'center' });
+    } catch (e) { }
+  }
+  function doSearch() {
+    unmark();
+    cur = -1;
+    var s = q.value.trim();
+    if (!s) { cnt.textContent = ''; return; }
+    var n = mark(s);
+    cnt.textContent = n ? n + ' 处' : '无结果';
+    if (n) jumpTo(0);
+  }
+  q.addEventListener('input', doSearch);
+  q.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); jumpTo(cur + 1); }
+    if (e.key === 'Escape') { q.value = ''; doSearch(); }
+  });
+
+  /* ---------- 目录筛选 ---------- */
+  var sbq = document.getElementById('sb-q');
+  sbq.addEventListener('input', function () {
+    var v = this.value.trim().toLowerCase();
+    var parts = document.querySelectorAll('.sidebar details.part');
+    for (var i = 0; i < parts.length; i++) {
+      var d = parts[i];
+      var hit = d.textContent.toLowerCase().indexOf(v) > -1;
+      d.style.display = (v && !hit) ? 'none' : '';
+      if (v && hit) d.open = true;
+    }
+  });
+
+  /* ---------- Scrollspy:滚动到哪一课,侧栏自动展开并高亮 ---------- */
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        var links = document.querySelectorAll('.sidebar .pages a');
+        for (var i = 0; i < links.length; i++) {
+          links[i].classList.toggle('cur', links[i].getAttribute('href') === '#' + id);
+        }
+        var act = document.querySelector('.sidebar .pages a.cur');
+        if (act) {
+          var d = act.closest('details');
+          if (d && !d.open) d.open = true;
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    var arts = document.querySelectorAll('article.course-doc');
+    for (var i = 0; i < arts.length; i++) spy.observe(arts[i]);
+  }
+
+  /* ---------- 目录收起/展开 ---------- */
+  var tocBtn = document.getElementById('toc-toggle');
+  function applyToc(hidden) {
+    document.body.classList.toggle('toc-hidden', hidden);
+    tocBtn.classList.toggle('on', !hidden);
+    try { localStorage.setItem('handbook-toc', hidden ? '0' : '1'); } catch (e) {}
+  }
+  tocBtn.addEventListener('click', function () {
+    applyToc(!document.body.classList.contains('toc-hidden'));
+  });
+  var saved = null;
+  try { saved = localStorage.getItem('handbook-toc'); } catch (e) {}
+  if (saved === '0') {
+    document.body.classList.add('toc-hidden');
+    tocBtn.classList.remove('on');
+  }
+
+  /* ---------- 回顶 + 打印导出 ---------- */
+  var tb = document.getElementById('top-btn');
+  window.addEventListener('scroll', function () {
+    tb.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  tb.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  document.getElementById('print-btn').addEventListener('click', function () {
+    window.print();
+  });
+})();
+</script>
+</body>
+</html>

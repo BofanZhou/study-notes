@@ -1,0 +1,73 @@
+filters:
+  and:
+    - file.hasTag("网络技术/习题")
+
+formulas:
+  lesson_icon: 'if(lesson == 1, "①", if(lesson == 2, "②", if(lesson == 3, "③", if(lesson == 4, "④", if(lesson == 5, "⑤", "❔")))))'
+  status_icon: 'if(status == "done", "✅", if(status == "review", "🔁", "🟡"))'
+  # 粗略统计：按关键词计数，供速览参考。type 字段标记题型集合。
+  basic_count: 'length(file.match(/^> \[!question\]- 1\./m))'
+  eng_count: 'length(file.match(/^> \[!question\]- 2\./m))'
+  open_count: 'length(file.match(/^> \[!question\]- 3\./m))'
+  trap_count: 'length(file.match(/^> \[!question\]- 4\./m))'
+
+properties:
+  file.name:
+    displayName: "题目集"
+  lesson:
+    displayName: "课次"
+  formula.lesson_icon:
+    displayName: ""
+  date:
+    displayName: "创建日期"
+  formula.basic_count:
+    displayName: "基础题"
+  formula.eng_count:
+    displayName: "应用题"
+  formula.open_count:
+    displayName: "思考题"
+  formula.trap_count:
+    displayName: "选择题"
+  status:
+    displayName: "状态"
+  formula.status_icon:
+    displayName: ""
+
+views:
+  - type: table
+    name: "全部习题集"
+    order:
+      - formula.lesson_icon
+      - file.name
+      - lesson
+      - formula.basic_count
+      - formula.eng_count
+      - formula.open_count
+      - formula.trap_count
+      - date
+      - formula.status_icon
+    summaries:
+      formula.basic_count: Sum
+      formula.eng_count: Sum
+      formula.open_count: Sum
+      formula.trap_count: Sum
+
+  - type: cards
+    name: "按课次分组"
+    groupBy:
+      property: lesson
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - formula.lesson_icon
+
+  - type: table
+    name: "待复习（未完成）"
+    filter:
+      and:
+        - status != done
+    order:
+      - file.name
+      - lesson
+      - formula.basic_count

@@ -1,0 +1,35 @@
+filters:
+  and:
+    - file.hasTag("网络技术/问答")
+formulas:
+  topic_icon: if(related_lesson == 1, "①", if(related_lesson == 2, "②", if(related_lesson == 3, "③", if(related_lesson == 4, "④", if(related_lesson == 5, "⑤", "❔")))))
+  age: if(date, (today() - date).days + " 天", "")
+properties:
+  file.name:
+    displayName: 问题
+  question:
+    displayName: 提问
+  related_lesson:
+    displayName: 课次
+  date:
+    displayName: 提问日期
+views:
+  - type: table
+    name: 全部问答
+    order:
+      - formula.topic_icon
+      - file.name
+      - related_lesson
+      - date
+      - formula.age
+    summaries:
+      related_lesson: Average
+  - type: cards
+    name: 按课次浏览
+    groupBy:
+      property: related_lesson
+      direction: ASC
+    order:
+      - file.name
+      - question
+      - date

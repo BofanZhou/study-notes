@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工程经济学 · 学习路线图</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main id="doc-eng-econ-roadmap">
+  <p class="kicker">工程经济学 · 总体路线 / 期末考试 · 专业应用 · 注册考试三线并一</p>
+  <h1>学习路线图 <span class="term-en">Roadmap of Engineering Economics</span></h1>
+  <p>本文是本工作区的<strong>主计划</strong>:目标定位、能力矩阵、课程主线、学习节奏、风险预案都从这里出发。
+     每日任务同步记录在 <code>NOTES.md</code>。开课:2026-09-01,建议 5 周完成全部 7 课 + 1 轮总复习。</p>
+
+  <h2>一、目标定位:这门课为什么值得学</h2>
+  <table class="ref">
+    <tr><th>目标线</th><th>达成标志</th><th>谁在检验</th></tr>
+    <tr><td><strong>期末考试</strong></td><td>现金流图 → 系数查表 → NPV/IRR/回收期 → 比选与不确定性分析,全流程闭卷算得又快又对</td><td>学校课程考核</td></tr>
+    <tr><td><strong>专业应用</strong></td><td>拿到暖通方案(冷热源、节能改造、设备更新)能独立完成 LCC 经济比选论证并写出结论段</td><td>课程设计、毕业设计、未来工程实践</td></tr>
+    <tr><td><strong>注册考试</strong></td><td>公共基础「工程经济」模块(资金时间价值、财务评价、不确定性、价值工程)真题正确率稳定</td><td>注册公用设备工程师执业资格</td></tr>
+  </table>
+  <blockquote>主线论断:<strong>暖通工程的每一次「方案之争」,最终都是一场经济论证</strong>。
+     技术性能决定方案「能不能」,工程经济决定方案「值不值」——这门课给你后者的话语权。</blockquote>
+
+  <h2>二、能力矩阵:现状 → 目标线</h2>
+  <table class="ref">
+    <tr><th>能力轨道</th><th>现状(08-31)</th><th>目标线(期末)</th><th>补齐途径</th></tr>
+    <tr><td>时间价值直觉</td><td>有生活直觉,未系统计算</td><td>复利/等值换算不过夜,系数表会用会插值</td><td>第 1–2 课 + compound-demo</td></tr>
+    <tr><td>指标计算</td><td>未学</td><td>NPV/IRR/回收期手算 + 判据书写完整</td><td>第 3 课 + npv-demo + 习题</td></tr>
+    <tr><td>方案比选</td><td>未学</td><td>增量分析、年值法、费用比选三件套</td><td>第 4 课(Fisher 交点陷阱专攻)</td></tr>
+    <tr><td>风险意识</td><td>未学</td><td>BEP + 敏感性排序 + 临界点插值</td><td>第 5 课 + sensitivity-demo</td></tr>
+    <tr><td>建环综合论证</td><td>未学</td><td>LCC 比选 + 经济寿命 + VE 改进对象,写出完整论证段</td><td>第 6–7 课 + 毕业自测</td></tr>
+  </table>
+
+  <h2>三、课程主线(7 课,每课一个能力点)</h2>
+  <table class="ref">
+    <tr><th>课次</th><th>主题</th><th>瞄准能力</th><th>建议日程</th></tr>
+    <tr><td>第 1 课</td><td><a href="../lessons/0001-cash-flow-time-value.html">现金流量与资金时间价值</a></td><td>现金流图 + 复利直觉(学科地基)</td><td>09-01</td></tr>
+    <tr><td>第 2 课</td><td><a href="../lessons/0002-equivalence-factors.html">等值计算·六个标准系数</a></td><td>六系数 + 名义/实际利率</td><td>09-03</td></tr>
+    <tr><td>第 3 课</td><td><a href="../lessons/0003-npv-irr-payback.html">评价指标 NPV / IRR / 回收期</a></td><td>三大指标手算与判据</td><td>09-08</td></tr>
+    <tr><td>第 4 课</td><td><a href="../lessons/0004-alternative-comparison.html">方案比选·增量分析与年值法</a></td><td>互斥比选 + IRR 陷阱免疫</td><td>09-10</td></tr>
+    <tr><td>第 5 课</td><td><a href="../lessons/0005-uncertainty-analysis.html">不确定性分析·盈亏平衡与敏感性</a></td><td>风险三件套</td><td>09-15</td></tr>
+    <tr><td>第 6 课</td><td><a href="../lessons/0006-depreciation-replacement.html">折旧与设备更新·经济寿命</a></td><td>折旧表 + 经济寿命 + 沉没成本</td><td>09-17</td></tr>
+    <tr><td>第 7 课</td><td><a href="../lessons/0007-value-engineering-lcc.html">价值工程与寿命周期成本 + 考点地图</a></td><td>LCC 论证 + 全课收网</td><td>09-22</td></tr>
+    <tr><td>总复习</td><td>考点地图重推 + 习题错题回炉</td><td>闭卷应试状态</td><td>09-24 起,每 2 周滚动</td></tr>
+  </table>
+  <p>节奏说明:每周 2 课、每课 20–25 分钟正文 + 30–40 分钟习题;与数学建模冲刺并行时,
+     可放慢为每周 1 课——<strong>顺序不变,先第 1–3 课(地基),后 4–7 课(决策)</strong>。</p>
+
+  <h2>四、学习方法(本学科专用)</h2>
+  <ul>
+    <li><strong>先画图后动笔</strong>:每道计算题第一笔永远是现金流量图;时点错,全题错。</li>
+    <li><strong>公式自己推</strong>:六系数只背 (F/A) 的几何级数,其余用倒数关系现场推——忘不掉。</li>
+    <li><strong>手算 + Excel 双轨</strong>:考试手算,日常用 FV/PV/PMT/NPV/IRR 验算,两边互相抓错。</li>
+    <li><strong>每个数字问「哪来的」</strong>:教材设例也问——若换成你的项目,这个数该去实测还是查规范?</li>
+    <li><strong>错题回炉</strong>:做错的题记入对应习题笔记的「错题与变式」,下次会话我据此出变式题。</li>
+  </ul>
+
+  <h2>五、风险与预案</h2>
+  <table class="ref">
+    <tr><th>风险</th><th>预案</th></tr>
+    <tr><td>系数记混、查错表</td><td>只推不背:每次从 (F/A) 现场推;三条验算关系自查(P/F=1/(F/P)、(A/P)=(A/F)+i、n→∞ 时 A/P→i)</td></tr>
+    <tr><td>时点错位(期初/期末、A 序列不标准)</td><td>画图铁律;A 序列三条件核对;不标准先平移折算</td></tr>
+    <tr><td>IRR 陷阱(互斥方案排序)</td><td>第 4 课 Fisher 交点 + npv-demo 反复玩;考试见到「互斥 + IRR 排序」直接条件反射</td></tr>
+    <tr><td>与数学建模冲刺抢时间</td><td>9/10 前工经降到每周 1 课;9/13 赛后恢复;两科共享「检索练习」习惯</td></tr>
+    <tr><td>教材版本差异</td><td>口径以《方法与参数》为准;章节差异首次答疑时对齐并回填 NOTES.md</td></tr>
+  </table>
+
+  <h2>六、每课自检清单(学完打钩)</h2>
+  <ol>
+    <li>能把本课核心公式<strong>从现金流推导</strong>讲给外行听懂吗?</li>
+    <li>本课的数值例能<strong>不看解答</strong>重算一遍吗?</li>
+    <li>习题集 8+2+1+2 做完并把错题记入「错题与变式」了吗?</li>
+    <li>能说出本课知识在<strong>建环场景</strong>里的一个具体用法吗?</li>
+    <li>Obsidian 课笔记的检索练习(折叠 callout)先回忆后展开了吗?</li>
+  </ol>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 一手来源</div>
+    <p>刘晓君《工程经济学》(中国建筑工业出版社)· 《建设项目经济评价方法与参数》(第三版,国家发改委/建设部)
+       · 注册公用设备工程师(暖通空调)执业资格考试大纲(公共基础·工程经济部分)
+       · GB 55015-2021《建筑节能与可再生能源利用通用规范》(建环案例的数据背景)。</p>
+  </div>
+
+  <nav class="lesson-nav">
+    <a href="../reference/glossary.html">← 术语表</a>
+    <a href="../lessons/0001-cash-flow-time-value.html">第 1 课:现金流量与资金时间价值 →</a>
+  </nav>
+</main>
+</body>
+</html>

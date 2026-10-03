@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工程经济学术语表</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main id="doc-glossary">
+  <p class="kicker">工程经济学 · 参考文档 / 随课程扩充</p>
+  <h1>术语表 <span class="term-en">Glossary</span></h1>
+  <p>每个术语给一句话本质解释 + 英文对照。课程中首次出现的术语会追加到这里。</p>
+
+  <table class="ref">
+    <tr><th>术语</th><th>English</th><th>一句话解释</th></tr>
+    <tr><td><strong>工程经济学</strong></td><td>engineering economics</td><td>把技术方案全寿命现金流量换到同一时点,用经济判据评价与比选。</td></tr>
+    <tr><td><strong>现金流入/流出</strong></td><td>cash inflow / outflow (CI/CO)</td><td>进入/离开方案的钱;净现金流量 NCF = CI − CO。</td></tr>
+    <tr><td><strong>现金流量图</strong></td><td>cash flow diagram</td><td>横轴时间、上入下出;大小、方向、时点三要素缺一不可。</td></tr>
+    <tr><td><strong>资金时间价值</strong></td><td>time value of money</td><td>来源 = 机会成本 + 通胀 + 风险;市场表现是利息。</td></tr>
+    <tr><td><strong>单利</strong></td><td>simple interest</td><td>F = P(1+n·i),利息不再生息;工程经济不用。</td></tr>
+    <tr><td><strong>复利</strong></td><td>compound interest</td><td>F = P(1+i)^n,利滚利;工程经济一律复利。</td></tr>
+    <tr><td><strong>72 法则</strong></td><td>rule of 72</td><td>复利翻倍年数 ≈ 72/i(%)。</td></tr>
+    <tr><td><strong>等值</strong></td><td>equivalence</td><td>考虑时间价值后「价值相等」;不同时点的钱先换算再比较。</td></tr>
+    <tr><td><strong>现值/终值/年金</strong></td><td>present / future value, annuity (P/F/A)</td><td>0 点一次性 / n 点一次性 / 每期期末等额序列。</td></tr>
+    <tr><td><strong>一次支付终值系数</strong></td><td>(F/P, i, n)</td><td>(1+i)^n;已知 P 求 F。</td></tr>
+    <tr><td><strong>一次支付现值系数</strong></td><td>(P/F, i, n)</td><td>(1+i)^−n;已知 F 求 P,「折现」动作本体。</td></tr>
+    <tr><td><strong>等额分付终值系数</strong></td><td>(F/A, i, n)</td><td>[(1+i)^n−1]/i;几何级数求和,六系数之源。</td></tr>
+    <tr><td><strong>偿债基金系数</strong></td><td>(A/F, i, n)</td><td>i/[(1+i)^n−1];要攒到 F,每年存多少。</td></tr>
+    <tr><td><strong>等额分付现值系数</strong></td><td>(P/A, i, n)</td><td>[(1+i)^n−1]/[i(1+i)^n];A 序列折现,节能项目必背。</td></tr>
+    <tr><td><strong>资本回收系数</strong></td><td>(A/P, i, n)</td><td>i(1+i)^n/[(1+i)^n−1];已知 P 求 A,等额本息;(A/P)=(A/F)+i。</td></tr>
+    <tr><td><strong>名义利率</strong></td><td>nominal rate (r)</td><td>年挂牌利率;除以年计息次数 m 得周期利率。</td></tr>
+    <tr><td><strong>实际利率</strong></td><td>effective rate (i_a)</td><td>(1+r/m)^m − 1;计息越频繁越高,连续计息上界 e^r − 1。</td></tr>
+    <tr><td><strong>基准收益率</strong></td><td>benchmark rate (i_c)</td><td>投资回报及格线;折现用的官方门槛,不是银行利率。</td></tr>
+    <tr><td><strong>净现值</strong></td><td>net present value (NPV)</td><td>净现金流按 i_c 折现求和;NPV ≥ 0 = 达标还有超额。</td></tr>
+    <tr><td><strong>内部收益率</strong></td><td>internal rate of return (IRR)</td><td>NPV=0 的折现率;非常规现金流可能多解。</td></tr>
+    <tr><td><strong>静态/动态投资回收期</strong></td><td>static / dynamic payback period</td><td>累计净现金流转正年数;动态折现后恒 ≥ 静态。</td></tr>
+    <tr><td><strong>净年值</strong></td><td>net annual value (NAV)</td><td>NPV × (A/P, i_c, n);不同寿命比选的通行证。</td></tr>
+    <tr><td><strong>互斥方案</strong></td><td>mutually exclusive alternatives</td><td>只能选一;同口径比 NPV/年值取大。</td></tr>
+    <tr><td><strong>增量分析</strong></td><td>incremental (Δ) analysis</td><td>「贵−便宜」当虚拟项目;ΔIRR ≥ i_c 选投资大的。</td></tr>
+    <tr><td><strong>Fisher 交点</strong></td><td>Fisher intersection</td><td>两方案 NPV–i 曲线交点 = ΔIRR;i_c 两侧结论反转。</td></tr>
+    <tr><td><strong>费用现值/费用年值</strong></td><td>present cost (PC) / annual cost (AC)</td><td>只有费用流时比谁花钱少;PC 取小,寿命不同用 AC。</td></tr>
+    <tr><td><strong>盈亏平衡点</strong></td><td>break-even point (BEP)</td><td>Q* = F/(p−v);BEP 越低越抗风险。</td></tr>
+    <tr><td><strong>单位边际贡献</strong></td><td>unit contribution margin</td><td>p − v;每件产品摊固定成本的能力。</td></tr>
+    <tr><td><strong>敏感性分析</strong></td><td>sensitivity analysis</td><td>单因素扰动看 NPV 响应;产出敏感度排序与临界点。</td></tr>
+    <tr><td><strong>敏感度系数</strong></td><td>sensitivity coefficient (S)</td><td>S = (ΔNPV/NPV)/(ΔX/X);直线斜率。</td></tr>
+    <tr><td><strong>临界点</strong></td><td>switching value</td><td>NPV=0 的因素变动幅度;翻车安全距离。</td></tr>
+    <tr><td><strong>期望值法</strong></td><td>expected value method</td><td>E(NPV) = Σ P_i·NPV_i;给概率性风险称重。</td></tr>
+    <tr><td><strong>折旧</strong></td><td>depreciation</td><td>价值逐年转移;非现金流,经税盾影响税后现金。</td></tr>
+    <tr><td><strong>直线法</strong></td><td>straight-line method</td><td>D = (K−L)/n,均匀折旧。</td></tr>
+    <tr><td><strong>双倍余额递减法</strong></td><td>double declining balance</td><td>(2/n)×期初净值;末两年改直线扣残值。</td></tr>
+    <tr><td><strong>年数总和法</strong></td><td>sum-of-years-digits (SYD)</td><td>按剩余年数占比递减的加速折旧。</td></tr>
+    <tr><td><strong>税盾</strong></td><td>tax shield</td><td>折旧 × 税率 = 少交的税 = 现金收益。</td></tr>
+    <tr><td><strong>有形/无形磨损</strong></td><td>physical wear / obsolescence</td><td>使用锈蚀损耗 / 技术进步贬值。</td></tr>
+    <tr><td><strong>经济寿命</strong></td><td>economic life</td><td>年均总成本 U 形最低点;n* ≈ √(2(K−V)/λ)。</td></tr>
+    <tr><td><strong>低劣化数值法</strong></td><td>degradation method</td><td>AC(n) = (K−V_n)/n + C₁ + (n−1)λ/2。</td></tr>
+    <tr><td><strong>沉没成本</strong></td><td>sunk cost</td><td>覆水难收,不参与更新决策;旧设备按现市价计。</td></tr>
+    <tr><td><strong>寿命周期成本</strong></td><td>life-cycle cost (LCC)</td><td>设置费 + 维持费,折现后比总账;暖通比选的正确尺子。</td></tr>
+    <tr><td><strong>价值工程</strong></td><td>value engineering (VE)</td><td>以最低 LCC 可靠实现必要功能;V = F/C。</td></tr>
+    <tr><td><strong>功能系数/成本系数</strong></td><td>function / cost index (FI/CI)</td><td>功能得分占比 / 成本占比;V = FI/CI &lt; 1 是改进对象。</td></tr>
+  </table>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0001-cash-flow-time-value.html">← 第 1 课:现金流量与资金时间价值</a>
+    <a href="../reference/eng-econ-roadmap.html">学习路线图 →</a>
+  </nav>
+</main>
+</body>
+</html>

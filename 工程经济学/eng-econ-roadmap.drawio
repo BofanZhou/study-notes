@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="31.3.1">
+  <diagram name="工程经济学学习路线图">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1180" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t" value="工程经济学 · 学习路线图" style="text;html=1;align=center;verticalAlign=middle;fontSize=26;fontStyle=1;fontColor=#1a1a1a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="1520" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g" value="🎯 三线并一:期末考试稳过 · 暖通方案 LCC 经济论证 · 注册工程师「工程经济」模块　|　2026-09-01 开课,5 周 7 课 + 滚动复习" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1520" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s" value="🧭 主线论断:技术性能决定方案「能不能」,工程经济决定方案「值不值」——把全寿命现金流量换到同一时点再比大小" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="1520" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l1" value="阶段一 · 学科地基(D1–D2 · 09-01 / 09-03)" style="swimlane;startSize=30;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="1520" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="l1a" value="第 1 课 · 现金流量与资金时间价值&#10;现金流三要素 / 单利 vs 复利 / 72 法则&#10;演示:compound-demo(复利曲线)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" vertex="1" parent="l1">
+          <mxGeometry x="10" y="40" width="740" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l1b" value="第 2 课 · 等值计算:六个标准系数&#10;只推 (F/A) 几何级数,其余倒数;(A/P)=(A/F)+i&#10;名义利率 → 实际利率 (1+r/m)^m − 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;" vertex="1" parent="l1">
+          <mxGeometry x="770" y="40" width="740" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l2" value="阶段二 · 评价指标(D3 · 09-08)" style="swimlane;startSize=30;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="1520" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="l2a" value="第 3 课 · NPV / IRR / 投资回收期&#10;NPV = Σ(CI−CO)t(1+ic)^−t ≥ 0;IRR = NPV=0 的折现率(内插)&#10;静态 vs 动态回收期(节能改造例:6 年 vs 8.5 年)——演示:npv-demo(NPV–i 曲线)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="l2">
+          <mxGeometry x="10" y="40" width="1500" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l3" value="阶段三 · 决策方法(D4–D6 · 09-10 / 09-15 / 09-17)" style="swimlane;startSize=30;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="620" width="1520" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="l3a" value="第 4 课 · 方案比选&#10;互斥方案比 NPV 取大&#10;增量分析 ΔIRR ≥ ic 选贵的&#10;寿命不同 → 年值法 NAV&#10;陷阱:Fisher 交点,IRR 排序会骗人" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="l3">
+          <mxGeometry x="10" y="40" width="490" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l3b" value="第 5 课 · 不确定性分析&#10;盈亏平衡 Q* = F/(p−v),BEP 越低越稳&#10;敏感度系数 S 与临界点插值&#10;期望值 E(NPV) 给风险称重&#10;演示:sensitivity-demo(四因素直线)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="l3">
+          <mxGeometry x="515" y="40" width="490" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l3c" value="第 6 课 · 折旧与设备更新&#10;直线 / 双倍余额递减 / 年数总和&#10;经济寿命 AC(n) U 形最低点&#10;n* ≈ √(2(K−V)/λ);沉没成本不参与&#10;演示:replacement-demo(年均成本)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="l3">
+          <mxGeometry x="1020" y="40" width="490" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l4" value="阶段四 · 综合收官(D7 · 09-22 + 滚动复习)" style="swimlane;startSize=30;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="840" width="1520" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="l4a" value="第 7 课 · 价值工程与寿命周期成本&#10;LCC = 设置费 + 维持费(折现比总账)&#10;冷热源比选实战:乙贵 200 万,省 LCC 99 万&#10;VE:V = F/C,V &lt; 1 是改进对象" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="l4">
+          <mxGeometry x="10" y="40" width="740" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="l4b" value="总复习(09-24 起,每 2 周滚动)&#10;考点地图重推 7 课公式&#10;习题集错题回炉 + 变式题&#10;毕业自测:真实建环项目独立完成全流程论证" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="l4">
+          <mxGeometry x="770" y="40" width="740" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#555555;strokeWidth=2;" edge="1" parent="1" source="l1" target="l2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#555555;strokeWidth=2;" edge="1" parent="1" source="l2" target="l3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#555555;strokeWidth=2;" edge="1" parent="1" source="l3" target="l4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="d" value="✅ 学习纪律:先画现金流量图 → 公式自己推(只背 F/A)→ 手算 + Excel 双轨 → 错题记入「错题与变式」回炉" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1040" width="1520" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="w" value="⚠️ 三大陷阱(考试最高频):IRR 排序选互斥方案 ✗ / 折旧当现金流出 ✗ / 「BEP 越高越安全」 ✗" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1090" width="1520" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

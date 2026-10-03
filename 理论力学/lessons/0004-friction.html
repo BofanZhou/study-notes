@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 4 课 · 摩擦</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 4 课 / 静力学收官</p>
+  <h1>摩擦 <span class="term-en">Friction</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 用库仑摩擦定律处理"考虑摩擦的平衡";
+       <strong>②</strong> 用摩擦角与自锁条件秒判"滑不滑";
+       <strong>③</strong> 了解滚动摩阻的模型。</p>
+  </div>
+
+  <h2>一、滑动摩擦:一个"有上限的约束力"</h2>
+  <p>接触面粗糙时,切向出现<strong>静摩擦力</strong> F<sub>s</sub>。它不是定值,而是<strong>被动力</strong>:
+     大小随主动力变化,平衡时 0 ≤ F<sub>s</sub> ≤ F<sub>max</sub>,上限由<strong>库仑摩擦定律</strong>给出:</p>
+  <blockquote>
+    F<sub>max</sub> = f<sub>s</sub> · F<sub>N</sub> —— 与接触面积无关,只看<strong>法向压力</strong>与静摩擦系数 f<sub>s</sub>。
+    一旦滑动,动摩擦 F<sub>d</sub> = f<sub>d</sub>·F<sub>N</sub>(f<sub>d</sub> 略小于 f<sub>s</sub>,近似认为相等)。
+  </blockquote>
+  <p><strong>考虑摩擦的平衡问题</strong>标准流程:① 先按无摩擦列平衡方程;② 补充临界条件
+     F<sub>s</sub> = f<sub>s</sub>F<sub>N</sub>;③ 解出临界值 → 答案往往是一个<strong>范围</strong>
+     (F<sub>min</sub> ≤ F ≤ F<sub>max</sub>),因为摩擦可以"双向顶住"。</p>
+
+  <h2>二、摩擦角与自锁:几何法的威力</h2>
+  <blockquote>
+    <strong>摩擦角</strong> φ<sub>s</sub>:临界状态下,法向反力 F<sub>N</sub> 与最大静摩擦力 F<sub>max</sub>
+    的<strong>全约束反力</strong>与法线的夹角,tan φ<sub>s</sub> = f<sub>s</sub>。
+  </blockquote>
+  <p>把"法向 + 切向"两个约束力合起来看:全反力只能落在以法线为轴、半角 φ<sub>s</sub> 的<strong>锥面内</strong>
+     (摩擦锥)。于是得到暴力而优雅的判据——<strong>自锁条件</strong>:</p>
+  <table class="ref">
+    <tr><th>判据</th><th>内容</th></tr>
+    <tr><td>自锁</td><td>主动力合力的作用线落在摩擦锥<strong>之内</strong> → 无论力多大都滑不动(驱动再猛,摩擦同步长大)</td></tr>
+    <tr><td>经典例</td><td>斜面上物块不滑的条件:斜面倾角 α ≤ φ<sub>s</sub>(螺纹、千斤顶、楔块设计的理论基础)</td></tr>
+  </table>
+
+  <h2>三、滚动摩阻:为什么轮子省力</h2>
+  <p>滚动时接触面并非理想点:法向反力前移一段距离 δ,形成<strong>滚动摩阻力偶</strong> M<sub>f</sub> ≤ δ·F<sub>N</sub>
+     (δ 为滚阻系数,量纲是长度)。δ 通常极小 → 推滚比推滑省力几个数量级——
+     轴承、轮子的力学本质。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"摩擦力总阻碍运动"</strong>——摩擦力阻碍的是<strong>相对滑动趋势</strong>;
+       人走路、车轮驱动、皮带传动,摩擦力都是<strong>动力</strong>。<br>
+       <strong>"F = f·F<sub>N</sub> 永远成立"</strong>——只有达到最大(临界或滑动)时才取等号;
+       静止时 F<sub>s</sub> 由平衡方程求出,通常小于上限。顺序:先用平衡求 F<sub>s</sub>,再验证 ≤ f<sub>s</sub>F<sub>N</sub>。<br>
+       <strong>"接触面越大摩擦越大"</strong>——库仑定律里根本没有面积项(近似模型内)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体<strong>没有静摩擦力</strong>——这正是流体力学第 1 课"流体不能抵抗剪切"的另一面:
+       再小的切向力都会让流体持续变形。固体靠摩擦"站得住",流体靠压强"传得开"。
+       两种介质的边界条件也由此分野:固体壁面上流体黏附(no-slip),靠的是黏性而非库仑摩擦。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"物块重 100 N 静止在水平面上,f_s=0.3。用水平力 20 N 推它没推动,此时摩擦力多大?",
+     "opts":["20 N","30 N","0 N"],
+     "answer":0,
+     "why":"静止时摩擦力由平衡决定:Fs=20 N(上限是 0.3×100=30 N,未达到,所以推不动也没滑)。"},
+    {"q":"斜面倾角小于摩擦角时,把重物放上去,它会?",
+     "opts":["自锁:无论多重都不滑","立即下滑","做匀速下滑"],
+     "answer":0,
+     "why":"α ≤ φs 时重力作用线落在摩擦锥内,满足自锁——千斤顶与螺纹锁紧的原理。"},
+    {"q":"滚动比滑动省力的力学原因是?",
+     "opts":["滚动摩阻系数 δ 是长度量且极小,摩阻力偶远小于滑动摩擦力","滚动时没有重力","轮子材料更硬"],
+     "answer":0,
+     "why":"Mf ≤ δ·FN,δ 通常毫米级,等效阻力 δ/R 远小于滑动摩擦系数。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>库仑定律</td><td>Fs 是被动力:平衡时 0≤Fs≤fs·FN;滑动后≈fd·FN</td></tr>
+    <tr><td>解题流程</td><td>先平衡求 Fs → 补临界条件 → 答案常为范围</td></tr>
+    <tr><td>摩擦角/自锁</td><td>tanφs=fs;主动力线入摩擦锥 → 多大力都锁死;α≤φs 斜面自锁</td></tr>
+    <tr><td>滚动摩阻</td><td>Mf ≤ δ·FN(δ 有长度量纲)——轮子的力学本质</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)摩擦章;自锁应用(千斤顶/楔块)可看教材例题。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0003-planar-force-system.html">← 第 3 课</a>
+    <a href="../lessons/0005-kinematics-particle.html">第 5 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。静力学四课到此收官,过 M1 验收再进运动学。</div>
+</main>
+</body>
+</html>

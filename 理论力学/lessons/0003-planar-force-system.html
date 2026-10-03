@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 3 课 · 平面任意力系</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 3 课 / 静力学 · 静力学的"总装课"</p>
+  <h1>平面任意力系 <span class="term-en">Planar General Force System</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 把任意平面力系向一点简化为主矢 + 主矩;
+       <strong>②</strong> 按三种形式写平衡方程并解物系平衡问题;
+       <strong>③</strong> 判断静定与静不定。</p>
+  </div>
+
+  <h2>一、向一点简化:主矢 + 主矩</h2>
+  <p>任意复杂的平面力系,用<strong>力线平移定理</strong>把每个力都搬到任选的简化中心 O:
+     所有平移后的力汇交于 O,合成<strong>主矢</strong> R′ = ΣF(与 O 位置无关);
+     所有附加力偶合成<strong>主矩</strong> M<sub>O</sub> = ΣM<sub>O</sub>(F)(<strong>与 O 位置有关</strong>,换点要加 R′×d 修正)。</p>
+  <table class="ref">
+    <tr><th>简化结果</th><th>条件</th><th>含义</th></tr>
+    <tr><td>平衡</td><td>R′=0 且 M<sub>O</sub>=0</td><td>本章主角:平衡问题</td></tr>
+    <tr><td>合力</td><td>R′≠0</td><td>合为一个力(M<sub>O</sub>=0 时过 O;否则过偏移 d=M<sub>O</sub>/R′ 处)</td></tr>
+    <tr><td>合力偶</td><td>R′=0 且 M<sub>O</sub>≠0</td><td>只剩纯转动效应(此时与简化中心无关)</td></tr>
+  </table>
+
+  <h2>二、平衡方程:三种等价写法</h2>
+  <table class="ref">
+    <tr><th>形式</th><th>方程</th><th>附加条件</th></tr>
+    <tr><td>基本式(两投影一矩)</td><td>ΣFx=0,ΣFy=0,ΣM<sub>O</sub>=0</td><td>无</td></tr>
+    <tr><td>二矩式</td><td>ΣM<sub>A</sub>=0,ΣM<sub>B</sub>=0,ΣFx=0</td><td>A、B 连线<strong>不垂直</strong>于 x 轴</td></tr>
+    <tr><td>三矩式</td><td>ΣM<sub>A</sub>=0,ΣM<sub>B</sub>=0,ΣM<sub>C</sub>=0</td><td>A、B、C <strong>不共线</strong></td></tr>
+  </table>
+  <p>选形式的心法:矩心尽量选在<strong>未知力的交点</strong>上,让方程直接解出另一个未知量,少联立。
+     固定端约束按第 2 课结论提供 3 个未知量(Fx、Fy、M)——恰好被 3 个独立方程解出。</p>
+
+  <h2>三、物体系统的平衡:先整体、后拆开</h2>
+  <p>工程对象多是<strong>物系</strong>(几个构件互相约束)。方法:</p>
+  <table class="ref">
+    <tr><th>步骤</th><th>动作</th></tr>
+    <tr><td>① 数未知量</td><td>把所有约束反力未知量数一遍(每个铰链 2、滚动支座 1、固定端 3)</td></tr>
+    <tr><td>② 判静定</td><td>未知量总数 ≤ 独立方程总数(每个受平面力系的构件 3 个)→ <strong>静定</strong>;超过 → <strong>静不定</strong>(需变形条件,理论力学不硬解)</td></tr>
+    <tr><td>③ 先整体</td><td>整体作研究对象:内力(构件间相互作用)不出现,常先解出外约束力</td></tr>
+    <tr><td>④ 再拆开</td><td>拆出含未知量最多的构件单独画受力图;拆分处按作用反作用公理成对画力</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"整体和拆开随便选一个就够了"</strong>——物系问题常常整体解出 1~2 个外力后必须拆开补足;
+       两边方程有重复,但各自的"新信息"互补。<br>
+       <strong>"静不定就做不了"</strong>——理论力学范围内判明即可;解它需要材料力学的变形协调条件,
+       这正是"力学地基"下一层的入口。<br>
+       <strong>"简化中心随便选,主矩都一样"</strong>——主矢不变,主矩随点变(差 R′×d);只有 R′=0 时主矩才与点无关。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>大坝上的水压力是一大片分布力——求它对坝体的总作用,就是本课的<strong>力系简化</strong>(求主矢与对坝趾的矩);
+       流体力学里的"动水总压力"计算,公式骨架完全相同。更深层:N-S 方程 = 流体微元上的
+       "任意力系平衡"写成动力学形式,ρ·a 项就是"不平衡的那部分力"。这门课的平衡,是它的静力学特例。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"平面任意力系平衡的独立方程个数是?",
+     "opts":["3 个","2 个","6 个"],
+     "answer":0,
+     "why":"三个独立方程(三种等价形式),恰好解 3 个未知量;多写的方程会被已有方程线性组合。"},
+    {"q":"主矢与主矩哪个与简化中心位置有关?",
+     "opts":["主矢无关,主矩有关","都有关","都无关"],
+     "answer":0,
+     "why":"主矢是力的矢量和与点无关;主矩是各力对点的矩之和,换简化中心差 R′×d 修正项。"},
+    {"q":"物系平衡问题中“先整体”的最大好处是?",
+     "opts":["整体方程中不出现内力,常可先解出外约束力","方程更多","可以不用画受力图"],
+     "answer":0,
+     "why":"构件间作用力在整体图上是内力(成对出现自动抵消),未知量更少,往往一步解出外约束。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>简化</td><td>主矢 ΣF(与点无关)+ 主矩 ΣMO(与点有关);四种结果</td></tr>
+    <tr><td>平衡方程</td><td>基本式 / 二矩式 / 三矩式;矩心选未知力交点</td></tr>
+    <tr><td>物系平衡</td><td>数未知量判静定 → 先整体后拆开 → 反作用成对画</td></tr>
+    <tr><td>固定端</td><td>Fx、Fy、M 共 3 个未知量,恰被 3 方程解出</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)第三章"平面任意力系";谢传锋《静力学》例题精选。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0002-concurrent-couple.html">← 第 2 课</a>
+    <a href="../lessons/0004-friction.html">第 4 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 物系平衡卡住非常正常,把你的受力图描述给我,我们一起找哪一步断了。</div>
+</main>
+</body>
+</html>

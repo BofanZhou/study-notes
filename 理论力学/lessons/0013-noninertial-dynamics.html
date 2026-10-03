@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 13 课 · 非惯性系中的质点动力学</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 13 课 / 专题篇</p>
+  <h1>非惯性系中的质点动力学 <span class="term-en">Dynamics in Non-inertial Frames</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 写出平移与转动非惯性系的动力学方程(含全部惯性力项);
+       <strong>②</strong> 处理"相对平衡"问题(旋转液面!);
+       <strong>③</strong> 解释超重失重、落体东偏、傅科摆。</p>
+  </div>
+
+  <h2>一、牛顿定律的"户口":惯性系与非惯性系</h2>
+  <p>牛顿第二定律只在<strong>惯性系</strong>(无加速度的参考系,近似取地面)成立。
+     在加速/转动的<strong>非惯性系</strong>里直接写 ma′=ΣF 会算错——修正方法:
+     <strong>补上惯性力项,把"账"记平衡</strong>(第 12 课惯性力思想的系统化)。</p>
+
+  <h2>二、两种非惯性系的方程</h2>
+  <table class="ref">
+    <tr><th>动系类型</th><th>相对运动动力学方程</th><th>惯性力项</th></tr>
+    <tr><td>平移(加速度 a<sub>e</sub>)</td><td>ma<sub>r</sub> = ΣF + F<sub>Ie</sub></td><td><strong>F<sub>Ie</sub> = −ma<sub>e</sub></strong>(牵连惯性力)</td></tr>
+    <tr><td>转动(角速度 ω)</td><td>ma<sub>r</sub> = ΣF + F<sub>Ie</sub> + F<sub>IC</sub></td><td>牵连项含<strong>离心惯性力 −mω×(ω×r)</strong>(沿径向向外);
+        <strong>科氏惯性力 F<sub>IC</sub> = −2mω×v<sub>r</sub></strong></td></tr>
+  </table>
+  <p>记忆抓手:车急刹你前倾(F<sub>Ie</sub> 与 a<sub>e</sub> 反向);北半球河流右岸冲刷重(F<sub>IC</sub>)。
+     注意离心惯性力"离轴向外",与向心加速度方向相反——它正是"被甩出去"感觉的账面解释。</p>
+
+  <h2>三、相对平衡:旋转的水桶(流体力学名场面)</h2>
+  <p>液体随容器以 ω 匀速旋转、相对静止(v<sub>r</sub>=0, a<sub>r</sub>=0)→ 相对平衡方程
+     ΣF + F<sub>Ie</sub> = 0。对液面上一质元:重力 + 离心惯性力 + 压差力平衡 →
+     自由液面满足 dz/dr = ω²r/g,积分得</p>
+  <blockquote>
+    <strong>z = ω²r²/(2g)</strong> —— 旋转液面是<strong>抛物面</strong>!
+    这就是旋转水桶凹面、液体静压分布与离心铸造的力学原理。
+  </blockquote>
+
+  <h2>四、地球这个"慢速非惯性系"</h2>
+  <table class="ref">
+    <tr><th>现象</th><th>解释</th></tr>
+    <tr><td>重力随纬度变</td><td>视重 = 引力 − 离心惯性力(赤道离心最大,视重最轻)</td></tr>
+    <tr><td>落体东偏</td><td>下落中 v<sub>r</sub> 增大,科氏力水平分量指向东</td></tr>
+    <tr><td>傅科摆</td><td>摆面相对地球缓慢旋转(科氏力持续右偏),直接"看见"地球自转</td></tr>
+    <tr><td>台风逆时针(北半球)</td><td>科氏力使辐合气流右偏 → 集体逆时针旋转</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"离心力是真实的向外拉力"</strong>——离心惯性力只在非惯性系记账中出现;
+       惯性系里看,没有力拉你向外,是约束力不足以提供向心力。<br>
+       <strong>"相对平衡=静止,可以不用动力学"</strong>——相对平衡是非惯性系里的"平衡",
+       惯性力一项都不能少(旋转液面题丢了离心项就全错)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p><strong>这就是旋转 CFD 的动量方程</strong>:泵、风机、涡轮的数值模拟常用旋转参考系(MRF/滑移网格),
+       方程里多出的 −ρΩ×(Ω×r)(离心)与 −2ρΩ×v(科氏)两项,与本课公式逐字对应。
+       旋转液面的抛物面结论,还是离心铸造与旋转涂膜工艺的设计公式。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"在以加速度 a 匀加速平移的车厢内,牛顿第二定律的修正写法是?",
+     "opts":["ma_r=ΣF−ma_e","ma_r=ΣF","ma_r=ΣF−2mω×v_r"],
+     "answer":0,
+     "why":"平移动系只补牵连惯性力 −ma_e;科氏项只存在于转动动系中。"},
+    {"q":"绕竖直轴匀速旋转的液体,自由液面的形状是?",
+     "opts":["抛物面 z=ω²r²/2g","圆锥面","球面"],
+     "answer":0,
+     "why":"相对平衡:重力+离心惯性力+压差力平衡,积分 dz/dr=ω²r/g 得抛物面。"},
+    {"q":"北半球沿南北方向流动的河流,科氏惯性力使水流偏向?",
+     "opts":["右侧(东岸冲刷更重)","左侧","不偏"],
+     "answer":0,
+     "why":"Ω 指向北极,北半球水平运动物体的科氏力指向运动方向右侧——右岸冲刷重。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>平移动系</td><td>ma_r=ΣF−ma_e;超重失重据此解释</td></tr>
+    <tr><td>转移动系</td><td>再加离心(−mω×(ω×r))与科氏(−2mω×v_r)两项</td></tr>
+    <tr><td>相对平衡</td><td>ΣF+F_Ie=0;旋转液面抛物面 z=ω²r²/2g</td></tr>
+    <tr><td>地球效应</td><td>视重随纬度、落体东偏、傅科摆、台风转向</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)非惯性系中的质点动力学章;傅科摆视频可搜"Foucault pendulum"。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0012-dalembert-virtual-work.html">← 第 12 课</a>
+    <a href="../lessons/0014-collision.html">第 14 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC13%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

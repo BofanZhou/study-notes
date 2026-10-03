@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 5 课 · 不确定性分析:盈亏平衡与敏感性</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/sensitivity-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">工程经济学 · 第 5 课 / 结论稳不稳,才算真算过</p>
+  <h1>不确定性分析 <span class="term-en">Uncertainty &amp; Risk Analysis</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 说清为什么要做不确定性分析;
+       <strong>②</strong> 手算线性盈亏平衡点,并用「生产能力利用率」判断抗风险能力;
+       <strong>③</strong> 做单因素敏感性分析:算敏感度系数、找临界点;
+       <strong>④</strong> 用期望值法处理概率性风险。</p>
+  </div>
+
+  <h2>一、NPV 算完了,然后呢?</h2>
+  <p>前四课的每一个数——投资额、年净收益、寿命、折现率——都是<strong>预测值</strong>。
+     节能改造「每年省 20 万」的电费节省,取决于未来十年的电价、运行小时数、负荷率,
+     没有一个你能保证。所以负责任的经济评价必须回答第二个问题:
+     <strong>当这些预测失准时,结论还站得住吗?</strong>
+     这就是不确定性分析(<span class="term-en">uncertainty analysis</span>)的使命:
+     盈亏平衡看「最少要做多少才不亏」,敏感性看「哪个参数最危险」,概率分析看「平均而言值不值」。</p>
+
+  <h2>二、盈亏平衡分析:保本线在哪?</h2>
+  <p>在线性假设下,年销售收入 R = p·Q(单价 × 产量),年总成本 C = F + v·Q
+     (固定成本 + 变动成本 × 产量)。令利润为零,解出<strong>盈亏平衡点</strong>
+     (<span class="term-en">break-even point, BEP</span>):</p>
+  <div class="formula">Q* = F / (p − v)　　BEP(生产能力利用率) = Q* / Q<sub>d</sub></div>
+  <p>其中 Q<sub>d</sub> 是设计产能。<strong>BEP 越低越抗风险</strong>:销售额只需做到设计能力的三成就能保本,
+     远好于做到九成才保本。注意两个易混量:「p − v」是<strong>单位边际贡献</strong>
+     (<span class="term-en">unit contribution margin</span>)——每多卖一件先拿回来多少钱摊固定成本。</p>
+
+  <h2>三、敏感性分析:哪个参数最危险?</h2>
+  <p>做法:选定评价指标(通常 NPV),让一个因素单独变动 ±10%、±20%…,
+     其他因素不动,画出 NPV 的响应曲线。三件产出:</p>
+  <ul>
+    <li><strong>敏感度系数</strong>(<span class="term-en">sensitivity coefficient</span>):
+        S = (ΔNPV/NPV) / (ΔX/X)——因素动 1%,NPV 动多少个百分点;|S| 越大越敏感;</li>
+    <li><strong>敏感性排序</strong>:直线越陡的因素越该重点管控、重点核实;</li>
+    <li><strong>临界点</strong>(<span class="term-en">switching value</span>):NPV 恰好归零时该因素的变动幅度
+        ——「翻车安全距离」。</li>
+  </ul>
+  <p>基准方案:投资 1000 万,每年末净收益 250 万,寿命 10 年,i<sub>c</sub> = 8%。
+     NPV₀ = −1000 + 250 × 6.7101 = <strong>+677.5 万</strong>。四个因素各自 ±40% 扰动:</p>
+
+  <div class="demo" data-sensitivity-demo></div>
+
+  <p>读图:年净收益的直线最陡(S ≈ 2.5,收益每变 1%,NPV 变约 2.5%)——因为收益乘的是
+     6.7101 倍的 (P/A) 因子,<strong>时间价值会放大收益端的误差</strong>;
+     寿命次之;折现率最不敏感。年净收益的临界点在约 −40%:即使每年收益缩水四成,
+     项目仍不翻车——这是一个安全边际较大的方案。</p>
+
+  <h2>四、概率分析:给风险称重</h2>
+  <p>敏感性分析回答「谁危险」,但不回答「谁多大概率出事」。概率分析给每种情景配概率,
+     算<strong>期望值</strong>(<span class="term-en">expected value</span>):</p>
+  <div class="formula">E(NPV) = Σ P<sub>i</sub> · NPV<sub>i</sub>　　决策:E(NPV) ≥ 0 且波动可承受</div>
+  <p>例:乐观(概率 0.3)NPV = +900 万、基准(0.5)+677.5 万、悲观(0.2)−350 万,
+     则 E(NPV) = 0.3×900 + 0.5×677.5 + 0.2×(−350) = <strong>+503.8 万</strong>,
+     且悲观情景亏损在可承受范围 → 可投,同时针对「悲观情景」的驱动因素做预案。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「盈亏平衡点越高越安全」</strong>✗ 恰恰相反,BEP 越低,离亏损越远。<br>
+       <strong>②「敏感性分析 = 风险分析」</strong>✗ 它不回答概率;「敏感」≠「危险」,还得看这个因素实际波动的可能幅度。<br>
+       <strong>③「各因素独立同时最坏叠加」</strong>✗ 单因素法只动一个;因素间往往相关(电价↑常与运行小时↑无关,但与通胀相关)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你的专业</div>
+    <p>节能改造的年净收益 = 节能率 × 装机功率 × 运行小时 × 电价(再乘负荷率折扣)。
+       敏感性分析会告诉你:这四个数里,<strong>运行小时 × 电价</strong>通常是压倒性最敏感的组合
+       (它们直接构成「年净收益」)——所以改造前要拿着逐时能耗监测数据核实运行工况,
+       而不是拿设计工况想当然。这也解释了为什么 EMC 合同要写「节能量保证条款」:
+       合同在给最敏感的变量上保险。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"线性盈亏平衡点 Q* = ?","opts":["F/(p−v)","(p−v)/F","F·v/p","pQ − vQ"],"answer":0,"why":"令 pQ = F + vQ,Q* = F/(p−v);p−v 是单位边际贡献。"},
+    {"q":"关于 BEP(生产能力利用率),正确的说法是?","opts":["越高越安全","越低越抗风险","恒等于 1","与固定成本无关"],"answer":1,"why":"BEP 低 = 销售额远低于设计能力也能保本,安全边际大。"},
+    {"q":"敏感度系数 S = 2.5 的含义是?","opts":["该因素一定会变 2.5%","该因素每变动 1%,NPV 变动约 2.5%","NPV 是该因素的 2.5 倍","项目有 2.5 成的概率失败"],"answer":1,"why":"S 度量响应的斜率,不含概率信息;「会不会变、变多少」是另一回事。"},
+    {"q":"临界点(switching value)指的是?","opts":["NPV 最大的因素取值","NPV 归零时该因素的变动幅度","投资回收的时刻","IC 最大允许值"],"answer":1,"why":"临界点 = 翻车线:该因素向不利方向越过这条线,NPV 变负;距离越远安全边际越大。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>盈亏平衡点</td><td>break-even point (BEP)</td><td>Q* = F/(p−v);BEP 越低越抗风险</td></tr>
+    <tr><td>单位边际贡献</td><td>unit contribution margin</td><td>p − v;每件产品摊固定成本的能力</td></tr>
+    <tr><td>敏感性分析</td><td>sensitivity analysis</td><td>单因素扰动看 NPV 响应;产出排序与临界点</td></tr>
+    <tr><td>敏感度系数</td><td>sensitivity coefficient</td><td>S = (ΔNPV/NPV)/(ΔX/X);斜率</td></tr>
+    <tr><td>临界点</td><td>switching value</td><td>NPV=0 的因素变动幅度;安全距离</td></tr>
+    <tr><td>期望值法</td><td>expected value method</td><td>E(NPV) = Σ Pᵢ·NPVᵢ;给风险称重</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:刘晓君《工程经济学》第 7 章「不确定性分析与风险分析」——BEP/敏感性/概率分析的完整例题。</li>
+    <li>《建设项目经济评价方法与参数》(第三版)关于敏感性分析与临界点的规范表格样式。</li>
+    <li>注册考试对照:盈亏平衡计算与敏感性排序是「工程经济」模块的高频小题。</li>
+    <li><a href="../reference/glossary.html">术语表</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0004-alternative-comparison.html">← 第 4 课:方案比选</a>
+    <a href="../lessons/0006-depreciation-replacement.html">第 6 课:折旧与设备更新 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B7%A5%E7%A8%8B%E7%BB%8F%E6%B5%8E%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。「临界点怎么用插值算出来」这类实操问题随时问——考试就考这个算。</div>
+</main>
+</body>
+</html>

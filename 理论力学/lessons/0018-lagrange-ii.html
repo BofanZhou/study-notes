@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 18 课 · 分析力学 II:守恒律与哈密顿视角</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 18 课 / 专题篇 · 课程终章</p>
+  <h1>分析力学 II:守恒律与哈密顿视角 <span class="term-en">Conservation &amp; Hamiltonian View</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用拉氏方程的"积分类"解题(能量积分、广义动量守恒);
+       <strong>②</strong> 解一道非平凡的约束系统题(环上小珠);
+       <strong>③</strong> 说出哈密顿正则方程与相空间的世界观,完成全课程收官。</p>
+  </div>
+
+  <h2>一、从方程里"白捡"的守恒律</h2>
+  <table class="ref">
+    <tr><th>结构特征</th><th>守恒量</th><th>名字</th></tr>
+    <tr><td>L 不含某坐标 q<sub>j</sub>(循环坐标)</td><td>∂L/∂q̇<sub>j</sub> 守恒</td><td><strong>广义动量守恒</strong>(动量/角动量的推广)</td></tr>
+    <tr><td>L 不显含时间 t(保守系)</td><td>Σq̇<sub>j</sub>·∂L/∂q̇<sub>j</sub> − L = 常数</td><td><strong>能量积分</strong>(= T+V)</td></tr>
+  </table>
+  <p>对称性给守恒律:平移对称→动量、旋转对称→角动量、时间对称→能量。
+   这条"诺特定理"的思想,是分析力学送出的最深礼物——守恒律不再是巧合,而是对称性的账本。</p>
+
+  <h2>二、示范题:圆环上的小珠(约束会转,系统仍可解)</h2>
+  <p>半径 R 的圆环绕竖直直径以匀角速度 ω 旋转,珠(质量 m)套在环上滑动。
+   自由度 1,取珠的位置角 θ(自最低点):</p>
+  <table class="ref">
+    <tr><th>步骤</th><th>内容</th></tr>
+    <tr><td>T</td><td>½mR²·θ̇² + ½m(ωR sinθ)²(随环转动的牵连项!)</td></tr>
+    <tr><td>V</td><td>−mgR·cosθ</td></tr>
+    <tr><td>代入</td><td>Rθ̈ = sinθ(g − ω²R·cosθ)·… → 得运动方程与平衡位置 cosθ₀ = g/(ω²R)</td></tr>
+  </table>
+  <p>转速够快时,珠离开最低点爬到<strong>新的平衡角</strong>上——离心"重力场"重塑了平衡景观。
+   注意:T 里出现了不含 θ̇ 的项,说明**这不是保守系**(外力矩持续做功维持 ω),
+   能量积分不可用——先用守恒律前,先查对称性。</p>
+
+  <h2>三、哈密顿视角:换一套"世界观"</h2>
+  <blockquote>
+    定义广义动量 p<sub>j</sub>=∂L/∂q̇<sub>j</sub>,做勒让德变换得<strong>哈密顿函数 H(q,p)=Σp·q̇−L</strong>
+    (保守系 H=T+V),运动方程变成<strong>2k 条一阶方程</strong>:q̇<sub>j</sub>=∂H/∂p<sub>j</sub>,ṗ<sub>j</sub>=−∂H/∂q<sub>j</sub>。
+  </blockquote>
+  <p>拉氏用"位置+速度",哈密顿用"位置+动量"——<strong>相空间</strong>(q,p)里,运动是流,
+   守恒律是流的不变量。量子力学的薛定谔方程、统计力学、现代控制论,都站在相空间语言上;
+   你已拿到入场券。</p>
+
+  <h2>四、全课程收官:三种语言,一个力学</h2>
+  <table class="ref">
+    <tr><th>语言</th><th>主角</th><th>强项</th><th>本课程位置</th></tr>
+    <tr><td>牛顿-欧拉</td><td>力</td><td>受力细节、约束力</td><td>第 9~11 课</td></tr>
+    <tr><td>拉格朗日</td><td>L=T−V(标量)</td><td>复杂约束、自动消约束力</td><td>第 12、17、18 课</td></tr>
+    <tr><td>哈密顿</td><td>H(q,p) 相空间</td><td>守恒律、通往现代物理</td><td>本课(一瞥)</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"能量积分随便用"</strong>——先确认 L 不显含 t;环转动的例子里外力矩做功,能量不守恒。<br>
+       <strong>"循环坐标可遇不可求"</strong>——选坐标时就该奔着对称性去(绕轴系统选角度,常出循环坐标)。<br>
+       <strong>"哈密顿方程只是拉氏方程的改写"</strong>——结构变了:一阶系统+相空间,是全新工具箱(辛算法、混沌)的地基。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学与你的下一站(全课终寄语)</div>
+    <p>分析力学的"状态+流+守恒"世界观,正是现代流体力学与计算科学的骨架:CFD 里的
+       <strong>相空间重构、降阶模型、辛几何算法</strong>都源于此;湍流统计理论用守恒律记账;
+       有限元用变分原理列方程。18 课下来,你手握三条互相印证的语言(力、能量、变分),
+       从受力图走到了相空间——理论力学毕业,而力学,才刚开场。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"L 不显含坐标 q_j(循环坐标)意味着什么?",
+     "opts":["广义动量 ∂L/∂q̇_j 守恒","能量守恒","该坐标不存在"],
+     "answer":0,
+     "why":"拉氏方程退化为 d/dt(∂L/∂q̇)=0 → 广义动量守恒;对应平移对称(动量)或旋转对称(角动量)。"},
+    {"q":"使用能量积分(哈密顿量守恒)前必须检查?",
+     "opts":["L 不显含时间 t","系统必须静止","必须只有一个自由度"],
+     "answer":0,
+     "why":"时间平移对称才给能量守恒;环上转珠(维持 ω 的外力矩做功)就是反例。"},
+    {"q":"哈密顿正则方程的状态变量是?",
+     "opts":["广义坐标 q 与广义动量 p(相空间)","只有位置","力与加速度"],
+     "answer":0,
+     "why":"2k 条一阶方程在 (q,p) 相空间中流动;守恒律成为相空间几何的不变量——现代物理的通用语言。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>循环坐标</td><td>L 不含 q → 广义动量守恒;对称性给守恒律(诺特)</td></tr>
+    <tr><td>能量积分</td><td>L 不显含 t → T+V 守恒;用前先查对称性</td></tr>
+    <tr><td>哈密顿</td><td>H(q,p)=Σp·q̇−L;q̇=∂H/∂p、ṗ=−∂H/∂q;相空间世界观</td></tr>
+    <tr><td>毕业</td><td>三语言一力学;过 M5 验收即完成全部 18 课</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)拉格朗日方程章末;进阶:Landau《力学》(薄而深,直接站在拉氏视角重讲全力学)。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0017-lagrange-i.html">← 第 17 课</a>
+    <a href="../reference/glossary.html">📖 术语表 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC18%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 18 课全部完结!过 M5 验收即毕业。任何回顾性疑问,随时回来问我。</div>
+</main>
+</body>
+</html>

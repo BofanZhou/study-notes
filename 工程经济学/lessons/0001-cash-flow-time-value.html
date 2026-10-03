@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 1 课 · 现金流量与资金时间价值</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/compound-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">工程经济学 · 第 1 课 / 用经济判据为技术方案说话</p>
+  <h1>现金流量与资金时间价值 <span class="term-en">Cash Flow &amp; Time Value of Money</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:<strong>①</strong> 用一句话说清工程经济学在干什么;
+       <strong>②</strong> 画出方案的现金流量图(大小、方向、时点三要素);
+       <strong>③</strong> 解释资金为什么有时间价值,并用复利公式计算终值;
+       <strong>④</strong> 用 72 法则心算资金翻倍时间;
+       <strong>⑤</strong> 说清为什么工程经济一律按复利计算。</p>
+  </div>
+
+  <h2>一、工程经济学是干什么的?</h2>
+  <p>你以后一定会遇到这样的选择:两台冷水机组,A 便宜但费电,B 贵 200 万但每年省 60 万电费。
+     选哪个?只比「价格标签」是拍脑袋,<strong>工程经济学(engineering economics)</strong>给的是硬判据:
+     <strong>把每个方案一生(全寿命)中所有进出该方案的钱,换到同一个时点,再比大小</strong>。
+     技术方案先在图纸上比性能,再在现金流量表里比经济性——两条腿都硬,方案才立得住。</p>
+  <p>整个学科的地基只有一条原理:<strong>资金的时间价值</strong>
+     (<span class="term-en">time value of money</span>)。其余全部内容——等值系数、NPV、IRR——都是从它推出来的。</p>
+
+  <h2>二、现金流量:先学会「记账」</h2>
+  <p>评价一个方案,先把它一生中真实发生的钱记下来,这叫<strong>现金流量</strong>
+     (<span class="term-en">cash flow</span>):</p>
+  <ul>
+    <li><strong>现金流入</strong>(<span class="term-en">cash inflow, CI</span>):收入、残值回收、补贴——记为「+」</li>
+    <li><strong>现金流出</strong>(<span class="term-en">cash outflow, CO</span>):投资、运行费、税、维护——记为「−」</li>
+    <li><strong>净现金流量</strong>(<span class="term-en">net cash flow, NCF</span>):NCF = CI − CO</li>
+  </ul>
+  <p>记账的工具是<strong>现金流量图</strong>(<span class="term-en">cash flow diagram</span>):
+     横轴是时间(0 点 = 「现在」),箭头向上画流入、向下画流出,箭头长度示意金额大小。
+     注意三要素缺一不可:<strong>大小、方向、时点</strong>。
+     同样 100 万,「今天给你」和「五年后给你」完全不是一回事——这正是下一节的主题。</p>
+  <blockquote>画现金流量图是本章考试的基本功,也是后面所有计算的第一步。
+     点画错一个时点,整道题全错——先养成习惯:动笔前先标 0、1、2、…、n。</blockquote>
+
+  <h2>三、为什么今天的一元比明天的一元值钱?</h2>
+  <p>把 100 万元锁进抽屉,一年后它还是 100 万——钱自己不会生钱。但如果你把它投入生产
+     (比如买设备开冷站),一年后它变成了 108 万。<strong>资金的时间价值来自资金进入生产与经营
+     后的增值</strong>,通常拆成三个来源理解:</p>
+  <ul>
+    <li><strong>机会成本</strong>(<span class="term-en">opportunity cost</span>):这笔钱不投给你的方案,本可以去别处赚收益——所以用你的钱是有代价的;</li>
+    <li><strong>通货膨胀</strong>(<span class="term-en">inflation</span>):同样的票面金额,未来能买到的东西可能变少;</li>
+    <li><strong>风险</strong>(<span class="term-en">risk</span>):未来的钱要打折才敢和今天的钱比——拿不到手的风险必须补偿。</li>
+  </ul>
+  <p>资金时间价值的市场表现就是<strong>利息</strong>(<span class="term-en">interest</span>),
+     衡量它的比率是<strong>利率</strong>(<span class="term-en">interest rate</span>, 记 <span class="var">i</span>)。
+     工程经济里,<span class="var">i</span> 更常用的名字是<strong>折现率</strong>
+     (<span class="term-en">discount rate</span>)或基准收益率 <span class="var">i<sub>c</sub></span>
+     ——它是「这个项目至少要赚回的收益率门槛」,不(只)是银行利率。</p>
+
+  <h3>单利 vs 复利:一字之差,天壤之别</h3>
+  <p><strong>单利</strong>(<span class="term-en">simple interest</span>):每期利息只按本金算,利息不再生息:</p>
+  <div class="formula">I<sub>n</sub> = P · n · i　　F = P(1 + n·i)</div>
+  <p><strong>复利</strong>(<span class="term-en">compound interest</span>):利息滚入本金,「利滚利」:</p>
+  <div class="formula">F = P(1 + i)<sup>n</sup></div>
+  <p>其中 <span class="var">P</span> 是本金(现值,<span class="term-en">present value</span>),
+     <span class="var">F</span> 是 <span class="var">n</span> 期后的终值(<span class="term-en">future value</span>)。
+     拖动下面的滑块,看看「利滚利」是怎么把直线甩成指数曲线的:</p>
+
+  <div class="demo" data-compound-demo></div>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「不同时点的钱可以直接相加」</strong>✗ 先换到同一时点(等值换算,第 2 课)再加减。<br>
+       <strong>②「工程计算用单利就行」</strong>✗ 工程经济与银行按揭一律按复利;单利只在个别短融场景出现。<br>
+       <strong>③「利率 = 资金时间价值」</strong>✗ 折现率里还含风险与通胀补偿;项目评价取基准收益率,不是存贷款利率。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你的专业</div>
+    <p>暖通工程师的钱分两类:<strong>一次性的</strong>(设备购置、安装)和<strong>每年都发生的</strong>
+       (电费、维护、人工)。方案 A「便宜费电」与方案 B「贵但省电」的账,本质是
+       「今天的流出」对赌「未来每年的流入」——不同时点的钱无法直接比大小,
+       必须先经过本课的复利换算。这个「换算」的系统化工具,就是第 2 课的六个等值系数。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"工程经济学比较技术方案的基本思路是?","opts":["直接比较各方案的初投资","把各方案全寿命现金流量换算到同一时点再比较","比较各方案的设备功率与效率","按设备使用年限长短取舍"],"answer":1,"why":"核心动作是「全寿命现金流量 + 换到同一时点」;只比初投资或只看性能都忽略了时间维度。"},
+    {"q":"现金流量图的三要素是?","opts":["收入、成本、利润","大小、方向、时点","投资、运行费、残值","本金、利率、期限"],"answer":1,"why":"每笔现金流都要回答:多少钱(大小)、流入还是流出(方向)、发生在第几年(时点)。"},
+    {"q":"本金 10 万、年利率 8%、复利计息,2 年后终值是?","opts":["11.60 万元","11.66 万元","11.80 万元","12.00 万元"],"answer":1,"why":"F = P(1+i)² = 10×1.08² = 11.664 万;11.6 万是单利两年(P(1+2i)=11.6),注意区分。"},
+    {"q":"按 72 法则,年利率 9% 时资金约多少年翻一倍?","opts":["约 6 年","约 8 年","约 9 年","约 12 年"],"answer":1,"why":"72/9 = 8 年。72 法则是复利的粗略心算:精确值 (1.09)^8≈1.99 倍,足够接近。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>工程经济学</td><td>engineering economics</td><td>把技术方案一生的现金流量换到同一时点,用经济判据比选</td></tr>
+    <tr><td>现金流量</td><td>cash flow</td><td>NCF = CI − CO;大小、方向、时点三要素</td></tr>
+    <tr><td>现金流量图</td><td>cash flow diagram</td><td>横轴时间、上入下出的记账图;动笔前先标 0…n</td></tr>
+    <tr><td>资金时间价值</td><td>time value of money</td><td>来源:机会成本 + 通胀 + 风险;市场表现是利息</td></tr>
+    <tr><td>单利</td><td>simple interest</td><td>F = P(1+n·i),直线;利息不再生息</td></tr>
+    <tr><td>复利</td><td>compound interest</td><td>F = P(1+i)^n,指数曲线;工程经济一律复利</td></tr>
+    <tr><td>72 法则</td><td>rule of 72</td><td>翻倍年数 ≈ 72/i(%),复利心算神器</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:刘晓君《工程经济学》第 2 章「现金流量与资金时间价值」——与本课一一对应。</li>
+    <li>《建设项目经济评价方法与参数》(第三版)第 2–3 页对折现率与计算期的规范表述——评「官方口径」。</li>
+    <li><a href="../reference/eng-econ-roadmap.html">学习路线图</a>:全课主线、节奏建议、自检清单。</li>
+    <li>生词随时查<a href="../reference/glossary.html">术语表</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 / 共 7 课</span>
+    <a href="../lessons/0002-equivalence-factors.html">第 2 课:等值计算·六个标准系数 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B7%A5%E7%A8%8B%E7%BB%8F%E6%B5%8E%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。任何不清楚的地方——哪怕只是「为什么折现率不等于银行利率」——都直接在对话里问我。追问是最好的学习方式。</div>
+</main>
+</body>
+</html>

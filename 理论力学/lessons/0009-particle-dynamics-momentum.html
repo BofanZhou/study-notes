@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 9 课 · 质点动力学与动量定理</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 9 课 / 动力学开篇</p>
+  <h1>质点动力学与动量定理 <span class="term-en">Dynamics &amp; Momentum</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 解质点动力学两类问题(知力求运动 / 知运动求力);
+       <strong>②</strong> 用质点系动量定理与质心运动定理做题;
+       <strong>③</strong> 判断动量守恒的条件。</p>
+  </div>
+
+  <h2>一、质点动力学基本方程:两类问题</h2>
+  <blockquote>
+    <strong>ma = ΣF</strong> —— 牛顿第二定律,动力学的一切起点。
+    直角坐标分量:ma<sub>x</sub>=ΣF<sub>x</sub>;自然法:ma<sub>τ</sub>=ΣF<sub>τ</sub>,ma<sub>n</sub>=ΣF<sub>n</sub>。
+  </blockquote>
+  <table class="ref">
+    <tr><th>类型</th><th>给什么</th><th>求什么</th><th>数学动作</th></tr>
+    <tr><td>第一类</td><td>运动规律 r(t)</td><td>力</td><td>求导(微分)——简单</td></tr>
+    <tr><td>第二类</td><td>力 F(t, r, v)</td><td>运动规律</td><td>解二阶常微分方程 + 初条件(积分)——核心难点</td></tr>
+  </table>
+  <p>第二类常见积分场景:力是常数(重力)、是 t 的函数(直接积分)、是速度的函数(阻力 −kv,分离变量)、
+     是位置的函数(用 v·dv/ds = a 换元)。</p>
+
+  <h2>二、质点系动量定理:把"整体"管起来</h2>
+  <blockquote>
+    质点系动量 <strong>P = Σm<sub>i</sub>v<sub>i</sub> = M·v<sub>C</sub></strong>(M 总质量,v<sub>C</sub> 质心速度)。<br>
+    <strong>动量定理:dP/dt = ΣF<sub>外</sub></strong> —— 内力(构件间作用)成对抵消,<strong>只有外力管动量</strong>。
+  </blockquote>
+  <p>两个推论(高频考点):</p>
+  <table class="ref">
+    <tr><th>定理</th><th>内容</th><th>典型应用</th></tr>
+    <tr><td>质心运动定理</td><td>M·a<sub>C</sub> = ΣF<sub>外</sub>——质心像一个"装了全部质量的质点"</td><td>发动机震动机身、人船问题</td></tr>
+    <tr><td>动量守恒</td><td>ΣF<sub>外</sub>=0(或某方向为零)→ P 守恒(该方向守恒)</td><td>碰撞、反冲、人船互退</td></tr>
+  </table>
+  <p><strong>人船问题</strong>:船 + 人静止于静水(水平无外力)→ 人走船退,M·Δx<sub>C</sub>=0
+     → m·Δx<sub>人</sub> + M<sub>船</sub>·Δx<sub>船</sub> = 0,相对位移分配与质量成反比。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"内力也能改变系统动量"</strong>——不能,内力成对抵消;但内力能改变<strong>单个质点</strong>的动量。<br>
+       <strong>"动量守恒就是速度守恒"</strong>——守恒的是 Σmv;各质点速度可以互相变(碰撞交换)。<br>
+       <strong>"第二类问题直接套公式"</strong>——先按力的依赖对象(t/r/v)归类再选积分法,
+       顺序错了多半积不出来。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学控制体的<strong>动量方程</strong> ΣF = ∂/∂t∫ρv dV + ∫ρv(v·n)dA,就是本课动量定理
+       "流出减流入 + 存量变化"的流体版——CFD 有限体积法求解的正是它。你在流体力学第 3 课
+       静力学里见过"微元受力平衡",现在动力学版补齐:压差力 + 重力 + 黏性力 = 动量变化率。
+       两门课在这里正式会师。</p>
+  </div>
+
+  <h2>三、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"质点系动量定理中,决定系统动量变化的是?",
+     "opts":["只有外力","外力与内力之和","内力"],
+     "answer":0,
+     "why":"内力成对出现、大小相等方向相反,对系统总动量的贡献恒为零——这是「先整体」策略的动力学版。"},
+    {"q":"人从静止的船上跳向岸(水阻不计),船与人?",
+     "opts":["反向退开,动量大小相等方向相反","一起向前","船不动"],
+     "answer":0,
+     "why":"水平方向外力为零 → 动量守恒:m人v人=M船v船(反向);人与船速度反比于质量。"},
+    {"q":"阻力与速度成正比(F=−kv)的第二类问题,适合的数学动作是?",
+     "opts":["分离变量积分","直接求导","查表套匀变速公式"],
+     "answer":0,
+     "why":"m·dv/dt=−kv 是可分离变量的 ODE:∫dv/v=−(k/m)∫dt → 指数衰减解。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>基本方程</td><td>ma=ΣF;一类问题求导,二类问题解 ODE(按 F 依赖对象选积分法)</td></tr>
+    <tr><td>动量定理</td><td>dP/dt=ΣF外,P=MvC;内力不出场</td></tr>
+    <tr><td>质心运动定理</td><td>MaC=ΣF外;质心当"集装质点"</td></tr>
+    <tr><td>守恒条件</td><td>某方向外力为零 → 该方向动量守恒(人船、反冲)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)质点动力学基本方程 + 动量定理章;MIT OCW 8.01SC Momentum 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0008-planar-motion.html">← 第 8 课</a>
+    <a href="../lessons/0010-angular-momentum.html">第 10 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC9%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 动力学开篇,有疑问随时问。</div>
+</main>
+</body>
+</html>

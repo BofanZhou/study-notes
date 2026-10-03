@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 15 课 · 刚体平面运动动力学</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 15 课 / 专题篇</p>
+  <h1>刚体平面运动动力学 <span class="term-en">Planar Rigid Body Dynamics</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用平面运动微分方程组解刚体动力学;
+       <strong>②</strong> 一口气拿下"纯滚动"全题型;
+       <strong>③</strong> 用动能定理与微分方程组交叉验证。</p>
+  </div>
+
+  <h2>一、平面运动微分方程组:三条方程管一个刚体</h2>
+  <blockquote>
+    <strong>m·a<sub>Cx</sub> = ΣF<sub>x</sub>　　m·a<sub>Cy</sub> = ΣF<sub>y</sub>　　J<sub>C</sub>·α = ΣM<sub>C</sub></strong><br>
+    前两条=质心运动定理(第 9 课),第三条=对<strong>质心</strong>的动量矩定理(第 10 课)。
+    三个方程解三个未知量(常为 a<sub>Cx</sub>、a<sub>Cy</sub>、α 或一个约束力)。
+  </blockquote>
+  <p>思想:平面运动=随质心平移+绕质心转动,两本账分开记、同时解。</p>
+
+  <h2>二、王牌例题:圆柱纯滚下斜面</h2>
+  <p>均质圆柱(质量 m、半径 R、J<sub>C</sub>=mR²/2)沿倾角 θ 斜面纯滚下:</p>
+  <table class="ref">
+    <tr><th>方程</th><th>内容</th></tr>
+    <tr><td>质心沿斜面</td><td>ma<sub>C</sub> = mg·sinθ − F<sub>f</sub>(摩擦向上顶)</td></tr>
+    <tr><td>绕质心转动</td><td>J<sub>C</sub>·α = F<sub>f</sub>·R</td></tr>
+    <tr><td>纯滚动条件</td><td>a<sub>C</sub> = α·R</td></tr>
+  </table>
+  <blockquote>
+    联立得 <strong>a<sub>C</sub> = g·sinθ / (1 + J<sub>C</sub>/(mR²))</strong> —— 圆盘 ⅔g·sinθ,
+    圆环 ½g·sinθ(<strong>转动惯量越大滚得越慢</strong>,与质量无关只看分布!);
+    摩擦力 F<sub>f</sub> = (mg·sinθ)/(2+1/(J/(mR²)) 项) 是静摩擦——不做功(第 11 课呼应)。
+  </blockquote>
+  <p><strong>交叉验证</strong>:用动能定理 mgh = ½mv²+½J(v/R)² 求出速度,再求导得加速度——两法一致才算真会。</p>
+
+  <h2>三、板-轮问题与"滑滚判据"</h2>
+  <p>板上拖圆柱(板加速度 A):圆柱同时被摩擦带动滚动+平移。
+     解题先<strong>假设纯滚动</strong>解出所需摩擦 F<sub>f</sub>,再验证 F<sub>f</sub> ≤ f·N:
+     满足则纯滚,不满足则出现滑动,摩擦力取 F<sub>f</sub>=f·N 重新联立。
+     "假设→解→验证"三拍,是所有带摩擦动力学问题的通用拍子。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"转动方程也能对任意点取矩"</strong>——刚体平面运动的转动方程对<strong>质心</strong>成立
+       (或对速度瞬心,但有条件);乱取矩心会丢修正项。<br>
+       <strong>"纯滚动摩擦力一定滑动方向"</strong>——静摩擦方向由方程解出,可能向前也可能向后
+       (视外力作用高度而定),别想当然。<br>
+       <strong>"质量大的圆柱滚得快"</strong>——a 只依赖 J/(mR²)(分布),与总质量无关。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>叶轮机械的"转子动力学"、水表涡轮的启停、水流推动水轮机,本质都是本课方程:
+       流体给轮的力矩 = J·α + 阻力矩——CFD 流固耦合(FSI)中"流场算力、结构算运动"的
+       结构方程一侧就是它。纯滚动的"约束解+验证"拍子,也是流固耦合迭代(算流场→算变形→再算流场)的原型。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"刚体平面运动微分方程组的第三条方程对哪个点取矩?",
+     "opts":["质心(或满足条件的瞬心)","任意点","只能对转轴"],
+     "answer":0,
+     "why":"对质心的动量矩定理 J_C·α=ΣM_C 恒成立;对任意动点需修正项,对速度瞬心需 J_C+md² 的处理且条件苛刻。"},
+    {"q":"同斜面同角度纯滚下落,先到底的是?",
+     "opts":["转动惯量与 mR² 比值小的(如实心盘)","质量大的","同时到底"],
+     "answer":0,
+     "why":"a=g·sinθ/(1+J/(mR²)),只看分布比值:盘(1/2)快于球(2/5)快于环(1)——质量大小无关。"},
+    {"q":"解板-轮拖动问题,先假设纯滚动,解出的摩擦力超过 μN,说明?",
+     "opts":["实际发生滑动,改用 F_f=μN 重新联立","题目无解","减小板加速度即可不管"],
+     "answer":0,
+     "why":"「假设→验证」是带摩擦问题的标准拍子:验证失败换滑动摩擦重解。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>方程组</td><td>maCx=ΣFx、maCy=ΣFy、JC·α=ΣMC(质心+绕质心两本账)</td></tr>
+    <tr><td>纯滚动</td><td>aC=g·sinθ/(1+J/mR²);只看分布不看总质量;静摩擦不做功</td></tr>
+    <tr><td>滑滚判据</td><td>假设纯滚→解摩擦→验证 ≤μN→失败改滑动重解</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)刚体平面运动动力学小节 + 习题 3~5 道;MIT OCW 8.01SC Rolling 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0014-collision.html">← 第 14 课</a>
+    <a href="../lessons/0016-variable-mass.html">第 16 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC15%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 1 课 · 静力学公理与受力分析</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/constraint-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 1 课 / 静力学 · 为力学体系打地基</p>
+  <h1>静力学公理与受力分析 <span class="term-en">Axioms &amp; Free-Body Diagram</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 说清五条静力学公理与其用途;
+       <strong>②</strong> 认全六种常见约束并写对约束力;
+       <strong>③</strong> 按固定四步画出规范受力图——这是全课程的识字课。</p>
+  </div>
+
+  <h2>一、从普物到理论力学:升级什么?</h2>
+  <p>普物里你算过"斜面上的木块"——一个质点、三四个力。理论力学处理的是<strong>真实的工程对象</strong>:
+     梁、架、机构,一堆构件互相约束、几十个未知力。升级的不是物理定律(仍是牛顿),
+     而是<strong>方法论</strong>:公理体系 → 约束模型 → 受力图 → 力系代数。
+     其中"画受力图"是力学世界的<strong>识字课</strong>:字都认不全,后面的文章无从谈起。</p>
+
+  <h2>二、五条静力学公理(工具箱的许可证)</h2>
+  <table class="ref">
+    <tr><th>公理</th><th>内容</th><th>用途</th></tr>
+    <tr><td>① 二力平衡公理</td><td>两力平衡 ⟺ 等值、反向、共线(同一刚体上)</td><td>识别<strong>二力杆</strong>的关键</td></tr>
+    <tr><td>② 加减平衡力系公理</td><td>加上或减去任意平衡力系,效应不变</td><td>力线平移等变换的依据</td></tr>
+    <tr><td>③ 力的平行四边形公理</td><td>两力合成遵守矢量加法</td><td>力系合成的几何法</td></tr>
+    <tr><td>④ 作用与反作用公理</td><td>作用力 = 反作用力(异体、共线、反向)</td><td>拆物系时内力变外力</td></tr>
+    <tr><td>⑤ 刚化原理</td><td>变形体平衡时,可当刚体研究其平衡</td><td>静力学可服务真实(变形)物体</td></tr>
+  </table>
+
+  <h2>三、约束与约束力:六种常见模型</h2>
+  <p>约束(<span class="term-en">constraint</span>)限制物体运动,约束力(<span class="term-en">constraint force</span>)
+     由"被限制了什么方向"决定:<strong>限制哪个方向的位移,约束力就顶在哪个方向</strong>。
+     点击下面的按钮,逐个认识六种约束:</p>
+
+  <div class="demo" data-constraint-demo></div>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"铰链约束力方向未知就随便画一个箭头"</strong>——错!必须画成<strong>两个正交分量</strong>(Fx、Fy),
+       方向可假定,数值由方程解出;直接画一个斜箭头会丢方程。<br>
+       <strong>"二力杆随便判断"</strong>——只有"两端受力 + 杆自重不计 + 平衡"才允许沿杆画;
+       自重不可忽略时就不是二力杆。</p>
+  </div>
+
+  <h2>四、受力图四步法(全课程的地基动作)</h2>
+  <table class="ref">
+    <tr><th>步骤</th><th>动作</th><th>检查点</th></tr>
+    <tr><td>① 取隔离体</td><td>把研究对象从约束中"解除"出来,单独画简图</td><td>只画这一个物体</td></tr>
+    <tr><td>② 画主动力</td><td>先画已知的荷载(重力、外力、力偶)</td><td>一个不漏</td></tr>
+    <tr><td>③ 逐个补约束力</td><td>在<strong>每处解除约束的地方</strong>,按约束类型补画约束力</td><td>解除几处约束画几处力</td></tr>
+    <tr><td>④ 检查</td><td>反作用要协调(作用反作用公理);二力杆沿杆</td><td>不添力、不漏力、不多力</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学里分析一个流体微元的平衡/运动,做的正是同一件事:
+       隔离微元 → 画<strong>质量力</strong>(重力,对应主动力)与<strong>表面力</strong>(压强与黏性应力,对应约束/接触力)
+       → 沿各方向写平衡(就是第 3 课的平衡方程)。你在这门课练出的"受力图肌肉",
+       到流体力学变成"微元受力图",一个动作,两次受益。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"固定铰支座的约束力应该画成?",
+     "opts":["水平与竖直两个正交分量","只有竖直方向一个力","沿支承面方向的力"],
+     "answer":0,
+     "why":"铰链允许转动、限制任意方向移动,约束力方向未知 → 必须画两个分量;只有活动铰(滚动支座)才是单一法向力。"},
+    {"q":"一根不计自重的直杆,两端用铰与其他构件连接且处于平衡,它是?",
+     "opts":["二力杆:两端力沿杆轴线等值反向","受弯曲的梁","约束力方向任意的构件"],
+     "answer":0,
+     "why":"二力平衡公理:只有两个力且平衡 → 必共线,而两铰点连线就是杆轴线。"},
+    {"q":"画受力图的正确顺序是?",
+     "opts":["取隔离体→画主动力→补约束力→检查","先补约束力→再画主动力→最后取隔离体","把所有物体的力画在同一张图上"],
+     "answer":0,
+     "why":"先定对象、再画已知、后补未知、最后核对——每个被解除的约束处都必须有约束力。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>五公理</td><td>二力平衡 / 加减平衡力系 / 平行四边形 / 作用反作用 / 刚化</td></tr>
+    <tr><td>六约束</td><td>柔索、光滑面、固定铰(2 分量)、活动铰(1 法向力)、二力杆(沿杆)、固定端(2 力+1 偶)</td></tr>
+    <tr><td>受力图</td><td>隔离体 → 主动力 → 约束力 → 检查;解除几处约束补几处力</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)第一章;MIT OCW 8.01SC 的 Free-Body Diagrams 模块(英文对照)。</p>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 · 完</span>
+    <a href="../lessons/0002-concurrent-couple.html">第 2 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 受力图有任何一个不确定,立刻在对话里问我——这门课地基就是它。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,2758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> · 课程手册</title>
+<style>
+/* ============================================================
+   流体力学课程 · 共享样式表
+   Tufte 风格：大量留白、优雅衬线、内容优先
+   ============================================================ */
+
+:root {
+  --ink: #1a1a1a;
+  --ink-soft: #555;
+  --accent: #a0522d;        /* 赭石色：链接与强调 */
+  --accent-dark: #7a3b1e;
+  --paper: #fffff8;
+  --code-bg: #f4f2ee;
+  --quiz-correct: #e8f5e9;
+  --quiz-wrong: #fdecea;
+  --border: #ddd8d0;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; scroll-behavior: smooth; }
+
+body {
+  font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC",
+               "STSong", Georgia, serif;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.75;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+/* ---------- 标题 ---------- */
+h1, h2, h3 {
+  font-weight: 600;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 2rem;
+  margin: 0 0 .3rem;
+}
+h2 {
+  font-size: 1.35rem;
+  margin-top: 2.8rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .35rem;
+}
+h3 { font-size: 1.1rem; margin-top: 2rem; }
+
+.kicker {
+  font-family: "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- 正文元素 ---------- */
+p { margin: 1rem 0; }
+a { color: var(--accent); text-decoration-color: rgba(160,82,45,.35); }
+a:hover { color: var(--accent-dark); }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+.term-en {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: .92em;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: .2rem 1.4rem;
+  border-left: 3px solid var(--accent);
+  color: var(--ink-soft);
+  background: rgba(160, 82, 45, .04);
+}
+
+hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+/* ---------- 公式 ---------- */
+.formula {
+  text-align: center;
+  font-family: "Latin Modern Math", "Cambria Math", Georgia, serif;
+  font-size: 1.25rem;
+  margin: 1.6rem 0;
+  overflow-x: auto;
+}
+.var { font-style: italic; font-family: inherit; }
+sub, sup { font-size: .72em; }
+
+/* ---------- 提示框 ---------- */
+.box {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.3rem;
+  margin: 1.8rem 0;
+  background: #faf9f6;
+}
+.box-title {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  margin-bottom: .4rem;
+}
+.box.cfd .box-title { color: #1a5276; }
+.box.warn .box-title { color: #922b21; }
+.box p:first-of-type { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+/* ---------- 测验 ---------- */
+.quiz {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+}
+.quiz-q {
+  font-weight: 700;
+  margin-bottom: .9rem;
+}
+.quiz-opts { list-style: none; padding: 0; margin: 0; }
+.quiz-opts li { margin: .45rem 0; }
+.quiz-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: .98rem;
+  padding: .55rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: #fdf8f4; }
+.quiz-opt.correct { background: var(--quiz-correct); border-color: #66bb6a; font-weight: 700; }
+.quiz-opt.wrong { background: var(--quiz-wrong); border-color: #e57373; }
+.quiz-feedback {
+  margin-top: .8rem;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  display: none;
+}
+.quiz-score {
+  margin-top: 1.2rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-weight: 700;
+  display: none;
+}
+
+/* ---------- 演示画布 ---------- */
+.demo {
+  margin: 2rem 0;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfaf7;
+  text-align: center;
+}
+.demo canvas {
+  max-width: 100%;
+  border-radius: 4px;
+  background: #fff;
+  touch-action: manipulation;
+}
+.demo-controls { margin-top: .9rem; }
+.btn {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .9rem;
+  padding: .5rem 1.2rem;
+  margin: 0 .3rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent-dark);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.btn:hover { background: var(--accent); color: #fff; }
+.btn.active { background: var(--accent); color: #fff; }
+.caption { font-size: .88rem; color: var(--ink-soft); margin-top: .8rem; }
+
+/* ---------- Obsidian 跳转链接 ---------- */
+.obsidian-link {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  padding: .35rem .8rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  white-space: nowrap;
+}
+
+/* ---------- 演示控制项（滑块、下拉框、标签） ---------- */
+.demo label {
+  display: block;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .86rem;
+  color: var(--ink-soft);
+  margin: .6rem 0 .25rem;
+  text-align: left;
+}
+.demo input[type="range"],
+.demo select {
+  width: 100%;
+  max-width: 22rem;
+  font: inherit;
+  font-size: .95rem;
+  padding: .35rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+.demo .readout {
+  margin-top: .7rem;
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.demo .readout strong { color: var(--ink); }
+
+/* ---------- 课程导航 ---------- */
+.lesson-nav {
+  margin-top: 4rem;
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.lesson-nav a {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .92rem;
+}
+
+.ask {
+  margin-top: 3rem;
+  padding: 1rem 1.3rem;
+  border-radius: 8px;
+  background: #eef3f8;
+  border: 1px solid #c9d8e8;
+  font-size: .95rem;
+}
+
+/* ---------- 参考/术语表 ---------- */
+dl.glossary dt {
+  font-weight: 700;
+  margin-top: 1.4rem;
+}
+dl.glossary dt .term-en { font-weight: 400; margin-left: .4em; }
+dl.glossary dd { margin-left: 0; padding-left: 1.2rem; border-left: 2px solid var(--border); }
+
+table.ref {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  font-size: .95rem;
+}
+table.ref th, table.ref td {
+  border-bottom: 1px solid var(--border);
+  padding: .55rem .7rem;
+  text-align: left;
+}
+table.ref th {
+  font-family: "Source Han Sans SC", "PingFang SC", sans-serif;
+  font-size: .85rem;
+  letter-spacing: .05em;
+  border-bottom: 2px solid var(--ink);
+}
+
+/* ---------- 打印优化 ---------- */
+@media print {
+  body { background: #fff; font-size: 11pt; }
+  main { max-width: 100%; padding: 0; }
+  .quiz, .demo, .btn { break-inside: avoid; }
+  a { color: var(--ink); text-decoration: underline; }
+  .lesson-nav, .ask { page-break-inside: avoid; }
+}
+
+
+/* ============ 手册外壳 · 纸感配色与正文一致 ============ */
+html { scroll-behavior: smooth; }
+.shell-body { margin: 0; }
+
+/* 顶部工具条:纸色底 + 墨字 + 赭石强调 */
+.ribbon { position: sticky; top: 0; z-index: 60;
+  background: rgba(244,242,238,.96); backdrop-filter: blur(6px);
+  border-bottom: 1px solid #ddd8d0; }
+.ribbon-in { max-width: 1500px; margin: 0 auto; padding: 9px 18px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.brand { font-size: 15px; font-weight: 700; letter-spacing: .04em;
+  white-space: nowrap; font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.brand i { font-style: normal; color: #a0522d; margin-right: 8px; }
+.sub { font-size: 10.5px; color: #8b8577; letter-spacing: .12em; white-space: nowrap; }
+.r-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.search-wrap { display: flex; align-items: center; border-bottom: 1px solid #c9c2b4; padding: 2px; }
+.search-wrap:focus-within { border-bottom-color: #a0522d; }
+#q { background: transparent; border: none; color: #1a1a1a;
+  font-family: inherit; font-size: 13px; width: min(280px, 40vw); padding: 3px 4px; }
+#q::placeholder { color: #a39b8d; } #q:focus { outline: none; }
+#q-count { font-size: 11px; color: #a0522d; min-width: 52px; text-align: right; }
+.rbtn { background: transparent; border: 1px solid #c9c2b4; color: #55503f;
+  font-family: inherit; font-size: 12px; letter-spacing: .08em; padding: 4px 12px; cursor: pointer; }
+.rbtn:hover { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.05); }
+
+/* 布局 */
+.layout { display: flex; max-width: 1500px; margin: 0 auto; align-items: flex-start; }
+.sidebar { width: 256px; flex-shrink: 0; position: sticky; top: 51px;
+  height: calc(100vh - 51px); overflow-y: auto; padding: 24px 20px 50px;
+  border-right: 1px solid #ddd8d0; background: #f4f2ee; }
+.main { flex: 1; min-width: 0; display: flex; justify-content: center; padding: 44px 40px 90px; }
+.content { max-width: 46rem; width: 100%; }
+
+/* 侧栏目录 */
+.sb-brand h1 { font-size: 17px; line-height: 1.5; font-weight: 700;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+.sb-brand .en { display: block; font-size: 9px; letter-spacing: .26em; color: #55503f;
+  text-transform: uppercase; margin-top: 3px; }
+.sb-search input { width: 100%; border: none; border-bottom: 1px solid #ddd8d0; background: transparent;
+  font-family: inherit; font-size: 12.5px; padding: 5px 1px; color: #1a1a1a; }
+.sb-search input:focus { outline: none; border-bottom-color: #a0522d; }
+.sb-sec { font-size: 10px; letter-spacing: .22em; color: #55503f; margin: 22px 0 8px; text-transform: uppercase; }
+details.part { margin-bottom: 2px; }
+details.part summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 9px;
+  padding: 5px 4px; border-bottom: 1px solid #e6e1d7; font-size: 13px; font-weight: 600; line-height: 1.6;
+  font-family: "Source Han Serif SC","Noto Serif CJK SC",Georgia,serif; }
+details.part summary::-webkit-details-marker { display: none; }
+details.part summary::after { content: "+"; margin-left: auto; color: #55503f; font-weight: 400; }
+details.part[open] summary::after { content: "–"; }
+details.part summary:hover { color: #a0522d; }
+.part .no { color: #a0522d; font-size: 11.5px; flex-shrink: 0; width: 20px; }
+.part .rng { color: #a39b8d; font-size: 10px; margin-left: auto; font-weight: 400; letter-spacing: .03em; }
+.pages { padding: 2px 0 8px 30px; }
+.pages a { display: block; text-decoration: none; color: #55503f; font-size: 12.2px;
+  line-height: 2.05; padding: 0 6px; }
+.pages a:hover { color: #a0522d; background: rgba(160,82,45,.06); }
+.pages a.cur { color: #a0522d; font-weight: 600; }
+.sb-tip { margin-top: 20px; padding: 10px 12px; border: 1px solid #e6e1d7;
+  font-size: 11px; color: #55503f; line-height: 1.9; }
+
+/* 正文文章分隔与检索高亮 */
+article.course-doc { padding-top: 34px; margin-bottom: 60px; border-top: 3px double #c9c2b4; }
+article.course-doc:first-of-type { border-top: none; padding-top: 0; }
+mark { background: #F2DE9B; color: inherit; padding: 0 1px; }
+mark.hit { background: #E8C9A0; outline: 1px solid #a0522d; }
+
+#top-btn { position: fixed; right: 26px; bottom: 30px; width: 40px; height: 40px;
+  border: 1px solid #ddd8d0; background: #f4f2ee; color: #55503f; cursor: pointer;
+  font-size: 15px; font-family: inherit; opacity: 0; pointer-events: none;
+  transition: opacity .25s; z-index: 70; }
+#top-btn.show { opacity: 1; pointer-events: auto; }
+#top-btn:hover { color: #a0522d; border-color: #a0522d; }
+
+/* 目录收起态:隐藏侧栏,正文占满整行并由 .main 的 justify-content:center 自动居中 */
+body.toc-hidden .sidebar { display: none; }
+#toc-toggle.on { border-color: #a0522d; color: #a0522d; background: rgba(160,82,45,.06); }
+
+@media (max-width: 1080px) {
+  .sidebar { display: none; }
+  .main { padding: 32px 20px 70px; }
+}
+@media print {
+  .ribbon, .sidebar, #top-btn { display: none !important; }
+  .layout { display: block; }
+  .main { padding: 0; }
+  .content { max-width: 100%; }
+  article.course-doc { page-break-before: always; border-top: none; padding-top: 0; }
+  body { background: #fff; }
+}
+</style>
+</head>
+<body class="shell-body">
+
+<div class="ribbon"><div class="ribbon-in">
+  <span class="brand"><i>📖</i> · 课程手册</span>
+  <span class="sub">COURSE HANDBOOK · 离线可用</span>
+  <span class="r-actions">
+    <span class="search-wrap"><input id="q" type="text" placeholder="全文检索…(Enter 跳下一处)"><span id="q-count"></span></span>
+    <button class="rbtn on" id="toc-toggle" type="button">⇤ 目录</button>
+    <button class="rbtn" id="print-btn" type="button">打印 / 导出 PDF</button>
+  </span>
+</div></div>
+
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="sb-brand"><h1></h1><span class="en">Course Handbook</span></div>
+  <div class="sb-search" style="margin-top:16px"><input id="sb-q" type="text" placeholder="筛选目录…"></div>
+  <div class="sb-sec">目录 · Contents</div>
+  <details class="part" open><summary><span class="no">01</span>第 1 课 · 静力学公理与受力分析<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0001-statics-axioms-fbd">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">02</span>第 2 课 · 平面汇交力系与力偶<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0002-concurrent-couple">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">03</span>第 3 课 · 平面任意力系<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0003-planar-force-system">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">04</span>第 4 课 · 摩擦<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0004-friction">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">05</span>第 5 课 · 点的运动学<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0005-kinematics-particle">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">06</span>第 6 课 · 刚体的基本运动<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0006-rigid-basic-motion">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">07</span>第 7 课 · 点的合成运动<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0007-composite-motion">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">08</span>第 8 课 · 刚体的平面运动<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0008-planar-motion">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">09</span>第 9 课 · 质点动力学与动量定理<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0009-particle-dynamics-momentum">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">10</span>第 10 课 · 动量矩定理<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0010-angular-momentum">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">11</span>第 11 课 · 动能定理<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0011-work-energy">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">12</span>第 12 课 · 达朗贝尔原理与虚位移原理<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0012-dalembert-virtual-work">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">13</span>第 13 课 · 非惯性系中的质点动力学<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0013-noninertial-dynamics">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">14</span>第 14 课 · 碰撞<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0014-collision">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">15</span>第 15 课 · 刚体平面运动动力学<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0015-rigid-planar-dynamics">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">16</span>第 16 课 · 变质量动力学<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0016-variable-mass">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">17</span>第 17 课 · 分析力学 I:广义坐标与拉格朗日方程<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0017-lagrange-i">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">18</span>第 18 课 · 分析力学 II:守恒律与哈密顿视角<span class="rng">LESSON</span></summary><div class="pages"><a href="#lesson-0018-lagrange-ii">↗ 进入本篇</a></div></details>
+<details class="part"><summary><span class="no">19</span>术语表 · 理论力学<span class="rng">REFERENCE</span></summary><div class="pages"><a href="#doc-glossary">↗ 进入本篇</a></div></details>
+
+  <div class="sb-tip">💡 检索:输入关键词即时高亮全文,Enter 在结果间跳转,Esc 清除。<br>🖨 打印时自动隐藏侧栏,每课独立分页。</div>
+</nav>
+
+<div class="main"><div class="content" id="content">
+
+<article class="course-doc" id="lesson-0001-statics-axioms-fbd">
+<p class="kicker">理论力学 · 第 1 课 / 静力学 · 为力学体系打地基</p>
+  <h1>静力学公理与受力分析 <span class="term-en">Axioms &amp; Free-Body Diagram</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 说清五条静力学公理与其用途;
+       <strong>②</strong> 认全六种常见约束并写对约束力;
+       <strong>③</strong> 按固定四步画出规范受力图——这是全课程的识字课。</p>
+  </div>
+
+  <h2>一、从普物到理论力学:升级什么?</h2>
+  <p>普物里你算过"斜面上的木块"——一个质点、三四个力。理论力学处理的是<strong>真实的工程对象</strong>:
+     梁、架、机构,一堆构件互相约束、几十个未知力。升级的不是物理定律(仍是牛顿),
+     而是<strong>方法论</strong>:公理体系 → 约束模型 → 受力图 → 力系代数。
+     其中"画受力图"是力学世界的<strong>识字课</strong>:字都认不全,后面的文章无从谈起。</p>
+
+  <h2>二、五条静力学公理(工具箱的许可证)</h2>
+  <table class="ref">
+    <tr><th>公理</th><th>内容</th><th>用途</th></tr>
+    <tr><td>① 二力平衡公理</td><td>两力平衡 ⟺ 等值、反向、共线(同一刚体上)</td><td>识别<strong>二力杆</strong>的关键</td></tr>
+    <tr><td>② 加减平衡力系公理</td><td>加上或减去任意平衡力系,效应不变</td><td>力线平移等变换的依据</td></tr>
+    <tr><td>③ 力的平行四边形公理</td><td>两力合成遵守矢量加法</td><td>力系合成的几何法</td></tr>
+    <tr><td>④ 作用与反作用公理</td><td>作用力 = 反作用力(异体、共线、反向)</td><td>拆物系时内力变外力</td></tr>
+    <tr><td>⑤ 刚化原理</td><td>变形体平衡时,可当刚体研究其平衡</td><td>静力学可服务真实(变形)物体</td></tr>
+  </table>
+
+  <h2>三、约束与约束力:六种常见模型</h2>
+  <p>约束(<span class="term-en">constraint</span>)限制物体运动,约束力(<span class="term-en">constraint force</span>)
+     由"被限制了什么方向"决定:<strong>限制哪个方向的位移,约束力就顶在哪个方向</strong>。
+     点击下面的按钮,逐个认识六种约束:</p>
+
+  <div class="demo" data-constraint-demo></div>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"铰链约束力方向未知就随便画一个箭头"</strong>——错!必须画成<strong>两个正交分量</strong>(Fx、Fy),
+       方向可假定,数值由方程解出;直接画一个斜箭头会丢方程。<br>
+       <strong>"二力杆随便判断"</strong>——只有"两端受力 + 杆自重不计 + 平衡"才允许沿杆画;
+       自重不可忽略时就不是二力杆。</p>
+  </div>
+
+  <h2>四、受力图四步法(全课程的地基动作)</h2>
+  <table class="ref">
+    <tr><th>步骤</th><th>动作</th><th>检查点</th></tr>
+    <tr><td>① 取隔离体</td><td>把研究对象从约束中"解除"出来,单独画简图</td><td>只画这一个物体</td></tr>
+    <tr><td>② 画主动力</td><td>先画已知的荷载(重力、外力、力偶)</td><td>一个不漏</td></tr>
+    <tr><td>③ 逐个补约束力</td><td>在<strong>每处解除约束的地方</strong>,按约束类型补画约束力</td><td>解除几处约束画几处力</td></tr>
+    <tr><td>④ 检查</td><td>反作用要协调(作用反作用公理);二力杆沿杆</td><td>不添力、不漏力、不多力</td></tr>
+  </table>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学里分析一个流体微元的平衡/运动,做的正是同一件事:
+       隔离微元 → 画<strong>质量力</strong>(重力,对应主动力)与<strong>表面力</strong>(压强与黏性应力,对应约束/接触力)
+       → 沿各方向写平衡(就是第 3 课的平衡方程)。你在这门课练出的"受力图肌肉",
+       到流体力学变成"微元受力图",一个动作,两次受益。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"固定铰支座的约束力应该画成?",
+     "opts":["水平与竖直两个正交分量","只有竖直方向一个力","沿支承面方向的力"],
+     "answer":0,
+     "why":"铰链允许转动、限制任意方向移动,约束力方向未知 → 必须画两个分量;只有活动铰(滚动支座)才是单一法向力。"},
+    {"q":"一根不计自重的直杆,两端用铰与其他构件连接且处于平衡,它是?",
+     "opts":["二力杆:两端力沿杆轴线等值反向","受弯曲的梁","约束力方向任意的构件"],
+     "answer":0,
+     "why":"二力平衡公理:只有两个力且平衡 → 必共线,而两铰点连线就是杆轴线。"},
+    {"q":"画受力图的正确顺序是?",
+     "opts":["取隔离体→画主动力→补约束力→检查","先补约束力→再画主动力→最后取隔离体","把所有物体的力画在同一张图上"],
+     "answer":0,
+     "why":"先定对象、再画已知、后补未知、最后核对——每个被解除的约束处都必须有约束力。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>五公理</td><td>二力平衡 / 加减平衡力系 / 平行四边形 / 作用反作用 / 刚化</td></tr>
+    <tr><td>六约束</td><td>柔索、光滑面、固定铰(2 分量)、活动铰(1 法向力)、二力杆(沿杆)、固定端(2 力+1 偶)</td></tr>
+    <tr><td>受力图</td><td>隔离体 → 主动力 → 约束力 → 检查;解除几处约束补几处力</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)第一章;MIT OCW 8.01SC 的 Free-Body Diagrams 模块(英文对照)。</p>
+
+  <nav class="lesson-nav">
+    <span>第 1 课 · 完</span>
+    <a href="#lesson-0002-concurrent-couple">第 2 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC1%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 受力图有任何一个不确定,立刻在对话里问我——这门课地基就是它。</div>
+</article>
+
+<article class="course-doc" id="lesson-0002-concurrent-couple">
+<p class="kicker">理论力学 · 第 2 课 / 静力学</p>
+  <h1>平面汇交力系与力偶 <span class="term-en">Concurrent Forces &amp; Couples</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 用解析法(投影)合成汇交力系并写平衡方程;
+       <strong>②</strong> 说清力偶的三条性质;③ 会用力线平移定理"搬家"。</p>
+  </div>
+
+  <h2>一、汇交力系:投影法一招通吃</h2>
+  <p>所有力作用线汇交于一点的力系,合成结果是一个力。几何法(力多边形)直观但难算,
+     <strong>解析法</strong>才是主力:把每个力投影到 x、y 轴。</p>
+  <table class="ref">
+    <tr><th>操作</th><th>公式</th></tr>
+    <tr><td>力的投影</td><td>Fx = F·cosα,Fy = F·cosβ(α、β 为与轴的夹角;投影有正负)</td></tr>
+    <tr><td>合力投影定理</td><td>Rx = ΣFx,Ry = ΣFy;R = √(Rx²+Ry²),方向 tanθ = Ry/Rx</td></tr>
+    <tr><td>平衡条件</td><td><strong>ΣFx = 0,ΣFy = 0</strong>(两个独立方程,解两个未知量)</td></tr>
+  </table>
+  <p>解题套路:画受力图 → 选坐标轴(尽量让某轴垂直于未知力,少解三角)→ 列两个投影方程 → 解未知量。</p>
+
+  <h2>二、力对点之矩:转动效果的度量</h2>
+  <p>平面内力 F 对 O 点的矩:M<sub>O</sub>(F) = ±F·d——d 为<strong>力臂</strong>(O 到力作用线的垂直距离);
+     逆时针为正、顺时针为负(平面标量约定)。<strong>合力矩定理</strong>:合力对任一点的矩 = 各分力对该点矩的代数和
+     ——力臂不好找时,把力拆成两个好算的分力分别取矩。</p>
+
+  <h2>三、力偶:纯转动的"原子"</h2>
+  <blockquote>
+    <strong>力偶</strong>(<span class="term-en">couple</span>):等值、反向、不共线的两个平行力(F, F′)。
+    它的合力为零(不产生平移),只有转动效应,大小用力偶矩 M = ±F·d(两力间垂直距离 d)度量。
+  </blockquote>
+  <p>三条性质(考点):<strong>①</strong> 力偶在作用面内任意移转、平移,不改变效应;
+     <strong>②</strong> 只要保持力偶矩不变,可同时改变力的大小与力臂;
+     <strong>③</strong> 力偶不能与单个力平衡——只能与另一个力偶平衡。</p>
+
+  <h2>四、力线平移定理:把力"搬家"的正确姿势</h2>
+  <blockquote>
+    把力 F 平移到任意点 O,必须附加一个力偶,其矩 M = M<sub>O</sub>(F)。
+  </blockquote>
+  <p>它一石三鸟:解释了"为什么作用线不同效果就不同"(打门球偏一毫米就拐弯)、
+     给出了<strong>固定端约束</strong>的反力形式(一个力 + 一个力偶)、也是下一课"力系向一点简化"的引擎。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"力偶里的两个力可以合成一个合力"</strong>——不能,合力恒为零;它只有转动效应。<br>
+       <strong>"力偶矩就是力矩,没区别"</strong>——力矩对"某点"而言(换点就变),力偶矩是自由矢量
+       (平面内移转不变、与点无关)。<br>
+       <strong>"投影为负表示力很小"</strong>——负号只表示投影方向与轴正向相反,别丢符号!</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体微元各面上的压强都是法向力,黏性切应力成对出现——这正是"力偶"式的受力;
+       下一课的力系简化告诉我们:一团复杂的表面力总可以用一个主矢 + 一个主矩概括,
+       而 N-S 方程的推导,就是对这个"微元力系"写平衡的动力学版。投影法更是流体力学
+       控制体动量方程的日常操作。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"平面汇交力系平衡的解析条件是?",
+     "opts":["ΣFx=0 且 ΣFy=0","合力矩为零","ΣFx=0、ΣFy=0、ΣMO=0 三个方程"],
+     "answer":0,
+     "why":"汇交力系合成为一个力,平衡即合力为零 → 两个投影方程;第三式只对任意力系才需要。"},
+    {"q":"下列关于力偶的说法错误的是?",
+     "opts":["力偶可与一个适当的力平衡","力偶在其作用面内可任意移转","力偶矩与矩心位置无关"],
+     "answer":0,
+     "why":"力偶只能与力偶平衡(合力为零的它无法抵消任何单个力);其余两条正是力偶的性质。"},
+    {"q":"把力 F 沿其作用线滑移到新位置,对刚体的效应?",
+     "opts":["不变(可传性)","必须附加一个力偶","变为两倍"],
+     "answer":0,
+     "why":"沿作用线滑移不改变力臂与方向,由加减平衡力系公理保证效应不变;但平移出作用线就必须附加力偶(力线平移定理)。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>解析法</td><td>投影 ΣFx=0、ΣFy=0;投影带符号、合力投影定理</td></tr>
+    <tr><td>力矩</td><td>M=±Fd,合力矩定理拆难算的力</td></tr>
+    <tr><td>力偶</td><td>等值反向不共线;合力为零;面内移转不变;只与力偶平衡</td></tr>
+    <tr><td>力线平移</td><td>平移一力,附加一偶 M=MO(F);固定端反力的来源</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)第二、三章汇交力系与力偶部分。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0001-statics-axioms-fbd">← 第 1 课</a>
+    <a href="#lesson-0003-planar-force-system">第 3 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0003-planar-force-system">
+<p class="kicker">理论力学 · 第 3 课 / 静力学 · 静力学的"总装课"</p>
+  <h1>平面任意力系 <span class="term-en">Planar General Force System</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 把任意平面力系向一点简化为主矢 + 主矩;
+       <strong>②</strong> 按三种形式写平衡方程并解物系平衡问题;
+       <strong>③</strong> 判断静定与静不定。</p>
+  </div>
+
+  <h2>一、向一点简化:主矢 + 主矩</h2>
+  <p>任意复杂的平面力系,用<strong>力线平移定理</strong>把每个力都搬到任选的简化中心 O:
+     所有平移后的力汇交于 O,合成<strong>主矢</strong> R′ = ΣF(与 O 位置无关);
+     所有附加力偶合成<strong>主矩</strong> M<sub>O</sub> = ΣM<sub>O</sub>(F)(<strong>与 O 位置有关</strong>,换点要加 R′×d 修正)。</p>
+  <table class="ref">
+    <tr><th>简化结果</th><th>条件</th><th>含义</th></tr>
+    <tr><td>平衡</td><td>R′=0 且 M<sub>O</sub>=0</td><td>本章主角:平衡问题</td></tr>
+    <tr><td>合力</td><td>R′≠0</td><td>合为一个力(M<sub>O</sub>=0 时过 O;否则过偏移 d=M<sub>O</sub>/R′ 处)</td></tr>
+    <tr><td>合力偶</td><td>R′=0 且 M<sub>O</sub>≠0</td><td>只剩纯转动效应(此时与简化中心无关)</td></tr>
+  </table>
+
+  <h2>二、平衡方程:三种等价写法</h2>
+  <table class="ref">
+    <tr><th>形式</th><th>方程</th><th>附加条件</th></tr>
+    <tr><td>基本式(两投影一矩)</td><td>ΣFx=0,ΣFy=0,ΣM<sub>O</sub>=0</td><td>无</td></tr>
+    <tr><td>二矩式</td><td>ΣM<sub>A</sub>=0,ΣM<sub>B</sub>=0,ΣFx=0</td><td>A、B 连线<strong>不垂直</strong>于 x 轴</td></tr>
+    <tr><td>三矩式</td><td>ΣM<sub>A</sub>=0,ΣM<sub>B</sub>=0,ΣM<sub>C</sub>=0</td><td>A、B、C <strong>不共线</strong></td></tr>
+  </table>
+  <p>选形式的心法:矩心尽量选在<strong>未知力的交点</strong>上,让方程直接解出另一个未知量,少联立。
+     固定端约束按第 2 课结论提供 3 个未知量(Fx、Fy、M)——恰好被 3 个独立方程解出。</p>
+
+  <h2>三、物体系统的平衡:先整体、后拆开</h2>
+  <p>工程对象多是<strong>物系</strong>(几个构件互相约束)。方法:</p>
+  <table class="ref">
+    <tr><th>步骤</th><th>动作</th></tr>
+    <tr><td>① 数未知量</td><td>把所有约束反力未知量数一遍(每个铰链 2、滚动支座 1、固定端 3)</td></tr>
+    <tr><td>② 判静定</td><td>未知量总数 ≤ 独立方程总数(每个受平面力系的构件 3 个)→ <strong>静定</strong>;超过 → <strong>静不定</strong>(需变形条件,理论力学不硬解)</td></tr>
+    <tr><td>③ 先整体</td><td>整体作研究对象:内力(构件间相互作用)不出现,常先解出外约束力</td></tr>
+    <tr><td>④ 再拆开</td><td>拆出含未知量最多的构件单独画受力图;拆分处按作用反作用公理成对画力</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"整体和拆开随便选一个就够了"</strong>——物系问题常常整体解出 1~2 个外力后必须拆开补足;
+       两边方程有重复,但各自的"新信息"互补。<br>
+       <strong>"静不定就做不了"</strong>——理论力学范围内判明即可;解它需要材料力学的变形协调条件,
+       这正是"力学地基"下一层的入口。<br>
+       <strong>"简化中心随便选,主矩都一样"</strong>——主矢不变,主矩随点变(差 R′×d);只有 R′=0 时主矩才与点无关。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>大坝上的水压力是一大片分布力——求它对坝体的总作用,就是本课的<strong>力系简化</strong>(求主矢与对坝趾的矩);
+       流体力学里的"动水总压力"计算,公式骨架完全相同。更深层:N-S 方程 = 流体微元上的
+       "任意力系平衡"写成动力学形式,ρ·a 项就是"不平衡的那部分力"。这门课的平衡,是它的静力学特例。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"平面任意力系平衡的独立方程个数是?",
+     "opts":["3 个","2 个","6 个"],
+     "answer":0,
+     "why":"三个独立方程(三种等价形式),恰好解 3 个未知量;多写的方程会被已有方程线性组合。"},
+    {"q":"主矢与主矩哪个与简化中心位置有关?",
+     "opts":["主矢无关,主矩有关","都有关","都无关"],
+     "answer":0,
+     "why":"主矢是力的矢量和与点无关;主矩是各力对点的矩之和,换简化中心差 R′×d 修正项。"},
+    {"q":"物系平衡问题中“先整体”的最大好处是?",
+     "opts":["整体方程中不出现内力,常可先解出外约束力","方程更多","可以不用画受力图"],
+     "answer":0,
+     "why":"构件间作用力在整体图上是内力(成对出现自动抵消),未知量更少,往往一步解出外约束。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>简化</td><td>主矢 ΣF(与点无关)+ 主矩 ΣMO(与点有关);四种结果</td></tr>
+    <tr><td>平衡方程</td><td>基本式 / 二矩式 / 三矩式;矩心选未知力交点</td></tr>
+    <tr><td>物系平衡</td><td>数未知量判静定 → 先整体后拆开 → 反作用成对画</td></tr>
+    <tr><td>固定端</td><td>Fx、Fy、M 共 3 个未知量,恰被 3 方程解出</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)第三章"平面任意力系";谢传锋《静力学》例题精选。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0002-concurrent-couple">← 第 2 课</a>
+    <a href="#lesson-0004-friction">第 4 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 物系平衡卡住非常正常,把你的受力图描述给我,我们一起找哪一步断了。</div>
+</article>
+
+<article class="course-doc" id="lesson-0004-friction">
+<p class="kicker">理论力学 · 第 4 课 / 静力学收官</p>
+  <h1>摩擦 <span class="term-en">Friction</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 用库仑摩擦定律处理"考虑摩擦的平衡";
+       <strong>②</strong> 用摩擦角与自锁条件秒判"滑不滑";
+       <strong>③</strong> 了解滚动摩阻的模型。</p>
+  </div>
+
+  <h2>一、滑动摩擦:一个"有上限的约束力"</h2>
+  <p>接触面粗糙时,切向出现<strong>静摩擦力</strong> F<sub>s</sub>。它不是定值,而是<strong>被动力</strong>:
+     大小随主动力变化,平衡时 0 ≤ F<sub>s</sub> ≤ F<sub>max</sub>,上限由<strong>库仑摩擦定律</strong>给出:</p>
+  <blockquote>
+    F<sub>max</sub> = f<sub>s</sub> · F<sub>N</sub> —— 与接触面积无关,只看<strong>法向压力</strong>与静摩擦系数 f<sub>s</sub>。
+    一旦滑动,动摩擦 F<sub>d</sub> = f<sub>d</sub>·F<sub>N</sub>(f<sub>d</sub> 略小于 f<sub>s</sub>,近似认为相等)。
+  </blockquote>
+  <p><strong>考虑摩擦的平衡问题</strong>标准流程:① 先按无摩擦列平衡方程;② 补充临界条件
+     F<sub>s</sub> = f<sub>s</sub>F<sub>N</sub>;③ 解出临界值 → 答案往往是一个<strong>范围</strong>
+     (F<sub>min</sub> ≤ F ≤ F<sub>max</sub>),因为摩擦可以"双向顶住"。</p>
+
+  <h2>二、摩擦角与自锁:几何法的威力</h2>
+  <blockquote>
+    <strong>摩擦角</strong> φ<sub>s</sub>:临界状态下,法向反力 F<sub>N</sub> 与最大静摩擦力 F<sub>max</sub>
+    的<strong>全约束反力</strong>与法线的夹角,tan φ<sub>s</sub> = f<sub>s</sub>。
+  </blockquote>
+  <p>把"法向 + 切向"两个约束力合起来看:全反力只能落在以法线为轴、半角 φ<sub>s</sub> 的<strong>锥面内</strong>
+     (摩擦锥)。于是得到暴力而优雅的判据——<strong>自锁条件</strong>:</p>
+  <table class="ref">
+    <tr><th>判据</th><th>内容</th></tr>
+    <tr><td>自锁</td><td>主动力合力的作用线落在摩擦锥<strong>之内</strong> → 无论力多大都滑不动(驱动再猛,摩擦同步长大)</td></tr>
+    <tr><td>经典例</td><td>斜面上物块不滑的条件:斜面倾角 α ≤ φ<sub>s</sub>(螺纹、千斤顶、楔块设计的理论基础)</td></tr>
+  </table>
+
+  <h2>三、滚动摩阻:为什么轮子省力</h2>
+  <p>滚动时接触面并非理想点:法向反力前移一段距离 δ,形成<strong>滚动摩阻力偶</strong> M<sub>f</sub> ≤ δ·F<sub>N</sub>
+     (δ 为滚阻系数,量纲是长度)。δ 通常极小 → 推滚比推滑省力几个数量级——
+     轴承、轮子的力学本质。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"摩擦力总阻碍运动"</strong>——摩擦力阻碍的是<strong>相对滑动趋势</strong>;
+       人走路、车轮驱动、皮带传动,摩擦力都是<strong>动力</strong>。<br>
+       <strong>"F = f·F<sub>N</sub> 永远成立"</strong>——只有达到最大(临界或滑动)时才取等号;
+       静止时 F<sub>s</sub> 由平衡方程求出,通常小于上限。顺序:先用平衡求 F<sub>s</sub>,再验证 ≤ f<sub>s</sub>F<sub>N</sub>。<br>
+       <strong>"接触面越大摩擦越大"</strong>——库仑定律里根本没有面积项(近似模型内)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体<strong>没有静摩擦力</strong>——这正是流体力学第 1 课"流体不能抵抗剪切"的另一面:
+       再小的切向力都会让流体持续变形。固体靠摩擦"站得住",流体靠压强"传得开"。
+       两种介质的边界条件也由此分野:固体壁面上流体黏附(no-slip),靠的是黏性而非库仑摩擦。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"物块重 100 N 静止在水平面上,f_s=0.3。用水平力 20 N 推它没推动,此时摩擦力多大?",
+     "opts":["20 N","30 N","0 N"],
+     "answer":0,
+     "why":"静止时摩擦力由平衡决定:Fs=20 N(上限是 0.3×100=30 N,未达到,所以推不动也没滑)。"},
+    {"q":"斜面倾角小于摩擦角时,把重物放上去,它会?",
+     "opts":["自锁:无论多重都不滑","立即下滑","做匀速下滑"],
+     "answer":0,
+     "why":"α ≤ φs 时重力作用线落在摩擦锥内,满足自锁——千斤顶与螺纹锁紧的原理。"},
+    {"q":"滚动比滑动省力的力学原因是?",
+     "opts":["滚动摩阻系数 δ 是长度量且极小,摩阻力偶远小于滑动摩擦力","滚动时没有重力","轮子材料更硬"],
+     "answer":0,
+     "why":"Mf ≤ δ·FN,δ 通常毫米级,等效阻力 δ/R 远小于滑动摩擦系数。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>库仑定律</td><td>Fs 是被动力:平衡时 0≤Fs≤fs·FN;滑动后≈fd·FN</td></tr>
+    <tr><td>解题流程</td><td>先平衡求 Fs → 补临界条件 → 答案常为范围</td></tr>
+    <tr><td>摩擦角/自锁</td><td>tanφs=fs;主动力线入摩擦锥 → 多大力都锁死;α≤φs 斜面自锁</td></tr>
+    <tr><td>滚动摩阻</td><td>Mf ≤ δ·FN(δ 有长度量纲)——轮子的力学本质</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)摩擦章;自锁应用(千斤顶/楔块)可看教材例题。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0003-planar-force-system">← 第 3 课</a>
+    <a href="#lesson-0005-kinematics-particle">第 5 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。静力学四课到此收官,过 M1 验收再进运动学。</div>
+</article>
+
+<article class="course-doc" id="lesson-0005-kinematics-particle">
+<p class="kicker">理论力学 · 第 5 课 / 运动学开篇</p>
+  <h1>点的运动学 <span class="term-en">Kinematics of a Particle</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 用三种方法描述点的运动(矢量/直角坐标/自然法);
+       <strong>②</strong> 把加速度拆成 a<sub>τ</sub> 与 a<sub>n</sub> 并说清各自管什么;
+       <strong>③</strong> 熟练做匀变速与圆周运动的运动学计算。</p>
+  </div>
+
+  <h2>一、三种描述方法:一套语言,三种拼写</h2>
+  <table class="ref">
+    <tr><th>方法</th><th>描述</th><th>速度 / 加速度</th></tr>
+    <tr><td>矢量法</td><td>r = r(t)(位置矢量)</td><td>v = dr/dt;a = dv/dt(定义级,概念清晰)</td></tr>
+    <tr><td>直角坐标法</td><td>x(t), y(t), z(t)</td><td>v = (ẋ, ẏ, ż);a = (ẍ, ÿ, z̈)——分量独立计算</td></tr>
+    <tr><td>自然法(弧坐标)</td><td>沿已知轨迹的弧长 s(t)</td><td>v = ds/dt(沿切线);a = a<sub>τ</sub>τ° + a<sub>n</sub>n°</td></tr>
+  </table>
+  <p>自然法是理论力学的招牌:轨迹已知时(列车、摆、流线上的质点),把加速度<strong>贴着轨迹分解</strong>:</p>
+  <blockquote>
+    <strong>a<sub>τ</sub> = dv/dt</strong>(切向)——只改变速度<strong>大小</strong>;<br>
+    <strong>a<sub>n</sub> = v²/ρ</strong>(法向,指向曲率中心)——只改变速度<strong>方向</strong>;ρ 为曲率半径。
+  </blockquote>
+
+  <h2>二、两类必练计算</h2>
+  <table class="ref">
+    <tr><th>类型</th><th>套路</th></tr>
+    <tr><td>匀变速(直线)</td><td>v = v₀ + a<sub>τ</sub>t;s = v₀t + ½a<sub>τ</sub>t²;v² − v₀² = 2a<sub>τ</sub>s</td></tr>
+    <tr><td>圆周/曲线运动</td><td>给 s(t) 或 v(t) → 逐次求导得 a<sub>τ</sub>、a<sub>n</sub>,再合成 a = √(a<sub>τ</sub>²+a<sub>n</sub>²);匀速圆周 a<sub>τ</sub>=0,a<sub>n</sub>=v²/R</td></tr>
+  </table>
+  <p><strong>例</strong>:点沿半径 R=0.5 m 圆周运动,v = 2t(SI)。t=1 s 时:
+     a<sub>τ</sub> = 2 m/s²;a<sub>n</sub> = v²/R = 4/0.5 = 8 m/s²;a = √68 ≈ 8.25 m/s²,方向前倾 arctan(a<sub>τ</sub>/a<sub>n</sub>)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"匀速圆周运动加速度为零"</strong>——速度方向一直在变,a<sub>n</sub>=v²/R 一点都不小!<br>
+       <strong>"a 的分量就是直角坐标的导数,自然法也一样"</strong>——直角坐标分量彼此独立没问题,
+       但自然法里 a 沿切/法线分解,<strong>不能</strong>对弧长坐标再求两次导得到 a<sub>n</sub>(a<sub>n</sub> 来自方向变化,是 v²/ρ)。<br>
+       <strong>"减速时 a<sub>τ</sub> 为正"</strong>——减速时 v 与 a<sub>τ</sub> 反号,a<sub>τ</sub>&lt;0,画图别画反。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学有两条描述路线:<strong>拉格朗日法</strong>(跟着流体质点走)= 本课的矢量法/自然法,
+       迹线就是轨迹;欧拉法的加速度公式里,v·∇v 那一项的物理意义正是"速度方向沿流线变化"——
+       弯管流动中 a<sub>n</sub> = v²/ρ 由压强梯度提供(伯努利方程弯道项的来源)。
+       学好自然法,欧拉法里的对流加速度不再抽象。</p>
+  </div>
+
+  <h2>三、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"匀速圆周运动中,点的加速度?",
+     "opts":["只有法向分量 an=v²/ρ","等于零","只有切向分量"],
+     "answer":0,
+     "why":"速率不变 → aτ=0;方向持续变化 → an=v²/ρ 指向圆心,这就是向心加速度。"},
+    {"q":"自然法中 aτ 与 an 的分工是?",
+     "opts":["aτ 改变速度大小,an 改变速度方向","aτ 改变方向,an 改变大小","两者都改大小"],
+     "answer":0,
+     "why":"切向贴着轨迹管「快慢」,法向指向曲率中心管「拐弯」。"},
+    {"q":"点沿圆周 v=3t(SI),R=1 m,t=2 s 时的 aτ 与 an 分别为?",
+     "opts":["3 m/s²;36 m/s²","6 m/s²;36 m/s²","3 m/s²;9 m/s²"],
+     "answer":0,
+     "why":"aτ=dv/dt=3;an=v²/R=(3×2)²/1=36。注意 an 用的是该时刻的 v。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>三方法</td><td>矢量法定义、直角坐标分量算、自然法贴轨迹分解</td></tr>
+    <tr><td>加速度分解</td><td>aτ=dv/dt 管大小;an=v²/ρ 管方向</td></tr>
+    <tr><td>匀变速</td><td>三个公式;曲线题先求 aτ/an 再合成</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)点的运动学章;MIT OCW 8.01SC Kinematics 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0004-friction">← 第 4 课</a>
+    <a href="#lesson-0006-rigid-basic-motion">第 6 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0006-rigid-basic-motion">
+<p class="kicker">理论力学 · 第 6 课 / 运动学</p>
+  <h1>刚体的基本运动 <span class="term-en">Translation &amp; Rotation about a Fixed Axis</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 判断刚体的两种基本运动并写出其运动规律;
+       <strong>②</strong> 定轴转动中把角量(φ、ω、α)换算成点上的线量(v、a<sub>τ</sub>、a<sub>n</sub>);
+       <strong>③</strong> 熟练处理轮系传动比。</p>
+  </div>
+
+  <h2>一、刚体:一种理想化的"不变形"</h2>
+  <p>刚体(<span class="term-en">rigid body</span>)= 任意两点间距离恒不变的质点系。
+     这个约束让"无穷多点的运动"退化成"少数参数的运动"——两种基本运动就是最快的两步:</p>
+  <table class="ref">
+    <tr><th>运动</th><th>特征</th><th>描述</th></tr>
+    <tr><td>平移 <span class="term-en">translation</span></td><td>体内任意直线始终保持方向不变(直线/曲线平移均可)</td><td>各点轨迹同形、同一时刻 v 与 a <strong>处处相同</strong> → 刚体可当一个点研究</td></tr>
+    <tr><td>定轴转动 <span class="term-en">rotation about fixed axis</span></td><td>体内(或延拓)有一条固定直线为轴</td><td>一个角坐标 φ(t) 定全场:ω=dφ/dt,α=dω/dt</td></tr>
+  </table>
+
+  <h2>二、定轴转动:角量 → 线量</h2>
+  <p>距轴 r 的点绕轴画圆,弧长 s = r·φ,于是(轴上点除外):</p>
+  <table class="ref">
+    <tr><th>量</th><th>公式</th><th>分布规律</th></tr>
+    <tr><td>速度</td><td>v = ω·r</td><td>沿圆周切向;与 r 成正比</td></tr>
+    <tr><td>切向加速度</td><td>a<sub>τ</sub> = α·r</td><td>与 r 成正比(角加速才有)</td></tr>
+    <tr><td>法向加速度</td><td>a<sub>n</sub> = ω²·r</td><td>指向轴;与 r 成正比</td></tr>
+  </table>
+  <p>匀变速转动公式与匀变速直线完全同构:ω = ω₀+αt;φ = ω₀t+½αt²;ω²−ω₀² = 2αφ。</p>
+
+  <h2>三、定轴轮系传动:转速换算</h2>
+  <blockquote>
+    两轮啮合/皮带传动不打滑 → 接触点线速度相等:ω₁r₁ = ω₂r₂。
+    <strong>传动比 i₁₂ = ω₁/ω₂ = r₂/r₁ = z₂/z₁</strong>(z 为齿数)。
+  </blockquote>
+  <p>多级传动把各级传动比<strong>连乘</strong>。这是风机、齿轮箱、电机选型计算的基本功。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"曲线平移不是平移"</strong>——平移只看"方向不变",轨迹可以是任意曲线(如摩天轮座舱);
+       关键判据:体内任一直线方向不变。<br>
+       <strong>"转轴上的点也走圆周"</strong>——轴上点 r=0,v=a=0,不动;别把它当一般点算。<br>
+       <strong>"ω 相同的刚体上各点速度相同"</strong>——角速度全场唯一,但 v=ωr 依赖 r;
+       平移才"各点 v 相同"。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学著名的<strong>亥姆霍兹速度分解</strong>:流体微团运动 = 平移 + 旋转 + <strong>变形</strong>。
+       刚体恰好是"变形为零"的特例——这正是刚体与流体的分界线。定轴转动的 ω 在流体里对应
+       涡量 Ω 的一半:你在这课建立的"角速度"直觉,就是将来判断流动有没有旋(涡)的直觉。
+       泵与风机的叶轮更是"定轴转动 + 流体"的直接组合。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"刚体做曲线平移(如摩天轮座舱)时,座舱内各点的速度与加速度?",
+     "opts":["同一时刻全部相同","沿半径线性分布","只大小相同方向不同"],
+     "answer":0,
+     "why":"平移的定义=体内直线方向不变 → 各点轨迹同形,同一时刻 v、a 处处相等,刚体可视为一个点。"},
+    {"q":"飞轮匀速转动(ω=常数)时,轮缘上一点的加速度?",
+     "opts":["只有法向 an=ω²r,指向轴","加速度为零","只有切向"],
+     "answer":0,
+     "why":"角速度不变 → α=0 → aτ=0;但方向在变,an=ω²r 不可丢——匀速转动仍是变速运动(方向变)。"},
+    {"q":"齿轮副主动轮 20 齿、从动轮 60 齿,传动比 i₁₂(ω₁/ω₂)为?",
+     "opts":["3","1/3","60"],
+     "answer":0,
+     "why":"i₁₂=z₂/z₁=60/20=3:主动轮转 3 圈从动轮才转 1 圈——减速增扭。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>两种基本运动</td><td>平移(各点 v、a 相同)、定轴转动(一个 φ(t) 定全场)</td></tr>
+    <tr><td>角量→线量</td><td>v=ωr;aτ=αr;an=ω²r(轴上点不动)</td></tr>
+    <tr><td>传动比</td><td>i=ω₁/ω₂=r₂/r₁=z₂/z₁,多级连乘</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)刚体的简单运动章。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0005-kinematics-particle">← 第 5 课</a>
+    <a href="#lesson-0007-composite-motion">第 7 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0007-composite-motion">
+<p class="kicker">理论力学 · 第 7 课 / 运动学 · 本篇压轴难点</p>
+  <h1>点的合成运动 <span class="term-en">Composite Motion</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 正确选动系,分清绝对/相对/牵连三个概念;
+       <strong>②</strong> 熟练使用速度合成定理 v<sub>a</sub> = v<sub>e</sub> + v<sub>r</sub>;
+       <strong>③</strong> 判断科氏加速度的大小与方向。</p>
+  </div>
+
+  <h2>一、为什么要"合成运动"?动系怎么选?</h2>
+  <p>同一运动,参考系不同描述就不同。当机构里"一个点既随某构件动、又沿它滑动"时(滑块沿摇杆滑、
+     船横渡流水),用两套参考系最省力:</p>
+  <table class="ref">
+    <tr><th>概念</th><th>定义</th><th>一句话记忆</th></tr>
+    <tr><td>绝对运动 v<sub>a</sub></td><td>动点相对<strong>定系</strong>(地面)的速度</td><td>真实结果</td></tr>
+    <tr><td>相对运动 v<sub>r</sub></td><td>动点相对<strong>动系</strong>的速度</td><td>"沿槽/沿杆滑"的那部分</td></tr>
+    <tr><td>牵连运动 v<sub>e</sub></td><td><strong>动系上与动点重合的那一点</strong>相对定系的速度</td><td>"如果你被焊死在动系上"的速度</td></tr>
+  </table>
+  <p>动系选择口诀:<strong>动系固定在"承载滑动的构件"上</strong>,让相对运动简单(沿杆滑/沿槽滑)。
+     牵连速度最容易错:它属于"重合点",不是动点上一时刻的位置,也不是杆端。</p>
+
+  <h2>二、速度合成定理(平行四边形一画就解)</h2>
+  <blockquote>
+    <strong>v<sub>a</sub> = v<sub>e</sub> + v<sub>r</sub></strong> —— 矢量三角形:已知任意四个要素可解其余两个。
+  </blockquote>
+  <p>标准流程:① 选动点与动系;② 分析三个速度的方位(v<sub>e</sub>⊥杆、v<sub>r</sub>沿杆、
+     v<sub>a</sub>沿真实约束方向);③ 画速度平行四边形 → 投影或几何求解。下方演示器动手感受:</p>
+
+  <div class="demo" data-composition-demo></div>
+
+  <h2>三、科氏加速度:合成运动的"隐藏项"</h2>
+  <blockquote>
+    <strong>a<sub>a</sub> = a<sub>e</sub> + a<sub>r</sub> + a<sub>C</sub></strong>,其中
+    <strong>a<sub>C</sub> = 2ω × v<sub>r</sub></strong>(科氏加速度,Coriolis)。
+    大小 2ω·v<sub>r</sub>·sinθ(平面问题 ω⊥v<sub>r</sub> 时 = 2ωv<sub>r</sub>);
+    方向:v<sub>r</sub> 顺 ω 转向 90°。
+  </blockquote>
+  <p>它从哪来?两个来源各贡献一半:① 相对运动使"重合点"换了位置,牵连速度在变;
+     ② 牵连转动使相对速度方向在变。<strong>动系平移时 ω=0,科氏项消失</strong>——这就是公式里藏着前提的原因。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"牵连速度就是杆端的速度"</strong>——错,是<strong>动系上与动点重合之点</strong>的速度;
+       滑块滑到杆中段,v<sub>e</sub> = ω×(杆轴到滑块的距离)。<br>
+       <strong>"a<sub>C</sub> 指向转轴"</strong>——方向由 ω×v<sub>r</sub> 定(v<sub>r</sub> 顺 ω 转 90°),
+       平面问题里与 v<sub>r</sub> 垂直,不一定指向轴。<br>
+       <strong>"选哪个构件当动系都一样"</strong>——动系必须架在"承载滑动"的构件上才好算;
+       选错动系,相对运动轨迹复杂到没法求导。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>在<strong>旋转参考系</strong>里描述流动(泵、风机、涡轮的 CFD 分析是标配),
+       动量方程就多出科氏力项 2ρΩ×v 与离心项——你在这课学的 a<sub>C</sub>,
+       就是那些附加项的力学来源。地球也是旋转参考系:台风的旋转方向、大气环流的地转偏向力,
+       全部由 a<sub>C</sub> = 2Ω×v 解释。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"滑块沿绕定轴转动的直杆向外滑动。滑块的牵连速度大小为?",
+     "opts":["ω×(轴到滑块的距离)","ω×(杆的全长)","零,因为杆只是转动"],
+     "answer":0,
+     "why":"牵连速度属于动系上与滑块重合之点:v=ωr,r 取轴到滑块当前位置的距离。"},
+    {"q":"科氏加速度的大小与方向(平面问题)是?",
+     "opts":["2ωv_r,方向为 v_r 顺 ω 转向 90°","ω²r,指向转轴","2ωv_r,沿 v_r 方向"],
+     "answer":0,
+     "why":"aC=2ω×vr;平面内 ω⊥vr,大小 2ωvr,方向 vr 顺 ω 转 90°。指向转轴的是法向加速度,别混。"},
+    {"q":"动系做平移(不转动)时,加速度合成定理中?",
+     "opts":["科氏项为零:aa=ae+ar","科氏项加倍","必须改用其他公式"],
+     "answer":0,
+     "why":"科氏项来自动系的转动(ω=0 即消失);平移动系下两个加速度直接合成。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>动系选择</td><td>架在承载滑动的构件上,让 vr 沿杆/槽</td></tr>
+    <tr><td>三速度</td><td>va 真实、vr 沿滑道、ve=重合点速度(⊥杆);va=ve+vr 矢量三角形</td></tr>
+    <tr><td>科氏加速度</td><td>aC=2ω×vr,vr 顺 ω 转 90°;动系平移时为零</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)点的合成运动章——例题量大,建议精做 3 道;科氏力气象应用可搜"地转偏向力"。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0006-rigid-basic-motion">← 第 6 课</a>
+    <a href="#lesson-0008-planar-motion">第 8 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC7%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 合成运动是运动学最难的一课,卡住就直接问——动系选法值得反复讨论。</div>
+</article>
+
+<article class="course-doc" id="lesson-0008-planar-motion">
+<p class="kicker">理论力学 · 第 8 课 / 运动学收官</p>
+  <h1>刚体的平面运动 <span class="term-en">Planar Motion of Rigid Body</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用基点法分解平面运动并求任一点速度;
+       <strong>②</strong> 用速度投影定理做快算;
+       <strong>③</strong> 熟练找速度瞬心,用瞬心法一击求速。</p>
+  </div>
+
+  <h2>一、平面运动 = 平移 + 转动</h2>
+  <p>刚体运动时各点始终平行于某一固定平面(车轮滚、连杆摆),叫<strong>平面运动</strong>。
+     用基点法分解:任选一点 A 为<strong>基点</strong>,平面运动 = 随基点 A 的<strong>平移</strong>
+     + 绕基点 A 的<strong>转动</strong>:</p>
+  <blockquote>
+    <strong>v<sub>B</sub> = v<sub>A</sub> + v<sub>BA</sub></strong>,其中 v<sub>BA</sub> = ω·AB,方向⊥AB、顺 ω 转向。
+    注意:<strong>角速度 ω 与基点选择无关</strong>(平移不携带转动)。
+  </blockquote>
+
+  <h2>三件武器(同一件事的三种解法)</h2>
+  <table class="ref">
+    <tr><th>方法</th><th>用法</th><th>适用</th></tr>
+    <tr><td>基点法</td><td>矢量方程 v<sub>B</sub>=v<sub>A</sub>+v<sub>BA</sub> 投影求解</td><td>万能,尤其求"两点速度+ω"全套</td></tr>
+    <tr><td>速度投影定理</td><td>v<sub>A</sub> 与 v<sub>B</sub> 在 AB 连线上投影相等</td><td>不求 ω、只查两点速度的快算(物理:刚体不变形)</td></tr>
+    <tr><td>速度瞬心法</td><td>找速度为零的瞬心 C,则该瞬时刚体绕 C 纯转:v=ω·d(各点 v⊥其到 C 的连线)</td><td>几何直观、一击求各点速度</td></tr>
+  </table>
+  <p><strong>瞬心求法</strong>:已知两点速度方位 → 分别作垂线,交点即瞬心;
+     纯滚动轮的<strong>接触点</strong>就是瞬心;v∥v′ 时瞬心在无穷远(瞬时平移,ω=0)。</p>
+
+  <h2>二、例:纯滚动的车轮</h2>
+  <p>轮心速度 v<sub>O</sub>,半径 R,纯滚动(不打滑)→ 接触点 C 为瞬心,ω = v<sub>O</sub>/R:
+     轮缘顶点 v = 2v<sub>O</sub>(距瞬心 2R),轮心 v<sub>O</sub>(距瞬心 R),接触点 0。
+     各点速度⊥其与 C 的连线,大小 ∝ 距离——轮子的速度场是一幅绕瞬心的"旋涡图"。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"瞬心是固定点"</strong>——瞬心一般<strong>每时每刻都在变</strong>(纯滚动轮的瞬心沿地面移动),
+       它只是"这一瞬时"的速度为零,加速度并不为零。<br>
+       <strong>"速度投影定理可以求 ω"</strong>——不能,它只约束投影;求 ω 要用基点法或瞬心法。<br>
+       <strong>"基点选谁结果不同"</strong>——v<sub>B</sub> 结果唯一,ω 也唯一;变的只是"平移+转动"的分解方式。
+       但基点应选<strong>速度已知</strong>的点,计算才顺。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>瞬心法是"换一个巧点看问题"的范本:换对参考点,难题立刻变成纯转动。
+       流体力学里同款思想是<strong>速度势与流函数</strong>(二维流:换一对正交标量函数,速度场自动可解),
+       以及流场中<strong>驻点</strong>(速度为零的点,类似瞬心)的分析。更重要的是"分解"思想本身:
+       刚体拆成平移+转动,流体微团拆成平移+转动+变形(第 6 课衔接框的续集)。</p>
+  </div>
+
+  <h2>三、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"纯滚动车轮的轮缘最高点速度大小是轮心的?",
+     "opts":["2 倍","1 倍","√2 倍"],
+     "answer":0,
+     "why":"接触点为瞬心:轮心距瞬心 R → vO=ωR;最高点距瞬心 2R → v=2ωR=2vO。"},
+    {"q":"平面运动刚体某瞬时的速度瞬心,其加速度?",
+     "opts":["一般不为零","必为零","必竖直向下"],
+     "answer":0,
+     "why":"瞬心只是该瞬时速度为零,它随时间移动,加速度一般不为零(纯滚动轮瞬心有向上的加速度)。"},
+    {"q":"已知平面运动刚体上 A、B 两点速度方位平行且相等,该瞬时刚体?",
+     "opts":["做瞬时平移,ω=0","绕 AB 中点转动","角速度无穷大"],
+     "answer":0,
+     "why":"两条垂线平行不相交 → 瞬心在无穷远 → 该瞬时各点速度相同、ω=0,称为瞬时平移。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>基点法</td><td>vB=vA+ω×AB;ω 与基点无关;基点选速度已知点</td></tr>
+    <tr><td>投影定理</td><td>两点速度沿连线投影相等;快算但不给 ω</td></tr>
+    <tr><td>瞬心法</td><td>垂线交点/纯滚动接触点;v=ω·d;瞬时平移→瞬心无穷远</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)刚体平面运动章;曲柄滑块机构例题精做一道。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0007-composite-motion">← 第 7 课</a>
+    <a href="#lesson-0009-particle-dynamics-momentum">第 9 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC8%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 运动学四课收官。过 M2 验收(两法互验+科氏方向)再进动力学——那是本课程的重头戏。</div>
+</article>
+
+<article class="course-doc" id="lesson-0009-particle-dynamics-momentum">
+<p class="kicker">理论力学 · 第 9 课 / 动力学开篇</p>
+  <h1>质点动力学与动量定理 <span class="term-en">Dynamics &amp; Momentum</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 解质点动力学两类问题(知力求运动 / 知运动求力);
+       <strong>②</strong> 用质点系动量定理与质心运动定理做题;
+       <strong>③</strong> 判断动量守恒的条件。</p>
+  </div>
+
+  <h2>一、质点动力学基本方程:两类问题</h2>
+  <blockquote>
+    <strong>ma = ΣF</strong> —— 牛顿第二定律,动力学的一切起点。
+    直角坐标分量:ma<sub>x</sub>=ΣF<sub>x</sub>;自然法:ma<sub>τ</sub>=ΣF<sub>τ</sub>,ma<sub>n</sub>=ΣF<sub>n</sub>。
+  </blockquote>
+  <table class="ref">
+    <tr><th>类型</th><th>给什么</th><th>求什么</th><th>数学动作</th></tr>
+    <tr><td>第一类</td><td>运动规律 r(t)</td><td>力</td><td>求导(微分)——简单</td></tr>
+    <tr><td>第二类</td><td>力 F(t, r, v)</td><td>运动规律</td><td>解二阶常微分方程 + 初条件(积分)——核心难点</td></tr>
+  </table>
+  <p>第二类常见积分场景:力是常数(重力)、是 t 的函数(直接积分)、是速度的函数(阻力 −kv,分离变量)、
+     是位置的函数(用 v·dv/ds = a 换元)。</p>
+
+  <h2>二、质点系动量定理:把"整体"管起来</h2>
+  <blockquote>
+    质点系动量 <strong>P = Σm<sub>i</sub>v<sub>i</sub> = M·v<sub>C</sub></strong>(M 总质量,v<sub>C</sub> 质心速度)。<br>
+    <strong>动量定理:dP/dt = ΣF<sub>外</sub></strong> —— 内力(构件间作用)成对抵消,<strong>只有外力管动量</strong>。
+  </blockquote>
+  <p>两个推论(高频考点):</p>
+  <table class="ref">
+    <tr><th>定理</th><th>内容</th><th>典型应用</th></tr>
+    <tr><td>质心运动定理</td><td>M·a<sub>C</sub> = ΣF<sub>外</sub>——质心像一个"装了全部质量的质点"</td><td>发动机震动机身、人船问题</td></tr>
+    <tr><td>动量守恒</td><td>ΣF<sub>外</sub>=0(或某方向为零)→ P 守恒(该方向守恒)</td><td>碰撞、反冲、人船互退</td></tr>
+  </table>
+  <p><strong>人船问题</strong>:船 + 人静止于静水(水平无外力)→ 人走船退,M·Δx<sub>C</sub>=0
+     → m·Δx<sub>人</sub> + M<sub>船</sub>·Δx<sub>船</sub> = 0,相对位移分配与质量成反比。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"内力也能改变系统动量"</strong>——不能,内力成对抵消;但内力能改变<strong>单个质点</strong>的动量。<br>
+       <strong>"动量守恒就是速度守恒"</strong>——守恒的是 Σmv;各质点速度可以互相变(碰撞交换)。<br>
+       <strong>"第二类问题直接套公式"</strong>——先按力的依赖对象(t/r/v)归类再选积分法,
+       顺序错了多半积不出来。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学控制体的<strong>动量方程</strong> ΣF = ∂/∂t∫ρv dV + ∫ρv(v·n)dA,就是本课动量定理
+       "流出减流入 + 存量变化"的流体版——CFD 有限体积法求解的正是它。你在流体力学第 3 课
+       静力学里见过"微元受力平衡",现在动力学版补齐:压差力 + 重力 + 黏性力 = 动量变化率。
+       两门课在这里正式会师。</p>
+  </div>
+
+  <h2>三、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"质点系动量定理中,决定系统动量变化的是?",
+     "opts":["只有外力","外力与内力之和","内力"],
+     "answer":0,
+     "why":"内力成对出现、大小相等方向相反,对系统总动量的贡献恒为零——这是「先整体」策略的动力学版。"},
+    {"q":"人从静止的船上跳向岸(水阻不计),船与人?",
+     "opts":["反向退开,动量大小相等方向相反","一起向前","船不动"],
+     "answer":0,
+     "why":"水平方向外力为零 → 动量守恒:m人v人=M船v船(反向);人与船速度反比于质量。"},
+    {"q":"阻力与速度成正比(F=−kv)的第二类问题,适合的数学动作是?",
+     "opts":["分离变量积分","直接求导","查表套匀变速公式"],
+     "answer":0,
+     "why":"m·dv/dt=−kv 是可分离变量的 ODE:∫dv/v=−(k/m)∫dt → 指数衰减解。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>基本方程</td><td>ma=ΣF;一类问题求导,二类问题解 ODE(按 F 依赖对象选积分法)</td></tr>
+    <tr><td>动量定理</td><td>dP/dt=ΣF外,P=MvC;内力不出场</td></tr>
+    <tr><td>质心运动定理</td><td>MaC=ΣF外;质心当"集装质点"</td></tr>
+    <tr><td>守恒条件</td><td>某方向外力为零 → 该方向动量守恒(人船、反冲)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)质点动力学基本方程 + 动量定理章;MIT OCW 8.01SC Momentum 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0008-planar-motion">← 第 8 课</a>
+    <a href="#lesson-0010-angular-momentum">第 10 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC9%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 动力学开篇,有疑问随时问。</div>
+</article>
+
+<article class="course-doc" id="lesson-0010-angular-momentum">
+<p class="kicker">理论力学 · 第 10 课 / 动力学</p>
+  <h1>动量矩定理 <span class="term-en">Angular Momentum</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 算质点系对轴的动量矩(尤其定轴刚体 J·ω);
+       <strong>②</strong> 用动量矩定理与刚体定轴转动微分方程解题;
+       <strong>③</strong> 熟用平行轴定理,会判断动量矩守恒。</p>
+  </div>
+
+  <h2>一、动量矩:转动的"动量"</h2>
+  <p>动量管平移,转动要新账本。质点对 O 点动量矩:<strong>L<sub>O</sub> = r × mv</strong>(平面内取标量 M<sub>O</sub>(mv));
+     质点系 = 各质点动量矩之和。对定轴转动的刚体,算式坍缩成一行:</p>
+  <blockquote>
+    <strong>L<sub>z</sub> = J<sub>z</sub>·ω</strong>,其中 J<sub>z</sub> = Σm<sub>i</sub>r<sub>i</sub>² 为刚体对 z 轴的<strong>转动惯量</strong>
+    ——"转动惯性的账本":质量越远离轴,账越重。</blockquote>
+
+  <h2>二、动量矩定理与定轴转动微分方程</h2>
+  <blockquote>
+    <strong>dL<sub>O</sub>/dt = ΣM<sub>O</sub>(F<sub>外</sub>)</strong> —— 对固定点(轴):动量矩的变化率 = 外力矩之和。<br>
+    定轴刚体(J 常数)→ <strong>J·α = ΣM<sub>z</sub>(F<sub>外</sub>)</strong> —— "转动的牛顿第二定律"。
+  </blockquote>
+  <p><strong>守恒</strong>:外力矩为零(如绕过轴的光滑约束、重心在轴下)→ L<sub>z</sub> 守恒:
+     花样滑冰收臂(J 变小)→ ω 变大,J₁ω₁ = J₂ω₂。</p>
+
+  <h2>三、转动惯量:会算 + 会查 + 会平移</h2>
+  <table class="ref">
+    <tr><th>事项</th><th>内容</th></tr>
+    <tr><td>定义</td><td>J<sub>z</sub> = Σm<sub>i</sub>r<sub>i</sub>² = ∫r²dm(均质:细杆过端点 mL²/3、过中心 mL²/12;圆盘 mR²/2;圆环 mR²)</td></tr>
+    <tr><td>平行轴定理</td><td><strong>J<sub>z</sub> = J<sub>C</sub> + M·d²</strong>(对过质心轴最"轻",平移只会更重)</td></tr>
+    <tr><td>回转半径</td><td>J = M·ρ²(把分布质量折算成等效环)</td></tr>
+  </table>
+  <p>典型题:复摆/均质杆绕端点摆下,由 J<sub>z</sub>α = mg·(L/2)·cosθ 建方程;或用守恒比较两种姿态的转速。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"动量矩定理对任意点都成立"</strong>——基本形式对<strong>固定点(固定轴)</strong>或<strong>质心</strong>成立;
+       对任意动点要加修正项,初学只许用这两类。<br>
+       <strong>"J 就是 m"</strong>——J 还含 r²:同样质量,离轴一倍距离转动惯性差四倍;<br>
+       <strong>"平行轴定理对任意两轴"</strong>——必须其中一根<strong>过质心</strong>:J<sub>z</sub>=J<sub>C</sub>+Md²,
+       两个非质心轴之间不能直接套。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>无外力矩时动量矩守恒——流体的"角动量守恒"同样是涡旋保持的深层原因(冰上收臂 = 涡管收细变强)。
+       泵与风机叶轮的转矩-流量关系,由<strong>动量矩定理对叶轮流道应用</strong>(欧拉涡轮方程)导出:
+       CFD 旋转机械分析的理论根基就是本课。转轴的支座反力(动静法部分,第 12 课)也依赖 J 的准确计算。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"花样滑冰运动员收拢手臂后转速增大,依据是?",
+     "opts":["动量矩守恒:J 变小则 ω 变大","动量守恒","动能守恒"],
+     "answer":0,
+     "why":"重力过轴力矩为零 → Lz=Jω 守恒;收臂 J 减小,ω 同比增大(注意动能其实增大了,来自肌肉做功)。"},
+    {"q":"均质细杆(质量 M、长 L)对过端点且垂直杆的轴的转动惯量是?",
+     "opts":["ML²/3","ML²/12","ML²/2"],
+     "answer":0,
+     "why":"过质心 mL²/12,平行轴定理 +M(L/2)² → ML²/3。两步走,别直接背错版本。"},
+    {"q":"刚体定轴转动微分方程 J·α=ΣMz 中,α 的决定因素是?",
+     "opts":["外力矩与转动惯量之比","只看外力大小","只看质量大小"],
+     "answer":0,
+     "why":"同样的力矩,J 大则 α 小——转动惯性把「质量+分布」打包成一个量。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>动量矩</td><td>Lo=r×mv;定轴刚体 Lz=Jz·ω</td></tr>
+    <tr><td>定理</td><td>dLo/dt=ΣMo(F外);定轴转动方程 Jα=ΣMz;外力矩零 → 守恒</td></tr>
+    <tr><td>转动惯量</td><td>J=Σmr²;平行轴 Jz=JC+Md²(必须过质心);回转半径 J=Mρ²</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)动量矩定理章;MIT OCW 8.01SC Rotational Motion 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0009-particle-dynamics-momentum">← 第 9 课</a>
+    <a href="#lesson-0011-work-energy">第 11 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC10%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0011-work-energy">
+<p class="kicker">理论力学 · 第 11 课 / 动力学</p>
+  <h1>动能定理 <span class="term-en">Work-Energy Theorem</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 熟算常见力的功与三种运动下的刚体动能;
+       <strong>②</strong> 用动能定理一行解出速度/角速度;
+       <strong>③</strong> 建立"三大定理选用策略",知道什么题找谁。</p>
+  </div>
+
+  <h2>一、功的清单(背熟,别现场推)</h2>
+  <table class="ref">
+    <tr><th>力</th><th>功</th><th>备注</th></tr>
+    <tr><td>常力 / 重力</td><td>W = mg·h(落差,与路径无关)</td><td>有势力</td></tr>
+    <tr><td>弹性力</td><td>W = ½k(x₁² − x₂²)</td><td>从变形 x₁ 到 x₂</td></tr>
+    <tr><td>力矩 / 力偶</td><td>W = M·φ</td><td>定轴转动常用</td></tr>
+    <tr><td>理想约束力</td><td><strong>W = 0</strong></td><td>光滑面/铰链/不可伸长绳——动能定理爱它们的理由</td></tr>
+    <tr><td>摩擦力</td><td>W = −F·s(滑动,耗散)</td><td>纯滚动接触点不打滑 → 摩擦力不做功</td></tr>
+  </table>
+
+  <h2>二、动能的清单</h2>
+  <blockquote>
+    质点 T = ½mv²;平移刚体 T = ½Mv²;定轴转动 T = ½J<sub>z</sub>ω²;
+    <strong>平面运动(柯尼希定理)T = ½Mv<sub>C</sub>² + ½J<sub>C</sub>ω²</strong>(随质心平移 + 绕质心转)。
+  </blockquote>
+
+  <h2>三、动能定理与功率方程</h2>
+  <blockquote>
+    <strong>T₂ − T₁ = ΣW</strong> —— 从状态一到状态二,动能增量 = 一切力做功之和。
+    微分形式(功率方程):<strong>dT/dt = ΣP</strong>(P = F·v = M·ω),求加速度类问题用。
+  </blockquote>
+  <p><strong>示例套路</strong>(轮-重物-绳系统):重物下落 h 带动飞轮——
+     W = mgh;T₂ = ½mv² + ½Jω²(绳不打滑 v=ωR)→ 一行方程解出 v。
+     对比牛顿法(要拆内力、列多个方程),动能定理绕开一切理想约束力——这是它统治"求速度"题的原因。</p>
+
+  <h2>四、三大定理选用策略(动力学"对题下药"表)</h2>
+  <table class="ref">
+    <tr><th>题目要什么</th><th>首选</th><th>理由</th></tr>
+    <tr><td>速度 / 角速度(经一段位移后)</td><td><strong>动能定理</strong></td><td>理想约束不出场,一行搞定</td></tr>
+    <tr><td>力 / 压力(瞬时值)</td><td>动量定理 / 质心运动定理(第 9 课)</td><td>直接给 F 与动量变化的关系</td></tr>
+    <tr><td>转动问题 / 与轴有关的运动</td><td>动量矩定理(第 10 课)</td><td>Jα=ΣMz 量身定做</td></tr>
+    <tr><td>时间积累(冲量)/ 碰撞</td><td>动量(矩)定理积分形式</td><td>冲量 = ΔP</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"所有约束力都不做功"</strong>——只有<strong>理想约束</strong>(光滑、铰、不打滑)才不做功;
+       有摩擦滑动时摩擦力做负功,必须计入 ΣW。<br>
+       <strong>"平面运动动能就是 ½Mv²"</strong>——还要加转动项 ½J<sub>C</sub>ω²(柯尼希定理);
+       车轮滚着走,一半能量藏在转动里。<br>
+       <strong>"动能定理是矢量方程"</strong>——它是<strong>标量</strong>方程,只有一条,投不了影;
+       缺方程时补的是运动学条件(v=ωR 等)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>理想流体沿流线:<strong>伯努利方程就是动能定理的流线版</strong>——压差力做的功 = 动能增量(+重力势能项)。
+       CFD 里的湍动能 k、能量方程,同属能量账本。更一般地,动能定理是"状态量差值"思维的起点,
+       这条思维线一直通向拉格朗日力学(T = V 的舞台)。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"物块沿光滑斜面下滑,用动能定理求 v,方程中出现的力有几个?",
+     "opts":["1 个(重力)","2 个(重力+支持力)","3 个"],
+     "answer":0,
+     "why":"光滑面支持力⊥位移不做功(理想约束)——动能定理方程里只有重力做功 mgh,这正是它的干净之处。"},
+    {"q":"均质圆盘(质量 M、半径 R)沿水平面纯滚动,轮心速度 v,动能为?",
+     "opts":["3/4·Mv²","1/2·Mv²","1/4·Mv²"],
+     "answer":0,
+     "why":"柯尼希定理:½Mv²+½JCω²,JC=MJ²/2、ω=v/R → ½Mv²+¼Mv²=¾Mv²。转动藏了 1/3 的动能。"},
+    {"q":"题目要求「重物下落 2 m 时的速度」,首选的方法是?",
+     "opts":["动能定理","质心运动定理","动静法"],
+     "answer":0,
+     "why":"求一段位移后的速度 → 动能定理(T2−T1=ΣW)一步到位;求瞬时力才轮到动量/质心定理。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>功清单</td><td>mgh、½k(x₁²−x₂²)、Mφ;理想约束零功;滑动摩擦负功</td></tr>
+    <tr><td>动能清单</td><td>½Mv²(平移)、½Jω²(定轴)、½Mvc²+½JCω²(平面运动)</td></tr>
+    <tr><td>定理</td><td>T₂−T₁=ΣW(标量方程);功率方程 dT/dt=ΣP</td></tr>
+    <tr><td>选用策略</td><td>求速度→动能;求力→动量/质心;转动→动量矩;碰撞→积分形式</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)动能定理章;MIT OCW 8.01SC Work-Energy 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0010-angular-momentum">← 第 10 课</a>
+    <a href="#lesson-0012-dalembert-virtual-work">第 12 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC11%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0012-dalembert-virtual-work">
+<p class="kicker">理论力学 · 第 12 课 / 动力学收官 · 通向分析力学的桥</p>
+  <h1>达朗贝尔原理与虚位移原理 <span class="term-en">d'Alembert &amp; Virtual Work</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 用动静法把动力学问题翻译成"静力学题";
+       <strong>②</strong> 说清虚位移与理想约束,用虚功原理求平衡;
+       <strong>③</strong> 看清这两条路如何通向拉格朗日力学与更现代的力学。</p>
+  </div>
+
+  <h2>一、达朗贝尔原理:给动力学加一个"假想力"</h2>
+  <blockquote>
+    质点惯性力 <strong>F<sub>I</sub> = −ma</strong>(方向与加速度相反,大小 ma,不是真实力!)。
+    加上惯性力后:<strong>F + N + F<sub>I</sub> = 0</strong> —— 动力学问题变成"平衡"问题,可用全部静力学工具。
+    这就是<strong>动静法</strong>。
+  </blockquote>
+  <p>刚体平移:惯性力系简化为过质心的 F<sub>I</sub>=−ma<sub>C</sub>;
+     定轴转动:再加惯性力偶 M<sub>I</sub>=−Jα。
+     最经典的用法:<strong>求动反力</strong>——转动件高速旋转时轴承反力 = 静反力 + 附加动反力(由惯性力引起),
+     工程上"转子要动平衡"的依据。</p>
+
+  <h2>二、虚位移与虚功原理:不真动一下,就知道动不动</h2>
+  <blockquote>
+    <strong>虚位移</strong> δr:约束允许的、假想中的微小位移(与时间、真实运动无关,纯几何允许)。
+    <strong>理想约束</strong>:约束力在虚位移上做功之和为零(光滑面/铰/不可伸长绳)。<br>
+    <strong>虚功原理</strong>:具有理想约束的质点系平衡 ⟺ 主动力在任意虚位移上的虚功之和为零:
+    <strong>ΣδW<sub>F</sub> = 0</strong>。
+  </blockquote>
+  <p>威力:约束力全程不出场,求<strong>平衡位置或平衡力</strong>一步到位。
+     例:曲柄连杆在某位置平衡 → 给曲柄一个虚转角 δφ,写出各力虚功(力×沿力方向的虚位移,虚位移用运动学换算)
+     → 令 ΣδW=0 → 解出平衡力矩。这正是第 8 课速度投影的思想在"位移语言"下的重现(ω 换成 δφ/dt 的关系)。</p>
+
+  <h2>三、两条路,一个方向</h2>
+  <table class="ref">
+    <tr><th>方法</th><th>本质</th><th>适用</th></tr>
+    <tr><td>牛顿-欧拉(第 9~11 课)</td><td>力与运动直接挂钩</td><td>要约束力、要受力细节</td></tr>
+    <tr><td>动静法</td><td>惯性力 + 静力学平衡</td><td>求动反力,习惯静力学思维的人</td></tr>
+    <tr><td>虚功原理</td><td>能量的影子(功),绕开约束力</td><td>平衡位置/平衡力;约束越多越显威力</td></tr>
+  </table>
+  <p>虚功原理 + 达朗贝尔原理合体,再引入广义坐标,就是<strong>拉格朗日方程</strong>——
+     分析力学的入口。那里的动能 T、势能 V 会取代"力"成为主角:不是问"力怎么推",
+     而是问"能量怎么走"。你已站在桥上。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"惯性力是真实存在的力"</strong>——它是数学虚构(−ma),没有施力物体;
+       价值在于让动力学可用静力学方法。但它的"效果"(动反力)是真实的。<br>
+       <strong>"虚位移就是很小的真实位移"</strong>——虚位移由<strong>约束几何</strong>允许,
+       与真实运动、时间过程完全无关;同一时刻可有多种虚位移。<br>
+       <strong>"虚功原理可用于任何系统"</strong>——前提是<strong>理想约束</strong>;有摩擦时摩擦力须当主动力计入。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪(结课寄语)</div>
+    <p>三条衔接线送你进入流体力学深处:① <strong>惯性力</strong>——旋转 CFD(泵/风机)动量方程里的
+       科氏与离心项,就是动静法思想在旋转系的表达;② <strong>虚功/变分</strong>——流体力学同样有变分原理,
+       有限元法(FEM)的数学地基正是虚功原理,你已握住它的力学版本;③ <strong>方法论闭环</strong>——
+       从受力图到三大定理再到虚功,你拥有了一整套"把物理问题翻译成方程"的通用流程,
+       这正是 N-S 方程、伯努利方程乃至一切力学模型的生产方式。理论力学毕业,流体力学的根已备好。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"动静法中引入的惯性力 F_I=−ma 是?",
+     "opts":["数学虚构的假想力,无施力物体","地球施加的反作用力","约束反力的一部分"],
+     "answer":0,
+     "why":"惯性力不是真实力,是把 ma 移项到力一侧的产物;但由此解出的附加动反力是真实的(转子动平衡依据)。"},
+    {"q":"虚功原理成立的前提条件是?",
+     "opts":["约束是理想约束(约束力虚功为零)","系统必须静止","必须忽略重力"],
+     "answer":0,
+     "why":"理想约束使约束力在虚功方程中消失;有摩擦时把摩擦力当主动力计入即可,与「静止」无关(平衡=静止或匀速)。"},
+    {"q":"用虚功原理求机构平衡力,最大的好处是?",
+     "opts":["约束力不出现在方程中","不用画受力图","可以得到所有约束力"],
+     "answer":0,
+     "why":"理想约束力虚功为零 → 方程里只有主动力;反过来它也给不出约束力——各有分工。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>动静法</td><td>FI=−ma(平移过质心;定轴加 −Jα 偶);动力学→平衡题;求动反力神器</td></tr>
+    <tr><td>虚位移/虚功</td><td>约束允许的假想位移;理想约束 δW约束=0</td></tr>
+    <tr><td>虚功原理</td><td>平衡 ⟺ ΣδW主动=0;求平衡位置/平衡力,绕开约束力</td></tr>
+    <tr><td>去向</td><td>达朗贝尔+虚功 → 广义坐标 → 拉格朗日方程(下一站)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)动静法与虚位移原理章;有兴趣可读 MIT OCW 8.09 或《力学中的拉格朗日方法》导言。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0011-work-energy">← 第 11 课</a>
+    <a href="#lesson-0013-noninertial-dynamics">第 13 课 · 专题篇 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC12%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 全部 12 课完结!过 M4 验收(两法互验+衔接小结),理论力学即毕业。有疑问随时问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0013-noninertial-dynamics">
+<p class="kicker">理论力学 · 第 13 课 / 专题篇</p>
+  <h1>非惯性系中的质点动力学 <span class="term-en">Dynamics in Non-inertial Frames</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 写出平移与转动非惯性系的动力学方程(含全部惯性力项);
+       <strong>②</strong> 处理"相对平衡"问题(旋转液面!);
+       <strong>③</strong> 解释超重失重、落体东偏、傅科摆。</p>
+  </div>
+
+  <h2>一、牛顿定律的"户口":惯性系与非惯性系</h2>
+  <p>牛顿第二定律只在<strong>惯性系</strong>(无加速度的参考系,近似取地面)成立。
+     在加速/转动的<strong>非惯性系</strong>里直接写 ma′=ΣF 会算错——修正方法:
+     <strong>补上惯性力项,把"账"记平衡</strong>(第 12 课惯性力思想的系统化)。</p>
+
+  <h2>二、两种非惯性系的方程</h2>
+  <table class="ref">
+    <tr><th>动系类型</th><th>相对运动动力学方程</th><th>惯性力项</th></tr>
+    <tr><td>平移(加速度 a<sub>e</sub>)</td><td>ma<sub>r</sub> = ΣF + F<sub>Ie</sub></td><td><strong>F<sub>Ie</sub> = −ma<sub>e</sub></strong>(牵连惯性力)</td></tr>
+    <tr><td>转动(角速度 ω)</td><td>ma<sub>r</sub> = ΣF + F<sub>Ie</sub> + F<sub>IC</sub></td><td>牵连项含<strong>离心惯性力 −mω×(ω×r)</strong>(沿径向向外);
+        <strong>科氏惯性力 F<sub>IC</sub> = −2mω×v<sub>r</sub></strong></td></tr>
+  </table>
+  <p>记忆抓手:车急刹你前倾(F<sub>Ie</sub> 与 a<sub>e</sub> 反向);北半球河流右岸冲刷重(F<sub>IC</sub>)。
+     注意离心惯性力"离轴向外",与向心加速度方向相反——它正是"被甩出去"感觉的账面解释。</p>
+
+  <h2>三、相对平衡:旋转的水桶(流体力学名场面)</h2>
+  <p>液体随容器以 ω 匀速旋转、相对静止(v<sub>r</sub>=0, a<sub>r</sub>=0)→ 相对平衡方程
+     ΣF + F<sub>Ie</sub> = 0。对液面上一质元:重力 + 离心惯性力 + 压差力平衡 →
+     自由液面满足 dz/dr = ω²r/g,积分得</p>
+  <blockquote>
+    <strong>z = ω²r²/(2g)</strong> —— 旋转液面是<strong>抛物面</strong>!
+    这就是旋转水桶凹面、液体静压分布与离心铸造的力学原理。
+  </blockquote>
+
+  <h2>四、地球这个"慢速非惯性系"</h2>
+  <table class="ref">
+    <tr><th>现象</th><th>解释</th></tr>
+    <tr><td>重力随纬度变</td><td>视重 = 引力 − 离心惯性力(赤道离心最大,视重最轻)</td></tr>
+    <tr><td>落体东偏</td><td>下落中 v<sub>r</sub> 增大,科氏力水平分量指向东</td></tr>
+    <tr><td>傅科摆</td><td>摆面相对地球缓慢旋转(科氏力持续右偏),直接"看见"地球自转</td></tr>
+    <tr><td>台风逆时针(北半球)</td><td>科氏力使辐合气流右偏 → 集体逆时针旋转</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"离心力是真实的向外拉力"</strong>——离心惯性力只在非惯性系记账中出现;
+       惯性系里看,没有力拉你向外,是约束力不足以提供向心力。<br>
+       <strong>"相对平衡=静止,可以不用动力学"</strong>——相对平衡是非惯性系里的"平衡",
+       惯性力一项都不能少(旋转液面题丢了离心项就全错)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p><strong>这就是旋转 CFD 的动量方程</strong>:泵、风机、涡轮的数值模拟常用旋转参考系(MRF/滑移网格),
+       方程里多出的 −ρΩ×(Ω×r)(离心)与 −2ρΩ×v(科氏)两项,与本课公式逐字对应。
+       旋转液面的抛物面结论,还是离心铸造与旋转涂膜工艺的设计公式。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"在以加速度 a 匀加速平移的车厢内,牛顿第二定律的修正写法是?",
+     "opts":["ma_r=ΣF−ma_e","ma_r=ΣF","ma_r=ΣF−2mω×v_r"],
+     "answer":0,
+     "why":"平移动系只补牵连惯性力 −ma_e;科氏项只存在于转动动系中。"},
+    {"q":"绕竖直轴匀速旋转的液体,自由液面的形状是?",
+     "opts":["抛物面 z=ω²r²/2g","圆锥面","球面"],
+     "answer":0,
+     "why":"相对平衡:重力+离心惯性力+压差力平衡,积分 dz/dr=ω²r/g 得抛物面。"},
+    {"q":"北半球沿南北方向流动的河流,科氏惯性力使水流偏向?",
+     "opts":["右侧(东岸冲刷更重)","左侧","不偏"],
+     "answer":0,
+     "why":"Ω 指向北极,北半球水平运动物体的科氏力指向运动方向右侧——右岸冲刷重。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>平移动系</td><td>ma_r=ΣF−ma_e;超重失重据此解释</td></tr>
+    <tr><td>转移动系</td><td>再加离心(−mω×(ω×r))与科氏(−2mω×v_r)两项</td></tr>
+    <tr><td>相对平衡</td><td>ΣF+F_Ie=0;旋转液面抛物面 z=ω²r²/2g</td></tr>
+    <tr><td>地球效应</td><td>视重随纬度、落体东偏、傅科摆、台风转向</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)非惯性系中的质点动力学章;傅科摆视频可搜"Foucault pendulum"。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0012-dalembert-virtual-work">← 第 12 课</a>
+    <a href="#lesson-0014-collision">第 14 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC13%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0014-collision">
+<p class="kicker">理论力学 · 第 14 课 / 专题篇</p>
+  <h1>碰撞 <span class="term-en">Collision / Impact</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用恢复系数解两球正碰撞;
+       <strong>②</strong> 算碰撞中的动能损失并说明锻造/打桩的设计逻辑;
+       <strong>③</strong> 求定轴刚体的撞击中心。</p>
+  </div>
+
+  <h2>一、碰撞的三特征与"冲量账本"</h2>
+  <p>碰撞(<span class="term-en">collision</span>)的力学画像:相互作用力<strong>巨大</strong>、作用时间<strong>极短</strong>、
+     位移可忽略。于是处理规则:</p>
+  <table class="ref">
+    <tr><th>规则</th><th>内容</th></tr>
+    <tr><td>只记冲量</td><td>普通力(重力等"非碰撞力")的冲量可忽略;碰撞冲量主导动量跳变</td></tr>
+    <tr><td>位置冻结</td><td>碰撞瞬间物体位置不变,只有速度突变</td></tr>
+    <tr><td>工具切换</td><td>用<strong>动量定理积分形式</strong>(第 9 课)与动量矩定理的积分形式</td></tr>
+  </table>
+
+  <h2>二、恢复系数:碰撞"弹性"的度量</h2>
+  <blockquote>
+    <strong>e = |u<sub>分离法向速度</sub>| / |v<sub>接近法向速度</sub>|</strong>(0 ≤ e ≤ 1)<br>
+    e=1 完全弹性碰撞(动能不损失);e=0 完全塑性碰撞(合为一体);0&lt;e&lt;1 真实材料。
+  </blockquote>
+  <p><strong>两球正碰撞</strong>联立两条:①动量守恒 m₁v₁+m₂v₂=m₁u₁+m₂u₂;②恢复系数定义
+     → 唯一解出碰后速度。动能损失有标准结果:</p>
+  <blockquote>
+    <strong>ΔT = [m₁m₂/(2(m₁+m₂))]·(1−e²)·(v₁−v₂)²</strong>
+    —— 相对速度越大、e 越小,砸掉的动能越多;e=0 时全部相对动能耗尽。
+  </blockquote>
+  <p><strong>工程设计两难的两面</strong>:<strong>锻造</strong>要 e 小(能量进入工件变形,砧座要重而固定);
+     <strong>打桩</strong>也要 e 小(锤与桩近似塑性碰撞,能量传给桩下行而非弹回锤头)——
+     "碰撞损失能量"在不同场合是敌是友,取决于你要能量去哪。</p>
+
+  <h2>三、撞击中心:让轴承"无感"的一击</h2>
+  <blockquote>
+    绕定轴转动的刚体(质心距轴 a、转动惯量 J<sub>z</sub>)受碰撞冲量:
+    当撞击点距轴 <strong>h = J<sub>z</sub>/(m·a)</strong> 时,轴承处<strong>不产生碰撞反力</strong>。
+  </blockquote>
+  <p>这就是棒球棒的"甜区"、门板的最佳推击位置、拳击手用拳峰正面击打的力学依据
+     ——打在撞击中心,手(轴)不震。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"碰撞过程动量守恒,动能也守恒"</strong>——动量(或对轴动量矩)守恒成立,
+       但除 e=1 外动能必损(ΔT 公式);<br>
+       <strong>"恢复系数只与材料有关"</strong>——还与形状、速度、温度有关,教材给的是该对材料的近似常数;<br>
+       <strong>"斜碰撞也只用一个 e"</strong>——e 只约束<strong>法向</strong>相对速度;切向还要看摩擦,别套错方向。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>管中阀门骤关,水柱像刚体一样"撞"上阀门的压力骤升,就是<strong>水锤</strong>(水击)——
+       连续介质版的碰撞,压力波以声速在管中往返(工程要装缓闭阀/调压塔)。
+       更现代的:CFD 里离散相颗粒的 DEM 碰撞模型、液滴聚合/弹开,用的都是本课的
+       恢复系数框架。碰撞是"连续场"里藏着的离散事件。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"两球完全塑性正碰撞(e=0)后,它们?",
+     "opts":["具有共同速度,动能损失最大","弹回原速","停止运动"],
+     "answer":0,
+     "why":"e=0 → 分离相对速度为零 → 合为一体共同前进;相对动能全部耗散,损失最大。"},
+    {"q":"打桩希望锤与桩碰撞的恢复系数?",
+     "opts":["越小越好(能量传给桩)","越大越好(弹回再打)","无所谓"],
+     "answer":0,
+     "why":"e≈0 时锤不弹起,碰撞动能尽量转为桩与锤共同下行的动能;弹回意味着能量白还给锤。"},
+    {"q":"求定轴刚体的撞击中心 h=Jz/(ma),其意义是撞击点取在此处时?",
+     "opts":["轴承处不产生碰撞反力","动能损失最大","刚体不转"],
+     "answer":0,
+     "why":"冲量对轴之矩恰好抵消质心动量跳变引起的反冲——棒球棒甜区、门板最佳推位。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>碰撞规则</td><td>只记碰撞冲量、位置冻结、用动量(矩)积分形式</td></tr>
+    <tr><td>恢复系数</td><td>e=|分离|/|接近|(法向);e=1 弹性、0 塑性</td></tr>
+    <tr><td>动能损失</td><td>ΔT=[m₁m₂/2(m₁+m₂)](1−e²)(v₁−v₂)²</td></tr>
+    <tr><td>撞击中心</td><td>h=Jz/(ma),轴承零碰撞反力(甜区)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)碰撞章;水锤现象可搜"water hammer 缓闭止回阀"。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0013-noninertial-dynamics">← 第 13 课</a>
+    <a href="#lesson-0015-rigid-planar-dynamics">第 15 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC14%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0015-rigid-planar-dynamics">
+<p class="kicker">理论力学 · 第 15 课 / 专题篇</p>
+  <h1>刚体平面运动动力学 <span class="term-en">Planar Rigid Body Dynamics</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用平面运动微分方程组解刚体动力学;
+       <strong>②</strong> 一口气拿下"纯滚动"全题型;
+       <strong>③</strong> 用动能定理与微分方程组交叉验证。</p>
+  </div>
+
+  <h2>一、平面运动微分方程组:三条方程管一个刚体</h2>
+  <blockquote>
+    <strong>m·a<sub>Cx</sub> = ΣF<sub>x</sub>　　m·a<sub>Cy</sub> = ΣF<sub>y</sub>　　J<sub>C</sub>·α = ΣM<sub>C</sub></strong><br>
+    前两条=质心运动定理(第 9 课),第三条=对<strong>质心</strong>的动量矩定理(第 10 课)。
+    三个方程解三个未知量(常为 a<sub>Cx</sub>、a<sub>Cy</sub>、α 或一个约束力)。
+  </blockquote>
+  <p>思想:平面运动=随质心平移+绕质心转动,两本账分开记、同时解。</p>
+
+  <h2>二、王牌例题:圆柱纯滚下斜面</h2>
+  <p>均质圆柱(质量 m、半径 R、J<sub>C</sub>=mR²/2)沿倾角 θ 斜面纯滚下:</p>
+  <table class="ref">
+    <tr><th>方程</th><th>内容</th></tr>
+    <tr><td>质心沿斜面</td><td>ma<sub>C</sub> = mg·sinθ − F<sub>f</sub>(摩擦向上顶)</td></tr>
+    <tr><td>绕质心转动</td><td>J<sub>C</sub>·α = F<sub>f</sub>·R</td></tr>
+    <tr><td>纯滚动条件</td><td>a<sub>C</sub> = α·R</td></tr>
+  </table>
+  <blockquote>
+    联立得 <strong>a<sub>C</sub> = g·sinθ / (1 + J<sub>C</sub>/(mR²))</strong> —— 圆盘 ⅔g·sinθ,
+    圆环 ½g·sinθ(<strong>转动惯量越大滚得越慢</strong>,与质量无关只看分布!);
+    摩擦力 F<sub>f</sub> = (mg·sinθ)/(2+1/(J/(mR²)) 项) 是静摩擦——不做功(第 11 课呼应)。
+  </blockquote>
+  <p><strong>交叉验证</strong>:用动能定理 mgh = ½mv²+½J(v/R)² 求出速度,再求导得加速度——两法一致才算真会。</p>
+
+  <h2>三、板-轮问题与"滑滚判据"</h2>
+  <p>板上拖圆柱(板加速度 A):圆柱同时被摩擦带动滚动+平移。
+     解题先<strong>假设纯滚动</strong>解出所需摩擦 F<sub>f</sub>,再验证 F<sub>f</sub> ≤ f·N:
+     满足则纯滚,不满足则出现滑动,摩擦力取 F<sub>f</sub>=f·N 重新联立。
+     "假设→解→验证"三拍,是所有带摩擦动力学问题的通用拍子。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"转动方程也能对任意点取矩"</strong>——刚体平面运动的转动方程对<strong>质心</strong>成立
+       (或对速度瞬心,但有条件);乱取矩心会丢修正项。<br>
+       <strong>"纯滚动摩擦力一定滑动方向"</strong>——静摩擦方向由方程解出,可能向前也可能向后
+       (视外力作用高度而定),别想当然。<br>
+       <strong>"质量大的圆柱滚得快"</strong>——a 只依赖 J/(mR²)(分布),与总质量无关。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>叶轮机械的"转子动力学"、水表涡轮的启停、水流推动水轮机,本质都是本课方程:
+       流体给轮的力矩 = J·α + 阻力矩——CFD 流固耦合(FSI)中"流场算力、结构算运动"的
+       结构方程一侧就是它。纯滚动的"约束解+验证"拍子,也是流固耦合迭代(算流场→算变形→再算流场)的原型。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"刚体平面运动微分方程组的第三条方程对哪个点取矩?",
+     "opts":["质心(或满足条件的瞬心)","任意点","只能对转轴"],
+     "answer":0,
+     "why":"对质心的动量矩定理 J_C·α=ΣM_C 恒成立;对任意动点需修正项,对速度瞬心需 J_C+md² 的处理且条件苛刻。"},
+    {"q":"同斜面同角度纯滚下落,先到底的是?",
+     "opts":["转动惯量与 mR² 比值小的(如实心盘)","质量大的","同时到底"],
+     "answer":0,
+     "why":"a=g·sinθ/(1+J/(mR²)),只看分布比值:盘(1/2)快于球(2/5)快于环(1)——质量大小无关。"},
+    {"q":"解板-轮拖动问题,先假设纯滚动,解出的摩擦力超过 μN,说明?",
+     "opts":["实际发生滑动,改用 F_f=μN 重新联立","题目无解","减小板加速度即可不管"],
+     "answer":0,
+     "why":"「假设→验证」是带摩擦问题的标准拍子:验证失败换滑动摩擦重解。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>方程组</td><td>maCx=ΣFx、maCy=ΣFy、JC·α=ΣMC(质心+绕质心两本账)</td></tr>
+    <tr><td>纯滚动</td><td>aC=g·sinθ/(1+J/mR²);只看分布不看总质量;静摩擦不做功</td></tr>
+    <tr><td>滑滚判据</td><td>假设纯滚→解摩擦→验证 ≤μN→失败改滑动重解</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)刚体平面运动动力学小节 + 习题 3~5 道;MIT OCW 8.01SC Rolling 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0014-collision">← 第 14 课</a>
+    <a href="#lesson-0016-variable-mass">第 16 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC15%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0016-variable-mass">
+<p class="kicker">理论力学 · 第 16 课 / 专题篇</p>
+  <h1>变质量动力学 <span class="term-en">Variable Mass Dynamics</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 写出密歇尔斯基方程并解火箭类问题;
+       <strong>②</strong> 算反冲推力与"吸积"问题(雨滴、传送带);
+       <strong>③</strong> 分清"质量变化的力"从哪来。</p>
+  </div>
+
+  <h2>一、质量会变的"质点":问题在哪</h2>
+  <p>火箭喷气、雨滴吸水、传送带装货——研究对象的质量 M(t) 随时间变。
+     这类问题的坑:<strong>F = d(Mv)/dt 不能直接用</strong>,因为"质点系"的成员在换人
+     (喷出的气体不再是火箭的一部分)。正确姿势:盯住<strong>主体</strong>,把"离去的/加入的质量"
+     带走的动量记成一项。</p>
+
+  <h2>二、密歇尔斯基方程</h2>
+  <blockquote>
+    <strong>M·(dv/dt) = F<sub>外</sub> + u<sub>相对</sub>·(dM/dt)</strong><br>
+    u<sub>相对</sub>:分离(或并入)质量相对主体的速度矢量;dM/dt 本身带符号(喷气为负、吸水为正)。
+  </blockquote>
+  <p>第二项常写成<strong>反冲推力</strong>:喷气时 dM/dt<0、相对速度向后 → 推力
+     <strong>P = −u·(dM/dt) &gt; 0 向前</strong>——火箭不需要"蹬"任何东西,
+     它推的是自己喷出的气体。</p>
+
+  <h2>三、王牌推导:齐奥尔科夫斯基火箭方程</h2>
+  <p>无外力(太空)、喷气相对速度 u 恒定:M·dv = −u·dM → 分离变量积分:</p>
+  <blockquote>
+    <strong>Δv = u·ln(M₀/M<sub>末</sub>)</strong><br>
+    速度增量只看<strong>质量比的对数</strong>——想要翻倍 Δv,燃料要按指数加。
+    这就是火箭"多级分离"的力学理由(扔掉空壳重置质量比,第 9 课习题的正式版)。
+  </blockquote>
+  <p><strong>吸积反例</strong>(雨滴竖直下落吸水汽,并入速度≈0):M·dv/dt = Mg + v·(dM/dt)
+     → 并入质量"白拿"主体动量,是阻碍——增速比自由落体慢。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"对火箭用 F=d(Mv)/dt"</strong>——错,成员在流动,必须回到动量定理对"确定物质"的原始用法
+       (或直接用密氏方程)。<br>
+       <strong>"反冲力与喷气量有关、与喷速无关"</strong>——推力 P=u·|dM/dt|,两个因子都要;
+       真空里只要在喷,就有推力。<br>
+       <strong>"并入与分离处理相同"</strong>——并入(v<sub>相对</sub> 迎面)通常拖慢主体,符号别写反。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>水火箭、喷水推进器、消防水炮的后坐力,全是本课方程+动量通量(第 9 课衔接框)的组合:
+       推力 = 质量流量 ṁ × 相对速度 u——CFD 里"动量源项/喷流边界条件"的设定依据。
+       涡轮机械逐级分析时,质量流量是贯穿所有级的账本主线。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"火箭在真空中持续喷气,其加速度来自?",
+     "opts":["喷射质量的反冲推力 u·|dM/dt|","推挤外部空气","引力减小"],
+     "answer":0,
+     "why":"推力=u·|dM/dt|,与外界介质无关——真空推力照样有,喷出发动机的工质才是被推的对象。"},
+    {"q":"Δv=u·ln(M₀/M末) 告诉我们?",
+     "opts":["速度增量只依赖质量比的对数,燃料按指数代价增长","速度与喷气时间成正比","质量越大加速越快"],
+     "answer":0,
+     "why":"对数律是火箭工程「多级分离」的全部理由;线性直觉在这里失效。"},
+    {"q":"匀速行进的传送带把货物无初速装上车斗,车斗速度被拖慢的原因是?",
+     "opts":["并入质量带走/稀释了动量(变质量问题)","货物重力做了负功","摩擦生热"],
+     "answer":0,
+     "why":"并入货物相对速度迎面 → 密氏方程中 u·(dM/dt) 项为阻;与摩擦生热是两本账。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>密歇尔斯基方程</td><td>M·dv/dt=F外+u相对·dM/dt;主体视角,成员换人要记账</td></tr>
+    <tr><td>反冲推力</td><td>P=u·|dM/dt|;真空也有推力</td></tr>
+    <tr><td>火箭方程</td><td>Δv=u·ln(M₀/M末);对数律 → 多级火箭</td></tr>
+    <tr><td>吸积</td><td>并入质量拖慢主体(符号为阻)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)变质量质点动力学章;齐奥尔科夫斯基公式史料可搜"Tsiolkovsky"。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0015-rigid-planar-dynamics">← 第 15 课</a>
+    <a href="#lesson-0017-lagrange-i">第 17 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC16%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</article>
+
+<article class="course-doc" id="lesson-0017-lagrange-i">
+<p class="kicker">理论力学 · 第 17 课 / 专题篇 · 通向现代力学</p>
+  <h1>分析力学 I:广义坐标与拉格朗日方程 <span class="term-en">Lagrangian Mechanics</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 数自由度、选广义坐标;
+       <strong>②</strong> 计算广义力;③ 用拉格朗日方程列系统运动方程——
+       一步到位,约束力自动消失。</p>
+  </div>
+
+  <h2>一、自由度与广义坐标:把系统"压"到最省</h2>
+  <p>N 个质点在平面/空间有 2N/3N 个坐标,但约束让它们不独立。
+     <strong>自由度 k</strong> = 完全确定系统位置所需的独立参数个数(完整约束)。
+     描述这 k 个参数的变量就是<strong>广义坐标</strong> q₁…q<sub>k</sub>(可以是长度、角度、任意方便量)。</p>
+  <table class="ref">
+    <tr><th>系统</th><th>自由度</th><th>广义坐标的聪明选法</th></tr>
+    <tr><td>平面单摆</td><td>1</td><td>摆角 θ(不选 x、y!约束自动满足)</td></tr>
+    <tr><td>曲柄滑块机构</td><td>1</td><td>曲柄转角 φ(整机位置随之而定)</td></tr>
+    <tr><td>双摆</td><td>2</td><td>两个摆角 θ₁、θ₂</td></tr>
+  </table>
+
+  <h2>二、广义力:虚功的"坐标化"</h2>
+  <blockquote>
+    让广义坐标跑一个虚位移 δq<sub>j</sub>,把全部主动力的虚功写成
+    <strong>δW = ΣQ<sub>j</sub>·δq<sub>j</sub></strong>,系数 Q<sub>j</sub> 就是<strong>广义力</strong>
+    (可以是力、力矩,量纲随 q 而定)。保守系统 Q<sub>j</sub> = −∂V/∂q<sub>j</sub>。
+  </blockquote>
+
+  <h2>三、拉格朗日方程(第二类)</h2>
+  <blockquote>
+    对每个广义坐标一条方程:<br>
+    <strong>d/dt(∂L/∂q̇<sub>j</sub>) − ∂L/∂q<sub>j</sub> = Q<sub>j</sub></strong>,
+    其中 <strong>L = T − V</strong>(拉格朗日函数:动能减势能);保守系统右端为 0。
+  </blockquote>
+  <p><strong>解题流程(四步模板)</strong>:①选广义坐标 → ②用 q 写出 T、V → ③代入方程 → ④解 ODE。
+   <strong>例(单摆)</strong>:T=½ml²θ̇²,V=−mgl·cosθ → ∂L/∂θ̇=ml²θ̇、d/dt=ml²θ̈、∂L/∂θ=−mgl·sinθ
+   → <strong>ml²θ̈ + mgl·sinθ = 0</strong>——一行到位,绳的张力全程没露面。
+   对比牛顿法要写张力、投影、消元:约束越多,拉氏法越香。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"L=T+V"</strong>——是 <strong>T−V</strong>(动能减势能),符号错了整个方程反号。<br>
+       <strong>"q̇ 是 q 对时间的一阶导数以外还有别的含义"</strong>——没有,把 θ̇ 当独立变量参与偏导运算,
+       最后才代入运动学关系即可(机械化的流程,不必想物理)。<br>
+       <strong>"拉氏方程能求约束力"</strong>——默认理想约束,约束力被"消音"了;求它要回头用动静法/牛顿法
+       (两法互补)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>变分原理是现代力学的通用语:有限元(FEM)的刚度方程=虚功/最小势能原理的离散化(第 12 课伏笔兑现),
+       流体与电磁场也有各自的变分格式;"选最少的坐标、写标量函数、求导出方程"——
+       这个流程在 CFD 后处理降阶模型(POD)与多体动力学软件(ADAMS)中天天在跑。
+       拉格朗日给出的是"制造方程的方程"。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"平面双摆的自由度与合适的广义坐标?",
+     "opts":["2;两个摆角 θ1、θ2","4;两个质点的 x、y","1;总摆长"],
+     "answer":0,
+     "why":"两根杆的约束把 4 个坐标压到 2 个独立参数;选角度使约束自动满足——这正是广义坐标的省力所在。"},
+    {"q":"拉格朗日函数 L 的定义是?",
+     "opts":["T − V(动能减势能)","T + V","V − T"],
+     "answer":0,
+     "why":"L=T−V;代入 d/dt(∂L/∂q̇)−∂L/∂q=Q 后符号系统全部自洽,记错符号方程即错。"},
+    {"q":"用拉格朗日方程解单摆,绳张力出现在方程里吗?",
+     "opts":["不出现(理想约束被消去)","作为 Q 出现","作为 L 的一部分"],
+     "answer":0,
+     "why":"理想约束自动满足,张力被消音——这是方法最大优点,也是它给不出约束力的原因。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>自由度/广义坐标</td><td>独立参数个数;选法让约束自动满足(角度优于坐标)</td></tr>
+    <tr><td>广义力</td><td>δW=ΣQj·δqj 的系数;保守系 Qj=−∂V/∂qj</td></tr>
+    <tr><td>拉氏方程</td><td>d/dt(∂L/∂q̇)−∂L/∂q=Qj,L=T−V;四步模板</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)虚位移原理与拉格朗日方程章;MIT OCW 搜"Lagrange equations"。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0016-variable-mass">← 第 16 课</a>
+    <a href="#lesson-0018-lagrange-ii">第 18 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC17%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 第一次用拉氏方程会觉得"机械",恰恰是它好的标志——照模板走三道就顺了。</div>
+</article>
+
+<article class="course-doc" id="lesson-0018-lagrange-ii">
+<p class="kicker">理论力学 · 第 18 课 / 专题篇 · 课程终章</p>
+  <h1>分析力学 II:守恒律与哈密顿视角 <span class="term-en">Conservation &amp; Hamiltonian View</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用拉氏方程的"积分类"解题(能量积分、广义动量守恒);
+       <strong>②</strong> 解一道非平凡的约束系统题(环上小珠);
+       <strong>③</strong> 说出哈密顿正则方程与相空间的世界观,完成全课程收官。</p>
+  </div>
+
+  <h2>一、从方程里"白捡"的守恒律</h2>
+  <table class="ref">
+    <tr><th>结构特征</th><th>守恒量</th><th>名字</th></tr>
+    <tr><td>L 不含某坐标 q<sub>j</sub>(循环坐标)</td><td>∂L/∂q̇<sub>j</sub> 守恒</td><td><strong>广义动量守恒</strong>(动量/角动量的推广)</td></tr>
+    <tr><td>L 不显含时间 t(保守系)</td><td>Σq̇<sub>j</sub>·∂L/∂q̇<sub>j</sub> − L = 常数</td><td><strong>能量积分</strong>(= T+V)</td></tr>
+  </table>
+  <p>对称性给守恒律:平移对称→动量、旋转对称→角动量、时间对称→能量。
+   这条"诺特定理"的思想,是分析力学送出的最深礼物——守恒律不再是巧合,而是对称性的账本。</p>
+
+  <h2>二、示范题:圆环上的小珠(约束会转,系统仍可解)</h2>
+  <p>半径 R 的圆环绕竖直直径以匀角速度 ω 旋转,珠(质量 m)套在环上滑动。
+   自由度 1,取珠的位置角 θ(自最低点):</p>
+  <table class="ref">
+    <tr><th>步骤</th><th>内容</th></tr>
+    <tr><td>T</td><td>½mR²·θ̇² + ½m(ωR sinθ)²(随环转动的牵连项!)</td></tr>
+    <tr><td>V</td><td>−mgR·cosθ</td></tr>
+    <tr><td>代入</td><td>Rθ̈ = sinθ(g − ω²R·cosθ)·… → 得运动方程与平衡位置 cosθ₀ = g/(ω²R)</td></tr>
+  </table>
+  <p>转速够快时,珠离开最低点爬到<strong>新的平衡角</strong>上——离心"重力场"重塑了平衡景观。
+   注意:T 里出现了不含 θ̇ 的项,说明**这不是保守系**(外力矩持续做功维持 ω),
+   能量积分不可用——先用守恒律前,先查对称性。</p>
+
+  <h2>三、哈密顿视角:换一套"世界观"</h2>
+  <blockquote>
+    定义广义动量 p<sub>j</sub>=∂L/∂q̇<sub>j</sub>,做勒让德变换得<strong>哈密顿函数 H(q,p)=Σp·q̇−L</strong>
+    (保守系 H=T+V),运动方程变成<strong>2k 条一阶方程</strong>:q̇<sub>j</sub>=∂H/∂p<sub>j</sub>,ṗ<sub>j</sub>=−∂H/∂q<sub>j</sub>。
+  </blockquote>
+  <p>拉氏用"位置+速度",哈密顿用"位置+动量"——<strong>相空间</strong>(q,p)里,运动是流,
+   守恒律是流的不变量。量子力学的薛定谔方程、统计力学、现代控制论,都站在相空间语言上;
+   你已拿到入场券。</p>
+
+  <h2>四、全课程收官:三种语言,一个力学</h2>
+  <table class="ref">
+    <tr><th>语言</th><th>主角</th><th>强项</th><th>本课程位置</th></tr>
+    <tr><td>牛顿-欧拉</td><td>力</td><td>受力细节、约束力</td><td>第 9~11 课</td></tr>
+    <tr><td>拉格朗日</td><td>L=T−V(标量)</td><td>复杂约束、自动消约束力</td><td>第 12、17、18 课</td></tr>
+    <tr><td>哈密顿</td><td>H(q,p) 相空间</td><td>守恒律、通往现代物理</td><td>本课(一瞥)</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"能量积分随便用"</strong>——先确认 L 不显含 t;环转动的例子里外力矩做功,能量不守恒。<br>
+       <strong>"循环坐标可遇不可求"</strong>——选坐标时就该奔着对称性去(绕轴系统选角度,常出循环坐标)。<br>
+       <strong>"哈密顿方程只是拉氏方程的改写"</strong>——结构变了:一阶系统+相空间,是全新工具箱(辛算法、混沌)的地基。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学与你的下一站(全课终寄语)</div>
+    <p>分析力学的"状态+流+守恒"世界观,正是现代流体力学与计算科学的骨架:CFD 里的
+       <strong>相空间重构、降阶模型、辛几何算法</strong>都源于此;湍流统计理论用守恒律记账;
+       有限元用变分原理列方程。18 课下来,你手握三条互相印证的语言(力、能量、变分),
+       从受力图走到了相空间——理论力学毕业,而力学,才刚开场。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"L 不显含坐标 q_j(循环坐标)意味着什么?",
+     "opts":["广义动量 ∂L/∂q̇_j 守恒","能量守恒","该坐标不存在"],
+     "answer":0,
+     "why":"拉氏方程退化为 d/dt(∂L/∂q̇)=0 → 广义动量守恒;对应平移对称(动量)或旋转对称(角动量)。"},
+    {"q":"使用能量积分(哈密顿量守恒)前必须检查?",
+     "opts":["L 不显含时间 t","系统必须静止","必须只有一个自由度"],
+     "answer":0,
+     "why":"时间平移对称才给能量守恒;环上转珠(维持 ω 的外力矩做功)就是反例。"},
+    {"q":"哈密顿正则方程的状态变量是?",
+     "opts":["广义坐标 q 与广义动量 p(相空间)","只有位置","力与加速度"],
+     "answer":0,
+     "why":"2k 条一阶方程在 (q,p) 相空间中流动;守恒律成为相空间几何的不变量——现代物理的通用语言。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>循环坐标</td><td>L 不含 q → 广义动量守恒;对称性给守恒律(诺特)</td></tr>
+    <tr><td>能量积分</td><td>L 不显含 t → T+V 守恒;用前先查对称性</td></tr>
+    <tr><td>哈密顿</td><td>H(q,p)=Σp·q̇−L;q̇=∂H/∂p、ṗ=−∂H/∂q;相空间世界观</td></tr>
+    <tr><td>毕业</td><td>三语言一力学;过 M5 验收即完成全部 18 课</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="#doc-glossary">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)拉格朗日方程章末;进阶:Landau《力学》(薄而深,直接站在拉氏视角重讲全力学)。</p>
+
+  <nav class="lesson-nav">
+    <a href="#lesson-0017-lagrange-i">← 第 17 课</a>
+    <a href="#doc-glossary">📖 术语表 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC18%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 18 课全部完结!过 M5 验收即毕业。任何回顾性疑问,随时回来问我。</div>
+</article>
+
+<article class="course-doc" id="doc-glossary">
+<p class="kicker">Reference · 全 12 课术语总表</p>
+  <h1>理论力学术语表 <span class="term-en">Glossary</span></h1>
+  <p>本课程的统一语言。每一课都遵守这里的译名与符号约定;
+     遇到不确定的术语,先回到这里查。</p>
+
+  <h2>静力学(第 1~4 课)</h2>
+  <dl class="glossary">
+    <dt>静力学五公理 <span class="term-en">axioms</span></dt>
+    <dd>二力平衡、加减平衡力系、平行四边形、作用反作用、刚化原理——静力学的"许可证"。</dd>
+    <dt>约束 / 约束力 <span class="term-en">constraint</span></dt>
+    <dd>限制哪个方向的位移,约束力就顶在哪个方向;柔索拉、光滑面法向、固定铰两分量、活动铰一力、二力杆沿杆、固定端两力一偶。</dd>
+    <dt>二力杆 <span class="term-en">two-force member</span></dt>
+    <dd>两端受力、自重不计、平衡 → 两端力沿连线等值反向。</dd>
+    <dt>受力图 <span class="term-en">free-body diagram</span></dt>
+    <dd>隔离体 → 主动力 → 逐处补约束力 → 检查;力学的"识字课"。</dd>
+    <dt>汇交力系解析法</dt>
+    <dd>ΣFx=0、ΣFy=0;投影带符号,合力投影定理。</dd>
+    <dt>力偶 <span class="term-en">couple</span></dt>
+    <dd>等值反向不共线:合力为零只转不推;面内移转不变;只与力偶平衡。</dd>
+    <dt>力线平移定理</dt>
+    <dd>力平移到新点必附加力偶 M=Mo(F);固定端约束(两力一偶)的来源。</dd>
+    <dt>主矢 / 主矩</dt>
+    <dd>R′=ΣF 与简化中心无关;Mo=ΣMo(F) 与中心有关(差 R′×d)。</dd>
+    <dt>平衡方程三形式</dt>
+    <dd>两投影一矩 / 二矩式(连线不⊥轴)/ 三矩式(三点不共线),各 3 个独立方程。</dd>
+    <dt>静定 / 静不定</dt>
+    <dd>未知量≤方程数可解;超出需变形协调条件(材料力学接手)。</dd>
+    <dt>库仑摩擦定律</dt>
+    <dd>0≤Fs≤fs·FN;等号仅在临界或滑动;摩擦是被动力。</dd>
+    <dt>摩擦角 / 自锁 <span class="term-en">self-locking</span></dt>
+    <dd>tanφs=fs;主动力线入摩擦锥 → 多大力都不滑;斜面 α≤φs。</dd>
+    <dt>滚动摩阻</dt>
+    <dd>Mf≤δ·FN,δ 有长度量纲且极小——轮子省力的本质。</dd>
+  </dl>
+
+  <h2>运动学(第 5~8 课)</h2>
+  <dl class="glossary">
+    <dt>三种描述法</dt>
+    <dd>矢量法(定义)、直角坐标法(分量求导)、自然法(轨迹已知,弧坐标)。</dd>
+    <dt>切向 / 法向加速度</dt>
+    <dd>aτ=dv/dt 管速度大小;an=v²/ρ 管方向(指向曲率中心)。</dd>
+    <dt>刚体 <span class="term-en">rigid body</span></dt>
+    <dd>任意两点距离恒不变;平移与定轴转动为基本运动。</dd>
+    <dt>平移 <span class="term-en">translation</span></dt>
+    <dd>体内直线方向不变(轨迹可曲线);同一时刻各点 v、a 处处相同。</dd>
+    <dt>定轴转动</dt>
+    <dd>一个 φ(t) 定全场:ω=dφ/dt、α=dω/dt;v=ωr、aτ=αr、an=ω²r。</dd>
+    <dt>传动比 <span class="term-en">gear ratio</span></dt>
+    <dd>i=ω₁/ω₂=r₂/r₁=z₂/z₁(不打滑),多级连乘。</dd>
+    <dt>动系 / 牵连速度</dt>
+    <dd>动系架在承载滑动的构件上;ve=动系上与动点重合之点的速度(=ω×当前 r)。</dd>
+    <dt>速度合成定理</dt>
+    <dd>va=ve+vr(矢量三角形);vr 沿杆/槽。</dd>
+    <dt>科氏加速度 <span class="term-en">Coriolis</span></dt>
+    <dd>aC=2ω×vr(vr 顺 ω 转 90°);动系平移时为零;地转偏向力与旋转 CFD 附加项的来源。</dd>
+    <dt>平面运动 / 基点法</dt>
+    <dd>随基点平移+绕基点转动;vB=vA+vBA,ω 与基点无关。</dd>
+    <dt>速度投影定理</dt>
+    <dd>两点速度沿连线投影相等(刚体不变形);快算但给不出 ω。</dd>
+    <dt>速度瞬心 <span class="term-en">instantaneous center</span></dt>
+    <dd>该瞬时速度为零的点:垂线交点/纯滚动接触点;v=ω·d;两速度平行相等 → 瞬心无穷远(瞬时平移)。</dd>
+  </dl>
+
+  <h2>动力学(第 9~12 课)</h2>
+  <dl class="glossary">
+    <dt>两类动力学问题</dt>
+    <dd>知运动求力(求导);知力求运动(解二阶 ODE,按 F 依赖 t/r/v 选积分法)。</dd>
+    <dt>动量定理 / 质心运动定理</dt>
+    <dd>dP/dt=ΣF外,P=Mvc;内力不改总动量;某方向外力零 → 该方向守恒(人船问题)。</dd>
+    <dt>动量矩 / 转动惯量</dt>
+    <dd>Lo=r×mv;定轴刚体 Lz=Jzω,Jz=Σmr²(杆端 mL²/3、盘 mR²/2)。</dd>
+    <dt>动量矩定理 / 定轴转动微分方程</dt>
+    <dd>dLo/dt=ΣMo(固定点/质心);Jzα=ΣMz;外力矩零 → 守恒(收臂加速)。</dd>
+    <dt>平行轴定理 / 回转半径</dt>
+    <dd>Jz=JC+Md²(一根轴必须过质心);J=Mρ²。</dd>
+    <dt>功与动能清单</dt>
+    <dd>功:mgh、½k(x₁²−x₂²)、Mφ、滑动摩擦 −Fs;动能:½Mv²、½Jω²、½Mvc²+½JCω²(柯尼希)。</dd>
+    <dt>动能定理 / 功率方程</dt>
+    <dd>T₂−T₁=ΣW(标量方程,理想约束零功);dT/dt=ΣP。</dd>
+    <dt>三大定理选用策略</dt>
+    <dd>求速度→动能;求力→动量/质心;转动→动量矩;碰撞冲量→积分形式。</dd>
+    <dt>惯性力 / 动静法</dt>
+    <dd>FI=−ma(虚构,无施力物体);加惯性力后按平衡解动力学,求动反力(转子动平衡依据)。</dd>
+    <dt>虚位移 / 虚功原理</dt>
+    <dd>约束允许的假想位移;理想约束下平衡 ⟺ ΣδW主动=0;约束力不出场,一步求平衡;通向拉格朗日力学。</dd>
+  </dl>
+
+  <h2>专题篇(第 13~18 课)</h2>
+  <dl class="glossary">
+    <dt>惯性系/非惯性系</dt>
+    <dd>牛顿定律对惯性系成立;非惯性系补惯性力:平移 −ma_e,转动加离心与科氏项。</dd>
+    <dt>相对平衡</dt>
+    <dd>ΣF+F_Ie=0;旋转液面抛物面 z=ω²r²/2g。</dd>
+    <dt>碰撞冲量/恢复系数</dt>
+    <dd>只记碰撞冲量、位置冻结;e=|分离|/|接近|;ΔT=[m₁m₂/2(m₁+m₂)](1−e²)(v₁−v₂)²。</dd>
+    <dt>撞击中心</dt>
+    <dd>h=Jz/(ma):定轴刚体受撞此处轴承零碰撞反力。</dd>
+    <dt>平面运动微分方程</dt>
+    <dd>maC=ΣF、JC·α=ΣMC;纯滚 aC=g·sinθ/(1+J/mR²),只看分布比值。</dd>
+    <dt>密歇尔斯基方程/火箭方程</dt>
+    <dd>M·dv/dt=F外+u·(dM/dt);P=u|dM/dt|;Δv=u·ln(M₀/M末)。</dd>
+    <dt>自由度/广义坐标/广义力</dt>
+    <dd>独立参数个数;δW=ΣQj·δqj 的系数 Qj(保守系 −∂V/∂qj)。</dd>
+    <dt>拉格朗日方程</dt>
+    <dd>d/dt(∂L/∂q̇j)−∂L/∂qj=Qj,L=T−V;理想约束力自动消去。</dd>
+    <dt>循环坐标/能量积分</dt>
+    <dd>L 不含 q → 广义动量守恒;L 不显含 t → T+V 守恒;对称性给守恒律。</dd>
+    <dt>哈密顿函数/正则方程</dt>
+    <dd>H(q,p)=Σp·q̇−L;q̇=∂H/∂p、ṗ=−∂H/∂q;相空间中的现代力学。</dd>
+  </dl>
+
+  <hr>
+  <nav class="lesson-nav">
+    <a href="#lesson-0012-dalembert-virtual-work">← 第 12 课</a>
+    <span>术语表</span>
+  </nav>
+
+  <div class="ask">💬 有任何不清楚的术语?直接在对话里问我——我是你的老师,随时可以追问。</div>
+</article>
+</div></div>
+</div>
+
+<button id="top-btn" title="回到顶部">↑</button>
+<script>
+
+/* ---- composition-demo.js ---- */
+/* ============================================================
+   速度合成演示组件(可复用):旋转圆盘 + 径向滑块
+   展示 v_r(相对)、v_e(牵连)、v_a(绝对)三者关系 va = ve + vr
+   用法:<div class="demo" data-composition-demo></div> 并引入本脚本。
+   ============================================================ */
+(function () {
+  function initDemo(root) {
+    if (root._compInit) return;
+    root._compInit = true;
+    var style = document.createElement("style");
+    style.textContent =
+      ".cmp-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:10px;font-size:.95em}" +
+      ".cmp-row label{display:inline-flex;align-items:center;gap:6px}" +
+      ".cmp-canvas{width:100%;max-width:560px;height:auto;display:block;background:#fffdf6;" +
+      "border:1px solid #e5dcc8;border-radius:8px;margin:0 auto}" +
+      ".cmp-desc{margin-top:8px;font-size:.95em;color:#5a4632;line-height:1.7}";
+    document.head.appendChild(style);
+
+    root.innerHTML =
+      '<div class="cmp-row">' +
+      '<label>转速 ω <input type="range" class="cmp-w" min="0" max="2" step="0.1" value="1"> <span class="cmp-wv">1.0 rad/s</span></label>' +
+      '<label>相对速度 v_r <input type="range" class="cmp-vr" min="-60" max="60" step="5" value="40"> <span class="cmp-vrv">40 px/s</span></label>' +
+      '<label><input type="checkbox" class="cmp-pause"> 暂停</label>' +
+      '</div>' +
+      '<canvas class="cmp-canvas" width="560" height="420"></canvas>' +
+      '<div class="cmp-desc">蓝点 = 动点(沿盘的径向槽滑动);<span style="color:#2b6cb0">蓝箭头 v_r</span> 相对速度,' +
+      '<span style="color:#a0522d">棕箭头 v_e</span> = ω×r 牵连速度(盘上重合点),<span style="color:#b03030">红箭头 v_a</span> = 合成绝对速度。' +
+      '试着把 ω 调成 0 或把 v_r 调成 0,观察极端情况。</div>';
+
+    var cv = root.querySelector(".cmp-canvas"), ctx = cv.getContext("2d");
+    var wIn = root.querySelector(".cmp-w"), vrIn = root.querySelector(".cmp-vr"), pause = root.querySelector(".cmp-pause");
+    var ang = 0, rDist = 40, last = 0;
+
+    function arrow(x1, y1, x2, y2, color, w) {
+      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w || 3;
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+      var a = Math.atan2(y2 - y1, x2 - x1), h = 10;
+      ctx.beginPath(); ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - h * Math.cos(a - 0.45), y2 - h * Math.sin(a - 0.45));
+      ctx.lineTo(x2 - h * Math.cos(a + 0.45), y2 - h * Math.sin(a + 0.45));
+      ctx.closePath(); ctx.fill();
+      ctx.lineWidth = 1;
+    }
+    function label(t, x, y, color) { ctx.fillStyle = color || "#3d3428"; ctx.font = "bold 15px sans-serif"; ctx.fillText(t, x, y); }
+
+    function frame(ts) {
+      var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
+      var w = parseFloat(wIn.value), vr = parseFloat(vrIn.value);
+      if (!pause.checked) { ang += w * dt; rDist += vr * dt; }
+      if (rDist > 150) rDist = 150; if (rDist < -150) rDist = -150;
+
+      ctx.clearRect(0, 0, 560, 420);
+      var cx = 280, cy = 210, R = 160;
+
+      ctx.strokeStyle = "#e5dcc8"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = "#c9b99a";
+      var px = Math.cos(ang), py = Math.sin(ang);
+      ctx.beginPath(); ctx.moveTo(cx - px * R, cy - py * R); ctx.lineTo(cx + px * R, cy + py * R); ctx.stroke();
+
+      var X = cx + px * rDist, Y = cy + py * rDist;
+
+      ctx.strokeStyle = "#5a4632"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI * 2); ctx.fillStyle = "#5a4632"; ctx.fill();
+
+      var scale = 0.55;
+      var evx = -w * rDist * py, evy = w * rDist * px;
+      var rvx = vr * px, rvy = vr * py;
+      var avx = evx + rvx, avy = evy + rvy;
+
+      arrow(X, Y, X + rvx * scale, Y + rvy * scale, "#2b6cb0", 3);
+      if (Math.abs(w) > 0.01) arrow(X, Y, X + evx * scale, Y + evy * scale, "#a0522d", 3);
+      arrow(X, Y, X + avx * scale, Y + avy * scale, "#b03030", 3.5);
+
+      ctx.beginPath(); ctx.arc(X, Y, 8, 0, Math.PI * 2); ctx.fillStyle = "#2b6cb0"; ctx.fill();
+
+      label("v_r", X + rvx * scale + 6, Y + rvy * scale, "#2b6cb0");
+      if (Math.abs(w) > 0.01) label("v_e", X + evx * scale + 6, Y + evy * scale, "#a0522d");
+      label("v_a", X + avx * scale + 6, Y + avy * scale + 4, "#b03030");
+
+      root.querySelector(".cmp-wv").textContent = w.toFixed(1) + " rad/s";
+      root.querySelector(".cmp-vrv").textContent = vr + " px/s";
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  function boot() { document.querySelectorAll("[data-composition-demo]").forEach(initDemo); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+
+/* ---- constraint-demo.js ---- */
+/* ============================================================
+   约束类型演示组件(可复用):六种常见约束 + 约束力方向
+   用法:<div class="demo" data-constraint-demo></div> 并引入本脚本。
+   IIFE + DOMContentLoaded + data- 属性,兼容单课与合并手册两种环境。
+   ============================================================ */
+(function () {
+  var CS = [
+    { key: "rope", name: "柔索", desc: "绳/链/皮带:只能受拉,约束力沿索背离物体(拉力)。",
+      draw: function (ctx) { line(ctx, 200, 40, 200, 140); ball(ctx, 200, 170); arrow(ctx, 200, 150, 200, 90, "#b03030"); label(ctx, "T", 214, 100); label(ctx, "绳不可推,只能拉", 320, 60); } },
+    { key: "surface", name: "光滑面", desc: "光滑接触面:约束力沿公法线指向物体(法向支持力)。",
+      draw: function (ctx) { line(ctx, 80, 220, 320, 150); ball(ctx, 200, 150); arrow(ctx, 200, 165, 245, 152, "#b03030"); label(ctx, "FN", 250, 135); label(ctx, "沿公法线,无摩擦", 320, 60); } },
+    { key: "pin", name: "固定铰支座", desc: "圆柱铰链:方向未知,用水平+竖直两个分量表示(可合成任意方向)。",
+      draw: function (ctx) { beam(ctx); pinGlyph(ctx, 120, 200); arrow(ctx, 120, 200, 200, 200, "#b03030"); arrow(ctx, 120, 200, 120, 110, "#b03030"); label(ctx, "Fx", 205, 205); label(ctx, "Fy", 130, 100); label(ctx, "两个正交分量", 330, 60); } },
+    { key: "roller", name: "活动铰支座(滚动支座)", desc: "可滚动:约束力垂直于支承面,过铰心,指向可假定。",
+      draw: function (ctx) { beam(ctx); rollerGlyph(ctx, 280, 200); arrow(ctx, 280, 200, 280, 110, "#b03030"); label(ctx, "FN⊥支承面", 300, 100); label(ctx, "只能挡一个方向", 330, 60); } },
+    { key: "twoforce", name: "二力杆", desc: "只在两端受力而平衡的杆件:两端约束力必沿两铰连线、等值反向。",
+      draw: function (ctx) { ctx.save(); ctx.strokeStyle = "#5a4632"; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(140, 220); ctx.lineTo(300, 100); ctx.stroke(); ctx.restore(); pinGlyph(ctx, 140, 220); pinGlyph(ctx, 300, 100); arrow(ctx, 140, 220, 230, 156, "#b03030"); arrow(ctx, 300, 100, 210, 164, "#b03030"); label(ctx, "沿杆轴线", 330, 60); } },
+    { key: "fixed", name: "固定端(插入端)", desc: "埋入墙体的约束:两个力分量 + 一个约束力偶,共 3 个未知量。",
+      draw: function (ctx) { beam(ctx); hatch(ctx, 60, 140, 60, 260); arrow(ctx, 80, 200, 170, 200, "#b03030"); arrow(ctx, 80, 200, 80, 110, "#b03030"); arcArrow(ctx, 170, 200, 40); label(ctx, "Fx, Fy, M", 300, 80); label(ctx, "不许移动也不许转动", 280, 60); } }
+  ];
+
+  function initDemo(root) {
+    if (root._constraintInit) return;
+    root._constraintInit = true;
+    var style = document.createElement("style");
+    style.textContent =
+      ".cst-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}" +
+      ".cst-btn{font:inherit;padding:6px 12px;border:1px solid #c9b99a;border-radius:6px;background:#fbf7ee;color:#5a4632;cursor:pointer}" +
+      ".cst-btn.on{background:#a0522d;border-color:#a0522d;color:#fff}" +
+      ".cst-canvas{width:100%;max-width:640px;height:auto;display:block;background:#fffdf6;border:1px solid #e5dcc8;border-radius:8px;margin:0 auto}" +
+      ".cst-desc{margin-top:10px;font-size:.95em;color:#5a4632}";
+    document.head.appendChild(style);
+    var btns = document.createElement("div"); btns.className = "cst-btns";
+    var canvas = document.createElement("canvas"); canvas.className = "cst-canvas"; canvas.width = 640; canvas.height = 280;
+    var desc = document.createElement("div"); desc.className = "cst-desc";
+    root.appendChild(btns); root.appendChild(canvas); root.appendChild(desc);
+    var current = "pin";
+    CS.forEach(function (c) {
+      var b = document.createElement("button"); b.type = "button"; b.className = "cst-btn"; b.textContent = c.name;
+      b._c = c; b.addEventListener("click", function () { current = c.key; draw(); });
+      btns.appendChild(b);
+    });
+    function line(ctx, x1, y1, x2, y2) { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); }
+    function ball(ctx, x, y) { ctx.beginPath(); ctx.arc(x, y, 24, 0, Math.PI * 2); ctx.fillStyle = "#d9c9a8"; ctx.fill(); ctx.stroke(); }
+    function beam(ctx) { ctx.fillStyle = "#d9c9a8"; ctx.fillRect(80, 190, 300, 20); ctx.strokeRect(80, 190, 300, 20); }
+    function pinGlyph(ctx, x, y) { ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fillStyle = "#8a7a5a"; ctx.fill(); ctx.beginPath(); ctx.moveTo(x - 16, y + 22); ctx.lineTo(x, y + 2); ctx.lineTo(x + 16, y + 22); ctx.closePath(); ctx.stroke(); }
+    function rollerGlyph(ctx, x, y) { ctx.beginPath(); ctx.arc(x - 10, y + 20, 8, 0, Math.PI * 2); ctx.stroke(); ctx.beginPath(); ctx.arc(x + 10, y + 20, 8, 0, Math.PI * 2); ctx.stroke(); pinGlyph(ctx, x, y); }
+    function hatch(ctx, x, y1, x2, y2) { line(ctx, x, y1, x, y2); for (var yy = y1; yy < y2; yy += 16) line(ctx, x, yy, x - 14, yy + 12); }
+    function arrow(ctx, x1, y1, x2, y2, color) {
+      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3;
+      var a = Math.atan2(y2 - y1, x2 - x1), h = 10;
+      line(ctx, x1, y1, x2, y2);
+      ctx.beginPath(); ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - h * Math.cos(a - 0.4), y2 - h * Math.sin(a - 0.4));
+      ctx.lineTo(x2 - h * Math.cos(a + 0.4), y2 - h * Math.sin(a + 0.4));
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "#5a4632"; ctx.lineWidth = 2;
+    }
+    function arcArrow(ctx, x, y, r) {
+      ctx.strokeStyle = "#b03030"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(x, y, r, -0.5, 3.4); ctx.stroke();
+      ctx.beginPath(); ctx.arc(x + r * Math.cos(-0.5), y + r * Math.sin(-0.5), 4, 0, Math.PI * 2); ctx.fillStyle = "#b03030"; ctx.fill();
+      ctx.strokeStyle = "#5a4632"; ctx.lineWidth = 2;
+    }
+    function label(ctx, t, x, y) { ctx.fillStyle = "#3d3428"; ctx.font = "14px sans-serif"; ctx.textAlign = "left"; ctx.fillText(t, x, y); }
+    function draw() {
+      var ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, 640, 280);
+      ctx.strokeStyle = "#5a4632"; ctx.lineWidth = 2;
+      Array.prototype.forEach.call(btns.children, function (b) { b.className = "cst-btn" + (b._c.key === current ? " on" : ""); });
+      var c = CS.filter(function (x) { return x.key === current; })[0];
+      c.draw(ctx); desc.textContent = c.desc;
+    }
+    draw();
+  }
+  function boot() { document.querySelectorAll("[data-constraint-demo]").forEach(initDemo); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+
+/* ---- quiz.js ---- */
+/* ============================================================
+   测验组件（可复用）
+   用法：在 HTML 中放置：
+   <div class="quiz" data-quiz='[{"q":"问题","opts":["A","B","C"],"answer":0,"why":"解释"},...]'></div>
+   并引入本脚本。答案选项长度应一致，避免泄露线索。
+   ============================================================ */
+(function () {
+  "use strict";
+
+  const stats = { correct: 0, answered: 0, total: 0 };
+  let scoreShown = false;
+
+  function renderQuiz(container) {
+    let data;
+    try {
+      data = JSON.parse(container.getAttribute("data-quiz"));
+    } catch (e) {
+      console.error("data-quiz JSON 解析失败", e);
+      return;
+    }
+    stats.total += data.length;
+
+    data.forEach(function (item) {
+      const q = document.createElement("div");
+      q.className = "quiz-q";
+      q.textContent = item.q;
+      container.appendChild(q);
+
+      const ul = document.createElement("ul");
+      ul.className = "quiz-opts";
+
+      const feedback = document.createElement("div");
+      feedback.className = "quiz-feedback";
+
+      let answered = false;
+
+      item.opts.forEach(function (optText, idx) {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.className = "quiz-opt";
+        btn.type = "button";
+        btn.textContent = optText;
+        btn.addEventListener("click", function () {
+          if (answered) return;
+          answered = true;
+          stats.answered++;
+          const buttons = ul.querySelectorAll(".quiz-opt");
+          buttons.forEach(function (b, i) {
+            b.disabled = true;
+            if (i === item.answer) b.classList.add("correct");
+          });
+          if (idx === item.answer) {
+            stats.correct++;
+            feedback.textContent = "✓ 正确。" + (item.why || "");
+          } else {
+            btn.classList.add("wrong");
+            feedback.textContent =
+              "✗ 正确答案是绿色那项。" + (item.why || "");
+          }
+          feedback.style.display = "block";
+          maybeShowScore();
+        });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+
+      container.appendChild(ul);
+      container.appendChild(feedback);
+    });
+  }
+
+  function maybeShowScore() {
+    if (scoreShown || stats.answered < stats.total) return;
+    scoreShown = true;
+    const lastQuiz = document.querySelector(".quiz[data-quiz]:last-of-type")
+      || document.querySelector(".quiz[data-quiz]");
+    const score = document.createElement("div");
+    score.className = "quiz-score";
+    score.textContent =
+      "本次得分：" + stats.correct + " / " + stats.total +
+      (stats.correct === stats.total
+        ? "　🎉 全部正确！"
+        : "　答错的题目值得明天回来重测一次——间隔重复才是长期记忆之道。");
+    score.style.display = "block";
+    lastQuiz.parentNode.appendChild(score);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".quiz[data-quiz]").forEach(renderQuiz);
+  });
+})();
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var art = document.getElementById('content');
+
+  /* ---------- 全文检索 ---------- */
+  function unmark() {
+    var ms = art.querySelectorAll('mark');
+    for (var i = 0; i < ms.length; i++) {
+      var m = ms[i], t = document.createTextNode(m.textContent);
+      m.parentNode.replaceChild(t, m);
+    }
+    art.normalize();
+  }
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function mark(qs) {
+    var rx = new RegExp(esc(qs), 'gi');
+    var walker = document.createTreeWalker(art, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        var p = n.parentNode;
+        if (/^(SCRIPT|STYLE|MARK)$/.test(p.nodeName)) return NodeFilter.FILTER_REJECT;
+        return rx.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var hits = [];
+    while (walker.nextNode()) hits.push(walker.currentNode);
+    hits.forEach(function (n) {
+      var frag = document.createDocumentFragment(), last = 0, any = false;
+      n.nodeValue.replace(rx, function (mt, off) {
+        any = true;
+        frag.appendChild(document.createTextNode(n.nodeValue.slice(last, off)));
+        var mk = document.createElement('mark');
+        mk.textContent = mt;
+        frag.appendChild(mk);
+        last = off + mt.length;
+        return mt;
+      });
+      if (!any) return;
+      frag.appendChild(document.createTextNode(n.nodeValue.slice(last)));
+      n.parentNode.replaceChild(frag, n);
+    });
+    return hits.length;
+  }
+
+  var q = document.getElementById('q');
+  var cnt = document.getElementById('q-count');
+  var cur = -1;
+
+  function jumpTo(i) {
+    var ms = [].slice.call(art.querySelectorAll('mark'));
+    if (!ms.length) return;
+    cur = (i + ms.length) % ms.length;
+    ms.forEach(function (m, k) { m.classList.toggle('hit', k === cur); });
+    var el = ms[cur];
+    try {
+      if (el.scrollIntoViewIfNeeded) el.scrollIntoViewIfNeeded(false);
+      else if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'center' });
+    } catch (e) { }
+  }
+  function doSearch() {
+    unmark();
+    cur = -1;
+    var s = q.value.trim();
+    if (!s) { cnt.textContent = ''; return; }
+    var n = mark(s);
+    cnt.textContent = n ? n + ' 处' : '无结果';
+    if (n) jumpTo(0);
+  }
+  q.addEventListener('input', doSearch);
+  q.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); jumpTo(cur + 1); }
+    if (e.key === 'Escape') { q.value = ''; doSearch(); }
+  });
+
+  /* ---------- 目录筛选 ---------- */
+  var sbq = document.getElementById('sb-q');
+  sbq.addEventListener('input', function () {
+    var v = this.value.trim().toLowerCase();
+    var parts = document.querySelectorAll('.sidebar details.part');
+    for (var i = 0; i < parts.length; i++) {
+      var d = parts[i];
+      var hit = d.textContent.toLowerCase().indexOf(v) > -1;
+      d.style.display = (v && !hit) ? 'none' : '';
+      if (v && hit) d.open = true;
+    }
+  });
+
+  /* ---------- Scrollspy:滚动到哪一课,侧栏自动展开并高亮 ---------- */
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        var links = document.querySelectorAll('.sidebar .pages a');
+        for (var i = 0; i < links.length; i++) {
+          links[i].classList.toggle('cur', links[i].getAttribute('href') === '#' + id);
+        }
+        var act = document.querySelector('.sidebar .pages a.cur');
+        if (act) {
+          var d = act.closest('details');
+          if (d && !d.open) d.open = true;
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    var arts = document.querySelectorAll('article.course-doc');
+    for (var i = 0; i < arts.length; i++) spy.observe(arts[i]);
+  }
+
+  /* ---------- 目录收起/展开 ---------- */
+  var tocBtn = document.getElementById('toc-toggle');
+  function applyToc(hidden) {
+    document.body.classList.toggle('toc-hidden', hidden);
+    tocBtn.classList.toggle('on', !hidden);
+    try { localStorage.setItem('handbook-toc', hidden ? '0' : '1'); } catch (e) {}
+  }
+  tocBtn.addEventListener('click', function () {
+    applyToc(!document.body.classList.contains('toc-hidden'));
+  });
+  var saved = null;
+  try { saved = localStorage.getItem('handbook-toc'); } catch (e) {}
+  if (saved === '0') {
+    document.body.classList.add('toc-hidden');
+    tocBtn.classList.remove('on');
+  }
+
+  /* ---------- 回顶 + 打印导出 ---------- */
+  var tb = document.getElementById('top-btn');
+  window.addEventListener('scroll', function () {
+    tb.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  tb.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  document.getElementById('print-btn').addEventListener('click', function () {
+    window.print();
+  });
+})();
+</script>
+</body>
+</html>

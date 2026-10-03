@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 5 课 · 点的运动学</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 5 课 / 运动学开篇</p>
+  <h1>点的运动学 <span class="term-en">Kinematics of a Particle</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 用三种方法描述点的运动(矢量/直角坐标/自然法);
+       <strong>②</strong> 把加速度拆成 a<sub>τ</sub> 与 a<sub>n</sub> 并说清各自管什么;
+       <strong>③</strong> 熟练做匀变速与圆周运动的运动学计算。</p>
+  </div>
+
+  <h2>一、三种描述方法:一套语言,三种拼写</h2>
+  <table class="ref">
+    <tr><th>方法</th><th>描述</th><th>速度 / 加速度</th></tr>
+    <tr><td>矢量法</td><td>r = r(t)(位置矢量)</td><td>v = dr/dt;a = dv/dt(定义级,概念清晰)</td></tr>
+    <tr><td>直角坐标法</td><td>x(t), y(t), z(t)</td><td>v = (ẋ, ẏ, ż);a = (ẍ, ÿ, z̈)——分量独立计算</td></tr>
+    <tr><td>自然法(弧坐标)</td><td>沿已知轨迹的弧长 s(t)</td><td>v = ds/dt(沿切线);a = a<sub>τ</sub>τ° + a<sub>n</sub>n°</td></tr>
+  </table>
+  <p>自然法是理论力学的招牌:轨迹已知时(列车、摆、流线上的质点),把加速度<strong>贴着轨迹分解</strong>:</p>
+  <blockquote>
+    <strong>a<sub>τ</sub> = dv/dt</strong>(切向)——只改变速度<strong>大小</strong>;<br>
+    <strong>a<sub>n</sub> = v²/ρ</strong>(法向,指向曲率中心)——只改变速度<strong>方向</strong>;ρ 为曲率半径。
+  </blockquote>
+
+  <h2>二、两类必练计算</h2>
+  <table class="ref">
+    <tr><th>类型</th><th>套路</th></tr>
+    <tr><td>匀变速(直线)</td><td>v = v₀ + a<sub>τ</sub>t;s = v₀t + ½a<sub>τ</sub>t²;v² − v₀² = 2a<sub>τ</sub>s</td></tr>
+    <tr><td>圆周/曲线运动</td><td>给 s(t) 或 v(t) → 逐次求导得 a<sub>τ</sub>、a<sub>n</sub>,再合成 a = √(a<sub>τ</sub>²+a<sub>n</sub>²);匀速圆周 a<sub>τ</sub>=0,a<sub>n</sub>=v²/R</td></tr>
+  </table>
+  <p><strong>例</strong>:点沿半径 R=0.5 m 圆周运动,v = 2t(SI)。t=1 s 时:
+     a<sub>τ</sub> = 2 m/s²;a<sub>n</sub> = v²/R = 4/0.5 = 8 m/s²;a = √68 ≈ 8.25 m/s²,方向前倾 arctan(a<sub>τ</sub>/a<sub>n</sub>)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"匀速圆周运动加速度为零"</strong>——速度方向一直在变,a<sub>n</sub>=v²/R 一点都不小!<br>
+       <strong>"a 的分量就是直角坐标的导数,自然法也一样"</strong>——直角坐标分量彼此独立没问题,
+       但自然法里 a 沿切/法线分解,<strong>不能</strong>对弧长坐标再求两次导得到 a<sub>n</sub>(a<sub>n</sub> 来自方向变化,是 v²/ρ)。<br>
+       <strong>"减速时 a<sub>τ</sub> 为正"</strong>——减速时 v 与 a<sub>τ</sub> 反号,a<sub>τ</sub>&lt;0,画图别画反。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学有两条描述路线:<strong>拉格朗日法</strong>(跟着流体质点走)= 本课的矢量法/自然法,
+       迹线就是轨迹;欧拉法的加速度公式里,v·∇v 那一项的物理意义正是"速度方向沿流线变化"——
+       弯管流动中 a<sub>n</sub> = v²/ρ 由压强梯度提供(伯努利方程弯道项的来源)。
+       学好自然法,欧拉法里的对流加速度不再抽象。</p>
+  </div>
+
+  <h2>三、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"匀速圆周运动中,点的加速度?",
+     "opts":["只有法向分量 an=v²/ρ","等于零","只有切向分量"],
+     "answer":0,
+     "why":"速率不变 → aτ=0;方向持续变化 → an=v²/ρ 指向圆心,这就是向心加速度。"},
+    {"q":"自然法中 aτ 与 an 的分工是?",
+     "opts":["aτ 改变速度大小,an 改变速度方向","aτ 改变方向,an 改变大小","两者都改大小"],
+     "answer":0,
+     "why":"切向贴着轨迹管「快慢」,法向指向曲率中心管「拐弯」。"},
+    {"q":"点沿圆周 v=3t(SI),R=1 m,t=2 s 时的 aτ 与 an 分别为?",
+     "opts":["3 m/s²;36 m/s²","6 m/s²;36 m/s²","3 m/s²;9 m/s²"],
+     "answer":0,
+     "why":"aτ=dv/dt=3;an=v²/R=(3×2)²/1=36。注意 an 用的是该时刻的 v。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>三方法</td><td>矢量法定义、直角坐标分量算、自然法贴轨迹分解</td></tr>
+    <tr><td>加速度分解</td><td>aτ=dv/dt 管大小;an=v²/ρ 管方向</td></tr>
+    <tr><td>匀变速</td><td>三个公式;曲线题先求 aτ/an 再合成</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)点的运动学章;MIT OCW 8.01SC Kinematics 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0004-friction.html">← 第 4 课</a>
+    <a href="../lessons/0006-rigid-basic-motion.html">第 6 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC5%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>术语表 · 理论力学</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main>
+  <p class="kicker">Reference · 全 12 课术语总表</p>
+  <h1>理论力学术语表 <span class="term-en">Glossary</span></h1>
+  <p>本课程的统一语言。每一课都遵守这里的译名与符号约定;
+     遇到不确定的术语,先回到这里查。</p>
+
+  <h2>静力学(第 1~4 课)</h2>
+  <dl class="glossary">
+    <dt>静力学五公理 <span class="term-en">axioms</span></dt>
+    <dd>二力平衡、加减平衡力系、平行四边形、作用反作用、刚化原理——静力学的"许可证"。</dd>
+    <dt>约束 / 约束力 <span class="term-en">constraint</span></dt>
+    <dd>限制哪个方向的位移,约束力就顶在哪个方向;柔索拉、光滑面法向、固定铰两分量、活动铰一力、二力杆沿杆、固定端两力一偶。</dd>
+    <dt>二力杆 <span class="term-en">two-force member</span></dt>
+    <dd>两端受力、自重不计、平衡 → 两端力沿连线等值反向。</dd>
+    <dt>受力图 <span class="term-en">free-body diagram</span></dt>
+    <dd>隔离体 → 主动力 → 逐处补约束力 → 检查;力学的"识字课"。</dd>
+    <dt>汇交力系解析法</dt>
+    <dd>ΣFx=0、ΣFy=0;投影带符号,合力投影定理。</dd>
+    <dt>力偶 <span class="term-en">couple</span></dt>
+    <dd>等值反向不共线:合力为零只转不推;面内移转不变;只与力偶平衡。</dd>
+    <dt>力线平移定理</dt>
+    <dd>力平移到新点必附加力偶 M=Mo(F);固定端约束(两力一偶)的来源。</dd>
+    <dt>主矢 / 主矩</dt>
+    <dd>R′=ΣF 与简化中心无关;Mo=ΣMo(F) 与中心有关(差 R′×d)。</dd>
+    <dt>平衡方程三形式</dt>
+    <dd>两投影一矩 / 二矩式(连线不⊥轴)/ 三矩式(三点不共线),各 3 个独立方程。</dd>
+    <dt>静定 / 静不定</dt>
+    <dd>未知量≤方程数可解;超出需变形协调条件(材料力学接手)。</dd>
+    <dt>库仑摩擦定律</dt>
+    <dd>0≤Fs≤fs·FN;等号仅在临界或滑动;摩擦是被动力。</dd>
+    <dt>摩擦角 / 自锁 <span class="term-en">self-locking</span></dt>
+    <dd>tanφs=fs;主动力线入摩擦锥 → 多大力都不滑;斜面 α≤φs。</dd>
+    <dt>滚动摩阻</dt>
+    <dd>Mf≤δ·FN,δ 有长度量纲且极小——轮子省力的本质。</dd>
+  </dl>
+
+  <h2>运动学(第 5~8 课)</h2>
+  <dl class="glossary">
+    <dt>三种描述法</dt>
+    <dd>矢量法(定义)、直角坐标法(分量求导)、自然法(轨迹已知,弧坐标)。</dd>
+    <dt>切向 / 法向加速度</dt>
+    <dd>aτ=dv/dt 管速度大小;an=v²/ρ 管方向(指向曲率中心)。</dd>
+    <dt>刚体 <span class="term-en">rigid body</span></dt>
+    <dd>任意两点距离恒不变;平移与定轴转动为基本运动。</dd>
+    <dt>平移 <span class="term-en">translation</span></dt>
+    <dd>体内直线方向不变(轨迹可曲线);同一时刻各点 v、a 处处相同。</dd>
+    <dt>定轴转动</dt>
+    <dd>一个 φ(t) 定全场:ω=dφ/dt、α=dω/dt;v=ωr、aτ=αr、an=ω²r。</dd>
+    <dt>传动比 <span class="term-en">gear ratio</span></dt>
+    <dd>i=ω₁/ω₂=r₂/r₁=z₂/z₁(不打滑),多级连乘。</dd>
+    <dt>动系 / 牵连速度</dt>
+    <dd>动系架在承载滑动的构件上;ve=动系上与动点重合之点的速度(=ω×当前 r)。</dd>
+    <dt>速度合成定理</dt>
+    <dd>va=ve+vr(矢量三角形);vr 沿杆/槽。</dd>
+    <dt>科氏加速度 <span class="term-en">Coriolis</span></dt>
+    <dd>aC=2ω×vr(vr 顺 ω 转 90°);动系平移时为零;地转偏向力与旋转 CFD 附加项的来源。</dd>
+    <dt>平面运动 / 基点法</dt>
+    <dd>随基点平移+绕基点转动;vB=vA+vBA,ω 与基点无关。</dd>
+    <dt>速度投影定理</dt>
+    <dd>两点速度沿连线投影相等(刚体不变形);快算但给不出 ω。</dd>
+    <dt>速度瞬心 <span class="term-en">instantaneous center</span></dt>
+    <dd>该瞬时速度为零的点:垂线交点/纯滚动接触点;v=ω·d;两速度平行相等 → 瞬心无穷远(瞬时平移)。</dd>
+  </dl>
+
+  <h2>动力学(第 9~12 课)</h2>
+  <dl class="glossary">
+    <dt>两类动力学问题</dt>
+    <dd>知运动求力(求导);知力求运动(解二阶 ODE,按 F 依赖 t/r/v 选积分法)。</dd>
+    <dt>动量定理 / 质心运动定理</dt>
+    <dd>dP/dt=ΣF外,P=Mvc;内力不改总动量;某方向外力零 → 该方向守恒(人船问题)。</dd>
+    <dt>动量矩 / 转动惯量</dt>
+    <dd>Lo=r×mv;定轴刚体 Lz=Jzω,Jz=Σmr²(杆端 mL²/3、盘 mR²/2)。</dd>
+    <dt>动量矩定理 / 定轴转动微分方程</dt>
+    <dd>dLo/dt=ΣMo(固定点/质心);Jzα=ΣMz;外力矩零 → 守恒(收臂加速)。</dd>
+    <dt>平行轴定理 / 回转半径</dt>
+    <dd>Jz=JC+Md²(一根轴必须过质心);J=Mρ²。</dd>
+    <dt>功与动能清单</dt>
+    <dd>功:mgh、½k(x₁²−x₂²)、Mφ、滑动摩擦 −Fs;动能:½Mv²、½Jω²、½Mvc²+½JCω²(柯尼希)。</dd>
+    <dt>动能定理 / 功率方程</dt>
+    <dd>T₂−T₁=ΣW(标量方程,理想约束零功);dT/dt=ΣP。</dd>
+    <dt>三大定理选用策略</dt>
+    <dd>求速度→动能;求力→动量/质心;转动→动量矩;碰撞冲量→积分形式。</dd>
+    <dt>惯性力 / 动静法</dt>
+    <dd>FI=−ma(虚构,无施力物体);加惯性力后按平衡解动力学,求动反力(转子动平衡依据)。</dd>
+    <dt>虚位移 / 虚功原理</dt>
+    <dd>约束允许的假想位移;理想约束下平衡 ⟺ ΣδW主动=0;约束力不出场,一步求平衡;通向拉格朗日力学。</dd>
+  </dl>
+
+  <h2>专题篇(第 13~18 课)</h2>
+  <dl class="glossary">
+    <dt>惯性系/非惯性系</dt>
+    <dd>牛顿定律对惯性系成立;非惯性系补惯性力:平移 −ma_e,转动加离心与科氏项。</dd>
+    <dt>相对平衡</dt>
+    <dd>ΣF+F_Ie=0;旋转液面抛物面 z=ω²r²/2g。</dd>
+    <dt>碰撞冲量/恢复系数</dt>
+    <dd>只记碰撞冲量、位置冻结;e=|分离|/|接近|;ΔT=[m₁m₂/2(m₁+m₂)](1−e²)(v₁−v₂)²。</dd>
+    <dt>撞击中心</dt>
+    <dd>h=Jz/(ma):定轴刚体受撞此处轴承零碰撞反力。</dd>
+    <dt>平面运动微分方程</dt>
+    <dd>maC=ΣF、JC·α=ΣMC;纯滚 aC=g·sinθ/(1+J/mR²),只看分布比值。</dd>
+    <dt>密歇尔斯基方程/火箭方程</dt>
+    <dd>M·dv/dt=F外+u·(dM/dt);P=u|dM/dt|;Δv=u·ln(M₀/M末)。</dd>
+    <dt>自由度/广义坐标/广义力</dt>
+    <dd>独立参数个数;δW=ΣQj·δqj 的系数 Qj(保守系 −∂V/∂qj)。</dd>
+    <dt>拉格朗日方程</dt>
+    <dd>d/dt(∂L/∂q̇j)−∂L/∂qj=Qj,L=T−V;理想约束力自动消去。</dd>
+    <dt>循环坐标/能量积分</dt>
+    <dd>L 不含 q → 广义动量守恒;L 不显含 t → T+V 守恒;对称性给守恒律。</dd>
+    <dt>哈密顿函数/正则方程</dt>
+    <dd>H(q,p)=Σp·q̇−L;q̇=∂H/∂p、ṗ=−∂H/∂q;相空间中的现代力学。</dd>
+  </dl>
+
+  <hr>
+  <nav class="lesson-nav">
+    <a href="../lessons/0012-dalembert-virtual-work.html">← 第 12 课</a>
+    <span>术语表</span>
+  </nav>
+
+  <div class="ask">💬 有任何不清楚的术语?直接在对话里问我——我是你的老师,随时可以追问。</div>
+</main>
+</body>
+</html>

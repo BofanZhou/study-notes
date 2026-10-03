@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 8 课 · 刚体的平面运动</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 8 课 / 运动学收官</p>
+  <h1>刚体的平面运动 <span class="term-en">Planar Motion of Rigid Body</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用基点法分解平面运动并求任一点速度;
+       <strong>②</strong> 用速度投影定理做快算;
+       <strong>③</strong> 熟练找速度瞬心,用瞬心法一击求速。</p>
+  </div>
+
+  <h2>一、平面运动 = 平移 + 转动</h2>
+  <p>刚体运动时各点始终平行于某一固定平面(车轮滚、连杆摆),叫<strong>平面运动</strong>。
+     用基点法分解:任选一点 A 为<strong>基点</strong>,平面运动 = 随基点 A 的<strong>平移</strong>
+     + 绕基点 A 的<strong>转动</strong>:</p>
+  <blockquote>
+    <strong>v<sub>B</sub> = v<sub>A</sub> + v<sub>BA</sub></strong>,其中 v<sub>BA</sub> = ω·AB,方向⊥AB、顺 ω 转向。
+    注意:<strong>角速度 ω 与基点选择无关</strong>(平移不携带转动)。
+  </blockquote>
+
+  <h2>三件武器(同一件事的三种解法)</h2>
+  <table class="ref">
+    <tr><th>方法</th><th>用法</th><th>适用</th></tr>
+    <tr><td>基点法</td><td>矢量方程 v<sub>B</sub>=v<sub>A</sub>+v<sub>BA</sub> 投影求解</td><td>万能,尤其求"两点速度+ω"全套</td></tr>
+    <tr><td>速度投影定理</td><td>v<sub>A</sub> 与 v<sub>B</sub> 在 AB 连线上投影相等</td><td>不求 ω、只查两点速度的快算(物理:刚体不变形)</td></tr>
+    <tr><td>速度瞬心法</td><td>找速度为零的瞬心 C,则该瞬时刚体绕 C 纯转:v=ω·d(各点 v⊥其到 C 的连线)</td><td>几何直观、一击求各点速度</td></tr>
+  </table>
+  <p><strong>瞬心求法</strong>:已知两点速度方位 → 分别作垂线,交点即瞬心;
+     纯滚动轮的<strong>接触点</strong>就是瞬心;v∥v′ 时瞬心在无穷远(瞬时平移,ω=0)。</p>
+
+  <h2>二、例:纯滚动的车轮</h2>
+  <p>轮心速度 v<sub>O</sub>,半径 R,纯滚动(不打滑)→ 接触点 C 为瞬心,ω = v<sub>O</sub>/R:
+     轮缘顶点 v = 2v<sub>O</sub>(距瞬心 2R),轮心 v<sub>O</sub>(距瞬心 R),接触点 0。
+     各点速度⊥其与 C 的连线,大小 ∝ 距离——轮子的速度场是一幅绕瞬心的"旋涡图"。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"瞬心是固定点"</strong>——瞬心一般<strong>每时每刻都在变</strong>(纯滚动轮的瞬心沿地面移动),
+       它只是"这一瞬时"的速度为零,加速度并不为零。<br>
+       <strong>"速度投影定理可以求 ω"</strong>——不能,它只约束投影;求 ω 要用基点法或瞬心法。<br>
+       <strong>"基点选谁结果不同"</strong>——v<sub>B</sub> 结果唯一,ω 也唯一;变的只是"平移+转动"的分解方式。
+       但基点应选<strong>速度已知</strong>的点,计算才顺。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>瞬心法是"换一个巧点看问题"的范本:换对参考点,难题立刻变成纯转动。
+       流体力学里同款思想是<strong>速度势与流函数</strong>(二维流:换一对正交标量函数,速度场自动可解),
+       以及流场中<strong>驻点</strong>(速度为零的点,类似瞬心)的分析。更重要的是"分解"思想本身:
+       刚体拆成平移+转动,流体微团拆成平移+转动+变形(第 6 课衔接框的续集)。</p>
+  </div>
+
+  <h2>三、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"纯滚动车轮的轮缘最高点速度大小是轮心的?",
+     "opts":["2 倍","1 倍","√2 倍"],
+     "answer":0,
+     "why":"接触点为瞬心:轮心距瞬心 R → vO=ωR;最高点距瞬心 2R → v=2ωR=2vO。"},
+    {"q":"平面运动刚体某瞬时的速度瞬心,其加速度?",
+     "opts":["一般不为零","必为零","必竖直向下"],
+     "answer":0,
+     "why":"瞬心只是该瞬时速度为零,它随时间移动,加速度一般不为零(纯滚动轮瞬心有向上的加速度)。"},
+    {"q":"已知平面运动刚体上 A、B 两点速度方位平行且相等,该瞬时刚体?",
+     "opts":["做瞬时平移,ω=0","绕 AB 中点转动","角速度无穷大"],
+     "answer":0,
+     "why":"两条垂线平行不相交 → 瞬心在无穷远 → 该瞬时各点速度相同、ω=0,称为瞬时平移。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>基点法</td><td>vB=vA+ω×AB;ω 与基点无关;基点选速度已知点</td></tr>
+    <tr><td>投影定理</td><td>两点速度沿连线投影相等;快算但不给 ω</td></tr>
+    <tr><td>瞬心法</td><td>垂线交点/纯滚动接触点;v=ω·d;瞬时平移→瞬心无穷远</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)刚体平面运动章;曲柄滑块机构例题精做一道。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0007-composite-motion.html">← 第 7 课</a>
+    <a href="../lessons/0009-particle-dynamics-momentum.html">第 9 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC8%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 运动学四课收官。过 M2 验收(两法互验+科氏方向)再进动力学——那是本课程的重头戏。</div>
+</main>
+</body>
+</html>

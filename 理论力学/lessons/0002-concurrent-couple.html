@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 2 课 · 平面汇交力系与力偶</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 2 课 / 静力学</p>
+  <h1>平面汇交力系与力偶 <span class="term-en">Concurrent Forces &amp; Couples</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 用解析法(投影)合成汇交力系并写平衡方程;
+       <strong>②</strong> 说清力偶的三条性质;③ 会用力线平移定理"搬家"。</p>
+  </div>
+
+  <h2>一、汇交力系:投影法一招通吃</h2>
+  <p>所有力作用线汇交于一点的力系,合成结果是一个力。几何法(力多边形)直观但难算,
+     <strong>解析法</strong>才是主力:把每个力投影到 x、y 轴。</p>
+  <table class="ref">
+    <tr><th>操作</th><th>公式</th></tr>
+    <tr><td>力的投影</td><td>Fx = F·cosα,Fy = F·cosβ(α、β 为与轴的夹角;投影有正负)</td></tr>
+    <tr><td>合力投影定理</td><td>Rx = ΣFx,Ry = ΣFy;R = √(Rx²+Ry²),方向 tanθ = Ry/Rx</td></tr>
+    <tr><td>平衡条件</td><td><strong>ΣFx = 0,ΣFy = 0</strong>(两个独立方程,解两个未知量)</td></tr>
+  </table>
+  <p>解题套路:画受力图 → 选坐标轴(尽量让某轴垂直于未知力,少解三角)→ 列两个投影方程 → 解未知量。</p>
+
+  <h2>二、力对点之矩:转动效果的度量</h2>
+  <p>平面内力 F 对 O 点的矩:M<sub>O</sub>(F) = ±F·d——d 为<strong>力臂</strong>(O 到力作用线的垂直距离);
+     逆时针为正、顺时针为负(平面标量约定)。<strong>合力矩定理</strong>:合力对任一点的矩 = 各分力对该点矩的代数和
+     ——力臂不好找时,把力拆成两个好算的分力分别取矩。</p>
+
+  <h2>三、力偶:纯转动的"原子"</h2>
+  <blockquote>
+    <strong>力偶</strong>(<span class="term-en">couple</span>):等值、反向、不共线的两个平行力(F, F′)。
+    它的合力为零(不产生平移),只有转动效应,大小用力偶矩 M = ±F·d(两力间垂直距离 d)度量。
+  </blockquote>
+  <p>三条性质(考点):<strong>①</strong> 力偶在作用面内任意移转、平移,不改变效应;
+     <strong>②</strong> 只要保持力偶矩不变,可同时改变力的大小与力臂;
+     <strong>③</strong> 力偶不能与单个力平衡——只能与另一个力偶平衡。</p>
+
+  <h2>四、力线平移定理:把力"搬家"的正确姿势</h2>
+  <blockquote>
+    把力 F 平移到任意点 O,必须附加一个力偶,其矩 M = M<sub>O</sub>(F)。
+  </blockquote>
+  <p>它一石三鸟:解释了"为什么作用线不同效果就不同"(打门球偏一毫米就拐弯)、
+     给出了<strong>固定端约束</strong>的反力形式(一个力 + 一个力偶)、也是下一课"力系向一点简化"的引擎。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"力偶里的两个力可以合成一个合力"</strong>——不能,合力恒为零;它只有转动效应。<br>
+       <strong>"力偶矩就是力矩,没区别"</strong>——力矩对"某点"而言(换点就变),力偶矩是自由矢量
+       (平面内移转不变、与点无关)。<br>
+       <strong>"投影为负表示力很小"</strong>——负号只表示投影方向与轴正向相反,别丢符号!</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体微元各面上的压强都是法向力,黏性切应力成对出现——这正是"力偶"式的受力;
+       下一课的力系简化告诉我们:一团复杂的表面力总可以用一个主矢 + 一个主矩概括,
+       而 N-S 方程的推导,就是对这个"微元力系"写平衡的动力学版。投影法更是流体力学
+       控制体动量方程的日常操作。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"平面汇交力系平衡的解析条件是?",
+     "opts":["ΣFx=0 且 ΣFy=0","合力矩为零","ΣFx=0、ΣFy=0、ΣMO=0 三个方程"],
+     "answer":0,
+     "why":"汇交力系合成为一个力,平衡即合力为零 → 两个投影方程;第三式只对任意力系才需要。"},
+    {"q":"下列关于力偶的说法错误的是?",
+     "opts":["力偶可与一个适当的力平衡","力偶在其作用面内可任意移转","力偶矩与矩心位置无关"],
+     "answer":0,
+     "why":"力偶只能与力偶平衡(合力为零的它无法抵消任何单个力);其余两条正是力偶的性质。"},
+    {"q":"把力 F 沿其作用线滑移到新位置,对刚体的效应?",
+     "opts":["不变(可传性)","必须附加一个力偶","变为两倍"],
+     "answer":0,
+     "why":"沿作用线滑移不改变力臂与方向,由加减平衡力系公理保证效应不变;但平移出作用线就必须附加力偶(力线平移定理)。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>解析法</td><td>投影 ΣFx=0、ΣFy=0;投影带符号、合力投影定理</td></tr>
+    <tr><td>力矩</td><td>M=±Fd,合力矩定理拆难算的力</td></tr>
+    <tr><td>力偶</td><td>等值反向不共线;合力为零;面内移转不变;只与力偶平衡</td></tr>
+    <tr><td>力线平移</td><td>平移一力,附加一偶 M=MO(F);固定端反力的来源</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)第二、三章汇交力系与力偶部分。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0001-statics-axioms-fbd.html">← 第 1 课</a>
+    <a href="../lessons/0003-planar-force-system.html">第 3 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

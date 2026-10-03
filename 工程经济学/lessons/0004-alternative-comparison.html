@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 4 课 · 方案比选:增量分析与年值法</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/npv-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">工程经济学 · 第 4 课 / 冷热源比选的理论内核</p>
+  <h1>方案比选 <span class="term-en">Comparison of Alternatives</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 25 分钟),你将能够:<strong>①</strong> 区分独立方案与互斥方案,选对判据;
+       <strong>②</strong> 演示「IRR 大的方案未必好」,并给出正确工具:增量分析 ΔIRR;
+       <strong>③</strong> 寿命期不同时用年值法(NAV)正确比选;
+       <strong>④</strong> 对「只有费用流」的方案用费用现值/费用年值比选——冷热源方案的比选框架。</p>
+  </div>
+
+  <h2>一、先分清:独立方案还是互斥方案?</h2>
+  <p><strong>独立方案</strong>(<span class="term-en">independent alternatives</span>):做一个不影响做另一个
+     ——每个方案单独判断 NPV ≥ 0 即可,互不干扰。<br>
+     <strong>互斥方案</strong>(<span class="term-en">mutually exclusive alternatives</span>):只能选一个
+     ——选 A 就不能选 B,这才是比选的主战场。空调冷热源(电制冷 vs 燃气锅炉+冷水机组 vs 地源热泵)、
+     是否上热回收、机房设在哪里——都是互斥方案。</p>
+  <p>互斥比选的总原则只有一句:<strong>在同样的时间口径下,比 NPV(或年值),取最大</strong>。
+     下面两条路线分别处理两个最常见的坑。</p>
+
+  <h2>二、坑一:「IRR 大的方案好」——不一定!</h2>
+  <p>方案 A:投资 500 万,每年末净收益 120 万,寿命 8 年;方案 B:投资 750 万,每年末净收益 170 万,寿命 8 年。
+     先算总账(i<sub>c</sub> = 10%,(P/A, 10%, 8) = 5.3349):</p>
+  <div class="formula">NPV<sub>A</sub> = −500 + 120×5.3349 = <strong>+140.2 万</strong>　　NPV<sub>B</sub> = −750 + 170×5.3349 = <strong>+156.9 万</strong></div>
+  <p>再看各自的 IRR:解 120×(P/A, IRR<sub>A</sub>, 8) = 500 得 IRR<sub>A</sub> ≈ 17.3%;
+     解 170×(P/A, IRR<sub>B</sub>, 8) = 750 得 IRR<sub>B</sub> ≈ 15.5%。
+     <strong>矛盾出现了:B 的 NPV 更大,IRR 却更小</strong>。听谁的?</p>
+  <div class="demo" data-npv-demo></div>
+  <p>两条 NPV–i 曲线在 <strong>Fisher 交点</strong>(≈11.8%)交叉:i<sub>c</sub> 低于交点时 B 的 NPV 大,
+     高于交点后 A 反超。而 IRR 排序永远不变——它「看不见」你真正关心的价值量。</p>
+  <p>正确工具是<strong>增量分析</strong>(<span class="term-en">incremental analysis</span>):
+     把「贵方案 − 便宜方案」当成一个虚拟项目,看多投的钱值不值:</p>
+  <div class="formula">B − A:t=0 多投 250 万,每年末多收 50 万,共 8 年 ⟹ (P/A, ΔIRR, 8) = 250/50 = 5.0 ⟹ <strong>ΔIRR ≈ 11.8%</strong></div>
+  <p><strong>判据:ΔIRR ≥ i<sub>c</sub> → 增量投资划算,选投资大的 B</strong>;否则选 A。
+     本例 11.8% ≥ 10% → 选 B,与 NPV 结论一致。操作顺序:
+     按投资额从小到大排队 → 相邻两两做增量 → 每一步「多花的钱」都要通过 i<sub>c</sub> 检验。</p>
+
+  <h2>三、坑二:寿命期不同——先统一时间口径</h2>
+  <p>两方案寿命不同(如 10 年 vs 15 年)时,NPV 直接比是错的——服务时间都不一样长。
+     三种解法:</p>
+  <ul>
+    <li><strong>年值法(NAV,首选)</strong>:NAV = NPV × (A/P, i<sub>c</sub>, n),
+        把各方案折算成「每年净赚多少」。它隐含「方案可按原样重复更新」的假设,
+        数学上等价于无限重复方案后比 NPV——计算量最小,考试与实务都用它。</li>
+    <li><strong>最小公倍数法</strong>:取寿命的最小公倍数为共同计算期(10 与 15 → 30 年),
+        假设按原样重复购置,再比 NPV。概念直观但计算繁琐。</li>
+    <li><strong>研究期法</strong>:人为指定一个共同研究期(如市场窗口 8 年),
+        期末对未折旧的资产计残值。适合技术迭代快、不宜假设重复的场景。</li>
+  </ul>
+
+  <h2>四、只有费用流:费用现值 PC 与费用年值 AC</h2>
+  <p>冷热源比选的典型困境:各方案<strong>满足同样的需求</strong>(同样的供冷供热),
+     收益端「相同」,差别全在花钱端——初投资、电费/燃气费、维护费。
+     此时不必硬造收益,直接比费用:</p>
+  <div class="formula">PC = Σ CO<sub>t</sub>(1+i<sub>c</sub>)<sup>−t</sup>(费用现值,取小)
+  　　AC = PC × (A/P, i<sub>c</sub>, n)(费用年值,取小,寿命不同用它)</div>
+  <p>第 7 课会把这个框架升级成<strong>寿命周期成本 LCC</strong>——同一思路的工程化包装。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「互斥方案按 IRR 从大到小选」</strong>✗ 这是最高频陷阱;正确做法是 NPV 直接比或增量分析。<br>
+       <strong>②「寿命不同就比 NPV」</strong>✗ 先统一口径:年值法/最小公倍数/研究期。<br>
+       <strong>③「增量分析比较两个方案的 IRR」</strong>✗ ΔIRR 是「差额现金流」的 IRR,不是两者相减。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你的专业</div>
+    <p>把本课拼图装进暖通:三台候选冷热源<strong>寿命不同</strong>(螺杆机 15 年、地源热泵 20 年、
+       燃气三联供 15 年)、<strong>费用结构不同</strong>(初投资、能效、燃气费、维保),
+       满足同一栋楼的冷热需求 → 标准解法:列各方案的费用现金流 → 算费用年值 AC →
+       取最小。再叠加可靠性、机房面积、碳排放等非经济因素做综合决策——
+       经济比选是「硬筛子」,先筛掉不划算的,再在剩下的里面权衡其他。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"互斥方案比选的正确判据是?","opts":["IRR 最大的方案","投资回收期最短的方案","相同时间口径下 NPV(或年值)最大的方案","初投资最小的方案"],"answer":2,"why":"互斥方案以价值量(NPV/NAV)定胜负;IRR 与回收期都可能给出误导性排序。"},
+    {"q":"ΔIRR 的含义与判据是?","opts":["两方案 IRR 之差;大于零选贵的","差额现金流的内部收益率;≥ ic 选投资大的方案","增量投资的回收期;越短越好","Fisher 交点;任何情况选便宜的"],"answer":1,"why":"把「多投的钱」看成虚拟项目,它的收益率过了 ic 门槛,增量投资才值得;本例 ΔIRR≈11.8%≥10% → 选 B。"},
+    {"q":"寿命期不同的互斥方案,首选哪种比选方法?","opts":["直接比 NPV","比静态回收期","年值法 NAV","比初投资"],"answer":2,"why":"NAV 把不同寿命折成「每年净赚」,隐含重复更新假设,等价于无限重复后比 NPV,计算最简。"},
+    {"q":"收益相同、只有费用流不同的方案,应比较?","opts":["费用现值 PC 或费用年值 AC,取小","NPV,取大","IRR,取大","净年值 NAV,取大"],"answer":0,"why":"收益端相同时价值型指标退化成纯费用比较;寿命相同用 PC,寿命不同用 AC。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>互斥方案</td><td>mutually exclusive alternatives</td><td>只能选一;同口径比 NPV/年值取大</td></tr>
+    <tr><td>增量分析</td><td>incremental (Δ) analysis</td><td>「贵−便宜」当虚拟项目;ΔIRR ≥ ic 选贵的</td></tr>
+    <tr><td>Fisher 交点</td><td>Fisher intersection</td><td>两方案 NPV–i 曲线交点 = ΔIRR;ic 在交点两侧结论反转</td></tr>
+    <tr><td>年值法</td><td>annual worth method</td><td>NAV = NPV×(A/P,ic,n);不同寿命比选首选</td></tr>
+    <tr><td>最小公倍数法</td><td>LCM method</td><td>共同计算期 + 重复更新假设;直观但繁琐</td></tr>
+    <tr><td>费用现值/年值</td><td>PC / AC</td><td>只有费用流时比「谁花的钱折现更少」;取小</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:刘晓君《工程经济学》第 6 章「多方案比选」——增量分析全流程与寿命不同处理。</li>
+    <li>注册公用设备工程师公共基础「工程经济」:互斥方案与增量 IRR 是高频考点,配套真题练 2–3 道。</li>
+    <li>复习第 3 课的 NAV 定义:<a href="../lessons/0003-npv-irr-payback.html">评价指标</a>。</li>
+    <li><a href="../reference/glossary.html">术语表</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0003-npv-irr-payback.html">← 第 3 课:NPV / IRR / 回收期</a>
+    <a href="../lessons/0005-uncertainty-analysis.html">第 5 课:不确定性分析 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B7%A5%E7%A8%8B%E7%BB%8F%E6%B5%8E%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC4%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。「为什么 IRR 会骗人」值得反复问——每问一次,你对 NPV 的信任就深一分。</div>
+</main>
+</body>
+</html>

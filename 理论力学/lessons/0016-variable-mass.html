@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 16 课 · 变质量动力学</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 16 课 / 专题篇</p>
+  <h1>变质量动力学 <span class="term-en">Variable Mass Dynamics</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 写出密歇尔斯基方程并解火箭类问题;
+       <strong>②</strong> 算反冲推力与"吸积"问题(雨滴、传送带);
+       <strong>③</strong> 分清"质量变化的力"从哪来。</p>
+  </div>
+
+  <h2>一、质量会变的"质点":问题在哪</h2>
+  <p>火箭喷气、雨滴吸水、传送带装货——研究对象的质量 M(t) 随时间变。
+     这类问题的坑:<strong>F = d(Mv)/dt 不能直接用</strong>,因为"质点系"的成员在换人
+     (喷出的气体不再是火箭的一部分)。正确姿势:盯住<strong>主体</strong>,把"离去的/加入的质量"
+     带走的动量记成一项。</p>
+
+  <h2>二、密歇尔斯基方程</h2>
+  <blockquote>
+    <strong>M·(dv/dt) = F<sub>外</sub> + u<sub>相对</sub>·(dM/dt)</strong><br>
+    u<sub>相对</sub>:分离(或并入)质量相对主体的速度矢量;dM/dt 本身带符号(喷气为负、吸水为正)。
+  </blockquote>
+  <p>第二项常写成<strong>反冲推力</strong>:喷气时 dM/dt<0、相对速度向后 → 推力
+     <strong>P = −u·(dM/dt) &gt; 0 向前</strong>——火箭不需要"蹬"任何东西,
+     它推的是自己喷出的气体。</p>
+
+  <h2>三、王牌推导:齐奥尔科夫斯基火箭方程</h2>
+  <p>无外力(太空)、喷气相对速度 u 恒定:M·dv = −u·dM → 分离变量积分:</p>
+  <blockquote>
+    <strong>Δv = u·ln(M₀/M<sub>末</sub>)</strong><br>
+    速度增量只看<strong>质量比的对数</strong>——想要翻倍 Δv,燃料要按指数加。
+    这就是火箭"多级分离"的力学理由(扔掉空壳重置质量比,第 9 课习题的正式版)。
+  </blockquote>
+  <p><strong>吸积反例</strong>(雨滴竖直下落吸水汽,并入速度≈0):M·dv/dt = Mg + v·(dM/dt)
+     → 并入质量"白拿"主体动量,是阻碍——增速比自由落体慢。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"对火箭用 F=d(Mv)/dt"</strong>——错,成员在流动,必须回到动量定理对"确定物质"的原始用法
+       (或直接用密氏方程)。<br>
+       <strong>"反冲力与喷气量有关、与喷速无关"</strong>——推力 P=u·|dM/dt|,两个因子都要;
+       真空里只要在喷,就有推力。<br>
+       <strong>"并入与分离处理相同"</strong>——并入(v<sub>相对</sub> 迎面)通常拖慢主体,符号别写反。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>水火箭、喷水推进器、消防水炮的后坐力,全是本课方程+动量通量(第 9 课衔接框)的组合:
+       推力 = 质量流量 ṁ × 相对速度 u——CFD 里"动量源项/喷流边界条件"的设定依据。
+       涡轮机械逐级分析时,质量流量是贯穿所有级的账本主线。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"火箭在真空中持续喷气,其加速度来自?",
+     "opts":["喷射质量的反冲推力 u·|dM/dt|","推挤外部空气","引力减小"],
+     "answer":0,
+     "why":"推力=u·|dM/dt|,与外界介质无关——真空推力照样有,喷出发动机的工质才是被推的对象。"},
+    {"q":"Δv=u·ln(M₀/M末) 告诉我们?",
+     "opts":["速度增量只依赖质量比的对数,燃料按指数代价增长","速度与喷气时间成正比","质量越大加速越快"],
+     "answer":0,
+     "why":"对数律是火箭工程「多级分离」的全部理由;线性直觉在这里失效。"},
+    {"q":"匀速行进的传送带把货物无初速装上车斗,车斗速度被拖慢的原因是?",
+     "opts":["并入质量带走/稀释了动量(变质量问题)","货物重力做了负功","摩擦生热"],
+     "answer":0,
+     "why":"并入货物相对速度迎面 → 密氏方程中 u·(dM/dt) 项为阻;与摩擦生热是两本账。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>密歇尔斯基方程</td><td>M·dv/dt=F外+u相对·dM/dt;主体视角,成员换人要记账</td></tr>
+    <tr><td>反冲推力</td><td>P=u·|dM/dt|;真空也有推力</td></tr>
+    <tr><td>火箭方程</td><td>Δv=u·ln(M₀/M末);对数律 → 多级火箭</td></tr>
+    <tr><td>吸积</td><td>并入质量拖慢主体(符号为阻)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)变质量质点动力学章;齐奥尔科夫斯基公式史料可搜"Tsiolkovsky"。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0015-rigid-planar-dynamics.html">← 第 15 课</a>
+    <a href="../lessons/0017-lagrange-i.html">第 17 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC16%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 3 课 · 经济效果评价指标:NPV / IRR / 回收期</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/npv-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">工程经济学 · 第 3 课 / 三个指标,一整套判据</p>
+  <h1>经济效果评价指标 <span class="term-en">NPV · IRR · Payback Period</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 25 分钟),你将能够:<strong>①</strong> 手算一个项目的净现值 NPV 并下结论;
+       <strong>②</strong> 说清 IRR 的定义,用线性内插估算它,并知道它的适用边界;
+       <strong>③</strong> 计算静态与动态投资回收期,说出两者的差距从哪来;
+       <strong>④</strong> 判断一个节能改造项目「值不值」。</p>
+  </div>
+
+  <h2>一、评价指标的三大门派</h2>
+  <p>第 2 课解决了「换算」,这一课解决「判断」。评价指标分三派:
+     <strong>时间型</strong>(投资回收期——多久回本)、
+     <strong>价值型</strong>(净现值 NPV、净年值 NAV——净赚多少)、
+     <strong>比率型</strong>(内部收益率 IRR——盈利效率多高)。
+     考试与实务里 NPV 与 IRR 是绝对主角,回收期作辅助。</p>
+
+  <h2>二、净现值 NPV:一锤定音的判据</h2>
+  <p><strong>净现值</strong>(<span class="term-en">net present value, NPV</span>):把项目一生(0 到 n 年)
+     的净现金流量,按基准收益率 <span class="var">i<sub>c</sub></span> 全部折现到 0 点后求和:</p>
+  <div class="formula">NPV = Σ<sub>t=0</sub><sup>n</sup> (CI − CO)<sub>t</sub> · (1 + i<sub>c</sub>)<sup>−t</sup></div>
+  <p><strong>判据:NPV ≥ 0 → 方案可行</strong>。注意 NPV ≥ 0 的含义不是「不亏钱」,
+     而是「<strong>赚回了基准收益率要求的回报之后还有剩</strong>」——
+     超额部分才是真正意义上的「净赚」(都按 0 点价格计)。</p>
+  <h3>例题:节能改造值不值?</h3>
+  <p>某商场空调系统节能改造:初投资 120 万(t=0),此后每年末省电费 20 万,设备寿命 10 年,
+     基准收益率 i<sub>c</sub> = 8%。第 2 课已算过 (P/A, 8%, 10) = 6.7101:</p>
+  <div class="formula">NPV = −120 + 20 × 6.7101 = <strong>+14.2 万</strong> → NPV ≥ 0,改造值得做</div>
+  <p>内部收益率先按下不表,先看另一派指标:</p>
+
+  <h2>三、投资回收期:多久回本?</h2>
+  <p><strong>静态投资回收期</strong>(<span class="term-en">static payback period, P<sub>t</sub></span>)
+     不折现,数「累计净现金流转正」的时刻。上例每年净收益均匀 20 万,
+     累计到第 6 年恰好 −120 + 20×6 = 0:</p>
+  <div class="formula">P<sub>t</sub> = (累计净现金流首次 ≥ 0 的年份 − 1) + |上年累计| / 当年净现金流 = <strong>6 年</strong></div>
+  <p><strong>判据:P<sub>t</sub> ≤ 基准回收期 P<sub>c</sub></strong>。它简单直观、天然关注「钱套牢多久」,
+     但有两个先天缺陷:<strong>忽略时间价值</strong>、<strong>无视回收期之后的现金流</strong>
+     ——长寿的优质项目会被低估。<strong>动态投资回收期</strong>
+     (<span class="term-en">dynamic payback period</span>)把折现引入累计净现金流:
+     上例折现后累计转正的时刻约为 <strong>8.5 年</strong>(用 (P/A, 8%, t) = 120/20 = 6 反查 t,
+     t=8 时系数 5.7466、t=9 时 6.2469,插值得 8.5)。
+     静态 6 年 vs 动态 8.5 年——差距全是时间价值。</p>
+
+  <h2>四、内部收益率 IRR:项目的「自带收益率」</h2>
+  <p><strong>内部收益率</strong>(<span class="term-en">internal rate of return, IRR</span>):
+     使 NPV 恰好等于 0 的那个折现率:</p>
+  <div class="formula">Σ<sub>t=0</sub><sup>n</sup> (CI − CO)<sub>t</sub> (1 + IRR)<sup>−t</sup> = 0　⟹　<strong>判据:IRR ≥ i<sub>c</sub> → 可行</strong></div>
+  <p>直觉:IRR 是项目「自己长出来的盈利能力」,与外部利率无关——「内部」二字由此而来。
+     上例:20 × (P/A, IRR, 10) = 120 ⟹ (P/A, IRR, 10) = 6.0,内插得 <strong>IRR ≈ 10.6% &gt; 8%</strong> ✓,
+     与 NPV 结论一致。手算用<strong>线性内插</strong>:找两个折现率 i₁(NPV&gt;0)与 i₂(NPV&lt;0),
+     IRR ≈ i₁ + NPV₁/(NPV₁+|NPV₂|)·(i₂−i₁)。</p>
+  <p>NPV 随 i 单调递减、与横轴的交点就是 IRR——这个图像(下面的演示)是理解两个指标关系的钥匙:</p>
+
+  <div class="demo" data-npv-demo></div>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「NPV &lt; 0 = 项目亏本」</strong>✗ 只是没达到基准收益率门槛,项目仍可能在赚钱。<br>
+       <strong>②「IRR 越大方案越好」</strong>✗ 互斥方案比选时 IRR 会骗人——第 4 课专门拆它。<br>
+       <strong>③「非常规现金流必有唯一 IRR」</strong>✗ 中途有大额追加投资时,NPV–i 曲线可能与横轴多次相交,IRR 多解甚至无解;此时认 NPV。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你的专业</div>
+    <p>「初投资 + 每年等额收益 + 寿命 n」是暖通节能项目的标准现金流形态(EMC 合同、LED 改造、
+       高效机房改造全是这个形状),于是有一张必背的快捷公式:
+       <strong>NPV = −投资 + 年净收益 × (P/A, i<sub>c</sub>, n)</strong>。
+       考试里的节能改造题、注册考试的财务评价题,90% 从这一行出发。
+       另记一个「年金化」工具:净年值 NAV = NPV × (A/P, i<sub>c</sub>, n)——
+       把 0 点的净现值摊成每年的等额净收益,第 4 课比选不同寿命方案时它就是主角。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"NPV ≥ 0 的准确含义是?","opts":["项目不亏损","项目达到基准收益率要求后还有超额收益","项目的利润率为正","项目回收期短于寿命"],"answer":1,"why":"NPV 是「按 ic 折现后」的净值:≥0 说明回报率至少达到 ic,且折现后仍有超额价值。"},
+    {"q":"静态回收期的主要缺陷是?","opts":["计算太复杂","忽略时间价值且无视回收期后的现金流","不能用于节能项目","必须先算 IRR"],"answer":1,"why":"两个缺陷都源于「静态」;它适合做辅助指标与风险参考,不能单独定生死。"},
+    {"q":"内部收益率 IRR 的定义是?","opts":["项目寿命期的平均年收益率","使 NPV = 0 的折现率","银行的基准贷款利率","使回收期最短的折现率"],"answer":1,"why":"IRR 由项目自身现金流「内部」决定;它是 NPV–i 曲线与横轴的交点。"},
+    {"q":"初投资 120 万、每年末省 20 万、寿命 10 年、ic=8%(P/A=6.7101),NPV 为?","opts":["+14.2 万","−14.2 万","+20.0 万","+134.2 万"],"answer":0,"why":"NPV = −120 + 20×6.7101 = +14.2 万;134.2 万是收益的现值,还没减投资。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>净现值</td><td>NPV</td><td>净现金流按 ic 折现到 0 点求和;≥ 0 可行</td></tr>
+    <tr><td>基准收益率</td><td>benchmark / hurdle rate (i<sub>c</sub>)</td><td>投资回报的及格线;官方参数见《方法与参数》</td></tr>
+    <tr><td>内部收益率</td><td>IRR</td><td>NPV=0 的折现率;IRR ≥ ic 可行;非常规现金流可能多解</td></tr>
+    <tr><td>线性内插</td><td>linear interpolation</td><td>IRR ≈ i₁ + NPV₁/(NPV₁+|NPV₂|)(i₂−i₁)</td></tr>
+    <tr><td>静态回收期</td><td>static payback period</td><td>不折现数回本年数;辅助指标</td></tr>
+    <tr><td>动态回收期</td><td>dynamic payback period</td><td>折现后的回本年数;恒 ≥ 静态</td></tr>
+    <tr><td>净年值</td><td>net annual value (NAV)</td><td>NPV × (A/P, ic, n);不同寿命比选的通行证</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:刘晓君《工程经济学》第 4–5 章「经济效果评价指标」——各指标的规范定义、判据与例题。</li>
+    <li>《建设项目经济评价方法与参数》(第三版):NPV/IRR 的官方算法与基准收益率取值思路。</li>
+    <li>Excel 路径:=NPV(ic, 现金流区) + t0 修正;=IRR(现金流区) 与手算内插互查。</li>
+    <li><a href="../reference/glossary.html">术语表</a> · 下一课预告:<a href="../lessons/0004-alternative-comparison.html">方案比选</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0002-equivalence-factors.html">← 第 2 课:等值计算·六个标准系数</a>
+    <a href="../lessons/0004-alternative-comparison.html">第 4 课:方案比选 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B7%A5%E7%A8%8B%E7%BB%8F%E6%B5%8E%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC3%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。「IRR 到底内部在哪」「动态回收期怎么插值」——任何卡壳都直接问,别攒着。</div>
+</main>
+</body>
+</html>

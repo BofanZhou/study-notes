@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 10 课 · 动量矩定理</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 10 课 / 动力学</p>
+  <h1>动量矩定理 <span class="term-en">Angular Momentum</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 算质点系对轴的动量矩(尤其定轴刚体 J·ω);
+       <strong>②</strong> 用动量矩定理与刚体定轴转动微分方程解题;
+       <strong>③</strong> 熟用平行轴定理,会判断动量矩守恒。</p>
+  </div>
+
+  <h2>一、动量矩:转动的"动量"</h2>
+  <p>动量管平移,转动要新账本。质点对 O 点动量矩:<strong>L<sub>O</sub> = r × mv</strong>(平面内取标量 M<sub>O</sub>(mv));
+     质点系 = 各质点动量矩之和。对定轴转动的刚体,算式坍缩成一行:</p>
+  <blockquote>
+    <strong>L<sub>z</sub> = J<sub>z</sub>·ω</strong>,其中 J<sub>z</sub> = Σm<sub>i</sub>r<sub>i</sub>² 为刚体对 z 轴的<strong>转动惯量</strong>
+    ——"转动惯性的账本":质量越远离轴,账越重。</blockquote>
+
+  <h2>二、动量矩定理与定轴转动微分方程</h2>
+  <blockquote>
+    <strong>dL<sub>O</sub>/dt = ΣM<sub>O</sub>(F<sub>外</sub>)</strong> —— 对固定点(轴):动量矩的变化率 = 外力矩之和。<br>
+    定轴刚体(J 常数)→ <strong>J·α = ΣM<sub>z</sub>(F<sub>外</sub>)</strong> —— "转动的牛顿第二定律"。
+  </blockquote>
+  <p><strong>守恒</strong>:外力矩为零(如绕过轴的光滑约束、重心在轴下)→ L<sub>z</sub> 守恒:
+     花样滑冰收臂(J 变小)→ ω 变大,J₁ω₁ = J₂ω₂。</p>
+
+  <h2>三、转动惯量:会算 + 会查 + 会平移</h2>
+  <table class="ref">
+    <tr><th>事项</th><th>内容</th></tr>
+    <tr><td>定义</td><td>J<sub>z</sub> = Σm<sub>i</sub>r<sub>i</sub>² = ∫r²dm(均质:细杆过端点 mL²/3、过中心 mL²/12;圆盘 mR²/2;圆环 mR²)</td></tr>
+    <tr><td>平行轴定理</td><td><strong>J<sub>z</sub> = J<sub>C</sub> + M·d²</strong>(对过质心轴最"轻",平移只会更重)</td></tr>
+    <tr><td>回转半径</td><td>J = M·ρ²(把分布质量折算成等效环)</td></tr>
+  </table>
+  <p>典型题:复摆/均质杆绕端点摆下,由 J<sub>z</sub>α = mg·(L/2)·cosθ 建方程;或用守恒比较两种姿态的转速。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"动量矩定理对任意点都成立"</strong>——基本形式对<strong>固定点(固定轴)</strong>或<strong>质心</strong>成立;
+       对任意动点要加修正项,初学只许用这两类。<br>
+       <strong>"J 就是 m"</strong>——J 还含 r²:同样质量,离轴一倍距离转动惯性差四倍;<br>
+       <strong>"平行轴定理对任意两轴"</strong>——必须其中一根<strong>过质心</strong>:J<sub>z</sub>=J<sub>C</sub>+Md²,
+       两个非质心轴之间不能直接套。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>无外力矩时动量矩守恒——流体的"角动量守恒"同样是涡旋保持的深层原因(冰上收臂 = 涡管收细变强)。
+       泵与风机叶轮的转矩-流量关系,由<strong>动量矩定理对叶轮流道应用</strong>(欧拉涡轮方程)导出:
+       CFD 旋转机械分析的理论根基就是本课。转轴的支座反力(动静法部分,第 12 课)也依赖 J 的准确计算。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"花样滑冰运动员收拢手臂后转速增大,依据是?",
+     "opts":["动量矩守恒:J 变小则 ω 变大","动量守恒","动能守恒"],
+     "answer":0,
+     "why":"重力过轴力矩为零 → Lz=Jω 守恒;收臂 J 减小,ω 同比增大(注意动能其实增大了,来自肌肉做功)。"},
+    {"q":"均质细杆(质量 M、长 L)对过端点且垂直杆的轴的转动惯量是?",
+     "opts":["ML²/3","ML²/12","ML²/2"],
+     "answer":0,
+     "why":"过质心 mL²/12,平行轴定理 +M(L/2)² → ML²/3。两步走,别直接背错版本。"},
+    {"q":"刚体定轴转动微分方程 J·α=ΣMz 中,α 的决定因素是?",
+     "opts":["外力矩与转动惯量之比","只看外力大小","只看质量大小"],
+     "answer":0,
+     "why":"同样的力矩,J 大则 α 小——转动惯性把「质量+分布」打包成一个量。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>动量矩</td><td>Lo=r×mv;定轴刚体 Lz=Jz·ω</td></tr>
+    <tr><td>定理</td><td>dLo/dt=ΣMo(F外);定轴转动方程 Jα=ΣMz;外力矩零 → 守恒</td></tr>
+    <tr><td>转动惯量</td><td>J=Σmr²;平行轴 Jz=JC+Md²(必须过质心);回转半径 J=Mρ²</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)动量矩定理章;MIT OCW 8.01SC Rotational Motion 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0009-particle-dynamics-momentum.html">← 第 9 课</a>
+    <a href="../lessons/0011-work-energy.html">第 11 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC10%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

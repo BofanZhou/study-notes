@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 11 课 · 动能定理</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 11 课 / 动力学</p>
+  <h1>动能定理 <span class="term-en">Work-Energy Theorem</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 熟算常见力的功与三种运动下的刚体动能;
+       <strong>②</strong> 用动能定理一行解出速度/角速度;
+       <strong>③</strong> 建立"三大定理选用策略",知道什么题找谁。</p>
+  </div>
+
+  <h2>一、功的清单(背熟,别现场推)</h2>
+  <table class="ref">
+    <tr><th>力</th><th>功</th><th>备注</th></tr>
+    <tr><td>常力 / 重力</td><td>W = mg·h(落差,与路径无关)</td><td>有势力</td></tr>
+    <tr><td>弹性力</td><td>W = ½k(x₁² − x₂²)</td><td>从变形 x₁ 到 x₂</td></tr>
+    <tr><td>力矩 / 力偶</td><td>W = M·φ</td><td>定轴转动常用</td></tr>
+    <tr><td>理想约束力</td><td><strong>W = 0</strong></td><td>光滑面/铰链/不可伸长绳——动能定理爱它们的理由</td></tr>
+    <tr><td>摩擦力</td><td>W = −F·s(滑动,耗散)</td><td>纯滚动接触点不打滑 → 摩擦力不做功</td></tr>
+  </table>
+
+  <h2>二、动能的清单</h2>
+  <blockquote>
+    质点 T = ½mv²;平移刚体 T = ½Mv²;定轴转动 T = ½J<sub>z</sub>ω²;
+    <strong>平面运动(柯尼希定理)T = ½Mv<sub>C</sub>² + ½J<sub>C</sub>ω²</strong>(随质心平移 + 绕质心转)。
+  </blockquote>
+
+  <h2>三、动能定理与功率方程</h2>
+  <blockquote>
+    <strong>T₂ − T₁ = ΣW</strong> —— 从状态一到状态二,动能增量 = 一切力做功之和。
+    微分形式(功率方程):<strong>dT/dt = ΣP</strong>(P = F·v = M·ω),求加速度类问题用。
+  </blockquote>
+  <p><strong>示例套路</strong>(轮-重物-绳系统):重物下落 h 带动飞轮——
+     W = mgh;T₂ = ½mv² + ½Jω²(绳不打滑 v=ωR)→ 一行方程解出 v。
+     对比牛顿法(要拆内力、列多个方程),动能定理绕开一切理想约束力——这是它统治"求速度"题的原因。</p>
+
+  <h2>四、三大定理选用策略(动力学"对题下药"表)</h2>
+  <table class="ref">
+    <tr><th>题目要什么</th><th>首选</th><th>理由</th></tr>
+    <tr><td>速度 / 角速度(经一段位移后)</td><td><strong>动能定理</strong></td><td>理想约束不出场,一行搞定</td></tr>
+    <tr><td>力 / 压力(瞬时值)</td><td>动量定理 / 质心运动定理(第 9 课)</td><td>直接给 F 与动量变化的关系</td></tr>
+    <tr><td>转动问题 / 与轴有关的运动</td><td>动量矩定理(第 10 课)</td><td>Jα=ΣMz 量身定做</td></tr>
+    <tr><td>时间积累(冲量)/ 碰撞</td><td>动量(矩)定理积分形式</td><td>冲量 = ΔP</td></tr>
+  </table>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"所有约束力都不做功"</strong>——只有<strong>理想约束</strong>(光滑、铰、不打滑)才不做功;
+       有摩擦滑动时摩擦力做负功,必须计入 ΣW。<br>
+       <strong>"平面运动动能就是 ½Mv²"</strong>——还要加转动项 ½J<sub>C</sub>ω²(柯尼希定理);
+       车轮滚着走,一半能量藏在转动里。<br>
+       <strong>"动能定理是矢量方程"</strong>——它是<strong>标量</strong>方程,只有一条,投不了影;
+       缺方程时补的是运动学条件(v=ωR 等)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>理想流体沿流线:<strong>伯努利方程就是动能定理的流线版</strong>——压差力做的功 = 动能增量(+重力势能项)。
+       CFD 里的湍动能 k、能量方程,同属能量账本。更一般地,动能定理是"状态量差值"思维的起点,
+       这条思维线一直通向拉格朗日力学(T = V 的舞台)。</p>
+  </div>
+
+  <h2>五、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"物块沿光滑斜面下滑,用动能定理求 v,方程中出现的力有几个?",
+     "opts":["1 个(重力)","2 个(重力+支持力)","3 个"],
+     "answer":0,
+     "why":"光滑面支持力⊥位移不做功(理想约束)——动能定理方程里只有重力做功 mgh,这正是它的干净之处。"},
+    {"q":"均质圆盘(质量 M、半径 R)沿水平面纯滚动,轮心速度 v,动能为?",
+     "opts":["3/4·Mv²","1/2·Mv²","1/4·Mv²"],
+     "answer":0,
+     "why":"柯尼希定理:½Mv²+½JCω²,JC=MJ²/2、ω=v/R → ½Mv²+¼Mv²=¾Mv²。转动藏了 1/3 的动能。"},
+    {"q":"题目要求「重物下落 2 m 时的速度」,首选的方法是?",
+     "opts":["动能定理","质心运动定理","动静法"],
+     "answer":0,
+     "why":"求一段位移后的速度 → 动能定理(T2−T1=ΣW)一步到位;求瞬时力才轮到动量/质心定理。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>功清单</td><td>mgh、½k(x₁²−x₂²)、Mφ;理想约束零功;滑动摩擦负功</td></tr>
+    <tr><td>动能清单</td><td>½Mv²(平移)、½Jω²(定轴)、½Mvc²+½JCω²(平面运动)</td></tr>
+    <tr><td>定理</td><td>T₂−T₁=ΣW(标量方程);功率方程 dT/dt=ΣP</td></tr>
+    <tr><td>选用策略</td><td>求速度→动能;求力→动量/质心;转动→动量矩;碰撞→积分形式</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)动能定理章;MIT OCW 8.01SC Work-Energy 模块。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0010-angular-momentum.html">← 第 10 课</a>
+    <a href="../lessons/0012-dalembert-virtual-work.html">第 12 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC11%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

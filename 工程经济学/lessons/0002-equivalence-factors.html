@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 2 课 · 等值计算:六个标准系数</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/compound-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">工程经济学 · 第 2 课 / 全部公式只推一次,用到毕业</p>
+  <h1>等值计算:六个标准系数 <span class="term-en">Equivalence &amp; the Six Factors</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:<strong>①</strong> 说清「等值」的含义与 A 序列的三个条件;
+       <strong>②</strong> 从几何级数亲手推出 (F/A),再由倒数关系写出全部六个系数;
+       <strong>③</strong> 区分名义利率与实际利率并换算;
+       <strong>④</strong> 用等额本息公式心算你的房贷月供。</p>
+  </div>
+
+  <h2>一、等值:不同时点的钱怎么「相等」?</h2>
+  <p>第 1 课说「不同时点的钱不能直接比」——那怎么比?<strong>先换算,再比较</strong>。
+     考虑时间价值后,「今天的一笔钱」与「未来另一笔(或一串)钱」可以画等号,这叫<strong>等值</strong>
+     (<span class="term-en">equivalence</span>)。等值不是「金额相等」,而是「价值相等」:
+     年利率 8% 时,今天的 100 万 ≡ 一年后的 108 万——两者互为<strong>等值</strong>。</p>
+  <p>工程里的钱只有三种基本形态:</p>
+  <ul>
+    <li><strong>P</strong>(现值,<span class="term-en">present value</span>):发生在 0 点的一次性金额——初投资;</li>
+    <li><strong>F</strong>(终值,<span class="term-en">future value</span>):发生在第 n 期末的一次性金额——期末残值、累计本利;</li>
+    <li><strong>A</strong>(等额年金,<span class="term-en">annuity / annual worth</span>):每期期末等额发生的序列——等额本息月供、每年等额的电费节省。</li>
+  </ul>
+  <blockquote>A 序列必须同时满足三个条件:<strong>①每期金额相等;②每期期末发生;
+     ③第一个 A 在第 1 期末、最后一个 A 恰在第 n 期末</strong>(与 F 同点)。
+     任何一条不满足,都要先折算调整再套公式——这是计算题最常见的扣分点。</blockquote>
+
+  <h2>二、六个系数:只推一个,其余全靠倒数</h2>
+  <p>设想每年年末存入 <span class="var">A</span>,连续 <span class="var">n</span> 年,年利率 <span class="var">i</span>,
+     求第 n 年末的本利和 <span class="var">F</span>。第 k 年末的存款到第 n 年末翻
+     (1+i)<sup>n−k</sup> 倍,全部相加是一个<strong>几何级数</strong>:</p>
+  <div class="formula">F = A[(1+i)<sup>n−1</sup> + (1+i)<sup>n−2</sup> + … + 1] = A · <span class="frac">((1+i)<sup>n</sup> − 1)/i</span></div>
+  <p>这就推出了<strong>(F/A) 等额分付终值系数</strong>。于是六个系数全部就位——
+     P↔F 互为倒数、A↔F 互为倒数、A↔P 互为倒数,再无新公式:</p>
+
+  <table class="ref">
+    <tr><th>名称</th><th>记号</th><th>公式</th><th>求解</th></tr>
+    <tr><td>一次支付终值</td><td>(F/P, i, n)</td><td>(1+i)<sup>n</sup></td><td>已知 P 求 F</td></tr>
+    <tr><td>一次支付现值</td><td>(P/F, i, n)</td><td>(1+i)<sup>−n</sup></td><td>已知 F 求 P(「折现」)</td></tr>
+    <tr><td>等额分付终值</td><td>(F/A, i, n)</td><td>[(1+i)<sup>n</sup> − 1] / i</td><td>已知 A 求 F</td></tr>
+    <tr><td>偿债基金</td><td>(A/F, i, n)</td><td>i / [(1+i)<sup>n</sup> − 1]</td><td>已知 F 求 A(攒够一笔钱)</td></tr>
+    <tr><td>等额分付现值</td><td>(P/A, i, n)</td><td>[(1+i)<sup>n</sup> − 1] / [i(1+i)<sup>n</sup>]</td><td>已知 A 求 P</td></tr>
+    <tr><td>资本回收</td><td>(A/P, i, n)</td><td>i(1+i)<sup>n</sup> / [(1+i)<sup>n</sup> − 1]</td><td>已知 P 求 A(等额本息!)</td></tr>
+  </table>
+  <p>三条验算关系(考场自查用):<strong>(P/F)=1/(F/P);(A/P)=(A/F)+i;
+     n→∞ 时 (A/P)→i</strong>。最后一条的直觉:永续的等额年金,每年只需付利息就够了。</p>
+  <p>回到第 1 课的复利曲线,(F/P, i, n) 就是曲线在 n 年处的高度;
+     拖动滑块,读出「复利终值/本金」的倍数,就是在查 (F/P):</p>
+
+  <div class="demo" data-compound-demo></div>
+
+  <h2>三、名义利率 vs 实际利率:计息周期不是一年时</h2>
+  <p>银行说「年利率 6%,按月计息」——6% 是<strong>名义利率</strong>
+     (<span class="term-en">nominal rate, r</span>),真正一年后的增长率是<strong>实际利率</strong>
+     (<span class="term-en">effective rate, i<sub>a</sub></span>):每月 0.5% 滚 12 次:</p>
+  <div class="formula">i<sub>a</sub> = (1 + r/m)<sup>m</sup> − 1　(计息 m 次/年)　;连续计息极限:i<sub>a</sub> = e<sup>r</sup> − 1</div>
+  <p>上例 i<sub>a</sub> = 1.005<sup>12</sup> − 1 ≈ 6.17% &gt; 6%。<strong>计息越频繁,实际利率越高,
+     以连续计息为上界</strong>。题目给「月利率」「季利率」时,先统一成与现金流的计息周期一致再动笔。</p>
+
+  <h3>例题:你的房贷月供(等额本息)</h3>
+  <p>贷款 100 万、30 年(360 个月)、年利率 5%(月利率 5%/12 ≈ 0.4167%),求月供。<br>
+     这就是「已知 P 求 A」:A = P·(A/P, 0.4167%, 360) = 100 万 × 0.005368 ≈ <strong>5368 元/月</strong>。
+     30 年共还款 193 万——多出的 93 万全是利息。等额本息的本质:
+     <strong>银行把 100 万折算成 360 个月末的等额 A 序列</strong>,用的正是 (A/P)。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「A 序列直接套公式」</strong>✗ 先核对三条件;第一个 A 不在 1 期末时先平移。<br>
+       <strong>②「(A/P) 与 (A/F) 互相抄错」</strong>✗ 记住 (A/P) = (A/F) + i;两者分母相同分子不同。<br>
+       <strong>③「名义利率直接当折现率用」</strong>✗ 计息周期 ≠ 一年时先换实际利率。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你的专业</div>
+    <p>节能改造最常出现 A 序列:「每年省电费 20 万,连续省 10 年」。有了 (P/A, 8%, 10) = 6.7101,
+       这串未来的钱今天值 20 × 6.7101 = <strong>134.2 万</strong>——如果改造只要花 120 万,
+       它今天就已经「赚」了 14.2 万。这个「把 A 序列折成 P 再减投资」的动作,
+       就是下一课的主角<strong>净现值 NPV</strong>。合同能源管理(EMC)的等额分成、
+       设备融资租赁的租金,也全是 A 序列换算。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"A(等额年金)序列的三个条件是?","opts":["金额相等、每年发生、共 n 期","金额相等、每期期末发生、首期在第 1 期末","金额递增、每期期末发生、共 n 期","金额相等、每期期初发生、末期为 n"],"answer":1,"why":"等额 + 期末 + 首期在第 1 期末(末期与 F 同在 n 点);期初年金或先付序列要先调整再套公式。"},
+    {"q":"(F/A, i, n) 的表达式是?","opts":["i/[(1+i)^n − 1]","[(1+i)^n − 1]/i","[(1+i)^n − 1]/[i(1+i)^n]","(1+i)^n"],"answer":1,"why":"由几何级数求和直接得到;A 是它的倒数(偿债基金),C 是 (P/A),D 是 (F/P)。"},
+    {"q":"(A/P, i, n) = (A/F, i, n) + ?","opts":["1","n","i","(P/F, i, n)"],"answer":2,"why":"资本回收系数 = 偿债基金系数 + 利率:每期还的钱里,利息部分至少是 i×P。"},
+    {"q":"年名义利率 12%,按月计息,实际年利率是?","opts":["等于 12%","约 12.68%","约 13.20%","约 11.39%"],"answer":1,"why":"(1+0.12/12)^12 − 1 = 1.01^12 − 1 ≈ 12.68%;计息越频繁实际利率越高于名义。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>等值</td><td>equivalence</td><td>考虑时间价值后「价值相等」;先换算再比较</td></tr>
+    <tr><td>三形态</td><td>P / F / A</td><td>0 点一次值 / n 点一次值 / 每期末等额序列</td></tr>
+    <tr><td>六系数</td><td>six interest factors</td><td>三对互为倒数;(A/P)=(A/F)+i;全由 (F/A) 派生</td></tr>
+    <tr><td>偿债基金</td><td>sinking fund factor (A/F)</td><td>要攒到 F,每年得存多少 A</td></tr>
+    <tr><td>资本回收</td><td>capital recovery factor (A/P)</td><td>投入 P,每年收回多少 A(等额本息)</td></tr>
+    <tr><td>名义利率</td><td>nominal rate (r)</td><td>挂在墙上的年利率;除以 m 得周期利率</td></tr>
+    <tr><td>实际利率</td><td>effective rate (i<sub>a</sub>)</td><td>(1+r/m)^m − 1;连续计息上界 e^r − 1</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:刘晓君《工程经济学》第 3 章「资金等值计算」——六个系数的规范推导与系数表。</li>
+    <li>Excel 验证路径:=FV(i,n,0,−P)、=PV(i,n,−A)、=PMT(i,n,P) 与手算互查(考试手算,日常 Excel)。</li>
+    <li><a href="../reference/eng-econ-roadmap.html">学习路线图</a> · <a href="../reference/glossary.html">术语表</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0001-cash-flow-time-value.html">← 第 1 课:现金流量与资金时间价值</a>
+    <a href="../lessons/0003-npv-irr-payback.html">第 3 课:NPV / IRR / 回收期 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B7%A5%E7%A8%8B%E7%BB%8F%E6%B5%8E%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC2%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。六个系数记不住完全正常——用「三对倒数 + 一条加法」这把钥匙,随时来问我推导。</div>
+</main>
+</body>
+</html>

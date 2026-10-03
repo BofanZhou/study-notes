@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 6 课 · 折旧与设备更新:经济寿命</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+<script src="../assets/replacement-demo.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">工程经济学 · 第 6 课 / 该不该换?哪年换最划算?</p>
+  <h1>折旧与设备更新 <span class="term-en">Depreciation &amp; Equipment Replacement</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 25 分钟),你将能够:<strong>①</strong> 说清折旧的本质与「折旧不是现金流」;
+       <strong>②</strong> 用直线法、双倍余额递减法、年数总和法编制折旧表;
+       <strong>③</strong> 区分三种设备寿命,解释经济寿命为何是 U 形曲线;
+       <strong>④</strong> 用低劣化数值法求经济寿命,并按「沉没成本不参与」做更新决策。</p>
+  </div>
+
+  <h2>一、折旧:不是现金流,但影响现金流</h2>
+  <p><strong>折旧</strong>(<span class="term-en">depreciation</span>)是设备价值随使用与时间逐年转移进成本的会计动作:
+     40 万买台水泵,寿命 5 年、期末残值 4 万,每年把 (40−4)/5 = 7.2 万计入成本。</p>
+  <p>两个关键认知:<strong>① 折旧本身不是现金流出</strong>(买设备的钱在 t=0 已流出),
+     它只是账面分摊;<strong>② 但折旧影响税后现金流</strong>——折旧计入成本,利润减少,所得税跟着少交,
+     这笔「少交的税」叫<strong>税盾</strong>(<span class="term-en">tax shield</span>):
+     每年折旧 × 税率 = 留在口袋里的现金。所以折旧方法的选择会真实地改变项目税后 NPV。</p>
+  <h3>三种折旧方法(K = 40 万,L = 4 万,n = 5 年)</h3>
+  <table class="ref">
+    <tr><th>方法</th><th>每年折旧额</th><th>特点</th></tr>
+    <tr><td>直线法(平均年限)</td><td>D = (K − L)/n = 7.2 万/年</td><td>均匀;最常用、最简单</td></tr>
+    <tr><td>双倍余额递减法</td><td>D<sub>t</sub> = (2/n)×期初账面净值;<br>最后两年改直线:(8.64−4)/2 = 2.32 万</td><td>先多后少(16 → 9.6 → 5.76 → 2.32 → 2.32);加速折旧</td></tr>
+    <tr><td>年数总和法</td><td>D<sub>t</sub> = (n−t+1)/[n(n+1)/2] × (K−L)<br>= 12 / 9.6 / 7.2 / 4.8 / 2.4 万</td><td>按剩余年数占比递减;也是加速折旧</td></tr>
+  </table>
+  <blockquote>加速折旧(<span class="term-en">accelerated depreciation</span>)的逻辑:
+     设备前期新、贡献大,多提折旧;同时把税盾提前拿到手——按时间价值,早拿的钱更值钱。</blockquote>
+
+  <h2>二、三种寿命:设备「老」的三种方式</h2>
+  <ul>
+    <li><strong>有形磨损</strong>(<span class="term-en">physical wear</span>):使用磨损 + 自然力锈蚀 → 决定<strong>自然寿命</strong>(物理上还能用多久);</li>
+    <li><strong>无形磨损</strong>(<span class="term-en">technical obsolescence</span>):技术进步/市价新设备让旧设备贬值 → 决定<strong>技术寿命</strong>(还能算先进多久);</li>
+    <li><strong>经济寿命</strong>(<span class="term-en">economic life</span>):<strong>年均总成本最低的使用年限</strong>——更新决策的真正标尺。</li>
+  </ul>
+
+  <h2>三、经济寿命:一条 U 形曲线</h2>
+  <p>设备用得越久,购置费摊得越薄(年均资产成本 ↓),但越老越费油费电费维修(年均运行费 ↑)。
+     两者相加是 U 形的<strong>年均总成本</strong>,最低点对应的年份就是经济寿命。
+     用<strong>低劣化数值法</strong>(<span class="term-en">degradation method</span>):设运行费每年递增 λ:</p>
+  <div class="formula">AC(n) = (K − V<sub>n</sub>)/n + C<sub>1</sub> + (n−1)λ/2　;忽略残值时 n* ≈ √(2K/λ)</div>
+  <p>例:购置费 40 万、期末残值 4 万、首年运行费 6 万、年劣化 λ = 1.2 万:
+     n* ≈ √(2×36/1.2) ≈ 7.7 → <strong>第 8 年,年均总成本最低 ≈ 14.7 万/年</strong>。拖动滑块看曲线怎么走:</p>
+
+  <div class="demo" data-replacement-demo></div>
+
+  <h2>四、更新决策:沉没成本不参与</h2>
+  <p>「旧设备账上还剩 20 万净值没折完」——要不要为此继续留着它用?
+     <strong>不要</strong>。账面净值是<strong>沉没成本</strong>(<span class="term-en">sunk cost</span>),
+     覆水难收,决策只看未来。正确做法:</p>
+  <ul>
+    <li>旧设备按<strong>当前市场残值</strong>(今天能卖多少钱/继续使用的机会成本)计价;</li>
+    <li>算「旧设备再使用 n 年的年均成本」与「新设备经济寿命内的年均成本 AC」;</li>
+    <li>旧的高 → 更新;旧的低 → 继续用,并逐年重算(旧设备每年更老,天平逐年向「换」倾斜)。</li>
+  </ul>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>①「折旧是现金流出」</strong>✗ 现金流出发生在购置日;折旧只通过税盾影响税后现金流。<br>
+       <strong>②「经济寿命 = 自然寿命」</strong>✗ 前者由成本最低点决定,通常短于物理寿命;无形磨损还会让它更短。<br>
+       <strong>③「旧设备按账面净值参与决策」</strong>✗ 沉没成本不参与;只按当前市场残值与未来现金流决策。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🔗 连接你的专业</div>
+    <p>冷水机组铭牌寿命 15–20 年,但<strong>经济寿命</strong>常远短于此:能效衰减、冷媒淘汰
+       (无形磨损:R22 机组被环保冷媒政策直接「判刑」)、维保费用逐年爬升。
+       把第 3–6 课连起来,你就有了完整的「换机组论证」:比较「继续用旧机组的年均成本」
+       vs「新高效机组 AC」→ 若换,用 NPV/ΔIRR 论证增量投资 → 用敏感性分析交代
+       「电价与运行小时」这两个最敏感的变量。这就是注册设备工程师实务题的完整答题骨架。</p>
+  </div>
+
+  <h2>检索练习</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"折旧对项目现金流的真正影响是?","opts":["每年等额的现金流出","通过税盾影响税后现金流","与现金流无关","只在期末一次性影响"],"answer":1,"why":"折旧本身不是现金流;它降低应税利润,少交的税(折旧×税率)才是现金效应。"},
+    {"q":"双倍余额递减法第 t 年的折旧基数是?","opts":["原值 − 残值","期初账面净值","原值 × (n−t+1)/n","每年相同"],"answer":1,"why":"D_t = (2/n)×期初账面净值,基数逐年递减;注意最后两年改直线并扣残值。"},
+    {"q":"经济寿命的定义是?","opts":["物理上能用的最长时间","技术不被淘汰的时间","年均总成本最低的使用年限","折旧提完的时间"],"answer":2,"why":"资产成本随年限摊薄、运行费随年限上升,交点即 U 形最低点;与自然寿命无关。"},
+    {"q":"设备更新决策中,旧设备的账面净值应如何处理?","opts":["按账面净值计入新方案成本","作为沉没成本,不参与决策","折半计入","摊入未来各年"],"answer":1,"why":"沉没成本覆水难收;旧设备按当前市场残值(机会成本)计价,只比未来现金流。"}
+  ]'></div>
+
+  <h2>小结</h2>
+  <table class="ref">
+    <tr><th>概念</th><th>English</th><th>一句话</th></tr>
+    <tr><td>折旧</td><td>depreciation</td><td>价值逐年转移;非现金流,经税盾影响现金</td></tr>
+    <tr><td>直线法</td><td>straight-line method</td><td>D = (K−L)/n,均匀分摊</td></tr>
+    <tr><td>双倍余额递减</td><td>double declining balance</td><td>(2/n)×期初净值;末两年改直线扣残值</td></tr>
+    <tr><td>年数总和法</td><td>sum-of-years-digits</td><td>按剩余年数占比递减的加速折旧</td></tr>
+    <tr><td>税盾</td><td>tax shield</td><td>折旧 × 税率 = 少交的税 = 现金收益</td></tr>
+    <tr><td>经济寿命</td><td>economic life</td><td>年均总成本 U 形最低点;n* ≈ √(2(K−V)/λ)</td></tr>
+    <tr><td>沉没成本</td><td>sunk cost</td><td>覆水难收,不参与更新决策</td></tr>
+  </table>
+
+  <h2>延伸阅读(优先级从高到低)</h2>
+  <ol>
+    <li><strong>主推</strong>:刘晓君《工程经济学》第 8 章「设备更新的经济分析」——三种折旧表与经济寿命例题。</li>
+    <li>注册考试对照:折旧计算与经济寿命是「工程经济」模块的经典计算小题。</li>
+    <li>复习第 5 课敏感性:设备更新论证的收尾动作。<a href="../lessons/0005-uncertainty-analysis.html">→ 不确定性分析</a></li>
+    <li><a href="../reference/glossary.html">术语表</a>。</li>
+  </ol>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0005-uncertainty-analysis.html">← 第 5 课:不确定性分析</a>
+    <a href="../lessons/0007-value-engineering-lcc.html">第 7 课:价值工程与寿命周期成本 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入你的 Obsidian 库,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E5%B7%A5%E7%A8%8B%E7%BB%8F%E6%B5%8E%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>(8 基础 + 2 工程 + 1 开放 + 2 陷阱选择)。</p>
+  </div>
+
+  <div class="ask">💬 我是你的老师。「税盾到底怎么进现金流量表」是最常被问的问题——直接问我,一次讲透。</div>
+</main>
+</body>
+</html>

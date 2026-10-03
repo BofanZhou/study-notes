@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 14 课 · 碰撞</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 14 课 / 专题篇</p>
+  <h1>碰撞 <span class="term-en">Collision / Impact</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 18 分钟),你将能够:</p>
+    <p><strong>①</strong> 用恢复系数解两球正碰撞;
+       <strong>②</strong> 算碰撞中的动能损失并说明锻造/打桩的设计逻辑;
+       <strong>③</strong> 求定轴刚体的撞击中心。</p>
+  </div>
+
+  <h2>一、碰撞的三特征与"冲量账本"</h2>
+  <p>碰撞(<span class="term-en">collision</span>)的力学画像:相互作用力<strong>巨大</strong>、作用时间<strong>极短</strong>、
+     位移可忽略。于是处理规则:</p>
+  <table class="ref">
+    <tr><th>规则</th><th>内容</th></tr>
+    <tr><td>只记冲量</td><td>普通力(重力等"非碰撞力")的冲量可忽略;碰撞冲量主导动量跳变</td></tr>
+    <tr><td>位置冻结</td><td>碰撞瞬间物体位置不变,只有速度突变</td></tr>
+    <tr><td>工具切换</td><td>用<strong>动量定理积分形式</strong>(第 9 课)与动量矩定理的积分形式</td></tr>
+  </table>
+
+  <h2>二、恢复系数:碰撞"弹性"的度量</h2>
+  <blockquote>
+    <strong>e = |u<sub>分离法向速度</sub>| / |v<sub>接近法向速度</sub>|</strong>(0 ≤ e ≤ 1)<br>
+    e=1 完全弹性碰撞(动能不损失);e=0 完全塑性碰撞(合为一体);0&lt;e&lt;1 真实材料。
+  </blockquote>
+  <p><strong>两球正碰撞</strong>联立两条:①动量守恒 m₁v₁+m₂v₂=m₁u₁+m₂u₂;②恢复系数定义
+     → 唯一解出碰后速度。动能损失有标准结果:</p>
+  <blockquote>
+    <strong>ΔT = [m₁m₂/(2(m₁+m₂))]·(1−e²)·(v₁−v₂)²</strong>
+    —— 相对速度越大、e 越小,砸掉的动能越多;e=0 时全部相对动能耗尽。
+  </blockquote>
+  <p><strong>工程设计两难的两面</strong>:<strong>锻造</strong>要 e 小(能量进入工件变形,砧座要重而固定);
+     <strong>打桩</strong>也要 e 小(锤与桩近似塑性碰撞,能量传给桩下行而非弹回锤头)——
+     "碰撞损失能量"在不同场合是敌是友,取决于你要能量去哪。</p>
+
+  <h2>三、撞击中心:让轴承"无感"的一击</h2>
+  <blockquote>
+    绕定轴转动的刚体(质心距轴 a、转动惯量 J<sub>z</sub>)受碰撞冲量:
+    当撞击点距轴 <strong>h = J<sub>z</sub>/(m·a)</strong> 时,轴承处<strong>不产生碰撞反力</strong>。
+  </blockquote>
+  <p>这就是棒球棒的"甜区"、门板的最佳推击位置、拳击手用拳峰正面击打的力学依据
+     ——打在撞击中心,手(轴)不震。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"碰撞过程动量守恒,动能也守恒"</strong>——动量(或对轴动量矩)守恒成立,
+       但除 e=1 外动能必损(ΔT 公式);<br>
+       <strong>"恢复系数只与材料有关"</strong>——还与形状、速度、温度有关,教材给的是该对材料的近似常数;<br>
+       <strong>"斜碰撞也只用一个 e"</strong>——e 只约束<strong>法向</strong>相对速度;切向还要看摩擦,别套错方向。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>管中阀门骤关,水柱像刚体一样"撞"上阀门的压力骤升,就是<strong>水锤</strong>(水击)——
+       连续介质版的碰撞,压力波以声速在管中往返(工程要装缓闭阀/调压塔)。
+       更现代的:CFD 里离散相颗粒的 DEM 碰撞模型、液滴聚合/弹开,用的都是本课的
+       恢复系数框架。碰撞是"连续场"里藏着的离散事件。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"两球完全塑性正碰撞(e=0)后,它们?",
+     "opts":["具有共同速度,动能损失最大","弹回原速","停止运动"],
+     "answer":0,
+     "why":"e=0 → 分离相对速度为零 → 合为一体共同前进;相对动能全部耗散,损失最大。"},
+    {"q":"打桩希望锤与桩碰撞的恢复系数?",
+     "opts":["越小越好(能量传给桩)","越大越好(弹回再打)","无所谓"],
+     "answer":0,
+     "why":"e≈0 时锤不弹起,碰撞动能尽量转为桩与锤共同下行的动能;弹回意味着能量白还给锤。"},
+    {"q":"求定轴刚体的撞击中心 h=Jz/(ma),其意义是撞击点取在此处时?",
+     "opts":["轴承处不产生碰撞反力","动能损失最大","刚体不转"],
+     "answer":0,
+     "why":"冲量对轴之矩恰好抵消质心动量跳变引起的反冲——棒球棒甜区、门板最佳推位。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>碰撞规则</td><td>只记碰撞冲量、位置冻结、用动量(矩)积分形式</td></tr>
+    <tr><td>恢复系数</td><td>e=|分离|/|接近|(法向);e=1 弹性、0 塑性</td></tr>
+    <tr><td>动能损失</td><td>ΔT=[m₁m₂/2(m₁+m₂)](1−e²)(v₁−v₂)²</td></tr>
+    <tr><td>撞击中心</td><td>h=Jz/(ma),轴承零碰撞反力(甜区)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)碰撞章;水锤现象可搜"water hammer 缓闭止回阀"。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0013-noninertial-dynamics.html">← 第 13 课</a>
+    <a href="../lessons/0015-rigid-planar-dynamics.html">第 15 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC14%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>

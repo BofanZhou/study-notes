@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 17 课 · 分析力学 I:广义坐标与拉格朗日方程</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 17 课 / 专题篇 · 通向现代力学</p>
+  <h1>分析力学 I:广义坐标与拉格朗日方程 <span class="term-en">Lagrangian Mechanics</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 数自由度、选广义坐标;
+       <strong>②</strong> 计算广义力;③ 用拉格朗日方程列系统运动方程——
+       一步到位,约束力自动消失。</p>
+  </div>
+
+  <h2>一、自由度与广义坐标:把系统"压"到最省</h2>
+  <p>N 个质点在平面/空间有 2N/3N 个坐标,但约束让它们不独立。
+     <strong>自由度 k</strong> = 完全确定系统位置所需的独立参数个数(完整约束)。
+     描述这 k 个参数的变量就是<strong>广义坐标</strong> q₁…q<sub>k</sub>(可以是长度、角度、任意方便量)。</p>
+  <table class="ref">
+    <tr><th>系统</th><th>自由度</th><th>广义坐标的聪明选法</th></tr>
+    <tr><td>平面单摆</td><td>1</td><td>摆角 θ(不选 x、y!约束自动满足)</td></tr>
+    <tr><td>曲柄滑块机构</td><td>1</td><td>曲柄转角 φ(整机位置随之而定)</td></tr>
+    <tr><td>双摆</td><td>2</td><td>两个摆角 θ₁、θ₂</td></tr>
+  </table>
+
+  <h2>二、广义力:虚功的"坐标化"</h2>
+  <blockquote>
+    让广义坐标跑一个虚位移 δq<sub>j</sub>,把全部主动力的虚功写成
+    <strong>δW = ΣQ<sub>j</sub>·δq<sub>j</sub></strong>,系数 Q<sub>j</sub> 就是<strong>广义力</strong>
+    (可以是力、力矩,量纲随 q 而定)。保守系统 Q<sub>j</sub> = −∂V/∂q<sub>j</sub>。
+  </blockquote>
+
+  <h2>三、拉格朗日方程(第二类)</h2>
+  <blockquote>
+    对每个广义坐标一条方程:<br>
+    <strong>d/dt(∂L/∂q̇<sub>j</sub>) − ∂L/∂q<sub>j</sub> = Q<sub>j</sub></strong>,
+    其中 <strong>L = T − V</strong>(拉格朗日函数:动能减势能);保守系统右端为 0。
+  </blockquote>
+  <p><strong>解题流程(四步模板)</strong>:①选广义坐标 → ②用 q 写出 T、V → ③代入方程 → ④解 ODE。
+   <strong>例(单摆)</strong>:T=½ml²θ̇²,V=−mgl·cosθ → ∂L/∂θ̇=ml²θ̇、d/dt=ml²θ̈、∂L/∂θ=−mgl·sinθ
+   → <strong>ml²θ̈ + mgl·sinθ = 0</strong>——一行到位,绳的张力全程没露面。
+   对比牛顿法要写张力、投影、消元:约束越多,拉氏法越香。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"L=T+V"</strong>——是 <strong>T−V</strong>(动能减势能),符号错了整个方程反号。<br>
+       <strong>"q̇ 是 q 对时间的一阶导数以外还有别的含义"</strong>——没有,把 θ̇ 当独立变量参与偏导运算,
+       最后才代入运动学关系即可(机械化的流程,不必想物理)。<br>
+       <strong>"拉氏方程能求约束力"</strong>——默认理想约束,约束力被"消音"了;求它要回头用动静法/牛顿法
+       (两法互补)。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>变分原理是现代力学的通用语:有限元(FEM)的刚度方程=虚功/最小势能原理的离散化(第 12 课伏笔兑现),
+       流体与电磁场也有各自的变分格式;"选最少的坐标、写标量函数、求导出方程"——
+       这个流程在 CFD 后处理降阶模型(POD)与多体动力学软件(ADAMS)中天天在跑。
+       拉格朗日给出的是"制造方程的方程"。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"平面双摆的自由度与合适的广义坐标?",
+     "opts":["2;两个摆角 θ1、θ2","4;两个质点的 x、y","1;总摆长"],
+     "answer":0,
+     "why":"两根杆的约束把 4 个坐标压到 2 个独立参数;选角度使约束自动满足——这正是广义坐标的省力所在。"},
+    {"q":"拉格朗日函数 L 的定义是?",
+     "opts":["T − V(动能减势能)","T + V","V − T"],
+     "answer":0,
+     "why":"L=T−V;代入 d/dt(∂L/∂q̇)−∂L/∂q=Q 后符号系统全部自洽,记错符号方程即错。"},
+    {"q":"用拉格朗日方程解单摆,绳张力出现在方程里吗?",
+     "opts":["不出现(理想约束被消去)","作为 Q 出现","作为 L 的一部分"],
+     "answer":0,
+     "why":"理想约束自动满足,张力被消音——这是方法最大优点,也是它给不出约束力的原因。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>自由度/广义坐标</td><td>独立参数个数;选法让约束自动满足(角度优于坐标)</td></tr>
+    <tr><td>广义力</td><td>δW=ΣQj·δqj 的系数;保守系 Qj=−∂V/∂qj</td></tr>
+    <tr><td>拉氏方程</td><td>d/dt(∂L/∂q̇)−∂L/∂q=Qj,L=T−V;四步模板</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)虚位移原理与拉格朗日方程章;MIT OCW 搜"Lagrange equations"。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0016-variable-mass.html">← 第 16 课</a>
+    <a href="../lessons/0018-lagrange-ii.html">第 18 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC17%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 第一次用拉氏方程会觉得"机械",恰恰是它好的标志——照模板走三道就顺了。</div>
+</main>
+</body>
+</html>

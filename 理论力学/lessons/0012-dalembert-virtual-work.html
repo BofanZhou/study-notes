@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 12 课 · 达朗贝尔原理与虚位移原理</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 12 课 / 动力学收官 · 通向分析力学的桥</p>
+  <h1>达朗贝尔原理与虚位移原理 <span class="term-en">d'Alembert &amp; Virtual Work</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 20 分钟),你将能够:</p>
+    <p><strong>①</strong> 用动静法把动力学问题翻译成"静力学题";
+       <strong>②</strong> 说清虚位移与理想约束,用虚功原理求平衡;
+       <strong>③</strong> 看清这两条路如何通向拉格朗日力学与更现代的力学。</p>
+  </div>
+
+  <h2>一、达朗贝尔原理:给动力学加一个"假想力"</h2>
+  <blockquote>
+    质点惯性力 <strong>F<sub>I</sub> = −ma</strong>(方向与加速度相反,大小 ma,不是真实力!)。
+    加上惯性力后:<strong>F + N + F<sub>I</sub> = 0</strong> —— 动力学问题变成"平衡"问题,可用全部静力学工具。
+    这就是<strong>动静法</strong>。
+  </blockquote>
+  <p>刚体平移:惯性力系简化为过质心的 F<sub>I</sub>=−ma<sub>C</sub>;
+     定轴转动:再加惯性力偶 M<sub>I</sub>=−Jα。
+     最经典的用法:<strong>求动反力</strong>——转动件高速旋转时轴承反力 = 静反力 + 附加动反力(由惯性力引起),
+     工程上"转子要动平衡"的依据。</p>
+
+  <h2>二、虚位移与虚功原理:不真动一下,就知道动不动</h2>
+  <blockquote>
+    <strong>虚位移</strong> δr:约束允许的、假想中的微小位移(与时间、真实运动无关,纯几何允许)。
+    <strong>理想约束</strong>:约束力在虚位移上做功之和为零(光滑面/铰/不可伸长绳)。<br>
+    <strong>虚功原理</strong>:具有理想约束的质点系平衡 ⟺ 主动力在任意虚位移上的虚功之和为零:
+    <strong>ΣδW<sub>F</sub> = 0</strong>。
+  </blockquote>
+  <p>威力:约束力全程不出场,求<strong>平衡位置或平衡力</strong>一步到位。
+     例:曲柄连杆在某位置平衡 → 给曲柄一个虚转角 δφ,写出各力虚功(力×沿力方向的虚位移,虚位移用运动学换算)
+     → 令 ΣδW=0 → 解出平衡力矩。这正是第 8 课速度投影的思想在"位移语言"下的重现(ω 换成 δφ/dt 的关系)。</p>
+
+  <h2>三、两条路,一个方向</h2>
+  <table class="ref">
+    <tr><th>方法</th><th>本质</th><th>适用</th></tr>
+    <tr><td>牛顿-欧拉(第 9~11 课)</td><td>力与运动直接挂钩</td><td>要约束力、要受力细节</td></tr>
+    <tr><td>动静法</td><td>惯性力 + 静力学平衡</td><td>求动反力,习惯静力学思维的人</td></tr>
+    <tr><td>虚功原理</td><td>能量的影子(功),绕开约束力</td><td>平衡位置/平衡力;约束越多越显威力</td></tr>
+  </table>
+  <p>虚功原理 + 达朗贝尔原理合体,再引入广义坐标,就是<strong>拉格朗日方程</strong>——
+     分析力学的入口。那里的动能 T、势能 V 会取代"力"成为主角:不是问"力怎么推",
+     而是问"能量怎么走"。你已站在桥上。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"惯性力是真实存在的力"</strong>——它是数学虚构(−ma),没有施力物体;
+       价值在于让动力学可用静力学方法。但它的"效果"(动反力)是真实的。<br>
+       <strong>"虚位移就是很小的真实位移"</strong>——虚位移由<strong>约束几何</strong>允许,
+       与真实运动、时间过程完全无关;同一时刻可有多种虚位移。<br>
+       <strong>"虚功原理可用于任何系统"</strong>——前提是<strong>理想约束</strong>;有摩擦时摩擦力须当主动力计入。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪(结课寄语)</div>
+    <p>三条衔接线送你进入流体力学深处:① <strong>惯性力</strong>——旋转 CFD(泵/风机)动量方程里的
+       科氏与离心项,就是动静法思想在旋转系的表达;② <strong>虚功/变分</strong>——流体力学同样有变分原理,
+       有限元法(FEM)的数学地基正是虚功原理,你已握住它的力学版本;③ <strong>方法论闭环</strong>——
+       从受力图到三大定理再到虚功,你拥有了一整套"把物理问题翻译成方程"的通用流程,
+       这正是 N-S 方程、伯努利方程乃至一切力学模型的生产方式。理论力学毕业,流体力学的根已备好。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"动静法中引入的惯性力 F_I=−ma 是?",
+     "opts":["数学虚构的假想力,无施力物体","地球施加的反作用力","约束反力的一部分"],
+     "answer":0,
+     "why":"惯性力不是真实力,是把 ma 移项到力一侧的产物;但由此解出的附加动反力是真实的(转子动平衡依据)。"},
+    {"q":"虚功原理成立的前提条件是?",
+     "opts":["约束是理想约束(约束力虚功为零)","系统必须静止","必须忽略重力"],
+     "answer":0,
+     "why":"理想约束使约束力在虚功方程中消失;有摩擦时把摩擦力当主动力计入即可,与「静止」无关(平衡=静止或匀速)。"},
+    {"q":"用虚功原理求机构平衡力,最大的好处是?",
+     "opts":["约束力不出现在方程中","不用画受力图","可以得到所有约束力"],
+     "answer":0,
+     "why":"理想约束力虚功为零 → 方程里只有主动力;反过来它也给不出约束力——各有分工。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>动静法</td><td>FI=−ma(平移过质心;定轴加 −Jα 偶);动力学→平衡题;求动反力神器</td></tr>
+    <tr><td>虚位移/虚功</td><td>约束允许的假想位移;理想约束 δW约束=0</td></tr>
+    <tr><td>虚功原理</td><td>平衡 ⟺ ΣδW主动=0;求平衡位置/平衡力,绕开约束力</td></tr>
+    <tr><td>去向</td><td>达朗贝尔+虚功 → 广义坐标 → 拉格朗日方程(下一站)</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(II)动静法与虚位移原理章;有兴趣可读 MIT OCW 8.09 或《力学中的拉格朗日方法》导言。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0011-work-energy.html">← 第 11 课</a>
+    <a href="../lessons/0013-noninertial-dynamics.html">第 13 课 · 专题篇 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC12%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 全部 12 课完结!过 M4 验收(两法互验+衔接小结),理论力学即毕业。有疑问随时问我。</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 6 课 · 刚体的基本运动</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/quiz.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">理论力学 · 第 6 课 / 运动学</p>
+  <h1>刚体的基本运动 <span class="term-en">Translation &amp; Rotation about a Fixed Axis</span></h1>
+
+  <div class="box">
+    <div class="box-title">🎯 本课目标</div>
+    <p>学完本课(约 15 分钟),你将能够:</p>
+    <p><strong>①</strong> 判断刚体的两种基本运动并写出其运动规律;
+       <strong>②</strong> 定轴转动中把角量(φ、ω、α)换算成点上的线量(v、a<sub>τ</sub>、a<sub>n</sub>);
+       <strong>③</strong> 熟练处理轮系传动比。</p>
+  </div>
+
+  <h2>一、刚体:一种理想化的"不变形"</h2>
+  <p>刚体(<span class="term-en">rigid body</span>)= 任意两点间距离恒不变的质点系。
+     这个约束让"无穷多点的运动"退化成"少数参数的运动"——两种基本运动就是最快的两步:</p>
+  <table class="ref">
+    <tr><th>运动</th><th>特征</th><th>描述</th></tr>
+    <tr><td>平移 <span class="term-en">translation</span></td><td>体内任意直线始终保持方向不变(直线/曲线平移均可)</td><td>各点轨迹同形、同一时刻 v 与 a <strong>处处相同</strong> → 刚体可当一个点研究</td></tr>
+    <tr><td>定轴转动 <span class="term-en">rotation about fixed axis</span></td><td>体内(或延拓)有一条固定直线为轴</td><td>一个角坐标 φ(t) 定全场:ω=dφ/dt,α=dω/dt</td></tr>
+  </table>
+
+  <h2>二、定轴转动:角量 → 线量</h2>
+  <p>距轴 r 的点绕轴画圆,弧长 s = r·φ,于是(轴上点除外):</p>
+  <table class="ref">
+    <tr><th>量</th><th>公式</th><th>分布规律</th></tr>
+    <tr><td>速度</td><td>v = ω·r</td><td>沿圆周切向;与 r 成正比</td></tr>
+    <tr><td>切向加速度</td><td>a<sub>τ</sub> = α·r</td><td>与 r 成正比(角加速才有)</td></tr>
+    <tr><td>法向加速度</td><td>a<sub>n</sub> = ω²·r</td><td>指向轴;与 r 成正比</td></tr>
+  </table>
+  <p>匀变速转动公式与匀变速直线完全同构:ω = ω₀+αt;φ = ω₀t+½αt²;ω²−ω₀² = 2αφ。</p>
+
+  <h2>三、定轴轮系传动:转速换算</h2>
+  <blockquote>
+    两轮啮合/皮带传动不打滑 → 接触点线速度相等:ω₁r₁ = ω₂r₂。
+    <strong>传动比 i₁₂ = ω₁/ω₂ = r₂/r₁ = z₂/z₁</strong>(z 为齿数)。
+  </blockquote>
+  <p>多级传动把各级传动比<strong>连乘</strong>。这是风机、齿轮箱、电机选型计算的基本功。</p>
+
+  <div class="box warn">
+    <div class="box-title">⚠️ 常见误区</div>
+    <p><strong>"曲线平移不是平移"</strong>——平移只看"方向不变",轨迹可以是任意曲线(如摩天轮座舱);
+       关键判据:体内任一直线方向不变。<br>
+       <strong>"转轴上的点也走圆周"</strong>——轴上点 r=0,v=a=0,不动;别把它当一般点算。<br>
+       <strong>"ω 相同的刚体上各点速度相同"</strong>——角速度全场唯一,但 v=ωr 依赖 r;
+       平移才"各点 v 相同"。</p>
+  </div>
+
+  <div class="box cfd">
+    <div class="box-title">🌊 衔接:流体力学中它在哪</div>
+    <p>流体力学著名的<strong>亥姆霍兹速度分解</strong>:流体微团运动 = 平移 + 旋转 + <strong>变形</strong>。
+       刚体恰好是"变形为零"的特例——这正是刚体与流体的分界线。定轴转动的 ω 在流体里对应
+       涡量 Ω 的一半:你在这课建立的"角速度"直觉,就是将来判断流动有没有旋(涡)的直觉。
+       泵与风机的叶轮更是"定轴转动 + 流体"的直接组合。</p>
+  </div>
+
+  <h2>四、检验你的理解</h2>
+  <div class="quiz" data-quiz='[
+    {"q":"刚体做曲线平移(如摩天轮座舱)时,座舱内各点的速度与加速度?",
+     "opts":["同一时刻全部相同","沿半径线性分布","只大小相同方向不同"],
+     "answer":0,
+     "why":"平移的定义=体内直线方向不变 → 各点轨迹同形,同一时刻 v、a 处处相等,刚体可视为一个点。"},
+    {"q":"飞轮匀速转动(ω=常数)时,轮缘上一点的加速度?",
+     "opts":["只有法向 an=ω²r,指向轴","加速度为零","只有切向"],
+     "answer":0,
+     "why":"角速度不变 → α=0 → aτ=0;但方向在变,an=ω²r 不可丢——匀速转动仍是变速运动(方向变)。"},
+    {"q":"齿轮副主动轮 20 齿、从动轮 60 齿,传动比 i₁₂(ω₁/ω₂)为?",
+     "opts":["3","1/3","60"],
+     "answer":0,
+     "why":"i₁₂=z₂/z₁=60/20=3:主动轮转 3 圈从动轮才转 1 圈——减速增扭。"}
+  ]'></div>
+
+  <h2>本课小结</h2>
+  <table class="ref">
+    <tr><th>要点</th><th>一句话版本</th></tr>
+    <tr><td>两种基本运动</td><td>平移(各点 v、a 相同)、定轴转动(一个 φ(t) 定全场)</td></tr>
+    <tr><td>角量→线量</td><td>v=ωr;aτ=αr;an=ω²r(轴上点不动)</td></tr>
+    <tr><td>传动比</td><td>i=ω₁/ω₂=r₂/r₁=z₂/z₁,多级连乘</td></tr>
+  </table>
+  <p>术语定义已收入 📖 <a href="../reference/glossary.html">课程术语表</a>。</p>
+
+  <h2>📚 延伸阅读(选一个即可)</h2>
+  <p>哈工大《理论力学》(I)刚体的简单运动章。</p>
+
+  <nav class="lesson-nav">
+    <a href="../lessons/0005-kinematics-particle.html">← 第 5 课</a>
+    <a href="../lessons/0007-composite-motion.html">第 7 课 →</a>
+  </nav>
+
+  <div class="box cfd">
+    <div class="box-title">📝 课后习题</div>
+    <p>本课习题已录入 Obsidian,<a href="obsidian://open?vault=%E5%AD%A6%E4%B9%A0&file=%E7%90%86%E8%AE%BA%E5%8A%9B%E5%AD%A6/obsidian/%E4%B9%A0%E9%A2%98/%E7%AC%AC6%E8%AF%BE-%E4%B9%A0%E9%A2%98.md" class="obsidian-link">点击在 Obsidian 打开 →</a>。</p>
+  </div>
+
+  <div class="ask">💬 有任何不清楚的地方,直接在对话里问我。</div>
+</main>
+</body>
+</html>
